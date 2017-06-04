@@ -437,7 +437,6 @@
 					"-ObjC",
 					"-l\"FMDB\"",
 					"-l\"sqlite3\"",
-					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -456,7 +455,6 @@
 					"-ObjC",
 					"-l\"FMDB\"",
 					"-l\"sqlite3\"",
-					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
