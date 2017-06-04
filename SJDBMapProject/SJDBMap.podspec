@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "SJDBMap"
-  s.version      = "1.0.0"
-  s.summary      = "A short description of SJDBMap."
+  s.version      = "1.0"
+  s.summary      = "Automatically create tables based on the model."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
+                   "https://github.com/changsanjiang/SJDBMap/blob/master/README.md"
                    DESC
 
   s.homepage     = "https://github.com/changsanjiang/SJDBMap"
@@ -67,7 +68,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "8.0"
 
   #  When using multiple platforms
-  # s.ios.deployment_target = "5.0"
+  s.ios.deployment_target = "5.0"
   # s.osx.deployment_target = "10.7"
   # s.watchos.deployment_target = "2.0"
   # s.tvos.deployment_target = "9.0"
@@ -79,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/changsanjiang/SJDBMap.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/changsanjiang/SJDBMap.git", :tag => "1.0" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -90,8 +91,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "SJDBMapProject", "SJDBMapProject/SJDB/**/*.{h,m}"
-  s.exclude_files = "Classes/Exclude"
+s.source_files  = "SJDBMapProject", "SJDBMapProject/**/*.{h,m}"
 
   # s.public_header_files = "Classes/**/*.h"
 
@@ -129,7 +129,7 @@ Pod::Spec.new do |s|
   #  where they will only apply to your library. If you depend on other Podspecs
   #  you can include multiple dependencies to ensure it works.
 
-  # s.requires_arc = true
+  s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   s.dependency "FMDB"

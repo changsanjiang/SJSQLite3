@@ -14,8 +14,6 @@
 		771F8DFD1EE41C0900292E64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 771F8DFB1EE41C0900292E64 /* Main.storyboard */; };
 		771F8DFF1EE41C0900292E64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 771F8DFE1EE41C0900292E64 /* Assets.xcassets */; };
 		771F8E021EE41C0900292E64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 771F8E001EE41C0900292E64 /* LaunchScreen.storyboard */; };
-		771F8E0D1EE41C0900292E64 /* SJDBMapProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E0C1EE41C0900292E64 /* SJDBMapProjectTests.m */; };
-		771F8E181EE41C0900292E64 /* SJDBMapProjectUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E171EE41C0900292E64 /* SJDBMapProjectUITests.m */; };
 		771F8E381EE41C2E00292E64 /* SJDBMap+GetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E271EE41C2E00292E64 /* SJDBMap+GetInfo.m */; };
 		771F8E391EE41C2E00292E64 /* SJDBMap+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E291EE41C2E00292E64 /* SJDBMap+Server.m */; };
 		771F8E3A1EE41C2E00292E64 /* SJDBMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E2B1EE41C2E00292E64 /* SJDBMap.m */; };
@@ -27,23 +25,6 @@
 		771F8E431EE41D0C00292E64 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E421EE41D0C00292E64 /* Person.m */; };
 		771F8E461EE41D1400292E64 /* PersonTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E451EE41D1400292E64 /* PersonTag.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		771F8E091EE41C0900292E64 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 771F8DE71EE41C0900292E64 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 771F8DEE1EE41C0900292E64;
-			remoteInfo = SJDBMapProject;
-		};
-		771F8E141EE41C0900292E64 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 771F8DE71EE41C0900292E64 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 771F8DEE1EE41C0900292E64;
-			remoteInfo = SJDBMapProject;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		310C4FC07F7AE9E2D2AB89CE /* Pods-SJDBMapProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.release.xcconfig"; sourceTree = "<group>"; };
@@ -57,12 +38,6 @@
 		771F8DFE1EE41C0900292E64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		771F8E011EE41C0900292E64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		771F8E031EE41C0900292E64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		771F8E081EE41C0900292E64 /* SJDBMapProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SJDBMapProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		771F8E0C1EE41C0900292E64 /* SJDBMapProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SJDBMapProjectTests.m; sourceTree = "<group>"; };
-		771F8E0E1EE41C0900292E64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		771F8E131EE41C0900292E64 /* SJDBMapProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SJDBMapProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		771F8E171EE41C0900292E64 /* SJDBMapProjectUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SJDBMapProjectUITests.m; sourceTree = "<group>"; };
-		771F8E191EE41C0900292E64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		771F8E261EE41C2E00292E64 /* SJDBMap+GetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+GetInfo.h"; sourceTree = "<group>"; };
 		771F8E271EE41C2E00292E64 /* SJDBMap+GetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+GetInfo.m"; sourceTree = "<group>"; };
 		771F8E281EE41C2E00292E64 /* SJDBMap+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+Server.h"; sourceTree = "<group>"; };
@@ -98,20 +73,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		771F8E051EE41C0900292E64 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		771F8E101EE41C0900292E64 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -136,8 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				771F8DF11EE41C0900292E64 /* SJDBMapProject */,
-				771F8E0B1EE41C0900292E64 /* SJDBMapProjectTests */,
-				771F8E161EE41C0900292E64 /* SJDBMapProjectUITests */,
 				771F8DF01EE41C0900292E64 /* Products */,
 				0AA4325146DCECF6AB0C3831 /* Pods */,
 				347DA330A7DF05F81AD028DE /* Frameworks */,
@@ -148,8 +107,6 @@
 			isa = PBXGroup;
 			children = (
 				771F8DEF1EE41C0900292E64 /* SJDBMapProject.app */,
-				771F8E081EE41C0900292E64 /* SJDBMapProjectTests.xctest */,
-				771F8E131EE41C0900292E64 /* SJDBMapProjectUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,24 +135,6 @@
 				771F8DF31EE41C0900292E64 /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		771F8E0B1EE41C0900292E64 /* SJDBMapProjectTests */ = {
-			isa = PBXGroup;
-			children = (
-				771F8E0C1EE41C0900292E64 /* SJDBMapProjectTests.m */,
-				771F8E0E1EE41C0900292E64 /* Info.plist */,
-			);
-			path = SJDBMapProjectTests;
-			sourceTree = "<group>";
-		};
-		771F8E161EE41C0900292E64 /* SJDBMapProjectUITests */ = {
-			isa = PBXGroup;
-			children = (
-				771F8E171EE41C0900292E64 /* SJDBMapProjectUITests.m */,
-				771F8E191EE41C0900292E64 /* Info.plist */,
-			);
-			path = SJDBMapProjectUITests;
 			sourceTree = "<group>";
 		};
 		771F8E251EE41C2E00292E64 /* SJDB */ = {
@@ -257,42 +196,6 @@
 			productReference = 771F8DEF1EE41C0900292E64 /* SJDBMapProject.app */;
 			productType = "com.apple.product-type.application";
 		};
-		771F8E071EE41C0900292E64 /* SJDBMapProjectTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 771F8E1F1EE41C0900292E64 /* Build configuration list for PBXNativeTarget "SJDBMapProjectTests" */;
-			buildPhases = (
-				771F8E041EE41C0900292E64 /* Sources */,
-				771F8E051EE41C0900292E64 /* Frameworks */,
-				771F8E061EE41C0900292E64 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				771F8E0A1EE41C0900292E64 /* PBXTargetDependency */,
-			);
-			name = SJDBMapProjectTests;
-			productName = SJDBMapProjectTests;
-			productReference = 771F8E081EE41C0900292E64 /* SJDBMapProjectTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		771F8E121EE41C0900292E64 /* SJDBMapProjectUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 771F8E221EE41C0900292E64 /* Build configuration list for PBXNativeTarget "SJDBMapProjectUITests" */;
-			buildPhases = (
-				771F8E0F1EE41C0900292E64 /* Sources */,
-				771F8E101EE41C0900292E64 /* Frameworks */,
-				771F8E111EE41C0900292E64 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				771F8E151EE41C0900292E64 /* PBXTargetDependency */,
-			);
-			name = SJDBMapProjectUITests;
-			productName = SJDBMapProjectUITests;
-			productReference = 771F8E131EE41C0900292E64 /* SJDBMapProjectUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -305,16 +208,6 @@
 					771F8DEE1EE41C0900292E64 = {
 						CreatedOnToolsVersion = 8.3.2;
 						ProvisioningStyle = Automatic;
-					};
-					771F8E071EE41C0900292E64 = {
-						CreatedOnToolsVersion = 8.3.2;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 771F8DEE1EE41C0900292E64;
-					};
-					771F8E121EE41C0900292E64 = {
-						CreatedOnToolsVersion = 8.3.2;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 771F8DEE1EE41C0900292E64;
 					};
 				};
 			};
@@ -332,8 +225,6 @@
 			projectRoot = "";
 			targets = (
 				771F8DEE1EE41C0900292E64 /* SJDBMapProject */,
-				771F8E071EE41C0900292E64 /* SJDBMapProjectTests */,
-				771F8E121EE41C0900292E64 /* SJDBMapProjectUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -346,20 +237,6 @@
 				771F8E021EE41C0900292E64 /* LaunchScreen.storyboard in Resources */,
 				771F8DFF1EE41C0900292E64 /* Assets.xcassets in Resources */,
 				771F8DFD1EE41C0900292E64 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		771F8E061EE41C0900292E64 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		771F8E111EE41C0900292E64 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,36 +311,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		771F8E041EE41C0900292E64 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				771F8E0D1EE41C0900292E64 /* SJDBMapProjectTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		771F8E0F1EE41C0900292E64 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				771F8E181EE41C0900292E64 /* SJDBMapProjectUITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		771F8E0A1EE41C0900292E64 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 771F8DEE1EE41C0900292E64 /* SJDBMapProject */;
-			targetProxy = 771F8E091EE41C0900292E64 /* PBXContainerItemProxy */;
-		};
-		771F8E151EE41C0900292E64 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 771F8DEE1EE41C0900292E64 /* SJDBMapProject */;
-			targetProxy = 771F8E141EE41C0900292E64 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		771F8DFB1EE41C0900292E64 /* Main.storyboard */ = {
@@ -601,52 +449,6 @@
 			};
 			name = Release;
 		};
-		771F8E201EE41C0900292E64 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = SJDBMapProjectTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProjectTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SJDBMapProject.app/SJDBMapProject";
-			};
-			name = Debug;
-		};
-		771F8E211EE41C0900292E64 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = SJDBMapProjectTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProjectTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SJDBMapProject.app/SJDBMapProject";
-			};
-			name = Release;
-		};
-		771F8E231EE41C0900292E64 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = SJDBMapProjectUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProjectUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = SJDBMapProject;
-			};
-			name = Debug;
-		};
-		771F8E241EE41C0900292E64 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = SJDBMapProjectUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProjectUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = SJDBMapProject;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -664,24 +466,6 @@
 			buildConfigurations = (
 				771F8E1D1EE41C0900292E64 /* Debug */,
 				771F8E1E1EE41C0900292E64 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		771F8E1F1EE41C0900292E64 /* Build configuration list for PBXNativeTarget "SJDBMapProjectTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				771F8E201EE41C0900292E64 /* Debug */,
-				771F8E211EE41C0900292E64 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		771F8E221EE41C0900292E64 /* Build configuration list for PBXNativeTarget "SJDBMapProjectUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				771F8E231EE41C0900292E64 /* Debug */,
-				771F8E241EE41C0900292E64 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
