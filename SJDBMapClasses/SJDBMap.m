@@ -7,6 +7,7 @@
 //
 #import "SJDBMapHeader.h"
 #import <objc/message.h>
+#import <FMDB.h>
 
 // MARK: C
 
