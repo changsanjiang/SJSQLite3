@@ -1,5 +1,5 @@
 # SJDBMap
-Automatically create tables based on the model. To achieve additions and deletions.
+Automatically create tables based on the model. To achieve additions and deletions. Automatically add new fields.
 ```
 - (void)insertOrUpdate {
     
