@@ -432,6 +432,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SJDBMapProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"FMDB\"",
+					"-l\"sqlite3\"",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -444,6 +451,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SJDBMapProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"FMDB\"",
+					"-l\"sqlite3\"",
+					"-all_load",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

@@ -11,7 +11,7 @@ s.platform     = :ios, "8.0"
 
 s.source       = { :git => "https://github.com/changsanjiang/SJDBMap.git", :tag => "v#{s.version}" }
 
-s.source_files  = 'SJDBMap/*.{h,m}'
+s.source_files  = 'SJDBMapProject', 'SJDBMapProject/SJDBMapProject/SJDBMap/*.{h,m}', 'SJDBMapProject/Pods/FMDB/src/fmdb/*.{h,m}'
 
 s.framework  = "UIKit"
 
