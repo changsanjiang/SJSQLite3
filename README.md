@@ -1,6 +1,6 @@
 # SJDBMap
 Automatically create tables based on the model. To achieve additions and deletions. Automatically add new fields.
-根据模型自动创建表, 可以进行增删改查. 当类添加了新的属性的时候, 会自动更新表字段.
+根据模型自动创建与该类相关的表(多个表), 可以进行增删改查. 当类添加了新的属性的时候, 会自动更新相关的表字段.
 ```
 - (void)insertOrUpdate {
     
