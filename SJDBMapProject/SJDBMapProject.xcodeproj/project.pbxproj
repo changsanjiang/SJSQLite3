@@ -61,6 +61,17 @@
 		771F8EF41EE4738000292E64 /* SJDBMapUnderstandingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUnderstandingModel.h; sourceTree = "<group>"; };
 		771F8EF51EE4738000292E64 /* SJDBMapUnderstandingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapUnderstandingModel.m; sourceTree = "<group>"; };
 		771F8EF61EE4738000292E64 /* SJDBMapUseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUseProtocol.h; sourceTree = "<group>"; };
+		771F8F001EE47E8D00292E64 /* FMDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		771F8F011EE47E8D00292E64 /* FMDatabase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		771F8F021EE47E8D00292E64 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		771F8F031EE47E8D00292E64 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		771F8F041EE47E8D00292E64 /* FMDatabasePool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		771F8F051EE47E8D00292E64 /* FMDatabasePool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		771F8F061EE47E8D00292E64 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		771F8F071EE47E8D00292E64 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		771F8F081EE47E8D00292E64 /* FMDB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		771F8F091EE47E8D00292E64 /* FMResultSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		771F8F0A1EE47E8D00292E64 /* FMResultSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		9A7719847B95C2C43DD3E96B /* Pods-SJDBMapProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,9 +176,29 @@
 			path = SJDBMap;
 			sourceTree = "<group>";
 		};
+		771F8EFF1EE47E8D00292E64 /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				771F8F001EE47E8D00292E64 /* FMDatabase.h */,
+				771F8F011EE47E8D00292E64 /* FMDatabase.m */,
+				771F8F021EE47E8D00292E64 /* FMDatabaseAdditions.h */,
+				771F8F031EE47E8D00292E64 /* FMDatabaseAdditions.m */,
+				771F8F041EE47E8D00292E64 /* FMDatabasePool.h */,
+				771F8F051EE47E8D00292E64 /* FMDatabasePool.m */,
+				771F8F061EE47E8D00292E64 /* FMDatabaseQueue.h */,
+				771F8F071EE47E8D00292E64 /* FMDatabaseQueue.m */,
+				771F8F081EE47E8D00292E64 /* FMDB.h */,
+				771F8F091EE47E8D00292E64 /* FMResultSet.h */,
+				771F8F0A1EE47E8D00292E64 /* FMResultSet.m */,
+			);
+			name = fmdb;
+			path = Pods/FMDB/src/fmdb;
+			sourceTree = "<group>";
+		};
 		AC663B2B0DDAB325C5E70292 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				771F8EFF1EE47E8D00292E64 /* fmdb */,
 				5864CCAF302670C379674E5B /* libPods-SJDBMapProject.a */,
 			);
 			name = Frameworks;
@@ -430,6 +461,12 @@
 			baseConfigurationReference = 618326B9EA92874377838962 /* Pods-SJDBMapProject.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/FMDB\"",
+					"\"$(SRCROOT)/Pods/FMDB/src/fmdb/FMDB.h\"",
+				);
 				INFOPLIST_FILE = SJDBMapProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProject;
@@ -443,6 +480,12 @@
 			baseConfigurationReference = 9A7719847B95C2C43DD3E96B /* Pods-SJDBMapProject.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/FMDB\"",
+					"\"$(SRCROOT)/Pods/FMDB/src/fmdb/FMDB.h\"",
+				);
 				INFOPLIST_FILE = SJDBMapProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProject;
