@@ -16,14 +16,14 @@
 		771F8E7E1EE46FBF00292E64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 771F8E7C1EE46FBF00292E64 /* LaunchScreen.storyboard */; };
 		771F8EC71EE4716800292E64 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8EC41EE4716800292E64 /* Person.m */; };
 		771F8EC81EE4716800292E64 /* PersonTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8EC61EE4716800292E64 /* PersonTag.m */; };
-		771F8EDC1EE471A100292E64 /* SJDBMap+GetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8ECB1EE471A100292E64 /* SJDBMap+GetInfo.m */; };
-		771F8EDD1EE471A100292E64 /* SJDBMap+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8ECD1EE471A100292E64 /* SJDBMap+Server.m */; };
-		771F8EDE1EE471A100292E64 /* SJDBMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8ECF1EE471A100292E64 /* SJDBMap.m */; };
-		771F8EDF1EE471A100292E64 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8ED11EE471A100292E64 /* SJDBMapArrayCorrespondingKeysModel.m */; };
-		771F8EE01EE471A100292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8ED31EE471A100292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m */; };
-		771F8EE11EE471A100292E64 /* SJDBMapCorrespondingKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8ED51EE471A100292E64 /* SJDBMapCorrespondingKeyModel.m */; };
-		771F8EE21EE471A100292E64 /* SJDBMapPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8ED81EE471A100292E64 /* SJDBMapPrimaryKeyModel.m */; };
-		771F8EE31EE471A100292E64 /* SJDBMapUnderstandingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8EDA1EE471A100292E64 /* SJDBMapUnderstandingModel.m */; };
+		771F8EF71EE4738000292E64 /* SJDBMap+GetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8EE61EE4738000292E64 /* SJDBMap+GetInfo.m */; };
+		771F8EF81EE4738000292E64 /* SJDBMap+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8EE81EE4738000292E64 /* SJDBMap+Server.m */; };
+		771F8EF91EE4738000292E64 /* SJDBMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8EEA1EE4738000292E64 /* SJDBMap.m */; };
+		771F8EFA1EE4738000292E64 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8EEC1EE4738000292E64 /* SJDBMapArrayCorrespondingKeysModel.m */; };
+		771F8EFB1EE4738000292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8EEE1EE4738000292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m */; };
+		771F8EFC1EE4738000292E64 /* SJDBMapCorrespondingKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8EF01EE4738000292E64 /* SJDBMapCorrespondingKeyModel.m */; };
+		771F8EFD1EE4738000292E64 /* SJDBMapPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8EF31EE4738000292E64 /* SJDBMapPrimaryKeyModel.m */; };
+		771F8EFE1EE4738000292E64 /* SJDBMapUnderstandingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8EF51EE4738000292E64 /* SJDBMapUnderstandingModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,24 +43,24 @@
 		771F8EC41EE4716800292E64 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		771F8EC51EE4716800292E64 /* PersonTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonTag.h; sourceTree = "<group>"; };
 		771F8EC61EE4716800292E64 /* PersonTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonTag.m; sourceTree = "<group>"; };
-		771F8ECA1EE471A100292E64 /* SJDBMap+GetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+GetInfo.h"; sourceTree = "<group>"; };
-		771F8ECB1EE471A100292E64 /* SJDBMap+GetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+GetInfo.m"; sourceTree = "<group>"; };
-		771F8ECC1EE471A100292E64 /* SJDBMap+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+Server.h"; sourceTree = "<group>"; };
-		771F8ECD1EE471A100292E64 /* SJDBMap+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+Server.m"; sourceTree = "<group>"; };
-		771F8ECE1EE471A100292E64 /* SJDBMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMap.h; sourceTree = "<group>"; };
-		771F8ECF1EE471A100292E64 /* SJDBMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMap.m; sourceTree = "<group>"; };
-		771F8ED01EE471A100292E64 /* SJDBMapArrayCorrespondingKeysModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapArrayCorrespondingKeysModel.h; sourceTree = "<group>"; };
-		771F8ED11EE471A100292E64 /* SJDBMapArrayCorrespondingKeysModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapArrayCorrespondingKeysModel.m; sourceTree = "<group>"; };
-		771F8ED21EE471A100292E64 /* SJDBMapAutoincrementPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapAutoincrementPrimaryKeyModel.h; sourceTree = "<group>"; };
-		771F8ED31EE471A100292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapAutoincrementPrimaryKeyModel.m; sourceTree = "<group>"; };
-		771F8ED41EE471A100292E64 /* SJDBMapCorrespondingKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapCorrespondingKeyModel.h; sourceTree = "<group>"; };
-		771F8ED51EE471A100292E64 /* SJDBMapCorrespondingKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapCorrespondingKeyModel.m; sourceTree = "<group>"; };
-		771F8ED61EE471A100292E64 /* SJDBMapHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapHeader.h; sourceTree = "<group>"; };
-		771F8ED71EE471A100292E64 /* SJDBMapPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapPrimaryKeyModel.h; sourceTree = "<group>"; };
-		771F8ED81EE471A100292E64 /* SJDBMapPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapPrimaryKeyModel.m; sourceTree = "<group>"; };
-		771F8ED91EE471A100292E64 /* SJDBMapUnderstandingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUnderstandingModel.h; sourceTree = "<group>"; };
-		771F8EDA1EE471A100292E64 /* SJDBMapUnderstandingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapUnderstandingModel.m; sourceTree = "<group>"; };
-		771F8EDB1EE471A100292E64 /* SJDBMapUseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUseProtocol.h; sourceTree = "<group>"; };
+		771F8EE51EE4738000292E64 /* SJDBMap+GetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+GetInfo.h"; sourceTree = "<group>"; };
+		771F8EE61EE4738000292E64 /* SJDBMap+GetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+GetInfo.m"; sourceTree = "<group>"; };
+		771F8EE71EE4738000292E64 /* SJDBMap+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+Server.h"; sourceTree = "<group>"; };
+		771F8EE81EE4738000292E64 /* SJDBMap+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+Server.m"; sourceTree = "<group>"; };
+		771F8EE91EE4738000292E64 /* SJDBMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMap.h; sourceTree = "<group>"; };
+		771F8EEA1EE4738000292E64 /* SJDBMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMap.m; sourceTree = "<group>"; };
+		771F8EEB1EE4738000292E64 /* SJDBMapArrayCorrespondingKeysModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapArrayCorrespondingKeysModel.h; sourceTree = "<group>"; };
+		771F8EEC1EE4738000292E64 /* SJDBMapArrayCorrespondingKeysModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapArrayCorrespondingKeysModel.m; sourceTree = "<group>"; };
+		771F8EED1EE4738000292E64 /* SJDBMapAutoincrementPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapAutoincrementPrimaryKeyModel.h; sourceTree = "<group>"; };
+		771F8EEE1EE4738000292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapAutoincrementPrimaryKeyModel.m; sourceTree = "<group>"; };
+		771F8EEF1EE4738000292E64 /* SJDBMapCorrespondingKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapCorrespondingKeyModel.h; sourceTree = "<group>"; };
+		771F8EF01EE4738000292E64 /* SJDBMapCorrespondingKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapCorrespondingKeyModel.m; sourceTree = "<group>"; };
+		771F8EF11EE4738000292E64 /* SJDBMapHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapHeader.h; sourceTree = "<group>"; };
+		771F8EF21EE4738000292E64 /* SJDBMapPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapPrimaryKeyModel.h; sourceTree = "<group>"; };
+		771F8EF31EE4738000292E64 /* SJDBMapPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapPrimaryKeyModel.m; sourceTree = "<group>"; };
+		771F8EF41EE4738000292E64 /* SJDBMapUnderstandingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUnderstandingModel.h; sourceTree = "<group>"; };
+		771F8EF51EE4738000292E64 /* SJDBMapUnderstandingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapUnderstandingModel.m; sourceTree = "<group>"; };
+		771F8EF61EE4738000292E64 /* SJDBMapUseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUseProtocol.h; sourceTree = "<group>"; };
 		9A7719847B95C2C43DD3E96B /* Pods-SJDBMapProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,7 +111,7 @@
 				771F8E741EE46FBF00292E64 /* ViewController.h */,
 				771F8E751EE46FBF00292E64 /* ViewController.m */,
 				771F8EC21EE4716800292E64 /* Model */,
-				771F8EC91EE471A100292E64 /* SJDBMap */,
+				771F8EE41EE4738000292E64 /* SJDBMap */,
 				771F8E771EE46FBF00292E64 /* Main.storyboard */,
 				771F8E7A1EE46FBF00292E64 /* Assets.xcassets */,
 				771F8E7C1EE46FBF00292E64 /* LaunchScreen.storyboard */,
@@ -140,27 +140,27 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		771F8EC91EE471A100292E64 /* SJDBMap */ = {
+		771F8EE41EE4738000292E64 /* SJDBMap */ = {
 			isa = PBXGroup;
 			children = (
-				771F8ECA1EE471A100292E64 /* SJDBMap+GetInfo.h */,
-				771F8ECB1EE471A100292E64 /* SJDBMap+GetInfo.m */,
-				771F8ECC1EE471A100292E64 /* SJDBMap+Server.h */,
-				771F8ECD1EE471A100292E64 /* SJDBMap+Server.m */,
-				771F8ECE1EE471A100292E64 /* SJDBMap.h */,
-				771F8ECF1EE471A100292E64 /* SJDBMap.m */,
-				771F8ED01EE471A100292E64 /* SJDBMapArrayCorrespondingKeysModel.h */,
-				771F8ED11EE471A100292E64 /* SJDBMapArrayCorrespondingKeysModel.m */,
-				771F8ED21EE471A100292E64 /* SJDBMapAutoincrementPrimaryKeyModel.h */,
-				771F8ED31EE471A100292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m */,
-				771F8ED41EE471A100292E64 /* SJDBMapCorrespondingKeyModel.h */,
-				771F8ED51EE471A100292E64 /* SJDBMapCorrespondingKeyModel.m */,
-				771F8ED61EE471A100292E64 /* SJDBMapHeader.h */,
-				771F8ED71EE471A100292E64 /* SJDBMapPrimaryKeyModel.h */,
-				771F8ED81EE471A100292E64 /* SJDBMapPrimaryKeyModel.m */,
-				771F8ED91EE471A100292E64 /* SJDBMapUnderstandingModel.h */,
-				771F8EDA1EE471A100292E64 /* SJDBMapUnderstandingModel.m */,
-				771F8EDB1EE471A100292E64 /* SJDBMapUseProtocol.h */,
+				771F8EE51EE4738000292E64 /* SJDBMap+GetInfo.h */,
+				771F8EE61EE4738000292E64 /* SJDBMap+GetInfo.m */,
+				771F8EE71EE4738000292E64 /* SJDBMap+Server.h */,
+				771F8EE81EE4738000292E64 /* SJDBMap+Server.m */,
+				771F8EE91EE4738000292E64 /* SJDBMap.h */,
+				771F8EEA1EE4738000292E64 /* SJDBMap.m */,
+				771F8EEB1EE4738000292E64 /* SJDBMapArrayCorrespondingKeysModel.h */,
+				771F8EEC1EE4738000292E64 /* SJDBMapArrayCorrespondingKeysModel.m */,
+				771F8EED1EE4738000292E64 /* SJDBMapAutoincrementPrimaryKeyModel.h */,
+				771F8EEE1EE4738000292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m */,
+				771F8EEF1EE4738000292E64 /* SJDBMapCorrespondingKeyModel.h */,
+				771F8EF01EE4738000292E64 /* SJDBMapCorrespondingKeyModel.m */,
+				771F8EF11EE4738000292E64 /* SJDBMapHeader.h */,
+				771F8EF21EE4738000292E64 /* SJDBMapPrimaryKeyModel.h */,
+				771F8EF31EE4738000292E64 /* SJDBMapPrimaryKeyModel.m */,
+				771F8EF41EE4738000292E64 /* SJDBMapUnderstandingModel.h */,
+				771F8EF51EE4738000292E64 /* SJDBMapUnderstandingModel.m */,
+				771F8EF61EE4738000292E64 /* SJDBMapUseProtocol.h */,
 			);
 			path = SJDBMap;
 			sourceTree = "<group>";
@@ -295,18 +295,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				771F8EDC1EE471A100292E64 /* SJDBMap+GetInfo.m in Sources */,
-				771F8EDD1EE471A100292E64 /* SJDBMap+Server.m in Sources */,
+				771F8EF71EE4738000292E64 /* SJDBMap+GetInfo.m in Sources */,
+				771F8EF81EE4738000292E64 /* SJDBMap+Server.m in Sources */,
 				771F8E761EE46FBF00292E64 /* ViewController.m in Sources */,
-				771F8EE31EE471A100292E64 /* SJDBMapUnderstandingModel.m in Sources */,
+				771F8EFE1EE4738000292E64 /* SJDBMapUnderstandingModel.m in Sources */,
 				771F8E731EE46FBF00292E64 /* AppDelegate.m in Sources */,
 				771F8EC71EE4716800292E64 /* Person.m in Sources */,
-				771F8EDE1EE471A100292E64 /* SJDBMap.m in Sources */,
-				771F8EE21EE471A100292E64 /* SJDBMapPrimaryKeyModel.m in Sources */,
-				771F8EE11EE471A100292E64 /* SJDBMapCorrespondingKeyModel.m in Sources */,
+				771F8EF91EE4738000292E64 /* SJDBMap.m in Sources */,
+				771F8EFD1EE4738000292E64 /* SJDBMapPrimaryKeyModel.m in Sources */,
+				771F8EFC1EE4738000292E64 /* SJDBMapCorrespondingKeyModel.m in Sources */,
 				771F8E701EE46FBF00292E64 /* main.m in Sources */,
-				771F8EE01EE471A100292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */,
-				771F8EDF1EE471A100292E64 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */,
+				771F8EFB1EE4738000292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */,
+				771F8EFA1EE4738000292E64 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */,
 				771F8EC81EE4716800292E64 /* PersonTag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
