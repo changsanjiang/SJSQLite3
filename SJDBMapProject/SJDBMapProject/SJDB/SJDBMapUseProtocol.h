@@ -24,11 +24,11 @@
         + (NSString *)autoincrementPrimaryKey;
 
         /*!
-         *  对应键. A对象中包含B对象, 这个方法是设置在存储A对象时, 存储B对象的主键或者自增主键
+         *  对应键. A对象中包含B对象, 这个方法是设置在存储A对象时, 存储B对象的哪个字段
          *
          *  Return Type :
          *              key : A中, B的属性名.
-         *              value : 依赖类B的主键或者自增主键
+         *              value : 依赖类B的B对象的哪个字段
          *
          *  Example :
          *

@@ -34,14 +34,14 @@
 
 /*!
  *  生成插入或更新的前缀Sql语句
- *  exsample:
+ *  Example:
  *      INSERT OR REPLACE INTO 'SJPrice' ('price','priceID')
  */
 - (NSString *)sjGetInsertOrUpdatePrefixSQL:(SJDBMapUnderstandingModel *)model;
 
 /*!
  *  生成插入或更新的后缀Sql语句
- *  exsample:
+ *  Example:
  *      VALUES('15','1');
  */
 - (NSString *)sjGetInsertOrUpdateSuffixSQL:(id)model;

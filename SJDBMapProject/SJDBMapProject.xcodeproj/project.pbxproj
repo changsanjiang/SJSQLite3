@@ -202,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				771F8E321EE41C2E00292E64 /* SJDBMapHeader.h */,
+				771F8E371EE41C2E00292E64 /* SJDBMapUseProtocol.h */,
 				771F8E2A1EE41C2E00292E64 /* SJDBMap.h */,
 				771F8E2B1EE41C2E00292E64 /* SJDBMap.m */,
 				771F8E261EE41C2E00292E64 /* SJDBMap+GetInfo.h */,
@@ -218,7 +219,6 @@
 				771F8E341EE41C2E00292E64 /* SJDBMapPrimaryKeyModel.m */,
 				771F8E351EE41C2E00292E64 /* SJDBMapUnderstandingModel.h */,
 				771F8E361EE41C2E00292E64 /* SJDBMapUnderstandingModel.m */,
-				771F8E371EE41C2E00292E64 /* SJDBMapUseProtocol.h */,
 			);
 			path = SJDB;
 			sourceTree = "<group>";
