@@ -43,4 +43,4 @@ Automatically create tables based on the model. To achieve additions and deletio
 ```
 #### 使用注意
 1. 使用需要遵守 SJDBMapUseProtocol
-1. 模型需要一个主键或自增主键。
+1. 模型需要一个主键或自增主键
