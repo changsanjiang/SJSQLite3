@@ -28,26 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "771F8E071EE41C0900292E64"
-               BuildableName = "SJDBMapProjectTests.xctest"
-               BlueprintName = "SJDBMapProjectTests"
-               ReferencedContainer = "container:SJDBMapProject.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "771F8E121EE41C0900292E64"
-               BuildableName = "SJDBMapProjectUITests.xctest"
-               BlueprintName = "SJDBMapProjectUITests"
-               ReferencedContainer = "container:SJDBMapProject.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
