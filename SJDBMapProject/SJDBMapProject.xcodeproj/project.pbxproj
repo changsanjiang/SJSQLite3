@@ -1,0 +1,692 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3BCE669651140EF3557EBF23 /* libPods-SJDBMapProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78CF70BE56578C13916268EF /* libPods-SJDBMapProject.a */; };
+		771F8DF41EE41C0900292E64 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8DF31EE41C0900292E64 /* main.m */; };
+		771F8DF71EE41C0900292E64 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8DF61EE41C0900292E64 /* AppDelegate.m */; };
+		771F8DFA1EE41C0900292E64 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8DF91EE41C0900292E64 /* ViewController.m */; };
+		771F8DFD1EE41C0900292E64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 771F8DFB1EE41C0900292E64 /* Main.storyboard */; };
+		771F8DFF1EE41C0900292E64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 771F8DFE1EE41C0900292E64 /* Assets.xcassets */; };
+		771F8E021EE41C0900292E64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 771F8E001EE41C0900292E64 /* LaunchScreen.storyboard */; };
+		771F8E0D1EE41C0900292E64 /* SJDBMapProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E0C1EE41C0900292E64 /* SJDBMapProjectTests.m */; };
+		771F8E181EE41C0900292E64 /* SJDBMapProjectUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E171EE41C0900292E64 /* SJDBMapProjectUITests.m */; };
+		771F8E381EE41C2E00292E64 /* SJDBMap+GetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E271EE41C2E00292E64 /* SJDBMap+GetInfo.m */; };
+		771F8E391EE41C2E00292E64 /* SJDBMap+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E291EE41C2E00292E64 /* SJDBMap+Server.m */; };
+		771F8E3A1EE41C2E00292E64 /* SJDBMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E2B1EE41C2E00292E64 /* SJDBMap.m */; };
+		771F8E3B1EE41C2E00292E64 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E2D1EE41C2E00292E64 /* SJDBMapArrayCorrespondingKeysModel.m */; };
+		771F8E3C1EE41C2E00292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E2F1EE41C2E00292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m */; };
+		771F8E3D1EE41C2E00292E64 /* SJDBMapCorrespondingKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E311EE41C2E00292E64 /* SJDBMapCorrespondingKeyModel.m */; };
+		771F8E3E1EE41C2E00292E64 /* SJDBMapPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E341EE41C2E00292E64 /* SJDBMapPrimaryKeyModel.m */; };
+		771F8E3F1EE41C2E00292E64 /* SJDBMapUnderstandingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E361EE41C2E00292E64 /* SJDBMapUnderstandingModel.m */; };
+		771F8E431EE41D0C00292E64 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E421EE41D0C00292E64 /* Person.m */; };
+		771F8E461EE41D1400292E64 /* PersonTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8E451EE41D1400292E64 /* PersonTag.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		771F8E091EE41C0900292E64 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 771F8DE71EE41C0900292E64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 771F8DEE1EE41C0900292E64;
+			remoteInfo = SJDBMapProject;
+		};
+		771F8E141EE41C0900292E64 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 771F8DE71EE41C0900292E64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 771F8DEE1EE41C0900292E64;
+			remoteInfo = SJDBMapProject;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		310C4FC07F7AE9E2D2AB89CE /* Pods-SJDBMapProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.release.xcconfig"; sourceTree = "<group>"; };
+		771F8DEF1EE41C0900292E64 /* SJDBMapProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SJDBMapProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		771F8DF31EE41C0900292E64 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		771F8DF51EE41C0900292E64 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		771F8DF61EE41C0900292E64 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		771F8DF81EE41C0900292E64 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		771F8DF91EE41C0900292E64 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		771F8DFC1EE41C0900292E64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		771F8DFE1EE41C0900292E64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		771F8E011EE41C0900292E64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		771F8E031EE41C0900292E64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		771F8E081EE41C0900292E64 /* SJDBMapProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SJDBMapProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		771F8E0C1EE41C0900292E64 /* SJDBMapProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SJDBMapProjectTests.m; sourceTree = "<group>"; };
+		771F8E0E1EE41C0900292E64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		771F8E131EE41C0900292E64 /* SJDBMapProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SJDBMapProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		771F8E171EE41C0900292E64 /* SJDBMapProjectUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SJDBMapProjectUITests.m; sourceTree = "<group>"; };
+		771F8E191EE41C0900292E64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		771F8E261EE41C2E00292E64 /* SJDBMap+GetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+GetInfo.h"; sourceTree = "<group>"; };
+		771F8E271EE41C2E00292E64 /* SJDBMap+GetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+GetInfo.m"; sourceTree = "<group>"; };
+		771F8E281EE41C2E00292E64 /* SJDBMap+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+Server.h"; sourceTree = "<group>"; };
+		771F8E291EE41C2E00292E64 /* SJDBMap+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+Server.m"; sourceTree = "<group>"; };
+		771F8E2A1EE41C2E00292E64 /* SJDBMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMap.h; sourceTree = "<group>"; };
+		771F8E2B1EE41C2E00292E64 /* SJDBMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMap.m; sourceTree = "<group>"; };
+		771F8E2C1EE41C2E00292E64 /* SJDBMapArrayCorrespondingKeysModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapArrayCorrespondingKeysModel.h; sourceTree = "<group>"; };
+		771F8E2D1EE41C2E00292E64 /* SJDBMapArrayCorrespondingKeysModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapArrayCorrespondingKeysModel.m; sourceTree = "<group>"; };
+		771F8E2E1EE41C2E00292E64 /* SJDBMapAutoincrementPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapAutoincrementPrimaryKeyModel.h; sourceTree = "<group>"; };
+		771F8E2F1EE41C2E00292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapAutoincrementPrimaryKeyModel.m; sourceTree = "<group>"; };
+		771F8E301EE41C2E00292E64 /* SJDBMapCorrespondingKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapCorrespondingKeyModel.h; sourceTree = "<group>"; };
+		771F8E311EE41C2E00292E64 /* SJDBMapCorrespondingKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapCorrespondingKeyModel.m; sourceTree = "<group>"; };
+		771F8E321EE41C2E00292E64 /* SJDBMapHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapHeader.h; sourceTree = "<group>"; };
+		771F8E331EE41C2E00292E64 /* SJDBMapPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapPrimaryKeyModel.h; sourceTree = "<group>"; };
+		771F8E341EE41C2E00292E64 /* SJDBMapPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapPrimaryKeyModel.m; sourceTree = "<group>"; };
+		771F8E351EE41C2E00292E64 /* SJDBMapUnderstandingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUnderstandingModel.h; sourceTree = "<group>"; };
+		771F8E361EE41C2E00292E64 /* SJDBMapUnderstandingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapUnderstandingModel.m; sourceTree = "<group>"; };
+		771F8E371EE41C2E00292E64 /* SJDBMapUseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUseProtocol.h; sourceTree = "<group>"; };
+		771F8E411EE41D0C00292E64 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		771F8E421EE41D0C00292E64 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		771F8E441EE41D1400292E64 /* PersonTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonTag.h; sourceTree = "<group>"; };
+		771F8E451EE41D1400292E64 /* PersonTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonTag.m; sourceTree = "<group>"; };
+		78CF70BE56578C13916268EF /* libPods-SJDBMapProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SJDBMapProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC357C1EAC58E6A03020E36D /* Pods-SJDBMapProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		771F8DEC1EE41C0900292E64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BCE669651140EF3557EBF23 /* libPods-SJDBMapProject.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		771F8E051EE41C0900292E64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		771F8E101EE41C0900292E64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0AA4325146DCECF6AB0C3831 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CC357C1EAC58E6A03020E36D /* Pods-SJDBMapProject.debug.xcconfig */,
+				310C4FC07F7AE9E2D2AB89CE /* Pods-SJDBMapProject.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		347DA330A7DF05F81AD028DE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				78CF70BE56578C13916268EF /* libPods-SJDBMapProject.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		771F8DE61EE41C0900292E64 = {
+			isa = PBXGroup;
+			children = (
+				771F8DF11EE41C0900292E64 /* SJDBMapProject */,
+				771F8E0B1EE41C0900292E64 /* SJDBMapProjectTests */,
+				771F8E161EE41C0900292E64 /* SJDBMapProjectUITests */,
+				771F8DF01EE41C0900292E64 /* Products */,
+				0AA4325146DCECF6AB0C3831 /* Pods */,
+				347DA330A7DF05F81AD028DE /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		771F8DF01EE41C0900292E64 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				771F8DEF1EE41C0900292E64 /* SJDBMapProject.app */,
+				771F8E081EE41C0900292E64 /* SJDBMapProjectTests.xctest */,
+				771F8E131EE41C0900292E64 /* SJDBMapProjectUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		771F8DF11EE41C0900292E64 /* SJDBMapProject */ = {
+			isa = PBXGroup;
+			children = (
+				771F8DF51EE41C0900292E64 /* AppDelegate.h */,
+				771F8DF61EE41C0900292E64 /* AppDelegate.m */,
+				771F8DF81EE41C0900292E64 /* ViewController.h */,
+				771F8DF91EE41C0900292E64 /* ViewController.m */,
+				771F8E401EE41D0200292E64 /* Models */,
+				771F8E251EE41C2E00292E64 /* SJDB */,
+				771F8DFB1EE41C0900292E64 /* Main.storyboard */,
+				771F8DFE1EE41C0900292E64 /* Assets.xcassets */,
+				771F8E001EE41C0900292E64 /* LaunchScreen.storyboard */,
+				771F8E031EE41C0900292E64 /* Info.plist */,
+				771F8DF21EE41C0900292E64 /* Supporting Files */,
+			);
+			path = SJDBMapProject;
+			sourceTree = "<group>";
+		};
+		771F8DF21EE41C0900292E64 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				771F8DF31EE41C0900292E64 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		771F8E0B1EE41C0900292E64 /* SJDBMapProjectTests */ = {
+			isa = PBXGroup;
+			children = (
+				771F8E0C1EE41C0900292E64 /* SJDBMapProjectTests.m */,
+				771F8E0E1EE41C0900292E64 /* Info.plist */,
+			);
+			path = SJDBMapProjectTests;
+			sourceTree = "<group>";
+		};
+		771F8E161EE41C0900292E64 /* SJDBMapProjectUITests */ = {
+			isa = PBXGroup;
+			children = (
+				771F8E171EE41C0900292E64 /* SJDBMapProjectUITests.m */,
+				771F8E191EE41C0900292E64 /* Info.plist */,
+			);
+			path = SJDBMapProjectUITests;
+			sourceTree = "<group>";
+		};
+		771F8E251EE41C2E00292E64 /* SJDB */ = {
+			isa = PBXGroup;
+			children = (
+				771F8E321EE41C2E00292E64 /* SJDBMapHeader.h */,
+				771F8E2A1EE41C2E00292E64 /* SJDBMap.h */,
+				771F8E2B1EE41C2E00292E64 /* SJDBMap.m */,
+				771F8E261EE41C2E00292E64 /* SJDBMap+GetInfo.h */,
+				771F8E271EE41C2E00292E64 /* SJDBMap+GetInfo.m */,
+				771F8E281EE41C2E00292E64 /* SJDBMap+Server.h */,
+				771F8E291EE41C2E00292E64 /* SJDBMap+Server.m */,
+				771F8E2C1EE41C2E00292E64 /* SJDBMapArrayCorrespondingKeysModel.h */,
+				771F8E2D1EE41C2E00292E64 /* SJDBMapArrayCorrespondingKeysModel.m */,
+				771F8E2E1EE41C2E00292E64 /* SJDBMapAutoincrementPrimaryKeyModel.h */,
+				771F8E2F1EE41C2E00292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m */,
+				771F8E301EE41C2E00292E64 /* SJDBMapCorrespondingKeyModel.h */,
+				771F8E311EE41C2E00292E64 /* SJDBMapCorrespondingKeyModel.m */,
+				771F8E331EE41C2E00292E64 /* SJDBMapPrimaryKeyModel.h */,
+				771F8E341EE41C2E00292E64 /* SJDBMapPrimaryKeyModel.m */,
+				771F8E351EE41C2E00292E64 /* SJDBMapUnderstandingModel.h */,
+				771F8E361EE41C2E00292E64 /* SJDBMapUnderstandingModel.m */,
+				771F8E371EE41C2E00292E64 /* SJDBMapUseProtocol.h */,
+			);
+			path = SJDB;
+			sourceTree = "<group>";
+		};
+		771F8E401EE41D0200292E64 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				771F8E411EE41D0C00292E64 /* Person.h */,
+				771F8E421EE41D0C00292E64 /* Person.m */,
+				771F8E441EE41D1400292E64 /* PersonTag.h */,
+				771F8E451EE41D1400292E64 /* PersonTag.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		771F8DEE1EE41C0900292E64 /* SJDBMapProject */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 771F8E1C1EE41C0900292E64 /* Build configuration list for PBXNativeTarget "SJDBMapProject" */;
+			buildPhases = (
+				1BCB9C8EEE5977599526D64A /* [CP] Check Pods Manifest.lock */,
+				771F8DEB1EE41C0900292E64 /* Sources */,
+				771F8DEC1EE41C0900292E64 /* Frameworks */,
+				771F8DED1EE41C0900292E64 /* Resources */,
+				F4C23A3590AFD51A166B53F1 /* [CP] Embed Pods Frameworks */,
+				DA2692EBA79E4B65E4FC5574 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SJDBMapProject;
+			productName = SJDBMapProject;
+			productReference = 771F8DEF1EE41C0900292E64 /* SJDBMapProject.app */;
+			productType = "com.apple.product-type.application";
+		};
+		771F8E071EE41C0900292E64 /* SJDBMapProjectTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 771F8E1F1EE41C0900292E64 /* Build configuration list for PBXNativeTarget "SJDBMapProjectTests" */;
+			buildPhases = (
+				771F8E041EE41C0900292E64 /* Sources */,
+				771F8E051EE41C0900292E64 /* Frameworks */,
+				771F8E061EE41C0900292E64 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				771F8E0A1EE41C0900292E64 /* PBXTargetDependency */,
+			);
+			name = SJDBMapProjectTests;
+			productName = SJDBMapProjectTests;
+			productReference = 771F8E081EE41C0900292E64 /* SJDBMapProjectTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		771F8E121EE41C0900292E64 /* SJDBMapProjectUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 771F8E221EE41C0900292E64 /* Build configuration list for PBXNativeTarget "SJDBMapProjectUITests" */;
+			buildPhases = (
+				771F8E0F1EE41C0900292E64 /* Sources */,
+				771F8E101EE41C0900292E64 /* Frameworks */,
+				771F8E111EE41C0900292E64 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				771F8E151EE41C0900292E64 /* PBXTargetDependency */,
+			);
+			name = SJDBMapProjectUITests;
+			productName = SJDBMapProjectUITests;
+			productReference = 771F8E131EE41C0900292E64 /* SJDBMapProjectUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		771F8DE71EE41C0900292E64 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = SanJiang;
+				TargetAttributes = {
+					771F8DEE1EE41C0900292E64 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+					};
+					771F8E071EE41C0900292E64 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 771F8DEE1EE41C0900292E64;
+					};
+					771F8E121EE41C0900292E64 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 771F8DEE1EE41C0900292E64;
+					};
+				};
+			};
+			buildConfigurationList = 771F8DEA1EE41C0900292E64 /* Build configuration list for PBXProject "SJDBMapProject" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 771F8DE61EE41C0900292E64;
+			productRefGroup = 771F8DF01EE41C0900292E64 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				771F8DEE1EE41C0900292E64 /* SJDBMapProject */,
+				771F8E071EE41C0900292E64 /* SJDBMapProjectTests */,
+				771F8E121EE41C0900292E64 /* SJDBMapProjectUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		771F8DED1EE41C0900292E64 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				771F8E021EE41C0900292E64 /* LaunchScreen.storyboard in Resources */,
+				771F8DFF1EE41C0900292E64 /* Assets.xcassets in Resources */,
+				771F8DFD1EE41C0900292E64 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		771F8E061EE41C0900292E64 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		771F8E111EE41C0900292E64 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1BCB9C8EEE5977599526D64A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DA2692EBA79E4B65E4FC5574 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F4C23A3590AFD51A166B53F1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		771F8DEB1EE41C0900292E64 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				771F8E3B1EE41C2E00292E64 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */,
+				771F8E381EE41C2E00292E64 /* SJDBMap+GetInfo.m in Sources */,
+				771F8E3E1EE41C2E00292E64 /* SJDBMapPrimaryKeyModel.m in Sources */,
+				771F8DFA1EE41C0900292E64 /* ViewController.m in Sources */,
+				771F8DF71EE41C0900292E64 /* AppDelegate.m in Sources */,
+				771F8E3A1EE41C2E00292E64 /* SJDBMap.m in Sources */,
+				771F8E431EE41D0C00292E64 /* Person.m in Sources */,
+				771F8E3C1EE41C2E00292E64 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */,
+				771F8E3F1EE41C2E00292E64 /* SJDBMapUnderstandingModel.m in Sources */,
+				771F8E391EE41C2E00292E64 /* SJDBMap+Server.m in Sources */,
+				771F8DF41EE41C0900292E64 /* main.m in Sources */,
+				771F8E461EE41D1400292E64 /* PersonTag.m in Sources */,
+				771F8E3D1EE41C2E00292E64 /* SJDBMapCorrespondingKeyModel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		771F8E041EE41C0900292E64 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				771F8E0D1EE41C0900292E64 /* SJDBMapProjectTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		771F8E0F1EE41C0900292E64 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				771F8E181EE41C0900292E64 /* SJDBMapProjectUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		771F8E0A1EE41C0900292E64 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 771F8DEE1EE41C0900292E64 /* SJDBMapProject */;
+			targetProxy = 771F8E091EE41C0900292E64 /* PBXContainerItemProxy */;
+		};
+		771F8E151EE41C0900292E64 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 771F8DEE1EE41C0900292E64 /* SJDBMapProject */;
+			targetProxy = 771F8E141EE41C0900292E64 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		771F8DFB1EE41C0900292E64 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				771F8DFC1EE41C0900292E64 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		771F8E001EE41C0900292E64 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				771F8E011EE41C0900292E64 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		771F8E1A1EE41C0900292E64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		771F8E1B1EE41C0900292E64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		771F8E1D1EE41C0900292E64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CC357C1EAC58E6A03020E36D /* Pods-SJDBMapProject.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SJDBMapProject/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProject;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		771F8E1E1EE41C0900292E64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 310C4FC07F7AE9E2D2AB89CE /* Pods-SJDBMapProject.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SJDBMapProject/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProject;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		771F8E201EE41C0900292E64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = SJDBMapProjectTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProjectTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SJDBMapProject.app/SJDBMapProject";
+			};
+			name = Debug;
+		};
+		771F8E211EE41C0900292E64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = SJDBMapProjectTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProjectTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SJDBMapProject.app/SJDBMapProject";
+			};
+			name = Release;
+		};
+		771F8E231EE41C0900292E64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = SJDBMapProjectUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProjectUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = SJDBMapProject;
+			};
+			name = Debug;
+		};
+		771F8E241EE41C0900292E64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = SJDBMapProjectUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProjectUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = SJDBMapProject;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		771F8DEA1EE41C0900292E64 /* Build configuration list for PBXProject "SJDBMapProject" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				771F8E1A1EE41C0900292E64 /* Debug */,
+				771F8E1B1EE41C0900292E64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		771F8E1C1EE41C0900292E64 /* Build configuration list for PBXNativeTarget "SJDBMapProject" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				771F8E1D1EE41C0900292E64 /* Debug */,
+				771F8E1E1EE41C0900292E64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		771F8E1F1EE41C0900292E64 /* Build configuration list for PBXNativeTarget "SJDBMapProjectTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				771F8E201EE41C0900292E64 /* Debug */,
+				771F8E211EE41C0900292E64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		771F8E221EE41C0900292E64 /* Build configuration list for PBXNativeTarget "SJDBMapProjectUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				771F8E231EE41C0900292E64 /* Debug */,
+				771F8E241EE41C0900292E64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 771F8DE71EE41C0900292E64 /* Project object */;
+}
