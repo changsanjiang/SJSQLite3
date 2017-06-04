@@ -59,6 +59,7 @@
 		771F8FC21EE48BF300292E64 /* SJDBMapUnderstandingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUnderstandingModel.h; sourceTree = "<group>"; };
 		771F8FC31EE48BF300292E64 /* SJDBMapUnderstandingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapUnderstandingModel.m; sourceTree = "<group>"; };
 		771F8FC41EE48BF300292E64 /* SJDBMapUseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUseProtocol.h; sourceTree = "<group>"; };
+		771F8FCD1EE4949600292E64 /* libFMDB.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFMDB.a; path = "../../Library/Developer/Xcode/DerivedData/SJDBMapProject-gtnsyydsmimfqpeogyfvqisksdmv/Build/Products/Debug-iphonesimulator/FMDB/libFMDB.a"; sourceTree = "<group>"; };
 		7D3F54FF1AF829FD4A745B40 /* Pods-SJDBMapProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.debug.xcconfig"; sourceTree = "<group>"; };
 		B29445EA7D27D632FB4CE57D /* libPods-SJDBMapProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SJDBMapProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3ACECA601BBD6294C622848 /* Pods-SJDBMapProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.release.xcconfig"; sourceTree = "<group>"; };
@@ -168,6 +169,7 @@
 		C3373639EB3C2B6056EB0EEC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				771F8FCD1EE4949600292E64 /* libFMDB.a */,
 				B29445EA7D27D632FB4CE57D /* libPods-SJDBMapProject.a */,
 			);
 			name = Frameworks;
@@ -432,6 +434,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SJDBMapProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MACH_O_TYPE = mh_execute;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -450,6 +454,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SJDBMapProject/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MACH_O_TYPE = mh_execute;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
