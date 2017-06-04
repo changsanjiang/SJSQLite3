@@ -13,7 +13,6 @@
 #import <objc/message.h>
 #import "SJDBMapUseProtocol.h"
 #import <FMDB.h>
-
 #import "SJDBMap+GetInfo.h"
 #import "SJDBMap+Server.h"
 
