@@ -450,7 +450,7 @@ const char *_sjGetTabName(Class cls) {
 //    SJType_CharStr,
 //    SJType_Obj,
 //};
-//
+
 //static SJType _sjGetSJType(Ivar ivar) {
 //    const char *CType = ivar_getTypeEncoding(ivar);
 //    char first = CType[0];
@@ -473,10 +473,10 @@ const char *_sjGetTabName(Class cls) {
 //    else
 //        return SJType_Obj;
 //}
-//
-///*!
-// *  查询类中某个字段的C类型
-// */
+
+/*!
+ *  查询类中某个字段的C类型
+ */
 //static const char *_sjIvarCType(Class cls, const char *ivarName) {
 //    if ( NULL == ivarName || NULL == cls ) return NULL;
 //    Ivar ivar = class_getInstanceVariable(cls, ivarName);

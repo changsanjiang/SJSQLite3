@@ -21,7 +21,7 @@
  *  获取与该对象相关的对象
  */
 - (NSMutableSet<id> *)sjGetRelevanceObjs:(id)rootObj;
- 
+
 /*!
  *  获取与该类所有相关的协议
  */
@@ -34,14 +34,14 @@
 
 /*!
  *  生成插入或更新的前缀Sql语句
- *  Example:
+ *  example:
  *      INSERT OR REPLACE INTO 'SJPrice' ('price','priceID')
  */
 - (NSString *)sjGetInsertOrUpdatePrefixSQL:(SJDBMapUnderstandingModel *)model;
 
 /*!
  *  生成插入或更新的后缀Sql语句
- *  Example:
+ *  example:
  *      VALUES('15','1');
  */
 - (NSString *)sjGetInsertOrUpdateSuffixSQL:(id)model;

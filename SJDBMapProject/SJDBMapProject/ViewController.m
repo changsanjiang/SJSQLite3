@@ -2,7 +2,7 @@
 //  ViewController.m
 //  SJDBMapProject
 //
-//  Created by BlueDancer on 2017/6/4.
+//  Created by BlueDancer on 2017/6/5.
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
 
@@ -22,9 +22,9 @@
     
     [self insertOrUpdate];
     
-//    [self del];
+    //    [self del];
     
-//    [self query];
+    //    [self query];
     
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -48,13 +48,13 @@
 
 - (void)del {
     [[SJDBMap sharedServer] deleteDataWithClass:[Person class] primaryValue:0 callBlock:^(BOOL result) {
-       // ...
+        // ...
     }];
 }
 
 - (void)query {
     [[SJDBMap sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id> * _Nonnull data) {
-       // ...
+        // ...
     }];
 }
 

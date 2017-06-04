@@ -19,4 +19,6 @@
 
 @property (nonatomic, strong) NSArray<PersonTag *> *tags;
 
+@property (nonatomic, strong) NSString *test;
+
 @end

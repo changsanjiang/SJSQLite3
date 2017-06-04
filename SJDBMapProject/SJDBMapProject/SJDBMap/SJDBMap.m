@@ -98,10 +98,7 @@ static NSOperationQueue *_operationQueue;
  *  根据类创建一个表
  */
 - (void)createTabWithClass:(Class)cls callBlock:(void(^)(BOOL result))block {
-    __weak typeof(self) _self = self;
     [self.operationQueue addOperationWithBlock:^{
-        __strong typeof(_self) self = _self;
-        if ( !self ) return;
         __block BOOL result = YES;
         [[self sjGetRelevanceClasses:cls] enumerateObjectsUsingBlock:^(Class  _Nonnull relevanceCls, BOOL * _Nonnull stop) {
             BOOL r = [self sjCreateOrAlterTabWithClass:relevanceCls];
@@ -119,10 +116,7 @@ static NSOperationQueue *_operationQueue;
  *  如果没有表, 会自动创建表
  */
 - (void)insertOrUpdateDataWithModel:(id)model callBlock:(void(^)(BOOL result))block {
-    __weak typeof(self) _self = self;
     [self.operationQueue addOperationWithBlock:^{
-        __strong typeof(_self) self = _self;
-        if ( !self ) return;
         [self sjAutoCreateOrAlterRelevanceTabWithClass:[model class]];
         __block BOOL result = YES;
         [[self sjGetRelevanceObjs:model] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
@@ -144,10 +138,7 @@ static NSOperationQueue *_operationQueue;
  *  primaryKey : 主键. 包括自增键.
  */
 - (void)deleteDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue callBlock:(void(^)(BOOL result))block {
-    __weak typeof(self) _self = self;
     [self.operationQueue addOperationWithBlock:^{
-        __strong typeof(_self) self = _self;
-        if ( !self ) return;
         SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
         NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
         NSString *sql = [self sjGetDeleteSQL:cls uM:uM deletePrimary:primaryValue];
@@ -163,15 +154,11 @@ static NSOperationQueue *_operationQueue;
  *  返回和这个类有关的所有数据
  */
 - (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^)(NSArray<id> *data))block {
-    __weak typeof(self) _self = self;
     [self.operationQueue addOperationWithBlock:^{
-        __strong typeof(_self) self = _self;
-        if ( !self ) return;
         NSArray *models = [self sjQueryConversionMolding:cls];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(models);
         });
-
     }];
 }
 
@@ -179,10 +166,7 @@ static NSOperationQueue *_operationQueue;
  *  查一条数据
  */
 - (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^)(id model))block {
-    __weak typeof(self) _self = self;
     [self.operationQueue addOperationWithBlock:^{
-        __strong typeof(_self) self = _self;
-        if ( !self ) return;
         id model = [self sjQueryConversionMolding:cls primaryValue:primaryValue];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(model);
