@@ -307,13 +307,6 @@
 }
 
 /*!
- id cModel = [ACKM.correspondingCls new];
- NSInteger pV = ACKM.correspondingPrimaryKey ? [dict[ACKM.correspondingPrimaryKey.ownerFields] integerValue] : [dict[ACKM.correspondingAutoincrementPrimaryKey.ownerFields] integerValue];
- 
- self _sjConversionModelWithOwnerModel:cModel dict:[self sjQueryRawStorageData:ACKM.correspondingCls primaryValue:pV] cKr:<#(NSArray<SJDBMapCorrespondingKeyModel *> *)#> aKr:<#(NSArray<SJDBMapArrayCorrespondingKeysModel *> *)#>;
- */
-
-/*!
  *  查询数据库原始存储数据
  */
 - (NSArray<NSDictionary *> *)sjQueryRawStorageData:(Class)cls {
@@ -450,108 +443,108 @@ const char *_sjGetTabName(Class cls) {
     return class_getName(cls);
 }
 
-typedef NS_ENUM(NSUInteger, SJType) {
-    SJType_Integer,
-    SJType_UInteger,
-    SJType_Double,
-    SJType_CharStr,
-    SJType_Obj,
-};
-
-static SJType _sjGetSJType(Ivar ivar) {
-    const char *CType = ivar_getTypeEncoding(ivar);
-    char first = CType[0];
-    if      ( first == _C_INT ||        //  Int
-              first == _C_SHT ||        //  Short
-              first == _C_LNG_LNG ||    //  Long Long
-              first == _C_BFLD ||       //  bool
-              first == _C_BOOL )        //  BOOL
-        return SJType_Integer;
-    else if ( first == _C_UINT ||       //  Unsigned Int
-              first == _C_USHT ||       //  Unsigned Short
-              first == _C_ULNG_LNG ||   //  Unsigned Long
-              first == _C_ULNG_LNG )    //  Unsigned long long
-        return SJType_UInteger;
-    else if ( first == _C_DBL ||        //  double
-              first == _C_FLT )         //  float
-        return SJType_Double;
-    else if ( first == _C_CHARPTR )     //  char  *
-        return SJType_CharStr;
-    else
-        return SJType_Obj;
-}
-
-/*!
- *  查询类中某个字段的C类型
- */
-static const char *_sjIvarCType(Class cls, const char *ivarName) {
-    if ( NULL == ivarName || NULL == cls ) return NULL;
-    Ivar ivar = class_getInstanceVariable(cls, ivarName);
-    return ivar_getTypeEncoding(ivar);
-}
-
-/*!
- *  字典转模型
- */
-static id _sjGetModel(Class cls, NSDictionary *dict) {
-    // 获取所有变量名
-    unsigned int ivarCount = 0;
-    struct objc_ivar **ivarList = class_copyIvarList(cls, &ivarCount);
-    
-    id model = [cls new];
-    for ( int i = 0 ; i < ivarCount ; i++ ) {
-        Ivar ivar = ivarList[i];
-        const char *ivarName = ivar_getName(ivar);
-        id value = dict[[NSString stringWithUTF8String:&ivarName[1]]];
-        
-        SJType type = _sjGetSJType(ivar);
-        switch (type) {
-            case SJType_Integer:
-            case SJType_UInteger:
-            case SJType_Double:
-            {
-                [model setValue:value forKey:[NSString stringWithUTF8String:ivarName]];
-            }
-                break;
-            case SJType_Obj:
-            {
-                const char *oType = _sjIvarCType(cls, ivarName);
-                
-                // NS
-                if ( 'N' == oType[2] && 'S' == oType[3] ) {
-                    [model setValue:value forKey:[NSString stringWithUTF8String:ivarName]];
-                    continue;
-                }
-                
-                size_t ctl = strlen(oType);
-                // id 类型
-                if ( 1 == strlen(oType) && '@' == oType[0] ) {
-                    [model setValue:value forKey:[NSString stringWithUTF8String:ivarName]];
-                    continue;
-                }
-                
-                // @?..@^..
-                if ( '\"' != oType[1] ) {
-                    if ( i == ivarCount - 1) break;
-                    continue;
-                }
-                
-                char *className = malloc(ctl - 4);
-                *className = '\0';
-                for ( int j = 0 ; j < ctl - 3 ; j ++ ) className[j] = oType[j + 2];
-                className[ctl - 3] = '\0';
-                NSString *clsStr = [NSString stringWithUTF8String:className];
-                [model setValue:_sjGetModel(NSClassFromString(clsStr), value) forKey:[NSString stringWithUTF8String:ivarName]];
-                free(className);
-            }
-                break;
-            default:
-                break;
-        }
-    }
-    
-    free(ivarList);
-    
-    return model;
-}
+//typedef NS_ENUM(NSUInteger, SJType) {
+//    SJType_Integer,
+//    SJType_UInteger,
+//    SJType_Double,
+//    SJType_CharStr,
+//    SJType_Obj,
+//};
+//
+//static SJType _sjGetSJType(Ivar ivar) {
+//    const char *CType = ivar_getTypeEncoding(ivar);
+//    char first = CType[0];
+//    if      ( first == _C_INT ||        //  Int
+//              first == _C_SHT ||        //  Short
+//              first == _C_LNG_LNG ||    //  Long Long
+//              first == _C_BFLD ||       //  bool
+//              first == _C_BOOL )        //  BOOL
+//        return SJType_Integer;
+//    else if ( first == _C_UINT ||       //  Unsigned Int
+//              first == _C_USHT ||       //  Unsigned Short
+//              first == _C_ULNG_LNG ||   //  Unsigned Long
+//              first == _C_ULNG_LNG )    //  Unsigned long long
+//        return SJType_UInteger;
+//    else if ( first == _C_DBL ||        //  double
+//              first == _C_FLT )         //  float
+//        return SJType_Double;
+//    else if ( first == _C_CHARPTR )     //  char  *
+//        return SJType_CharStr;
+//    else
+//        return SJType_Obj;
+//}
+//
+///*!
+// *  查询类中某个字段的C类型
+// */
+//static const char *_sjIvarCType(Class cls, const char *ivarName) {
+//    if ( NULL == ivarName || NULL == cls ) return NULL;
+//    Ivar ivar = class_getInstanceVariable(cls, ivarName);
+//    return ivar_getTypeEncoding(ivar);
+//}
+//
+///*!
+// *  字典转模型
+// */
+//static id _sjGetModel(Class cls, NSDictionary *dict) {
+//    // 获取所有变量名
+//    unsigned int ivarCount = 0;
+//    struct objc_ivar **ivarList = class_copyIvarList(cls, &ivarCount);
+//    
+//    id model = [cls new];
+//    for ( int i = 0 ; i < ivarCount ; i++ ) {
+//        Ivar ivar = ivarList[i];
+//        const char *ivarName = ivar_getName(ivar);
+//        id value = dict[[NSString stringWithUTF8String:&ivarName[1]]];
+//        
+//        SJType type = _sjGetSJType(ivar);
+//        switch (type) {
+//            case SJType_Integer:
+//            case SJType_UInteger:
+//            case SJType_Double:
+//            {
+//                [model setValue:value forKey:[NSString stringWithUTF8String:ivarName]];
+//            }
+//                break;
+//            case SJType_Obj:
+//            {
+//                const char *oType = _sjIvarCType(cls, ivarName);
+//                
+//                // NS
+//                if ( 'N' == oType[2] && 'S' == oType[3] ) {
+//                    [model setValue:value forKey:[NSString stringWithUTF8String:ivarName]];
+//                    continue;
+//                }
+//                
+//                size_t ctl = strlen(oType);
+//                // id 类型
+//                if ( 1 == strlen(oType) && '@' == oType[0] ) {
+//                    [model setValue:value forKey:[NSString stringWithUTF8String:ivarName]];
+//                    continue;
+//                }
+//                
+//                // @?..@^..
+//                if ( '\"' != oType[1] ) {
+//                    if ( i == ivarCount - 1) break;
+//                    continue;
+//                }
+//                
+//                char *className = malloc(ctl - 4);
+//                *className = '\0';
+//                for ( int j = 0 ; j < ctl - 3 ; j ++ ) className[j] = oType[j + 2];
+//                className[ctl - 3] = '\0';
+//                NSString *clsStr = [NSString stringWithUTF8String:className];
+//                [model setValue:_sjGetModel(NSClassFromString(clsStr), value) forKey:[NSString stringWithUTF8String:ivarName]];
+//                free(className);
+//            }
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+//    
+//    free(ivarList);
+//    
+//    return model;
+//}
 @end

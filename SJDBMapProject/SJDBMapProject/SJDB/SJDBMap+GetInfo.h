@@ -21,12 +21,7 @@
  *  获取与该对象相关的对象
  */
 - (NSMutableSet<id> *)sjGetRelevanceObjs:(id)rootObj;
-
-/*!
- *  获取需要删除与该类相关的对象
- */
-- (NSMutableSet<id> *)sjGetDeleteRelevanceObjs:(id)rootObj;
-
+ 
 /*!
  *  获取与该类所有相关的协议
  */
