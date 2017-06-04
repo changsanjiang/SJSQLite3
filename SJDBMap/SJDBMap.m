@@ -80,7 +80,6 @@ static NSOperationQueue *_operationQueue;
 }
 
 - (void)dealloc {
-    [_database close];
     [_operationQueue cancelAllOperations];
     _operationQueue = nil;
 }
