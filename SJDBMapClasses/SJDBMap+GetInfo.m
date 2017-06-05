@@ -96,7 +96,7 @@
 
 /*!
  *  生成插入或更新的前缀Sql语句
- *  exsample:
+ *  example:
  *      INSERT OR REPLACE INTO 'SJPrice' ('price','priceID')
  */
 - (NSString *)sjGetInsertOrUpdatePrefixSQL:(SJDBMapUnderstandingModel *)model {
@@ -106,9 +106,9 @@
     // SQL语句
     char *sql = (char *)malloc(1024);
     *sql = '\0';
-    _sjmystrcat(sql, "INSERT OR REPLACE INTO '");
+    _sjmystrcat(sql, "INSERT OR REPLACE INTO ");
     _sjmystrcat(sql, tabName);
-    _sjmystrcat(sql, "' (");
+    _sjmystrcat(sql, " (");
     [[self sjQueryTabAllFieldsWithClass:model.ownerCls] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         _sjmystrcat(sql, "'");
         _sjmystrcat(sql, obj.UTF8String);
@@ -122,7 +122,7 @@
 
 /*!
  *  生成插入或更新的后缀Sql语句
- *  exsample:
+ *  example:
  *      VALUES('15','1');
  */
 - (NSString *)sjGetInsertOrUpdateSuffixSQL:(id)model {

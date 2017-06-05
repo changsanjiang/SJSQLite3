@@ -23,6 +23,7 @@
 		771F8FE91EE49D3B00292E64 /* SJDBMapUnderstandingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8FE01EE49D3B00292E64 /* SJDBMapUnderstandingModel.m */; };
 		771F8FEF1EE49D4600292E64 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8FEC1EE49D4600292E64 /* Person.m */; };
 		771F8FF01EE49D4600292E64 /* PersonTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8FEE1EE49D4600292E64 /* PersonTag.m */; };
+		7745B20E1EE55B9000EC4614 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B20D1EE55B9000EC4614 /* Book.m */; };
 		D63CC47718C5D505E622096C /* libPods-SJDBMapProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B29445EA7D27D632FB4CE57D /* libPods-SJDBMapProject.a */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,8 @@
 		771F8FEC1EE49D4600292E64 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		771F8FED1EE49D4600292E64 /* PersonTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonTag.h; sourceTree = "<group>"; };
 		771F8FEE1EE49D4600292E64 /* PersonTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonTag.m; sourceTree = "<group>"; };
+		7745B20C1EE55B9000EC4614 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		7745B20D1EE55B9000EC4614 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		7D3F54FF1AF829FD4A745B40 /* Pods-SJDBMapProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.debug.xcconfig"; sourceTree = "<group>"; };
 		B29445EA7D27D632FB4CE57D /* libPods-SJDBMapProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SJDBMapProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3ACECA601BBD6294C622848 /* Pods-SJDBMapProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.release.xcconfig"; sourceTree = "<group>"; };
@@ -158,6 +161,8 @@
 		771F8FEA1EE49D4600292E64 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7745B20C1EE55B9000EC4614 /* Book.h */,
+				7745B20D1EE55B9000EC4614 /* Book.m */,
 				771F8FEB1EE49D4600292E64 /* Person.h */,
 				771F8FEC1EE49D4600292E64 /* Person.m */,
 				771F8FED1EE49D4600292E64 /* PersonTag.h */,
@@ -309,6 +314,7 @@
 				771F8FE31EE49D3B00292E64 /* SJDBMap+Server.m in Sources */,
 				771F8F3C1EE4816000292E64 /* main.m in Sources */,
 				771F8FF01EE49D4600292E64 /* PersonTag.m in Sources */,
+				7745B20E1EE55B9000EC4614 /* Book.m in Sources */,
 				771F8FE71EE49D3B00292E64 /* SJDBMapCorrespondingKeyModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,6 +10,7 @@
 #import "SJDBMapHeader.h"
 #import "Person.h"
 #import "PersonTag.h"
+#import "Book.h"
 
 @interface ViewController ()
 
@@ -19,6 +20,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
+
     
     [self insertOrUpdate];
     
@@ -43,6 +47,8 @@
                 [PersonTag tagWithID:3 des:@"D"],
                 [PersonTag tagWithID:4 des:@"E"],];
     
+    sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
+    
     [[SJDBMap sharedServer] insertOrUpdateDataWithModel:sj callBlock:^(BOOL result) {
         // ....
     }];
@@ -61,7 +67,7 @@
 }
 
 - (void)queryWithDict:(NSDictionary *)dict {
-    [[SJDBMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id> *data) {
+    [[SJDBMap sharedServer] queryDataWithClass:[Person class] dict:dict completeCallBlock:^(NSArray<id> *data) {
         NSLog(@"%@", data);
     }];
 }

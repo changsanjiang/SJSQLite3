@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SJDBMapUseProtocol.h"
 
+@class Book;
 @class PersonTag;
 
 @interface Person : NSObject<SJDBMapUseProtocol>
@@ -20,5 +21,7 @@
 @property (nonatomic, strong) NSArray<PersonTag *> *tags;
 
 @property (nonatomic, strong) NSString *test;
+
+@property (nonatomic, strong) Book *aBook;
 
 @end

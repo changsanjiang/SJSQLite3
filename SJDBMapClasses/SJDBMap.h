@@ -49,6 +49,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)insertOrUpdateDataWithModel:(id)model callBlock:(void(^)(BOOL result))block;
 
 /*!
+ *  批量插入或更新
+ *  如果没有表, 会自动创建表
+ */
+- (void)insertOrUpdateDataWithModels:(NSArray<id> *)models callBlock:(void (^)(BOOL))block;
+
+/*!
  *  删
  *  cls : 对应的类
  *  primaryValue : 主键或自增键值.
@@ -70,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  自定义查询
  *  queryDict ->  key : property
  */
-- (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id> *data))block;
+- (void)queryDataWithClass:(Class)cls dict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id> *data))block;
 
 @end
 

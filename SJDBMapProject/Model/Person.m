@@ -8,6 +8,7 @@
 
 #import "Person.h"
 #import "PersonTag.h"
+#import "Book.h"
 
 @implementation Person
 
@@ -17,6 +18,10 @@
 
 + (NSDictionary<NSString *,Class> *)arrayCorrespondingKeys {
     return @{@"tags":[PersonTag class]};
+}
+
++ (NSDictionary<NSString *,NSString *> *)correspondingKeys {
+    return @{@"aBook":@"bookID"};
 }
 
 @end
