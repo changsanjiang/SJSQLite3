@@ -263,6 +263,21 @@
 }
 
 /*!
+ *  插入
+ */
+- (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model {
+    __block BOOL result = YES;
+    [[self sjGetRelevanceObjs:model] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[obj class]];
+        NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
+        NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
+        NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
+        if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 插入或更新失败", model), result = NO;
+    }];
+    return result;
+}
+
+/*!
  *  创建表
  */
 - (BOOL)_sjCreateTab:(Class)cls {

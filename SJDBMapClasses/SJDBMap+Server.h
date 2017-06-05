@@ -57,4 +57,9 @@ extern char *_sjmystrcat(char *dst, const char *src);
  */
 - (NSDictionary *)sjQueryRawStorageData:(Class)cls primaryValue:(NSInteger)primaryValue;
 
+/*!
+ *  插入
+ */
+- (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model;
+
 @end

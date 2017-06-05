@@ -129,14 +129,7 @@ static NSOperationQueue *_operationQueue;
         __strong typeof(_self) self = _self;
         if ( !self ) return;
         [self sjAutoCreateOrAlterRelevanceTabWithClass:[model class]];
-        __block BOOL result = YES;
-        [[self sjGetRelevanceObjs:model] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[obj class]];
-            NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
-            NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
-            NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
-            if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 插入或更新失败", model), result = NO;
-        }];
+        BOOL result = [self sjInsertOrUpdateDataWithModel:model];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block( result );
         });
@@ -181,14 +174,7 @@ static NSOperationQueue *_operationQueue;
              *  获取相关的数据模型
              */
             [modelsArr enumerateObjectsUsingBlock:^(id  _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
-                [[self sjGetRelevanceObjs:model] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-                    SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[obj class]];
-                    NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
-                    NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
-                    NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
-                    NSLog(@"%@", sql);
-                    if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 插入或更新失败", model), result = NO;
-                }];
+                if ( ![self sjInsertOrUpdateDataWithModel:model] ) result = NO;
             }];
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
