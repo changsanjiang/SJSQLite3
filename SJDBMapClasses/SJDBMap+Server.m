@@ -37,13 +37,6 @@
         [objFields addObject:[obj substringFromIndex:1]];
     }];
     
-//    [cMs enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        if ( [objFields containsObject:obj.ownerFields] ) {
-//            [objFields removeObject:obj.ownerFields];
-//            [objFields addObject:obj.correspondingFields];
-//        }
-//    }];
-    
     /*!
      *  获取两个集合不同的键
      */
@@ -58,15 +51,14 @@
         
         __block BOOL containerBol = NO;
         [cMs enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull cM, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ( [fieldsSet containsObject:cM.correspondingFields] )  {
-                containerBol = YES;
-                *stop = YES;
-            }
-            else if ( [objF isEqualToString:cM.ownerFields] ) {
+            if ( ![objF isEqualToString:cM.ownerFields] ) return;
+            
+            if ( [fieldsSet containsObject:cM.correspondingFields] ) containerBol = YES;
+            else {
                 fields = cM.correspondingFields.UTF8String;
                 dbType = "INTEGER";
-                *stop = YES;
             }
+            *stop = YES;
         }];
         
         if ( containerBol ) return;

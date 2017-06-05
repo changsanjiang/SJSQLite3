@@ -26,4 +26,6 @@
 
 @property (nonatomic, strong) NSString *teet;
 
+@property (nonatomic, strong) NSString *ttttt;
+
 @end
