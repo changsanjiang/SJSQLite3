@@ -1,8 +1,8 @@
 //
-//  SJDBMap+GetInfo.h
-//  SJProject
+//  SJDatabaseMap+GetInfo.h
+//  SJDBMapProject
 //
-//  Created by BlueDancer on 2017/6/3.
+//  Created by BlueDancer on 2017/6/6.
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
 
@@ -13,6 +13,7 @@
 @class SJDBMapUnderstandingModel, SJDBMapPrimaryKeyModel, SJDBMapAutoincrementPrimaryKeyModel, SJDBMapCorrespondingKeyModel, SJDBMapArrayCorrespondingKeysModel;
 
 @interface SJDatabaseMap (GetInfo)
+
 
 /*!
  *  获取与该类相关的类

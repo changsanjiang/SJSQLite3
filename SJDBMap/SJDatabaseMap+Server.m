@@ -1,23 +1,24 @@
 //
-//  SJDBMap+Server.m
-//  SJProject
+//  SJDatabaseMap+Server.m
+//  SJDBMapProject
 //
-//  Created by BlueDancer on 2017/6/3.
+//  Created by BlueDancer on 2017/6/6.
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
 
-#import "SJDBMap+Server.h"
+#import "SJDatabaseMap+Server.h"
 #import "SJDBMap.h"
 
 #define _SJLog
 
 @implementation SJDatabaseMap (Server)
 
+
 /*!
  *  创建或更新一张表
  */
 - (BOOL)sjCreateOrAlterTabWithClass:(Class)cls {
-   
+    
     /*!
      *  如果表不存在创建表
      */
@@ -73,7 +74,7 @@
 #ifdef _SJLog
         NSLog(@"%@", sql);
 #endif
-    }];    
+    }];
     return YES;
 }
 
@@ -315,9 +316,9 @@
         // 提取相应字段(如果有)
         __block SJDBMapCorrespondingKeyModel *correspondingKeyModel = nil;
         [model.correspondingKeys enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-             if ( 0 == strcmp(field, obj.ownerFields.UTF8String) ) {correspondingKeyModel = obj; *stop = YES;};
+            if ( 0 == strcmp(field, obj.ownerFields.UTF8String) ) {correspondingKeyModel = obj; *stop = YES;};
         }];
-
+        
         if ( correspondingKeyModel ) {
             field = (char *)(correspondingKeyModel.correspondingFields.UTF8String);
             fieldType = "INTEGER";
@@ -353,7 +354,7 @@
 #ifdef _SJLog
     NSLog(@"%s", sql);
 #endif
-
+    
     if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql, NULL, NULL, NULL)) ) NSLog(@"[%@] 创建表失败", cls);
     
     free(sql);
@@ -562,7 +563,7 @@ typedef void(^SJIvarValueBlock)(id value);
 //    // 获取所有变量名
 //    unsigned int ivarCount = 0;
 //    struct objc_ivar **ivarList = class_copyIvarList([model class], &ivarCount);
-//    
+//
 //    // 获取所有变量值
 //    NSMutableDictionary *valueDictM = [NSMutableDictionary new];
 //    for ( int i = 0 ; i < ivarCount ; i ++ ) {
@@ -591,5 +592,6 @@ static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
     free(ivarList);
     return ivarListSetM;
 }
+
 
 @end

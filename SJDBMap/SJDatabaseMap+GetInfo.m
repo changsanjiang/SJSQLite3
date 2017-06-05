@@ -1,11 +1,12 @@
 //
-//  SJDBMap+GetInfo.m
-//  SJProject
+//  SJDatabaseMap+GetInfo.m
+//  SJDBMapProject
 //
-//  Created by BlueDancer on 2017/6/3.
+//  Created by BlueDancer on 2017/6/6.
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
 
+#import "SJDatabaseMap+GetInfo.h"
 #import "SJDBMap.h"
 
 @implementation SJDatabaseMap (GetInfo)
@@ -402,13 +403,13 @@ static Class _sjGetClass(const char *cType) {
 //    // 获取所有变量名
 //    unsigned int ivarCount = 0;
 //    struct objc_ivar **ivarList = class_copyIvarList(cls, &ivarCount);
-//    
+//
 //    id model = [cls new];
 //    for ( int i = 0 ; i < ivarCount ; i++ ) {
 //        Ivar ivar = ivarList[i];
 //        const char *ivarName = ivar_getName(ivar);
 //        id value = dict[[NSString stringWithUTF8String:&ivarName[1]]];
-//        
+//
 //        SJType type = _sjGetSJType(ivar);
 //        switch (type) {
 //            case SJType_Integer:
@@ -421,26 +422,26 @@ static Class _sjGetClass(const char *cType) {
 //            case SJType_Obj:
 //            {
 //                const char *oType = _sjIvarCType(cls, ivarName);
-//                
+//
 //                // NS
 //                if ( 'N' == oType[2] && 'S' == oType[3] ) {
 //                    [model setValue:value forKey:[NSString stringWithUTF8String:ivarName]];
 //                    continue;
 //                }
-//                
+//
 //                size_t ctl = strlen(oType);
 //                // id 类型
 //                if ( 1 == strlen(oType) && '@' == oType[0] ) {
 //                    [model setValue:value forKey:[NSString stringWithUTF8String:ivarName]];
 //                    continue;
 //                }
-//                
+//
 //                // @?..@^..
 //                if ( '\"' != oType[1] ) {
 //                    if ( i == ivarCount - 1) break;
 //                    continue;
 //                }
-//                
+//
 //                char *className = malloc(ctl - 4);
 //                *className = '\0';
 //                for ( int j = 0 ; j < ctl - 3 ; j ++ ) className[j] = oType[j + 2];
@@ -454,9 +455,9 @@ static Class _sjGetClass(const char *cType) {
 //                break;
 //        }
 //    }
-//    
+//
 //    free(ivarList);
-//    
+//
 //    return model;
 //}
 @end
