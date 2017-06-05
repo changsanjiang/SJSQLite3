@@ -17,7 +17,7 @@ s.requires_arc = true
 
 s.subspec 'standard' do |ss|
 ss.library = 'sqlite3'
-ss.source_files = 'SJDBMap/SJDBMap*.{h,m}'
+ss.source_files = 'SJDBMap/*.{h,m}'
 ss.exclude_files = 'SJDBMap/SJDBMap.m'
 end
 end
