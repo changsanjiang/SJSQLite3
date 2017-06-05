@@ -67,7 +67,9 @@
         if ( NULL == fields) fields = objF.UTF8String, dbType = _sjGetDatabaseIvarType(cls, [NSString stringWithFormat:@"_%@", objF].UTF8String);
         
         NSString *sql = [NSString stringWithFormat:@"ALTER TABLE '%s' ADD '%s' %s;", tabName, fields, dbType];
-        if ( ![self.database executeUpdate:sql] ) { NSLog(@"[%@] 添加字段[%@]失败", cls, objF);};
+        
+        if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 添加字段[%@]失败", cls, objF);
+        
 #ifdef _SJLog
         NSLog(@"%@", sql);
 #endif
@@ -89,22 +91,20 @@
  */
 - (NSMutableArray<NSString *> *)sjQueryTabAllFieldsWithClass:(Class)cls {
     NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", [self sjGetTabName:cls]];
-    FMResultSet *set = [self.database executeQuery:sql];
     NSMutableArray<NSString *> *dbFields = [NSMutableArray new];
-    while ( [set next] ) {
-        [dbFields addObject:set.resultDictionary[@"name"]];
-    }
+    [[self _sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [dbFields addObject:obj[@"name"]];
+    }];
     if ( !dbFields.count ) return NULL;
     return dbFields;
 }
 
 - (NSMutableSet<NSString *> *)_sjQueryTabAllFields_Set_WithClass:(Class)cls {
     NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", [self sjGetTabName:cls]];
-    FMResultSet *set = [self.database executeQuery:sql];
     NSMutableSet<NSString *> *dbFields = [NSMutableSet new];
-    while ( [set next] ) {
-        [dbFields addObject:set.resultDictionary[@"name"]];
-    }
+    [[self _sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [dbFields addObject:obj[@"name"]];
+    }];
     if ( !dbFields.count ) return NULL;
     return dbFields;
 }
@@ -164,11 +164,11 @@
     [fieldsSqlM deleteCharactersInRange:NSMakeRange(fieldsSqlM.length - 5, 5)];
     [fieldsSqlM appendString:@";"];
     
-    FMResultSet *set = [self.database executeQuery:fieldsSqlM];
     NSMutableArray<NSMutableDictionary *> *incompleteData = [NSMutableArray new];
-    while ([set next]) {
-        [incompleteData addObject:set.resultDictionary.mutableCopy];
-    }
+    [[self _sjQueryWithSQLStr:fieldsSqlM] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [incompleteData addObject:obj.mutableCopy];
+    }];
+    
     return [self _sjConversionMolding:cls rawStorageData:incompleteData];
 }
 
@@ -190,11 +190,11 @@
 - (NSArray<NSDictionary *> *)sjQueryRawStorageData:(Class)cls {
     const char *tabName = [self sjGetTabName:cls];
     NSString *sql = [NSString stringWithFormat:@"select *from %s;", tabName];
-    FMResultSet *set = [self.database executeQuery:sql];
+    
     NSMutableArray<NSMutableDictionary *> *incompleteData = [NSMutableArray new];
-    while ([set next]) {
-        [incompleteData addObject:set.resultDictionary.mutableCopy];
-    }
+    [[self _sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [incompleteData addObject:obj.mutableCopy];
+    }];
     return incompleteData;
 }
 
@@ -208,11 +208,10 @@
     const char *tabName = [self sjGetTabName:cls];
     NSString *fields = uM.primaryKey ? uM.primaryKey.ownerFields : uM.autoincrementPrimaryKey.ownerFields;
     NSString *sql = [NSString stringWithFormat:@"select * from %s where %@ = %zd;", tabName, fields, primaryValue];
-    FMResultSet *set = [self.database executeQuery:sql];
-    NSDictionary *incompleteData = nil;
-    while ([set next]) {
-        incompleteData = set.resultDictionary.copy;
-    }
+    __block NSDictionary *incompleteData = nil;
+    [[self _sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        incompleteData = obj;
+    }];
     return incompleteData;
 }
 
@@ -337,8 +336,8 @@
 #ifdef _SJLog
     NSLog(@"%s", sql);
 #endif
-    
-    if ( ![self.database executeUpdate:[NSString stringWithCString:sql encoding:NSUTF8StringEncoding]] ) {NSLog(@"[%@] 创建数据库失败", cls); return NO;}
+
+    if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql, NULL, NULL, NULL)) ) NSLog(@"[%@] 创建表失败", cls);
     
     free(sql);
     free(ivarList);
@@ -354,16 +353,70 @@
  */
 - (BOOL)_sjAlterFields:(Class)cls fields:(NSArray<NSString *> *)fields {
     if ( 0 == fields.count ) return YES;
+    __block BOOL result = YES;
     [fields enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *sql = [NSString stringWithFormat:@"ALTER TABLE '%s' ADD '%@' %s;", [self sjGetTabName:cls], obj, _sjGetDatabaseIvarType(cls, [NSString stringWithFormat:@"_%@", obj].UTF8String)];
-        if ( ![self.database executeUpdate:sql] ) { NSLog(@"[%@] 添加字段[%@]失败", cls, obj);};
+        if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 添加字段[%@]失败", cls, obj), result = NO;
 #ifdef _SJLog
         NSLog(@"%@", sql);
 #endif
     }];
-    return YES;
+    return result;
 }
 
+/*!
+ *  查
+ */
+- (NSArray<NSDictionary *> *)_sjQueryWithSQLStr:(NSString *)sqlStr {
+    
+    sqlite3_stmt *stmt;
+    int result = sqlite3_prepare_v2(self.sqDB, sqlStr.UTF8String, -1, &stmt, NULL);
+    
+    NSArray <NSDictionary *> *dataArr = nil;
+    
+    if (SQLITE_OK == result) dataArr = [self sjGetTabDataWithStmt:stmt];
+    
+    sqlite3_finalize(stmt);
+    
+    return dataArr;
+}
+
+- (NSArray <NSDictionary *> *)sjGetTabDataWithStmt:(sqlite3_stmt *)stmt {
+    NSMutableArray *dataArrM = [[NSMutableArray alloc] init];
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        NSMutableDictionary *mDict = [NSMutableDictionary dictionary];
+        int columnCount = sqlite3_column_count(stmt);
+        for ( int i = 0; i < columnCount ; i ++ ) {
+            const char *name = sqlite3_column_name(stmt, i);
+            NSString *nameKey = [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
+            int type = sqlite3_column_type(stmt, i);
+            switch (type) {
+                case SQLITE_INTEGER:
+                {
+                    int value = sqlite3_column_int(stmt, i);
+                    mDict[nameKey] = [NSNumber numberWithInt:value];
+                }
+                    break;
+                case SQLITE_TEXT:
+                {
+                    const  char *value = (const  char *)sqlite3_column_text(stmt, i);
+                    mDict[nameKey] = [NSString stringWithUTF8String:value];
+                }
+                    break;
+                case SQLITE_FLOAT:
+                {
+                    double value = sqlite3_column_double(stmt, i);
+                    mDict[nameKey] = [NSNumber numberWithDouble:value];
+                }
+                    break;
+                default:
+                    break;
+            }
+        }
+        [dataArrM addObject:mDict.copy];
+    }
+    return dataArrM.copy;
+}
 
 /*!
  *  拼接字符串

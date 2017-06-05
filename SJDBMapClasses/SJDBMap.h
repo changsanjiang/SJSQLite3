@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <sqlite3.h>
 
 @protocol SJDBMapUseProtocol;
 
@@ -19,10 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface SJDBMap : NSObject
 
-/*!
- *  数据库对象
- */
-@property (nonatomic, strong, readonly) FMDatabase *database;
+@property (nonatomic, assign, readonly) sqlite3 *sqDB;
 
 /*!
  *  数据库路径
@@ -61,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SJDBMap (InsertOrUpdate)
 
 /*!
- *  增数据或更新数据
+ *  插入数据或更新数据
  *  如果没有表, 会自动创建表
  */
 - (void)insertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model callBlock:(void(^)(BOOL result))block;

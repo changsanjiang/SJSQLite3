@@ -7,7 +7,6 @@
 //
 #import "SJDBMapHeader.h"
 #import <objc/message.h>
-#import <FMDB.h>
 
 // MARK: C
 
@@ -16,6 +15,7 @@
  */
 static NSString *_sjDatabaseDefaultFolder();
 
+static sqlite3 *_sqDb;
 
 /*!
  *  操作队列。 只使用了一条子线程.
@@ -29,11 +29,6 @@ static NSOperationQueue *_operationQueue;
 @interface SJDBMap ()
 
 /*!
- *  数据库对象
- */
-@property (nonatomic, strong, readwrite) FMDatabase *database;
-
-/*!
  *  数据库路径
  */
 @property (nonatomic, strong, readwrite) NSString   *dbPath;
@@ -45,13 +40,14 @@ static NSOperationQueue *_operationQueue;
 
 @end
 
+
 @implementation SJDBMap
 
 /*!
  *  使用此方法, 数据库将使用默认路径创建
  */
 + (instancetype)sharedServer {
-    static id _instance;
+    static SJDBMap *_instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _instance = [[self alloc] initWithPath:[_sjDatabaseDefaultFolder() stringByAppendingPathComponent:@"sjdb.db"]];
@@ -64,8 +60,7 @@ static NSOperationQueue *_operationQueue;
  */
 - (instancetype)initWithPath:(NSString *)path {
     if ( !(self = [super init] ) ) return nil;
-    self.database = [FMDatabase databaseWithPath:path];
-    if ( ![_database open] ) NSLog(@"初始化数据库失败, 请检查路径");
+    NSAssert(SQLITE_OK == sqlite3_open(path.UTF8String, &_sqDb), @"初始化数据库失败, 请检查路径");
     return self;
 }
 
@@ -85,14 +80,8 @@ static NSOperationQueue *_operationQueue;
     _operationQueue = nil;
 }
 
-/*!
- *  开启事物
- */
-- (BOOL)sjTransactionWithExeSQL:(NSString *)sql {
-    [self.database beginTransaction];
-    [self.database executeUpdate:sql];
-    if ( [self.database commit] )  return YES;
-    else [self.database rollback]; return NO;
+- (sqlite3 *)sqDB {
+    return _sqDb;
 }
 
 @end
@@ -131,7 +120,7 @@ static NSOperationQueue *_operationQueue;
 @implementation SJDBMap (InsertOrUpdate)
 
 /*!
- *  增数据或更新数据
+ *  插入数据或更新数据
  *  如果没有表, 会自动创建表
  */
 - (void)insertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model callBlock:(void(^)(BOOL result))block {
@@ -146,7 +135,7 @@ static NSOperationQueue *_operationQueue;
             NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
             NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
             NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
-            if ( ![self sjTransactionWithExeSQL:sql] ) result = NO;
+            if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 插入或更新失败", model), result = NO;
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block( result );
@@ -181,12 +170,26 @@ static NSOperationQueue *_operationQueue;
          */
         __block BOOL result = YES;
         [modelsDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull tabName, NSArray<id> * _Nonnull modelsArr, BOOL * _Nonnull stop) {
-            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:NSClassFromString(tabName)];
-            NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
-            NSString *subffixSQLM = [self sjBatchGetInsertOrUpdateSubffixSQL:modelsArr];
-            NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQLM];
-            BOOL r = [self sjTransactionWithExeSQL:sql];
-            if ( !r ) NSLog(@"[%@] 创建或更新表失败.", sql), result = NO;
+//            只做了第一层
+//            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:NSClassFromString(tabName)];
+//            NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
+//            NSString *subffixSQLM = [self sjBatchGetInsertOrUpdateSubffixSQL:modelsArr];
+//            NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQLM];
+//            NSLog(@"%@", sql);
+//            if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 创建或更新失败.", sql), result = NO;
+            /*!
+             *  获取相关的数据模型
+             */
+            [modelsArr enumerateObjectsUsingBlock:^(id  _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
+                [[self sjGetRelevanceObjs:model] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+                    SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[obj class]];
+                    NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
+                    NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
+                    NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
+                    NSLog(@"%@", sql);
+                    if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 插入或更新失败", model), result = NO;
+                }];
+            }];
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
@@ -215,7 +218,8 @@ static NSOperationQueue *_operationQueue;
         SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
         NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
         NSString *sql = [self sjGetDeleteSQL:cls uM:uM deletePrimary:primaryValue];
-        BOOL result = [self sjTransactionWithExeSQL:sql];
+        BOOL result = YES;
+        if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 删除失败.", sql), result = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
         });

@@ -14,6 +14,5 @@ s.source       = { :git => "https://github.com/changsanjiang/SJDBMap.git", :tag 
 s.source_files  = "SJDBMapClasses"
 
 s.requires_arc = true
-s.dependency 'FMDB'
 
 end

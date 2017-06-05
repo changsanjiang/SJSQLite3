@@ -24,13 +24,13 @@
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
 
     
-    [self del];
+//    [self del];
     
     [self insertOrUpdate];
-    
-    //    [self query];
-    
-    [self queryWithDict:@{@"name":@"sj"}];
+//
+//    //    [self query];
+//    
+//    [self queryWithDict:@{@"name":@"sj"}];
     
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -49,7 +49,10 @@
     
     sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
     
-    
+//    [[SJDBMap sharedServer] insertOrUpdateDataWithModel:sj callBlock:^(BOOL result) {
+//        
+//    }];
+
     Person *sj2 = [Person new];
     sj2.personID = 2;
     sj2.name = @"sj";
