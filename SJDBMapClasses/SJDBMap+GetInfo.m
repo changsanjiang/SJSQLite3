@@ -339,7 +339,7 @@
 /*!
  *  通过C类型获取类, 前提必须是对象类型
  */
-Class _sjGetClass(const char *cType) {
+static Class _sjGetClass(const char *cType) {
     if ( NULL == cType ) return NULL;
     if ( '@' != cType[0] ) return NULL;
     size_t ctl = strlen(cType);

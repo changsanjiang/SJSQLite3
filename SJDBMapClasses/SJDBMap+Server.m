@@ -153,6 +153,7 @@
 - (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict {
     SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
     NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
+    NSLog(@"%@", uM);
     const char *tabName = [self sjGetTabName:cls];
     
     NSMutableString *fieldsSqlM = [NSMutableString new];
@@ -556,7 +557,7 @@ static char *_sjCharStrValue(id obj, Ivar ivar) {
 /*!
  *  模型转字典
  */
-NSDictionary *_sjGetDict(id model) {
+static NSDictionary *_sjGetDict(id model) {
     // 获取所有变量名
     unsigned int ivarCount = 0;
     struct objc_ivar **ivarList = class_copyIvarList([model class], &ivarCount);
