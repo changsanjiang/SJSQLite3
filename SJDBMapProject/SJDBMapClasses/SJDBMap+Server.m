@@ -153,7 +153,8 @@
 - (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict {
     SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
     NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
-    NSLog(@"%@", uM);
+    if ( !uM.primaryKey && !uM.autoincrementPrimaryKey ) return nil;
+    
     const char *tabName = [self sjGetTabName:cls];
     
     NSMutableString *fieldsSqlM = [NSMutableString new];
