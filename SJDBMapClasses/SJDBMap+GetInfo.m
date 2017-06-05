@@ -23,6 +23,7 @@
 
 - (void)_sjCycleGetCorrespondingKeyWithClass:(Class)cls container:(NSMutableSet<Class> *)set {
     [[self sjGetCorrespondingKeys:cls] enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSAssert(model.correspondingCls, @"[%@] 该类没有[%@]字段", model.ownerCls, model.ownerFields);
         [set addObject:model.correspondingCls];
         [self _sjCycleGetCorrespondingKeyWithClass:model.correspondingCls container:set];
         [self _sjCycleGetArrayCorrespondingKeyWithClass:model.correspondingCls container:set];
@@ -109,11 +110,17 @@
     _sjmystrcat(sql, "INSERT OR REPLACE INTO ");
     _sjmystrcat(sql, tabName);
     _sjmystrcat(sql, " (");
-    [[self sjQueryTabAllFieldsWithClass:model.ownerCls] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    
+    NSArray<NSString *> *tabFields = [self sjQueryTabAllFieldsWithClass:model.ownerCls];
+    
+    [tabFields enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         _sjmystrcat(sql, "'");
         _sjmystrcat(sql, obj.UTF8String);
         _sjmystrcat(sql, "',");
     }];
+    
+    
+    
     if ( sql[strlen(sql) - 1] == ',' ) sql[strlen(sql) - 1] = '\0';
     _sjmystrcat(sql, ")");
     free(sql);

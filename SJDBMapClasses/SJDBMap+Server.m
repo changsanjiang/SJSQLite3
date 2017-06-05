@@ -20,40 +20,66 @@
     /*!
      *  如果表不存在创建表
      */
-    NSArray<NSString *> *fields = [self sjQueryTabAllFieldsWithClass:cls];
-    if ( !fields ) {[self _sjCreateTab:cls]; return YES;}
+    NSMutableSet<NSString *> *fieldsSet = [self _sjQueryTabAllFields_Set_WithClass:cls];
+    if ( !fieldsSet ) {[self _sjCreateTab:cls]; return YES;}
     
     /*!
      *  如果表存在, 查看是否有更新字段
      */
-    NSArray<NSString *> *ivarNames = _sjGetIvarNames(cls);
-    NSMutableArray<NSString *> *addM = [NSMutableArray new];
     NSArray<SJDBMapCorrespondingKeyModel *> *cMs = [self sjGetCorrespondingKeys:cls];
-    NSArray<SJDBMapArrayCorrespondingKeysModel *> *aMs = [self sjGetArrayCorrespondingKeys:cls];
-    [ivarNames enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *field = [obj substringFromIndex:1];
-        __block BOOL addBol = YES;
-        [cMs enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ( [field isEqualToString:obj.ownerFields] ) {
-                addBol = NO;
-                *stop = YES;
-            }
-        }];
-        [aMs enumerateObjectsUsingBlock:^(SJDBMapArrayCorrespondingKeysModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ( [field isEqualToString:obj.ownerFields]) {
-                addBol = NO;
-                *stop = YES;
-            }
-        }];
-        if ( addBol ) if ( ![fields containsObject:field] ) [addM addObject:field];
+    NSMutableSet<NSString *> *ivarNamesSet = _sjGetIvarNames(cls);
+    
+    NSMutableSet<NSString *> *objFields = [NSMutableSet new];
+    [ivarNamesSet enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, BOOL * _Nonnull stop) {
+        /*!
+         *  遍历去掉下划线
+         */
+        [objFields addObject:[obj substringFromIndex:1]];
     }];
     
-    /*!
-     *  如果有. 数据库新增字段
-     */
-    if ( addM.count > 0 ) {return [self _sjAlterFields:cls fields:addM];}
+//    [cMs enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        if ( [objFields containsObject:obj.ownerFields] ) {
+//            [objFields removeObject:obj.ownerFields];
+//            [objFields addObject:obj.correspondingFields];
+//        }
+//    }];
     
-    return NO;
+    /*!
+     *  获取两个集合不同的键
+     */
+    [objFields minusSet:fieldsSet];
+    
+    if ( !objFields.count ) return YES;
+    
+    [objFields enumerateObjectsUsingBlock:^(NSString * _Nonnull objF, BOOL * _Nonnull stop) {
+        const char *tabName = class_getName(cls);
+        __block const char *fields = NULL;
+        __block const char *dbType = NULL;
+        
+        __block BOOL containerBol = NO;
+        [cMs enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull cM, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ( [fieldsSet containsObject:cM.correspondingFields] )  {
+                containerBol = YES;
+                *stop = YES;
+            }
+            else if ( [objF isEqualToString:cM.ownerFields] ) {
+                fields = cM.correspondingFields.UTF8String;
+                dbType = "INTEGER";
+                *stop = YES;
+            }
+        }];
+        
+        if ( containerBol ) return;
+        
+        if ( NULL == fields) fields = objF.UTF8String, dbType = _sjGetDatabaseIvarType(cls, [NSString stringWithFormat:@"_%@", objF].UTF8String);
+        
+        NSString *sql = [NSString stringWithFormat:@"ALTER TABLE '%s' ADD '%s' %s;", tabName, fields, dbType];
+        if ( ![self.database executeUpdate:sql] ) { NSLog(@"[%@] 添加字段[%@]失败", cls, objF);};
+#ifdef _SJLog
+        NSLog(@"%@", sql);
+#endif
+    }];    
+    return YES;
 }
 
 /*!
@@ -68,10 +94,21 @@
 /*!
  *  查询表中的所有字段
  */
-- (NSArray<NSString *> *)sjQueryTabAllFieldsWithClass:(Class)cls {
+- (NSMutableArray<NSString *> *)sjQueryTabAllFieldsWithClass:(Class)cls {
     NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", class_getName(cls)];
     FMResultSet *set = [self.database executeQuery:sql];
     NSMutableArray<NSString *> *dbFields = [NSMutableArray new];
+    while ( [set next] ) {
+        [dbFields addObject:set.resultDictionary[@"name"]];
+    }
+    if ( !dbFields.count ) return NULL;
+    return dbFields;
+}
+
+- (NSMutableSet<NSString *> *)_sjQueryTabAllFields_Set_WithClass:(Class)cls {
+    NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", class_getName(cls)];
+    FMResultSet *set = [self.database executeQuery:sql];
+    NSMutableSet<NSString *> *dbFields = [NSMutableSet new];
     while ( [set next] ) {
         [dbFields addObject:set.resultDictionary[@"name"]];
     }
@@ -325,17 +362,17 @@ NSDictionary *_sjGetDict(id model) {
 /*!
  *  获取类中相关的私有变量
  */
-static NSArray<NSString *> *_sjGetIvarNames(Class cls) {
-    NSMutableArray *invarListArrM = [NSMutableArray array];
+static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
+    NSMutableSet<NSString *> *ivarListSetM = [NSMutableSet new];
     unsigned int outCount = 0;
     Ivar *ivarList = class_copyIvarList(cls, &outCount);
     if (ivarList == NULL || 0 == outCount ) return nil;
     for (int i = 0; i < outCount; i ++) {
         const char *name = ivar_getName(ivarList[i]);
         NSString *nameStr = [NSString stringWithUTF8String:name];
-        [invarListArrM addObject:nameStr];
+        [ivarListSetM addObject:nameStr];
     }
     free(ivarList);
-    return invarListArrM.copy;
+    return ivarListSetM;
 }
 @end

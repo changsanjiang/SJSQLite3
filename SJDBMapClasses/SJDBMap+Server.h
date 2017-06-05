@@ -25,6 +25,6 @@ extern char *_sjmystrcat(char *dst, const char *src);
 /*!
  *  查询表中的所有字段
  */
-- (NSArray<NSString *> *)sjQueryTabAllFieldsWithClass:(Class)cls;
+- (NSMutableArray<NSString *> *)sjQueryTabAllFieldsWithClass:(Class)cls;
 
 @end

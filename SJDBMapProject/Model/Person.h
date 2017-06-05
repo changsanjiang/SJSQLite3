@@ -24,4 +24,6 @@
 
 @property (nonatomic, strong) Book *aBook;
 
+@property (nonatomic, strong) NSString *teet;
+
 @end
