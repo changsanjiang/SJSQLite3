@@ -47,6 +47,11 @@
 - (NSString *)sjGetInsertOrUpdateSuffixSQL:(id)model;
 
 /*!
+ *  生成批量更新或插入数据
+ */
+- (NSString *)sjBatchGetInsertOrUpdateSubffixSQL:(NSArray<id> *)models;
+
+/*!
  *  生成删除Sql语句
  */
 - (NSString *)sjGetDeleteSQL:(Class)cls uM:(SJDBMapUnderstandingModel *)uM deletePrimary:(NSInteger)primaryValue;

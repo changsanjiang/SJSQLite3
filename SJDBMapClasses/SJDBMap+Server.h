@@ -27,4 +27,9 @@ extern char *_sjmystrcat(char *dst, const char *src);
  */
 - (NSMutableArray<NSString *> *)sjQueryTabAllFieldsWithClass:(Class)cls;
 
+/*!
+ *  整理模型数据
+ */
+- (NSDictionary<NSString *, NSArray<id> *> *)sjPutInOrderModels:(NSArray<id> *)models;
+
 @end

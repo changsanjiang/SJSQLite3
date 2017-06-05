@@ -148,27 +148,36 @@ static NSOperationQueue *_operationQueue;
     [self.operationQueue addOperationWithBlock:^{
         __strong typeof(_self) self = _self;
         if ( !self ) return;
-        NSMutableDictionary<NSString *, NSMutableArray<id> *> *modelsM = [NSMutableDictionary new];
-        [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ( !modelsM[NSStringFromClass([obj class])] ) modelsM[NSStringFromClass([obj class])] = [NSMutableArray new];
-            [modelsM[NSStringFromClass([obj class])] addObject:obj];
+        
+        /*!
+         *  整理模型数组
+         */
+        NSDictionary<NSString *, NSArray<id> *> *modelsDict = [self sjPutInOrderModels:models];
+        
+        /*!
+         *  自动创建表
+         */
+        [modelsDict.allKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [self sjAutoCreateOrAlterRelevanceTabWithClass:NSClassFromString(obj)];
         }];
-        [modelsM enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull tabName, NSMutableArray<id> * _Nonnull models, BOOL * _Nonnull stop) {
+        
+        /*!
+         *  批量插入或更新数据
+         */
+        __block BOOL result = YES;
+        [modelsDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull tabName, NSArray<id> * _Nonnull modelsArr, BOOL * _Nonnull stop) {
             SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:NSClassFromString(tabName)];
             NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
-            
-#warning Next...
-            
-            
-//            [[self sjGetRelevanceObjs:model] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-//                SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[obj class]];
-//                NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
-//                NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
-//                NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
-//                if ( ![self sjTransactionWithExeSQL:sql] ) result = NO;
-//            }];
-            
+            NSString *subffixSQLM = [self sjBatchGetInsertOrUpdateSubffixSQL:modelsArr];
+            NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQLM];
+            BOOL r = [self sjTransactionWithExeSQL:sql];
+            if ( !r ) NSLog(@"[%@] 创建或更新表失败.", sql), result = NO;
         }];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(result);
+        });
+
     }];
 }
 
@@ -225,7 +234,7 @@ static NSOperationQueue *_operationQueue;
  *  自定义查询
  *  queryDict ->  key : property
  */
-- (void)queryDataWithClass:(Class)cls dict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id> *data))block {
+- (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id> *data))block {
     [self.operationQueue addOperationWithBlock:^{
         NSArray *models = [self sjQueryConversionMolding:cls dict:dict];
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -24,9 +24,9 @@
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
 
     
-    [self insertOrUpdate];
+    [self del];
     
-    //    [self del];
+    [self insertOrUpdate];
     
     //    [self query];
     
@@ -49,13 +49,33 @@
     
     sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
     
-    [[SJDBMap sharedServer] insertOrUpdateDataWithModel:sj callBlock:^(BOOL result) {
-        // ....
+    
+    Person *sj2 = [Person new];
+    sj2.personID = 2;
+    sj2.name = @"sj";
+    sj2.tags = @[[PersonTag tagWithID:0 des:@"A"],
+                [PersonTag tagWithID:1 des:@"B"],
+                [PersonTag tagWithID:2 des:@"C"],
+                [PersonTag tagWithID:3 des:@"D"],
+                [PersonTag tagWithID:4 des:@"E"],];
+    
+    sj2.aBook = [Book bookWithID:123 name:@"How Are You?"];
+
+    
+    [[SJDBMap sharedServer] insertOrUpdateDataWithModels:@[sj, sj2] callBlock:^(BOOL r) {
+        
     }];
 }
 
 - (void)del {
     [[SJDBMap sharedServer] deleteDataWithClass:[Person class] primaryValue:0 callBlock:^(BOOL result) {
+        // ...
+    }];
+    
+    [[SJDBMap sharedServer] deleteDataWithClass:[Person class] primaryValue:1 callBlock:^(BOOL result) {
+        // ...
+    }];
+    [[SJDBMap sharedServer] deleteDataWithClass:[Person class] primaryValue:2 callBlock:^(BOOL result) {
         // ...
     }];
 }
@@ -67,7 +87,7 @@
 }
 
 - (void)queryWithDict:(NSDictionary *)dict {
-    [[SJDBMap sharedServer] queryDataWithClass:[Person class] dict:dict completeCallBlock:^(NSArray<id> *data) {
+    [[SJDBMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id> *data) {
         NSLog(@"%@", data);
     }];
 }

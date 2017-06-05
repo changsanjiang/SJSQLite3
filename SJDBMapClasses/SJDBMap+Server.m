@@ -108,6 +108,20 @@
     return dbFields;
 }
 
+/*!
+ *  整理模型数据
+ */
+- (NSDictionary<NSString *, NSArray<id> *> *)sjPutInOrderModels:(NSArray<id> *)models {
+    NSMutableDictionary<NSString *, NSMutableArray<id> *> *modelsDictM = [NSMutableDictionary new];
+    [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *tabName = NSStringFromClass([obj class]);
+        if ( !modelsDictM[tabName] ) modelsDictM[tabName] = [NSMutableArray new];
+        [modelsDictM[tabName] addObject:obj];
+    }];
+    return modelsDictM;
+}
+
+
 
 /*!
  *  创建表
