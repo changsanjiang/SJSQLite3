@@ -11,7 +11,7 @@ s.platform     = :ios, "8.0"
 
 s.source       = { :git => "https://github.com/changsanjiang/SJDBMap.git", :tag => "v#{s.version}" }
 
-s.source_files  = "SJDBMapClasses"
+s.source_files  = "SJDBMapClasses/*.{h,m}"
 
 s.requires_arc = true
 

@@ -16,15 +16,15 @@
 		7745B24C1EE5D3A700EC4614 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2341EE5D3A700EC4614 /* Book.m */; };
 		7745B24D1EE5D3A700EC4614 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2361EE5D3A700EC4614 /* Person.m */; };
 		7745B24E1EE5D3A700EC4614 /* PersonTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2381EE5D3A700EC4614 /* PersonTag.m */; };
-		7745B24F1EE5D3A700EC4614 /* SJDBMap+GetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B23B1EE5D3A700EC4614 /* SJDBMap+GetInfo.m */; };
-		7745B2501EE5D3A700EC4614 /* SJDBMap+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B23D1EE5D3A700EC4614 /* SJDBMap+Server.m */; };
-		7745B2511EE5D3A700EC4614 /* SJDBMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B23F1EE5D3A700EC4614 /* SJDBMap.m */; };
-		7745B2521EE5D3A700EC4614 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2411EE5D3A700EC4614 /* SJDBMapArrayCorrespondingKeysModel.m */; };
-		7745B2531EE5D3A700EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2431EE5D3A700EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m */; };
-		7745B2541EE5D3A700EC4614 /* SJDBMapCorrespondingKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2451EE5D3A700EC4614 /* SJDBMapCorrespondingKeyModel.m */; };
-		7745B2551EE5D3A700EC4614 /* SJDBMapPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2481EE5D3A700EC4614 /* SJDBMapPrimaryKeyModel.m */; };
-		7745B2561EE5D3A700EC4614 /* SJDBMapUnderstandingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B24A1EE5D3A700EC4614 /* SJDBMapUnderstandingModel.m */; };
 		7745B25A1EE5D3C500EC4614 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7745B2581EE5D3BC00EC4614 /* libsqlite3.tbd */; };
+		7745B26E1EE5DBD600EC4614 /* SJDBMap+GetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B25D1EE5DBD600EC4614 /* SJDBMap+GetInfo.m */; };
+		7745B26F1EE5DBD600EC4614 /* SJDBMap+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B25F1EE5DBD600EC4614 /* SJDBMap+Server.m */; };
+		7745B2701EE5DBD600EC4614 /* SJDBMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2611EE5DBD600EC4614 /* SJDBMap.m */; };
+		7745B2711EE5DBD600EC4614 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2631EE5DBD600EC4614 /* SJDBMapArrayCorrespondingKeysModel.m */; };
+		7745B2721EE5DBD600EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2651EE5DBD600EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m */; };
+		7745B2731EE5DBD600EC4614 /* SJDBMapCorrespondingKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2671EE5DBD600EC4614 /* SJDBMapCorrespondingKeyModel.m */; };
+		7745B2741EE5DBD600EC4614 /* SJDBMapPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B26A1EE5DBD600EC4614 /* SJDBMapPrimaryKeyModel.m */; };
+		7745B2751EE5DBD600EC4614 /* SJDBMapUnderstandingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B26C1EE5DBD600EC4614 /* SJDBMapUnderstandingModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,25 +44,25 @@
 		7745B2361EE5D3A700EC4614 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		7745B2371EE5D3A700EC4614 /* PersonTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonTag.h; sourceTree = "<group>"; };
 		7745B2381EE5D3A700EC4614 /* PersonTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonTag.m; sourceTree = "<group>"; };
-		7745B23A1EE5D3A700EC4614 /* SJDBMap+GetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+GetInfo.h"; sourceTree = "<group>"; };
-		7745B23B1EE5D3A700EC4614 /* SJDBMap+GetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+GetInfo.m"; sourceTree = "<group>"; };
-		7745B23C1EE5D3A700EC4614 /* SJDBMap+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+Server.h"; sourceTree = "<group>"; };
-		7745B23D1EE5D3A700EC4614 /* SJDBMap+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+Server.m"; sourceTree = "<group>"; };
-		7745B23E1EE5D3A700EC4614 /* SJDBMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMap.h; sourceTree = "<group>"; };
-		7745B23F1EE5D3A700EC4614 /* SJDBMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMap.m; sourceTree = "<group>"; };
-		7745B2401EE5D3A700EC4614 /* SJDBMapArrayCorrespondingKeysModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapArrayCorrespondingKeysModel.h; sourceTree = "<group>"; };
-		7745B2411EE5D3A700EC4614 /* SJDBMapArrayCorrespondingKeysModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapArrayCorrespondingKeysModel.m; sourceTree = "<group>"; };
-		7745B2421EE5D3A700EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapAutoincrementPrimaryKeyModel.h; sourceTree = "<group>"; };
-		7745B2431EE5D3A700EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapAutoincrementPrimaryKeyModel.m; sourceTree = "<group>"; };
-		7745B2441EE5D3A700EC4614 /* SJDBMapCorrespondingKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapCorrespondingKeyModel.h; sourceTree = "<group>"; };
-		7745B2451EE5D3A700EC4614 /* SJDBMapCorrespondingKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapCorrespondingKeyModel.m; sourceTree = "<group>"; };
-		7745B2461EE5D3A700EC4614 /* SJDBMapHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapHeader.h; sourceTree = "<group>"; };
-		7745B2471EE5D3A700EC4614 /* SJDBMapPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapPrimaryKeyModel.h; sourceTree = "<group>"; };
-		7745B2481EE5D3A700EC4614 /* SJDBMapPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapPrimaryKeyModel.m; sourceTree = "<group>"; };
-		7745B2491EE5D3A700EC4614 /* SJDBMapUnderstandingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUnderstandingModel.h; sourceTree = "<group>"; };
-		7745B24A1EE5D3A700EC4614 /* SJDBMapUnderstandingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapUnderstandingModel.m; sourceTree = "<group>"; };
-		7745B24B1EE5D3A700EC4614 /* SJDBMapUseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUseProtocol.h; sourceTree = "<group>"; };
 		7745B2581EE5D3BC00EC4614 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		7745B25C1EE5DBD600EC4614 /* SJDBMap+GetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+GetInfo.h"; sourceTree = "<group>"; };
+		7745B25D1EE5DBD600EC4614 /* SJDBMap+GetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+GetInfo.m"; sourceTree = "<group>"; };
+		7745B25E1EE5DBD600EC4614 /* SJDBMap+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+Server.h"; sourceTree = "<group>"; };
+		7745B25F1EE5DBD600EC4614 /* SJDBMap+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+Server.m"; sourceTree = "<group>"; };
+		7745B2601EE5DBD600EC4614 /* SJDBMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMap.h; sourceTree = "<group>"; };
+		7745B2611EE5DBD600EC4614 /* SJDBMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMap.m; sourceTree = "<group>"; };
+		7745B2621EE5DBD600EC4614 /* SJDBMapArrayCorrespondingKeysModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapArrayCorrespondingKeysModel.h; sourceTree = "<group>"; };
+		7745B2631EE5DBD600EC4614 /* SJDBMapArrayCorrespondingKeysModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapArrayCorrespondingKeysModel.m; sourceTree = "<group>"; };
+		7745B2641EE5DBD600EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapAutoincrementPrimaryKeyModel.h; sourceTree = "<group>"; };
+		7745B2651EE5DBD600EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapAutoincrementPrimaryKeyModel.m; sourceTree = "<group>"; };
+		7745B2661EE5DBD600EC4614 /* SJDBMapCorrespondingKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapCorrespondingKeyModel.h; sourceTree = "<group>"; };
+		7745B2671EE5DBD600EC4614 /* SJDBMapCorrespondingKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapCorrespondingKeyModel.m; sourceTree = "<group>"; };
+		7745B2681EE5DBD600EC4614 /* SJDBMapHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapHeader.h; sourceTree = "<group>"; };
+		7745B2691EE5DBD600EC4614 /* SJDBMapPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapPrimaryKeyModel.h; sourceTree = "<group>"; };
+		7745B26A1EE5DBD600EC4614 /* SJDBMapPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapPrimaryKeyModel.m; sourceTree = "<group>"; };
+		7745B26B1EE5DBD600EC4614 /* SJDBMapUnderstandingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUnderstandingModel.h; sourceTree = "<group>"; };
+		7745B26C1EE5DBD600EC4614 /* SJDBMapUnderstandingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapUnderstandingModel.m; sourceTree = "<group>"; };
+		7745B26D1EE5DBD600EC4614 /* SJDBMapUseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUseProtocol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +101,8 @@
 				7745B21F1EE5D39B00EC4614 /* AppDelegate.m */,
 				7745B2211EE5D39B00EC4614 /* ViewController.h */,
 				7745B2221EE5D39B00EC4614 /* ViewController.m */,
+				7745B25B1EE5DBD600EC4614 /* SJDBMapClasses */,
 				7745B2321EE5D3A700EC4614 /* Model */,
-				7745B2391EE5D3A700EC4614 /* SJDBMapClasses */,
 				7745B2241EE5D39B00EC4614 /* Main.storyboard */,
 				7745B2271EE5D39B00EC4614 /* Assets.xcassets */,
 				7745B2291EE5D39B00EC4614 /* LaunchScreen.storyboard */,
@@ -133,31 +133,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		7745B2391EE5D3A700EC4614 /* SJDBMapClasses */ = {
-			isa = PBXGroup;
-			children = (
-				7745B23A1EE5D3A700EC4614 /* SJDBMap+GetInfo.h */,
-				7745B23B1EE5D3A700EC4614 /* SJDBMap+GetInfo.m */,
-				7745B23C1EE5D3A700EC4614 /* SJDBMap+Server.h */,
-				7745B23D1EE5D3A700EC4614 /* SJDBMap+Server.m */,
-				7745B23E1EE5D3A700EC4614 /* SJDBMap.h */,
-				7745B23F1EE5D3A700EC4614 /* SJDBMap.m */,
-				7745B2401EE5D3A700EC4614 /* SJDBMapArrayCorrespondingKeysModel.h */,
-				7745B2411EE5D3A700EC4614 /* SJDBMapArrayCorrespondingKeysModel.m */,
-				7745B2421EE5D3A700EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.h */,
-				7745B2431EE5D3A700EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m */,
-				7745B2441EE5D3A700EC4614 /* SJDBMapCorrespondingKeyModel.h */,
-				7745B2451EE5D3A700EC4614 /* SJDBMapCorrespondingKeyModel.m */,
-				7745B2461EE5D3A700EC4614 /* SJDBMapHeader.h */,
-				7745B2471EE5D3A700EC4614 /* SJDBMapPrimaryKeyModel.h */,
-				7745B2481EE5D3A700EC4614 /* SJDBMapPrimaryKeyModel.m */,
-				7745B2491EE5D3A700EC4614 /* SJDBMapUnderstandingModel.h */,
-				7745B24A1EE5D3A700EC4614 /* SJDBMapUnderstandingModel.m */,
-				7745B24B1EE5D3A700EC4614 /* SJDBMapUseProtocol.h */,
-			);
-			path = SJDBMapClasses;
-			sourceTree = "<group>";
-		};
 		7745B2571EE5D3BC00EC4614 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +140,31 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
+		};
+		7745B25B1EE5DBD600EC4614 /* SJDBMapClasses */ = {
+			isa = PBXGroup;
+			children = (
+				7745B25C1EE5DBD600EC4614 /* SJDBMap+GetInfo.h */,
+				7745B25D1EE5DBD600EC4614 /* SJDBMap+GetInfo.m */,
+				7745B25E1EE5DBD600EC4614 /* SJDBMap+Server.h */,
+				7745B25F1EE5DBD600EC4614 /* SJDBMap+Server.m */,
+				7745B2601EE5DBD600EC4614 /* SJDBMap.h */,
+				7745B2611EE5DBD600EC4614 /* SJDBMap.m */,
+				7745B2621EE5DBD600EC4614 /* SJDBMapArrayCorrespondingKeysModel.h */,
+				7745B2631EE5DBD600EC4614 /* SJDBMapArrayCorrespondingKeysModel.m */,
+				7745B2641EE5DBD600EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.h */,
+				7745B2651EE5DBD600EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m */,
+				7745B2661EE5DBD600EC4614 /* SJDBMapCorrespondingKeyModel.h */,
+				7745B2671EE5DBD600EC4614 /* SJDBMapCorrespondingKeyModel.m */,
+				7745B2681EE5DBD600EC4614 /* SJDBMapHeader.h */,
+				7745B2691EE5DBD600EC4614 /* SJDBMapPrimaryKeyModel.h */,
+				7745B26A1EE5DBD600EC4614 /* SJDBMapPrimaryKeyModel.m */,
+				7745B26B1EE5DBD600EC4614 /* SJDBMapUnderstandingModel.h */,
+				7745B26C1EE5DBD600EC4614 /* SJDBMapUnderstandingModel.m */,
+				7745B26D1EE5DBD600EC4614 /* SJDBMapUseProtocol.h */,
+			);
+			path = SJDBMapClasses;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -237,19 +237,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7745B2551EE5D3A700EC4614 /* SJDBMapPrimaryKeyModel.m in Sources */,
-				7745B24F1EE5D3A700EC4614 /* SJDBMap+GetInfo.m in Sources */,
+				7745B2741EE5DBD600EC4614 /* SJDBMapPrimaryKeyModel.m in Sources */,
+				7745B26E1EE5DBD600EC4614 /* SJDBMap+GetInfo.m in Sources */,
 				7745B24C1EE5D3A700EC4614 /* Book.m in Sources */,
 				7745B2231EE5D39B00EC4614 /* ViewController.m in Sources */,
-				7745B2531EE5D3A700EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */,
-				7745B2521EE5D3A700EC4614 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */,
-				7745B2541EE5D3A700EC4614 /* SJDBMapCorrespondingKeyModel.m in Sources */,
+				7745B2721EE5DBD600EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */,
+				7745B2711EE5DBD600EC4614 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */,
+				7745B2731EE5DBD600EC4614 /* SJDBMapCorrespondingKeyModel.m in Sources */,
 				7745B24D1EE5D3A700EC4614 /* Person.m in Sources */,
 				7745B2201EE5D39B00EC4614 /* AppDelegate.m in Sources */,
 				7745B21D1EE5D39B00EC4614 /* main.m in Sources */,
-				7745B2511EE5D3A700EC4614 /* SJDBMap.m in Sources */,
-				7745B2501EE5D3A700EC4614 /* SJDBMap+Server.m in Sources */,
-				7745B2561EE5D3A700EC4614 /* SJDBMapUnderstandingModel.m in Sources */,
+				7745B2701EE5DBD600EC4614 /* SJDBMap.m in Sources */,
+				7745B26F1EE5DBD600EC4614 /* SJDBMap+Server.m in Sources */,
+				7745B2751EE5DBD600EC4614 /* SJDBMapUnderstandingModel.m in Sources */,
 				7745B24E1EE5D3A700EC4614 /* PersonTag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -409,6 +409,7 @@
 				7745B2311EE5D39B00EC4614 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
