@@ -66,6 +66,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^)(id model))block;
 
+/*!
+ *  自定义查询
+ *  queryDict ->  key : property
+ */
+- (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id> *data))block;
+
 @end
 
 

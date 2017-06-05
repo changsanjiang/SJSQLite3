@@ -10,7 +10,7 @@
 #define SJDBMapHeader_h
 
 #import "SJDBMap.h"
-@class FMDatabase;
+#import <FMDB.h>
 #import <objc/message.h>
 #import "SJDBMapUseProtocol.h"
 

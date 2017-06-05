@@ -58,6 +58,8 @@
 
 - (id)sjQueryConversionMolding:(Class)cls primaryValue:(NSInteger)primaryValue;
 
+- (NSArray<id> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict;
+
 /*!
  *  查询数据库原始存储数据
  */

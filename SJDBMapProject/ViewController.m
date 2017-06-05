@@ -26,6 +26,8 @@
     
     //    [self query];
     
+    [self queryWithDict:@{@"name":@"sj"}];
+    
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -55,6 +57,12 @@
 - (void)query {
     [[SJDBMap sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id> * _Nonnull data) {
         // ...
+    }];
+}
+
+- (void)queryWithDict:(NSDictionary *)dict {
+    [[SJDBMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id> *data) {
+        NSLog(@"%@", data);
     }];
 }
 

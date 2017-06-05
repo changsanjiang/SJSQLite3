@@ -176,6 +176,19 @@ static NSOperationQueue *_operationQueue;
     }];
 }
 
+/*!
+ *  自定义查询
+ *  queryDict ->  key : property
+ */
+- (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id> *data))block {
+    [self.operationQueue addOperationWithBlock:^{
+        NSArray *models = [self sjQueryConversionMolding:cls dict:dict];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(models);
+        });
+    }];
+}
+
 @end
 
 

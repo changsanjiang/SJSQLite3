@@ -250,6 +250,18 @@
     return allDataModel;
 }
 
+- (NSArray<id> *)_sjConversionMolding:(Class)cls rawStorageData:(NSArray<NSDictionary *> *)rawStorageData {
+    NSMutableArray<id> *allDataModel = [NSMutableArray new];
+    NSArray<SJDBMapCorrespondingKeyModel *>*cKr = [self sjGetCorrespondingKeys:cls];
+    NSArray<SJDBMapArrayCorrespondingKeysModel *> *aKr = [self sjGetArrayCorrespondingKeys:cls];
+    [rawStorageData enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull dict, NSUInteger idx, BOOL * _Nonnull stop) {
+        id model = [cls new];
+        [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr];
+        [allDataModel addObject:model];
+    }];
+    return allDataModel;
+}
+
 - (id)sjQueryConversionMolding:(Class)cls primaryValue:(NSInteger)primaryValue {
     NSDictionary *dict = [self sjQueryRawStorageData:cls primaryValue:primaryValue];
     NSArray<SJDBMapCorrespondingKeyModel *>*cKr = [self sjGetCorrespondingKeys:cls];
@@ -257,6 +269,28 @@
     id model = [cls new];
     [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr];
     return model;
+}
+
+- (NSArray<id> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict {
+    SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
+    NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
+    const char *tabName = _sjGetTabName(cls);
+    
+    NSMutableString *fieldsSqlM = [NSMutableString new];
+    [fieldsSqlM appendFormat:@"select * from %s where ", tabName];
+    [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [fieldsSqlM appendFormat:@"%@ = '%@'", key, obj];
+        [fieldsSqlM appendString:@" and "];
+    }];
+    [fieldsSqlM deleteCharactersInRange:NSMakeRange(fieldsSqlM.length - 5, 5)];
+    [fieldsSqlM appendString:@";"];
+    
+    FMResultSet *set = [self.database executeQuery:fieldsSqlM];
+    NSMutableArray<NSMutableDictionary *> *incompleteData = [NSMutableArray new];
+    while ([set next]) {
+        [incompleteData addObject:set.resultDictionary.mutableCopy];
+    }
+    return [self _sjConversionMolding:cls rawStorageData:incompleteData];
 }
 
 - (void)_sjConversionModelWithOwnerModel:(id)model dict:(NSDictionary *)dict cKr:(NSArray<SJDBMapCorrespondingKeyModel *>*)cKr aKr:(NSArray<SJDBMapArrayCorrespondingKeysModel *> *)aKr {
