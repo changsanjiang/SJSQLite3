@@ -39,10 +39,26 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithPath:(NSString *)path;
 
+@end
+
+
+
+// MARK: Create
+
+@interface SJDBMap (CreateTab)
+
 /*!
  *  根据类创建一个表
  */
 - (void)createTabWithClass:(Class)cls callBlock:(void(^)(BOOL result))block;
+
+@end
+
+
+
+// MARK: InsertOrUpdate
+
+@interface SJDBMap (InsertOrUpdate)
 
 /*!
  *  增数据或更新数据
@@ -57,12 +73,28 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL result))block;
 
+@end
+
+
+
+// MARK: Delete
+
+@interface SJDBMap (Delete)
+
 /*!
  *  删
  *  cls : 对应的类
  *  primaryValue : 主键或自增键值.
  */
 - (void)deleteDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue callBlock:(void(^)(BOOL result))block;
+
+@end
+
+
+
+// MARK: Query
+
+@interface SJDBMap (Query)
 
 /*!
  *  查
@@ -71,12 +103,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^)(NSArray<id<SJDBMapUseProtocol>> *data))block;
 
 /*!
- *  查一条数据
+ *  查
  */
 - (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^)(id<SJDBMapUseProtocol> model))block;
 
 /*!
- *  自定义查询
+ *  查
  *  queryDict ->  key : property
  */
 - (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> *data))block;

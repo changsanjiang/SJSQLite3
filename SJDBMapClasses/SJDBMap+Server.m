@@ -17,6 +17,7 @@
  *  创建或更新一张表
  */
 - (BOOL)sjCreateOrAlterTabWithClass:(Class)cls {
+   
     /*!
      *  如果表不存在创建表
      */
@@ -432,7 +433,7 @@ static char *_sjGetDatabaseObjType(const char *CType) {
     else if ( strstr(CType, "NSMutableSet") ) return "";
     else if ( strstr(CType, "NSNumber") ) return "";
     else if ( strstr(CType, "NSValue") ) return "";
-    else if ( strstr(CType, "NSURL") ) return "";
+    else if ( strstr(CType, "NSURL") ) return "TEXT";
     
     return "";
 }

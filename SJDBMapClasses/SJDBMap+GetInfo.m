@@ -222,7 +222,7 @@
     [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [subffixSQLM appendFormat:@"UNION ALL %@ ", [self sjGetInsertOrUpdateSuffixSQL:obj]];
     }];
-    [subffixSQLM deleteCharactersInRange:NSMakeRange(0, @"UNION  ALL ".length)];
+    [subffixSQLM deleteCharactersInRange:NSMakeRange(0, @"UNION  ALL".length)];
     return subffixSQLM;
 }
 

@@ -95,6 +95,14 @@ static NSOperationQueue *_operationQueue;
     else [self.database rollback]; return NO;
 }
 
+@end
+
+
+// MARK: Create
+
+
+@implementation SJDBMap (CreateTab)
+
 /*!
  *  根据类创建一个表
  */
@@ -111,9 +119,16 @@ static NSOperationQueue *_operationQueue;
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
         });
-
     }];
 }
+
+@end
+
+
+// MARK: InsertOrUpdate
+
+
+@implementation SJDBMap (InsertOrUpdate)
 
 /*!
  *  增数据或更新数据
@@ -173,13 +188,19 @@ static NSOperationQueue *_operationQueue;
             BOOL r = [self sjTransactionWithExeSQL:sql];
             if ( !r ) NSLog(@"[%@] 创建或更新表失败.", sql), result = NO;
         }];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
         });
-
     }];
 }
+
+@end
+
+
+// MARK: Delete
+
+
+@implementation SJDBMap (Delete)
 
 /*!
  *  删
@@ -201,6 +222,14 @@ static NSOperationQueue *_operationQueue;
     }];
 }
 
+@end
+
+
+// MARK: Query
+
+
+@implementation SJDBMap (Query)
+
 /*!
  *  查
  *  返回和这个类有关的所有数据
@@ -218,7 +247,7 @@ static NSOperationQueue *_operationQueue;
 }
 
 /*!
- *  查一条数据
+ *  查
  */
 - (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^)(id<SJDBMapUseProtocol> model))block {
     [self.operationQueue addOperationWithBlock:^{
@@ -226,12 +255,12 @@ static NSOperationQueue *_operationQueue;
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(model);
         });
-
+        
     }];
 }
 
 /*!
- *  自定义查询
+ *  查
  *  queryDict ->  key : property
  */
 - (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> *data))block {
@@ -244,29 +273,6 @@ static NSOperationQueue *_operationQueue;
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
