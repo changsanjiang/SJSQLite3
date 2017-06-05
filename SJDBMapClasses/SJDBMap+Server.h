@@ -13,7 +13,7 @@ extern char *_sjmystrcat(char *dst, const char *src);
 @interface SJDBMap (Server)
 
 /*!
- *  创建或更新一个表
+ *  创建或更新一张表
  */
 - (BOOL)sjCreateOrAlterTabWithClass:(Class)cls;
 
@@ -31,5 +31,30 @@ extern char *_sjmystrcat(char *dst, const char *src);
  *  整理模型数据
  */
 - (NSDictionary<NSString *, NSArray<id> *> *)sjPutInOrderModels:(NSArray<id> *)models;
+
+/*!
+ *  查询数据. 返回转换成型的模型数据
+ */
+- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls;
+
+/*!
+ *  根据主键值查询数据
+ */
+- (id<SJDBMapUseProtocol>)sjQueryConversionMolding:(Class)cls primaryValue:(NSInteger)primaryValue;
+
+/*!
+ *  根据条件查询数据
+ */
+- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict;
+
+/*!
+ *  查询数据库原始存储数据
+ */
+- (NSArray<NSDictionary *> *)sjQueryRawStorageData:(Class)cls;
+
+/*!
+ *  查询数据库原始存储数据
+ */
+- (NSDictionary *)sjQueryRawStorageData:(Class)cls primaryValue:(NSInteger)primaryValue;
 
 @end

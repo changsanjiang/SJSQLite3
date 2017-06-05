@@ -14,7 +14,7 @@
 @implementation SJDBMap (Server)
 
 /*!
- *  创建或更新一个表
+ *  创建或更新一张表
  */
 - (BOOL)sjCreateOrAlterTabWithClass:(Class)cls {
     /*!
@@ -45,7 +45,7 @@
     if ( !objFields.count ) return YES;
     
     [objFields enumerateObjectsUsingBlock:^(NSString * _Nonnull objF, BOOL * _Nonnull stop) {
-        const char *tabName = class_getName(cls);
+        const char *tabName = [self sjGetTabName:cls];
         __block const char *fields = NULL;
         __block const char *dbType = NULL;
         
@@ -87,7 +87,7 @@
  *  查询表中的所有字段
  */
 - (NSMutableArray<NSString *> *)sjQueryTabAllFieldsWithClass:(Class)cls {
-    NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", class_getName(cls)];
+    NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", [self sjGetTabName:cls]];
     FMResultSet *set = [self.database executeQuery:sql];
     NSMutableArray<NSString *> *dbFields = [NSMutableArray new];
     while ( [set next] ) {
@@ -98,7 +98,7 @@
 }
 
 - (NSMutableSet<NSString *> *)_sjQueryTabAllFields_Set_WithClass:(Class)cls {
-    NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", class_getName(cls)];
+    NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", [self sjGetTabName:cls]];
     FMResultSet *set = [self.database executeQuery:sql];
     NSMutableSet<NSString *> *dbFields = [NSMutableSet new];
     while ( [set next] ) {
@@ -121,7 +121,146 @@
     return modelsDictM;
 }
 
+/*!
+ *  返回转换成型的模型数据
+ */
+- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls {
+    /*!
+     *  获取存储数据
+     */
+    NSArray<NSDictionary *> *RawStorageData = [self sjQueryRawStorageData:cls];
+    NSMutableArray<id> *allDataModel = [NSMutableArray new];
+    NSArray<SJDBMapCorrespondingKeyModel *>*cKr = [self sjGetCorrespondingKeys:cls];
+    NSArray<SJDBMapArrayCorrespondingKeysModel *> *aKr = [self sjGetArrayCorrespondingKeys:cls];
+    [RawStorageData enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull dict, NSUInteger idx, BOOL * _Nonnull stop) {
+        id model = [cls new];
+        [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr];
+        [allDataModel addObject:model];
+    }];
+    return allDataModel;
+}
 
+- (id<SJDBMapUseProtocol>)sjQueryConversionMolding:(Class)cls primaryValue:(NSInteger)primaryValue {
+    NSDictionary *dict = [self sjQueryRawStorageData:cls primaryValue:primaryValue];
+    NSArray<SJDBMapCorrespondingKeyModel *>*cKr = [self sjGetCorrespondingKeys:cls];
+    NSArray<SJDBMapArrayCorrespondingKeysModel *> *aKr = [self sjGetArrayCorrespondingKeys:cls];
+    id model = [cls new];
+    [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr];
+    return model;
+}
+
+- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict {
+    SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
+    NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
+    const char *tabName = [self sjGetTabName:cls];
+    
+    NSMutableString *fieldsSqlM = [NSMutableString new];
+    [fieldsSqlM appendFormat:@"select * from %s where ", tabName];
+    [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [fieldsSqlM appendFormat:@"%@ = '%@'", key, obj];
+        [fieldsSqlM appendString:@" and "];
+    }];
+    [fieldsSqlM deleteCharactersInRange:NSMakeRange(fieldsSqlM.length - 5, 5)];
+    [fieldsSqlM appendString:@";"];
+    
+    FMResultSet *set = [self.database executeQuery:fieldsSqlM];
+    NSMutableArray<NSMutableDictionary *> *incompleteData = [NSMutableArray new];
+    while ([set next]) {
+        [incompleteData addObject:set.resultDictionary.mutableCopy];
+    }
+    return [self _sjConversionMolding:cls rawStorageData:incompleteData];
+}
+
+- (NSArray<id> *)_sjConversionMolding:(Class)cls rawStorageData:(NSArray<NSDictionary *> *)rawStorageData {
+    NSMutableArray<id> *allDataModel = [NSMutableArray new];
+    NSArray<SJDBMapCorrespondingKeyModel *>*cKr = [self sjGetCorrespondingKeys:cls];
+    NSArray<SJDBMapArrayCorrespondingKeysModel *> *aKr = [self sjGetArrayCorrespondingKeys:cls];
+    [rawStorageData enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull dict, NSUInteger idx, BOOL * _Nonnull stop) {
+        id model = [cls new];
+        [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr];
+        [allDataModel addObject:model];
+    }];
+    return allDataModel;
+}
+
+/*!
+ *  查询数据库原始存储数据
+ */
+- (NSArray<NSDictionary *> *)sjQueryRawStorageData:(Class)cls {
+    const char *tabName = [self sjGetTabName:cls];
+    NSString *sql = [NSString stringWithFormat:@"select *from %s;", tabName];
+    FMResultSet *set = [self.database executeQuery:sql];
+    NSMutableArray<NSMutableDictionary *> *incompleteData = [NSMutableArray new];
+    while ([set next]) {
+        [incompleteData addObject:set.resultDictionary.mutableCopy];
+    }
+    return incompleteData;
+}
+
+
+/*!
+ *  查询数据库原始存储数据
+ */
+- (NSDictionary *)sjQueryRawStorageData:(Class)cls primaryValue:(NSInteger)primaryValue {
+    SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
+    NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
+    const char *tabName = [self sjGetTabName:cls];
+    NSString *fields = uM.primaryKey ? uM.primaryKey.ownerFields : uM.autoincrementPrimaryKey.ownerFields;
+    NSString *sql = [NSString stringWithFormat:@"select * from %s where %@ = %zd;", tabName, fields, primaryValue];
+    FMResultSet *set = [self.database executeQuery:sql];
+    NSDictionary *incompleteData = nil;
+    while ([set next]) {
+        incompleteData = set.resultDictionary.copy;
+    }
+    return incompleteData;
+}
+
+- (void)_sjConversionModelWithOwnerModel:(id)model dict:(NSDictionary *)dict cKr:(NSArray<SJDBMapCorrespondingKeyModel *>*)cKr aKr:(NSArray<SJDBMapArrayCorrespondingKeysModel *> *)aKr {
+    [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull fields, id  _Nonnull fieldsValue, BOOL * _Nonnull stop) {
+        
+        __block BOOL continueBool = NO;
+        [cKr enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ( [fields isEqualToString:obj.correspondingFields] ) {
+                NSInteger cPrimaryValue = [fieldsValue integerValue];
+                id cmodel = [obj.correspondingCls new];
+                NSArray<SJDBMapCorrespondingKeyModel *>*ccKr = [self sjGetCorrespondingKeys:obj.correspondingCls];
+                NSArray<SJDBMapArrayCorrespondingKeysModel *> *caKr = [self sjGetArrayCorrespondingKeys:obj.correspondingCls];
+                [self _sjConversionModelWithOwnerModel:cmodel dict:[self sjQueryRawStorageData:obj.correspondingCls primaryValue:cPrimaryValue] cKr:ccKr aKr:caKr];
+                [model setValue:cmodel forKey:obj.ownerFields];
+                continueBool = YES;
+                *stop = YES;
+            }
+        }];
+        
+        if ( continueBool ) return;
+        
+        [aKr enumerateObjectsUsingBlock:^(SJDBMapArrayCorrespondingKeysModel * _Nonnull ACKM, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ( [fields isEqualToString:ACKM.ownerFields] ) {
+                NSData *data = [fieldsValue dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary<NSString *, NSArray<NSNumber *> *> *aPrimaryValues = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                [aPrimaryValues enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<NSNumber *> * _Nonnull obj, BOOL * _Nonnull stop) {
+                    NSMutableArray<id> *ar = [NSMutableArray new];
+                    [obj enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        id amodel = [ACKM.correspondingCls new];
+                        NSArray<SJDBMapCorrespondingKeyModel *>*ccKr = [self sjGetCorrespondingKeys:ACKM.correspondingCls];
+                        NSArray<SJDBMapArrayCorrespondingKeysModel *> *caKr = [self sjGetArrayCorrespondingKeys:ACKM.correspondingCls];
+                        [self _sjConversionModelWithOwnerModel:amodel dict:[self sjQueryRawStorageData:ACKM.correspondingCls primaryValue:[obj integerValue]] cKr:ccKr aKr:caKr];
+                        [ar addObject:amodel];
+                    }];
+                    [model setValue:ar forKey:ACKM.ownerFields];
+                }];
+                continueBool = YES;
+                *stop = YES;
+            }
+        }];
+        
+        if ( continueBool ) return;
+        
+        if ( [model respondsToSelector:NSSelectorFromString(fields)] ) {
+            [model setValue:fieldsValue forKey:fields];
+        }
+    }];
+}
 
 /*!
  *  创建表
@@ -139,7 +278,7 @@
     NSAssert(model.primaryKey || model.autoincrementPrimaryKey, @"[%@] 只能有一个主键.", cls);
     
     // 获取表名称
-    const char *tabName = class_getName(cls);
+    const char *tabName = [self sjGetTabName:cls];
     
     // SQ语句
     char *sql = malloc(1024);
@@ -215,7 +354,7 @@
 - (BOOL)_sjAlterFields:(Class)cls fields:(NSArray<NSString *> *)fields {
     if ( 0 == fields.count ) return YES;
     [fields enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *sql = [NSString stringWithFormat:@"ALTER TABLE '%s' ADD '%@' %s;", class_getName(cls), obj, _sjGetDatabaseIvarType(cls, [NSString stringWithFormat:@"_%@", obj].UTF8String)];
+        NSString *sql = [NSString stringWithFormat:@"ALTER TABLE '%s' ADD '%@' %s;", [self sjGetTabName:cls], obj, _sjGetDatabaseIvarType(cls, [NSString stringWithFormat:@"_%@", obj].UTF8String)];
         if ( ![self.database executeUpdate:sql] ) { NSLog(@"[%@] 添加字段[%@]失败", cls, obj);};
 #ifdef _SJLog
         NSLog(@"%@", sql);
@@ -381,4 +520,5 @@ static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
     free(ivarList);
     return ivarListSetM;
 }
+
 @end

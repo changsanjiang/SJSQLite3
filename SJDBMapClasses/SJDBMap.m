@@ -119,7 +119,7 @@ static NSOperationQueue *_operationQueue;
  *  增数据或更新数据
  *  如果没有表, 会自动创建表
  */
-- (void)insertOrUpdateDataWithModel:(id)model callBlock:(void(^)(BOOL result))block {
+- (void)insertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model callBlock:(void(^)(BOOL result))block {
     __weak typeof(self) _self = self;
     [self.operationQueue addOperationWithBlock:^{
         __strong typeof(_self) self = _self;
@@ -143,7 +143,7 @@ static NSOperationQueue *_operationQueue;
  *  批量插入或更新
  *  如果没有表, 会自动创建表
  */
-- (void)insertOrUpdateDataWithModels:(NSArray<id> *)models callBlock:(void (^)(BOOL))block {
+- (void)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL result))block {
     __weak typeof(self) _self = self;
     [self.operationQueue addOperationWithBlock:^{
         __strong typeof(_self) self = _self;
@@ -205,7 +205,7 @@ static NSOperationQueue *_operationQueue;
  *  查
  *  返回和这个类有关的所有数据
  */
-- (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^)(NSArray<id> *data))block {
+- (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^)(NSArray<id<SJDBMapUseProtocol>> *data))block {
     __weak typeof(self) _self = self;
     [self.operationQueue addOperationWithBlock:^{
         __strong typeof(_self) self = _self;
@@ -220,7 +220,7 @@ static NSOperationQueue *_operationQueue;
 /*!
  *  查一条数据
  */
-- (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^)(id model))block {
+- (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^)(id<SJDBMapUseProtocol> model))block {
     [self.operationQueue addOperationWithBlock:^{
         id model = [self sjQueryConversionMolding:cls primaryValue:primaryValue];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -234,7 +234,7 @@ static NSOperationQueue *_operationQueue;
  *  自定义查询
  *  queryDict ->  key : property
  */
-- (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id> *data))block {
+- (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> *data))block {
     [self.operationQueue addOperationWithBlock:^{
         NSArray *models = [self sjQueryConversionMolding:cls dict:dict];
         dispatch_async(dispatch_get_main_queue(), ^{

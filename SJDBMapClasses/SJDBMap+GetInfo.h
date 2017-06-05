@@ -8,6 +8,8 @@
 
 #import "SJDBMap.h"
 
+@protocol SJDBMapUseProtocol;
+
 @class SJDBMapUnderstandingModel, SJDBMapPrimaryKeyModel, SJDBMapAutoincrementPrimaryKeyModel, SJDBMapCorrespondingKeyModel, SJDBMapArrayCorrespondingKeysModel;
 
 @interface SJDBMap (GetInfo)
@@ -20,7 +22,7 @@
 /*!
  *  获取与该对象相关的对象
  */
-- (NSMutableSet<id> *)sjGetRelevanceObjs:(id)rootObj;
+- (NSMutableSet<id<SJDBMapUseProtocol>> *)sjGetRelevanceObjs:(id<SJDBMapUseProtocol>)rootObj;
 
 /*!
  *  获取与该类所有相关的协议
@@ -44,36 +46,17 @@
  *  example:
  *      VALUES('15','1');
  */
-- (NSString *)sjGetInsertOrUpdateSuffixSQL:(id)model;
+- (NSString *)sjGetInsertOrUpdateSuffixSQL:(id<SJDBMapUseProtocol>)model;
 
 /*!
  *  生成批量更新或插入数据
  */
-- (NSString *)sjBatchGetInsertOrUpdateSubffixSQL:(NSArray<id> *)models;
+- (NSString *)sjBatchGetInsertOrUpdateSubffixSQL:(NSArray<id<SJDBMapUseProtocol>> *)models;
 
 /*!
  *  生成删除Sql语句
  */
 - (NSString *)sjGetDeleteSQL:(Class)cls uM:(SJDBMapUnderstandingModel *)uM deletePrimary:(NSInteger)primaryValue;
-
-/*!
- *  查询数据. 返回转换成型的模型数据
- */
-- (NSArray<id> *)sjQueryConversionMolding:(Class)cls;
-
-- (id)sjQueryConversionMolding:(Class)cls primaryValue:(NSInteger)primaryValue;
-
-- (NSArray<id> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict;
-
-/*!
- *  查询数据库原始存储数据
- */
-- (NSArray<NSDictionary *> *)sjQueryRawStorageData:(Class)cls;
-
-/*!
- *  查询数据库原始存储数据
- */
-- (NSDictionary *)sjQueryRawStorageData:(Class)cls primaryValue:(NSInteger)primaryValue;
 
 /*!
  *  获取该类主键
@@ -94,5 +77,10 @@
  *  获取相应键
  */
 - (NSArray<SJDBMapCorrespondingKeyModel *>*)sjGetCorrespondingKeys:(Class)cls;
+
+/*!
+ *  获取表名称
+ */
+- (const char *)sjGetTabName:(Class)cls;
 
 @end

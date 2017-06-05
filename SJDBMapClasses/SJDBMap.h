@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol SJDBMapUseProtocol;
+
 @class FMDatabase;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -46,14 +48,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  增数据或更新数据
  *  如果没有表, 会自动创建表
  */
-- (void)insertOrUpdateDataWithModel:(id)model callBlock:(void(^)(BOOL result))block;
+- (void)insertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model callBlock:(void(^)(BOOL result))block;
 
 /*!
  *  批量插入或更新
- *  如果没有表, 会自动创建表。
- *  数组中的模型, 可以不同。
+ *  如果没有表, 会自动创建表
+ *  数组中的模型, 可以不同
  */
-- (void)insertOrUpdateDataWithModels:(NSArray<id> *)models callBlock:(void (^)(BOOL result))block;
+- (void)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL result))block;
 
 /*!
  *  删
@@ -66,18 +68,18 @@ NS_ASSUME_NONNULL_BEGIN
  *  查
  *  返回和这个类有关的所有数据
  */
-- (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^)(NSArray<id> *data))block;
+- (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^)(NSArray<id<SJDBMapUseProtocol>> *data))block;
 
 /*!
  *  查一条数据
  */
-- (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^)(id model))block;
+- (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^)(id<SJDBMapUseProtocol> model))block;
 
 /*!
  *  自定义查询
  *  queryDict ->  key : property
  */
-- (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id> *data))block;
+- (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> *data))block;
 
 @end
 
