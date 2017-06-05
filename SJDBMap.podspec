@@ -15,4 +15,5 @@ s.source_files  = 'SJDBMap/*.{h,m}'
 
 s.requires_arc = true
 
+s.library = 'sqlite3'
 end
