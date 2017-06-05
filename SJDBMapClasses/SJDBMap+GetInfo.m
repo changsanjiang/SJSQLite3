@@ -220,9 +220,9 @@
 - (NSString *)sjBatchGetInsertOrUpdateSubffixSQL:(NSArray<id<SJDBMapUseProtocol>> *)models {
     NSMutableString *subffixSQLM = [NSMutableString new];
     [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [subffixSQLM appendFormat:@"UNION %@ ", [self sjGetInsertOrUpdateSuffixSQL:obj]];
+        [subffixSQLM appendFormat:@"UNION ALL %@ ", [self sjGetInsertOrUpdateSuffixSQL:obj]];
     }];
-    [subffixSQLM deleteCharactersInRange:NSMakeRange(0, @"UNION".length)];
+    [subffixSQLM deleteCharactersInRange:NSMakeRange(0, @"UNION  ALL ".length)];
     return subffixSQLM;
 }
 
