@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "SJDBMapHeader.h"
+#import "SJDBMap.h"
 #import "Person.h"
 #import "PersonTag.h"
 #import "Book.h"
@@ -65,32 +65,32 @@
     sj2.aBook = [Book bookWithID:123 name:@"How Are You?"];
     
     
-    [[SJDBMap sharedServer] insertOrUpdateDataWithModels:@[sj, sj2] callBlock:^(BOOL r) {
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:@[sj, sj2] callBlock:^(BOOL r) {
         
     }];
 }
 
 - (void)del {
-    [[SJDBMap sharedServer] deleteDataWithClass:[Person class] primaryValue:0 callBlock:^(BOOL result) {
+    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] primaryValue:0 callBlock:^(BOOL result) {
         // ...
     }];
     
-    [[SJDBMap sharedServer] deleteDataWithClass:[Person class] primaryValue:1 callBlock:^(BOOL result) {
+    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] primaryValue:1 callBlock:^(BOOL result) {
         // ...
     }];
-    [[SJDBMap sharedServer] deleteDataWithClass:[Person class] primaryValue:2 callBlock:^(BOOL result) {
+    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] primaryValue:2 callBlock:^(BOOL result) {
         // ...
     }];
 }
 
 - (void)query {
-    [[SJDBMap sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id> * _Nonnull data) {
+    [[SJDatabaseMap sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id> * _Nonnull data) {
         // ...
     }];
 }
 
 - (void)queryWithDict:(NSDictionary *)dict {
-    [[SJDBMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id> *data) {
+    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id> *data) {
         NSLog(@"%@", data);
     }];
 }

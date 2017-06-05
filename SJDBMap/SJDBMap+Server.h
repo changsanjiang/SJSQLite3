@@ -6,11 +6,11 @@
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
 
-#import "SJDBMap.h"
+#import "SJDatabaseMap.h"
 
 extern char *_sjmystrcat(char *dst, const char *src);
 
-@interface SJDBMap (Server)
+@interface SJDatabaseMap (Server)
 
 /*!
  *  创建或更新一张表

@@ -1,11 +1,11 @@
 //
-//  SJDBMap.m
+//  SJDatabaseMap.m
 //  SJProject
 //
 //  Created by BlueDancer on 2017/6/3.
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
-#import "SJDBMapHeader.h"
+#import "SJDBMap.h"
 #import <objc/message.h>
 
 // MARK: C
@@ -26,7 +26,7 @@ static NSOperationQueue *_operationQueue;
 // MARK: Root
 
 
-@interface SJDBMap ()
+@interface SJDatabaseMap ()
 
 /*!
  *  数据库路径
@@ -41,13 +41,13 @@ static NSOperationQueue *_operationQueue;
 @end
 
 
-@implementation SJDBMap
+@implementation SJDatabaseMap
 
 /*!
  *  使用此方法, 数据库将使用默认路径创建
  */
 + (instancetype)sharedServer {
-    static SJDBMap *_instance;
+    static SJDatabaseMap *_instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _instance = [[self alloc] initWithPath:[_sjDatabaseDefaultFolder() stringByAppendingPathComponent:@"sjdb.db"]];
@@ -90,7 +90,7 @@ static NSOperationQueue *_operationQueue;
 // MARK: Create
 
 
-@implementation SJDBMap (CreateTab)
+@implementation SJDatabaseMap (CreateTab)
 
 /*!
  *  根据类创建一个表
@@ -117,7 +117,7 @@ static NSOperationQueue *_operationQueue;
 // MARK: InsertOrUpdate
 
 
-@implementation SJDBMap (InsertOrUpdate)
+@implementation SJDatabaseMap (InsertOrUpdate)
 
 /*!
  *  插入数据或更新数据
@@ -189,7 +189,7 @@ static NSOperationQueue *_operationQueue;
 // MARK: Delete
 
 
-@implementation SJDBMap (Delete)
+@implementation SJDatabaseMap (Delete)
 
 /*!
  *  删
@@ -218,7 +218,7 @@ static NSOperationQueue *_operationQueue;
 // MARK: Query
 
 
-@implementation SJDBMap (Query)
+@implementation SJDatabaseMap (Query)
 
 /*!
  *  查

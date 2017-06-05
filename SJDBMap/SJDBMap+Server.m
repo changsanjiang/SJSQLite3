@@ -7,11 +7,11 @@
 //
 
 #import "SJDBMap+Server.h"
-#import "SJDBMapHeader.h"
+#import "SJDBMap.h"
 
 #define _SJLog
 
-@implementation SJDBMap (Server)
+@implementation SJDatabaseMap (Server)
 
 /*!
  *  创建或更新一张表

@@ -19,7 +19,7 @@
 		7745B25A1EE5D3C500EC4614 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7745B2581EE5D3BC00EC4614 /* libsqlite3.tbd */; };
 		7745B2891EE5DD4900EC4614 /* SJDBMap+GetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2781EE5DD4900EC4614 /* SJDBMap+GetInfo.m */; };
 		7745B28A1EE5DD4900EC4614 /* SJDBMap+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B27A1EE5DD4900EC4614 /* SJDBMap+Server.m */; };
-		7745B28B1EE5DD4900EC4614 /* SJDBMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B27C1EE5DD4900EC4614 /* SJDBMap.m */; };
+		7745B28B1EE5DD4900EC4614 /* SJDatabaseMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B27C1EE5DD4900EC4614 /* SJDatabaseMap.m */; };
 		7745B28C1EE5DD4900EC4614 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B27E1EE5DD4900EC4614 /* SJDBMapArrayCorrespondingKeysModel.m */; };
 		7745B28D1EE5DD4900EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2801EE5DD4900EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m */; };
 		7745B28E1EE5DD4900EC4614 /* SJDBMapCorrespondingKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2821EE5DD4900EC4614 /* SJDBMapCorrespondingKeyModel.m */; };
@@ -49,15 +49,15 @@
 		7745B2781EE5DD4900EC4614 /* SJDBMap+GetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+GetInfo.m"; sourceTree = "<group>"; };
 		7745B2791EE5DD4900EC4614 /* SJDBMap+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDBMap+Server.h"; sourceTree = "<group>"; };
 		7745B27A1EE5DD4900EC4614 /* SJDBMap+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDBMap+Server.m"; sourceTree = "<group>"; };
-		7745B27B1EE5DD4900EC4614 /* SJDBMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMap.h; sourceTree = "<group>"; };
-		7745B27C1EE5DD4900EC4614 /* SJDBMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMap.m; sourceTree = "<group>"; };
+		7745B27B1EE5DD4900EC4614 /* SJDatabaseMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDatabaseMap.h; sourceTree = "<group>"; };
+		7745B27C1EE5DD4900EC4614 /* SJDatabaseMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDatabaseMap.m; sourceTree = "<group>"; };
 		7745B27D1EE5DD4900EC4614 /* SJDBMapArrayCorrespondingKeysModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapArrayCorrespondingKeysModel.h; sourceTree = "<group>"; };
 		7745B27E1EE5DD4900EC4614 /* SJDBMapArrayCorrespondingKeysModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapArrayCorrespondingKeysModel.m; sourceTree = "<group>"; };
 		7745B27F1EE5DD4900EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapAutoincrementPrimaryKeyModel.h; sourceTree = "<group>"; };
 		7745B2801EE5DD4900EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapAutoincrementPrimaryKeyModel.m; sourceTree = "<group>"; };
 		7745B2811EE5DD4900EC4614 /* SJDBMapCorrespondingKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapCorrespondingKeyModel.h; sourceTree = "<group>"; };
 		7745B2821EE5DD4900EC4614 /* SJDBMapCorrespondingKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapCorrespondingKeyModel.m; sourceTree = "<group>"; };
-		7745B2831EE5DD4900EC4614 /* SJDBMapHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapHeader.h; sourceTree = "<group>"; };
+		7745B2831EE5DD4900EC4614 /* SJDBMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMap.h; sourceTree = "<group>"; };
 		7745B2841EE5DD4900EC4614 /* SJDBMapPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapPrimaryKeyModel.h; sourceTree = "<group>"; };
 		7745B2851EE5DD4900EC4614 /* SJDBMapPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapPrimaryKeyModel.m; sourceTree = "<group>"; };
 		7745B2861EE5DD4900EC4614 /* SJDBMapUnderstandingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUnderstandingModel.h; sourceTree = "<group>"; };
@@ -148,15 +148,15 @@
 				7745B2781EE5DD4900EC4614 /* SJDBMap+GetInfo.m */,
 				7745B2791EE5DD4900EC4614 /* SJDBMap+Server.h */,
 				7745B27A1EE5DD4900EC4614 /* SJDBMap+Server.m */,
-				7745B27B1EE5DD4900EC4614 /* SJDBMap.h */,
-				7745B27C1EE5DD4900EC4614 /* SJDBMap.m */,
+				7745B27B1EE5DD4900EC4614 /* SJDatabaseMap.h */,
+				7745B27C1EE5DD4900EC4614 /* SJDatabaseMap.m */,
 				7745B27D1EE5DD4900EC4614 /* SJDBMapArrayCorrespondingKeysModel.h */,
 				7745B27E1EE5DD4900EC4614 /* SJDBMapArrayCorrespondingKeysModel.m */,
 				7745B27F1EE5DD4900EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.h */,
 				7745B2801EE5DD4900EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m */,
 				7745B2811EE5DD4900EC4614 /* SJDBMapCorrespondingKeyModel.h */,
 				7745B2821EE5DD4900EC4614 /* SJDBMapCorrespondingKeyModel.m */,
-				7745B2831EE5DD4900EC4614 /* SJDBMapHeader.h */,
+				7745B2831EE5DD4900EC4614 /* SJDBMap.h */,
 				7745B2841EE5DD4900EC4614 /* SJDBMapPrimaryKeyModel.h */,
 				7745B2851EE5DD4900EC4614 /* SJDBMapPrimaryKeyModel.m */,
 				7745B2861EE5DD4900EC4614 /* SJDBMapUnderstandingModel.h */,
@@ -247,7 +247,7 @@
 				7745B24D1EE5D3A700EC4614 /* Person.m in Sources */,
 				7745B2201EE5D39B00EC4614 /* AppDelegate.m in Sources */,
 				7745B21D1EE5D39B00EC4614 /* main.m in Sources */,
-				7745B28B1EE5DD4900EC4614 /* SJDBMap.m in Sources */,
+				7745B28B1EE5DD4900EC4614 /* SJDatabaseMap.m in Sources */,
 				7745B28A1EE5DD4900EC4614 /* SJDBMap+Server.m in Sources */,
 				7745B2901EE5DD4900EC4614 /* SJDBMapUnderstandingModel.m in Sources */,
 				7745B24E1EE5D3A700EC4614 /* PersonTag.m in Sources */,

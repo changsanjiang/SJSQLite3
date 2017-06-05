@@ -6,9 +6,9 @@
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
 
-#import "SJDBMapHeader.h"
+#import "SJDBMap.h"
 
-@implementation SJDBMap (GetInfo)
+@implementation SJDatabaseMap (GetInfo)
 
 /*!
  *  获取与该类相关的类

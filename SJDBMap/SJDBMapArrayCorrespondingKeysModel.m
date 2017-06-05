@@ -7,7 +7,7 @@
 //
 
 #import "SJDBMapArrayCorrespondingKeysModel.h"
-#import "SJDBMapHeader.h"
+#import "SJDBMap.h"
 
 @implementation SJDBMapArrayCorrespondingKeysModel
 

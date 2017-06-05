@@ -6,13 +6,13 @@
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
 
-#import "SJDBMap.h"
+#import "SJDatabaseMap.h"
 
 @protocol SJDBMapUseProtocol;
 
 @class SJDBMapUnderstandingModel, SJDBMapPrimaryKeyModel, SJDBMapAutoincrementPrimaryKeyModel, SJDBMapCorrespondingKeyModel, SJDBMapArrayCorrespondingKeysModel;
 
-@interface SJDBMap (GetInfo)
+@interface SJDatabaseMap (GetInfo)
 
 /*!
  *  获取与该类相关的类
