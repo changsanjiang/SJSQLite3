@@ -2,7 +2,7 @@
 //  ViewController.m
 //  SJDBMapProject
 //
-//  Created by BlueDancer on 2017/6/5.
+//  Created by BlueDancer on 2017/6/6.
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
 
@@ -22,15 +22,15 @@
     [super viewDidLoad];
     
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
-
     
-//    [self del];
+    
+    //    [self del];
     
     [self insertOrUpdate];
-//
-//    //    [self query];
-//    
-//    [self queryWithDict:@{@"name":@"sj"}];
+    //
+    //    //    [self query];
+    //
+    //    [self queryWithDict:@{@"name":@"sj"}];
     
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -49,21 +49,21 @@
     
     sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
     
-//    [[SJDBMap sharedServer] insertOrUpdateDataWithModel:sj callBlock:^(BOOL result) {
-//        
-//    }];
-
+    //    [[SJDBMap sharedServer] insertOrUpdateDataWithModel:sj callBlock:^(BOOL result) {
+    //
+    //    }];
+    
     Person *sj2 = [Person new];
     sj2.personID = 2;
     sj2.name = @"sj";
     sj2.tags = @[[PersonTag tagWithID:0 des:@"A"],
-                [PersonTag tagWithID:1 des:@"B"],
-                [PersonTag tagWithID:2 des:@"C"],
-                [PersonTag tagWithID:3 des:@"D"],
-                [PersonTag tagWithID:4 des:@"E"],];
+                 [PersonTag tagWithID:1 des:@"B"],
+                 [PersonTag tagWithID:2 des:@"C"],
+                 [PersonTag tagWithID:3 des:@"D"],
+                 [PersonTag tagWithID:4 des:@"E"],];
     
     sj2.aBook = [Book bookWithID:123 name:@"How Are You?"];
-
+    
     
     [[SJDBMap sharedServer] insertOrUpdateDataWithModels:@[sj, sj2] callBlock:^(BOOL r) {
         
@@ -94,5 +94,6 @@
         NSLog(@"%@", data);
     }];
 }
+
 
 @end

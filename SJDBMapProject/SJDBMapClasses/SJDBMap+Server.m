@@ -437,7 +437,7 @@
 /*!
  *  拼接字符串
  */
-char *_sjmystrcat(char *dst, const char *src) {
+extern char *_sjmystrcat(char *dst, const char *src) {
     char *p = dst;
     while( *p != '\0' ) p++;
     while( *src != '\0' ) *p++ = *src++;
@@ -509,70 +509,70 @@ static char *_sjGetDatabaseObjType(const char *CType) {
 
 typedef void(^SJIvarValueBlock)(id value);
 
-static id _sjGetIvarValue( id model, Ivar ivar) {
-    const char *CType = ivar_getTypeEncoding(ivar);
-    char first = CType[0];
-    if      ( first == _C_INT ||        //  Int
-              first == _C_UINT ||       //  Unsigned Int
-              first == _C_SHT ||        //  Short
-              first == _C_USHT ||       //  Unsigned Short
-              first == _C_LNG_LNG ||    //  Long Long
-              first == _C_ULNG_LNG ||   //  Unsigned Long
-              first == _C_BFLD ||       //  bool
-              first == _C_BOOL ||       //  BOOL
-              first == _C_ULNG_LNG )    //  Unsigned long long
-        return @(_sjIntValue(model, ivar));
-    else if ( first == _C_DBL ||        //  double
-              first == _C_FLT )         //  float
-        return @(_sjDoubleValue(model, ivar));
-    else if ( first == _C_CHARPTR )     //  char  *
-    {
-        char *charStr = _sjCharStrValue(model, ivar);
-        if ( strlen(charStr) > 0 )
-            return [NSString stringWithCString:charStr encoding:NSUTF8StringEncoding];
-        else return nil;
-    }
-    else return object_getIvar(model, ivar);
-}
+//static id _sjGetIvarValue( id model, Ivar ivar) {
+//    const char *CType = ivar_getTypeEncoding(ivar);
+//    char first = CType[0];
+//    if      ( first == _C_INT ||        //  Int
+//              first == _C_UINT ||       //  Unsigned Int
+//              first == _C_SHT ||        //  Short
+//              first == _C_USHT ||       //  Unsigned Short
+//              first == _C_LNG_LNG ||    //  Long Long
+//              first == _C_ULNG_LNG ||   //  Unsigned Long
+//              first == _C_BFLD ||       //  bool
+//              first == _C_BOOL ||       //  BOOL
+//              first == _C_ULNG_LNG )    //  Unsigned long long
+//        return @(_sjIntValue(model, ivar));
+//    else if ( first == _C_DBL ||        //  double
+//              first == _C_FLT )         //  float
+//        return @(_sjDoubleValue(model, ivar));
+//    else if ( first == _C_CHARPTR )     //  char  *
+//    {
+//        char *charStr = _sjCharStrValue(model, ivar);
+//        if ( strlen(charStr) > 0 )
+//            return [NSString stringWithCString:charStr encoding:NSUTF8StringEncoding];
+//        else return nil;
+//    }
+//    else return object_getIvar(model, ivar);
+//}
 
 /*!
  *  转换类型获取对应的Ivar的值
  */
-static NSInteger _sjIntValue(id obj, Ivar ivar) {
-    NSInteger (*value)(id, Ivar) = (NSInteger(*)(id, Ivar))object_getIvar;
-    return value(obj, ivar);
-}
-
-static double _sjDoubleValue(id obj, Ivar ivar) {
-    double(*value)(id, SEL) = (double(*)(id, SEL))objc_msgSend;
-    const char *selCStr = &ivar_getName(ivar)[1];
-    return value(obj, NSSelectorFromString([NSString stringWithUTF8String:selCStr]));
-}
-
-static char *_sjCharStrValue(id obj, Ivar ivar) {
-    char *(*value)(id, Ivar) = (char *(*)(id, Ivar))object_getIvar;
-    return value(obj, ivar);
-}
-
-/*!
- *  模型转字典
- */
-static NSDictionary *_sjGetDict(id model) {
-    // 获取所有变量名
-    unsigned int ivarCount = 0;
-    struct objc_ivar **ivarList = class_copyIvarList([model class], &ivarCount);
-    
-    // 获取所有变量值
-    NSMutableDictionary *valueDictM = [NSMutableDictionary new];
-    for ( int i = 0 ; i < ivarCount ; i ++ ) {
-        id ivarValue = _sjGetIvarValue(model, ivarList[i]);
-        if ( !ivarValue ) continue;
-        const char *ivarName = ivar_getName(ivarList[i]);
-        valueDictM[[NSString stringWithUTF8String:&ivarName[1]]] = ivarValue;
-    }
-    free(ivarList);
-    return valueDictM;
-}
+//static NSInteger _sjIntValue(id obj, Ivar ivar) {
+//    NSInteger (*value)(id, Ivar) = (NSInteger(*)(id, Ivar))object_getIvar;
+//    return value(obj, ivar);
+//}
+//
+//static double _sjDoubleValue(id obj, Ivar ivar) {
+//    double(*value)(id, SEL) = (double(*)(id, SEL))objc_msgSend;
+//    const char *selCStr = &ivar_getName(ivar)[1];
+//    return value(obj, NSSelectorFromString([NSString stringWithUTF8String:selCStr]));
+//}
+//
+//static char *_sjCharStrValue(id obj, Ivar ivar) {
+//    char *(*value)(id, Ivar) = (char *(*)(id, Ivar))object_getIvar;
+//    return value(obj, ivar);
+//}
+//
+///*!
+// *  模型转字典
+// */
+//static NSDictionary *_sjGetDict(id model) {
+//    // 获取所有变量名
+//    unsigned int ivarCount = 0;
+//    struct objc_ivar **ivarList = class_copyIvarList([model class], &ivarCount);
+//    
+//    // 获取所有变量值
+//    NSMutableDictionary *valueDictM = [NSMutableDictionary new];
+//    for ( int i = 0 ; i < ivarCount ; i ++ ) {
+//        id ivarValue = _sjGetIvarValue(model, ivarList[i]);
+//        if ( !ivarValue ) continue;
+//        const char *ivarName = ivar_getName(ivarList[i]);
+//        valueDictM[[NSString stringWithUTF8String:&ivarName[1]]] = ivarValue;
+//    }
+//    free(ivarList);
+//    return valueDictM;
+//}
 
 /*!
  *  获取类中相关的私有变量

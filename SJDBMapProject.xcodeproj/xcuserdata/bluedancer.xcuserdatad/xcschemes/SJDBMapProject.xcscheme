@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "771F8F361EE4816000292E64"
+               BlueprintIdentifier = "7745B2171EE5D39B00EC4614"
                BuildableName = "SJDBMapProject.app"
                BlueprintName = "SJDBMapProject"
                ReferencedContainer = "container:SJDBMapProject.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "771F8F361EE4816000292E64"
+            BlueprintIdentifier = "7745B2171EE5D39B00EC4614"
             BuildableName = "SJDBMapProject.app"
             BlueprintName = "SJDBMapProject"
             ReferencedContainer = "container:SJDBMapProject.xcodeproj">
@@ -55,7 +55,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "771F8F361EE4816000292E64"
+            BlueprintIdentifier = "7745B2171EE5D39B00EC4614"
             BuildableName = "SJDBMapProject.app"
             BlueprintName = "SJDBMapProject"
             ReferencedContainer = "container:SJDBMapProject.xcodeproj">
@@ -74,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "771F8F361EE4816000292E64"
+            BlueprintIdentifier = "7745B2171EE5D39B00EC4614"
             BuildableName = "SJDBMapProject.app"
             BlueprintName = "SJDBMapProject"
             ReferencedContainer = "container:SJDBMapProject.xcodeproj">
