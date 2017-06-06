@@ -131,6 +131,7 @@
      *  获取存储数据
      */
     NSArray<NSDictionary *> *RawStorageData = [self sjQueryRawStorageData:cls];
+    if ( !RawStorageData ) return nil;
     NSMutableArray<id> *allDataModel = [NSMutableArray new];
     NSArray<SJDBMapCorrespondingKeyModel *>*cKr = [self sjGetCorrespondingKeys:cls];
     NSArray<SJDBMapArrayCorrespondingKeysModel *> *aKr = [self sjGetArrayCorrespondingKeys:cls];
@@ -144,6 +145,7 @@
 
 - (id<SJDBMapUseProtocol>)sjQueryConversionMolding:(Class)cls primaryValue:(NSInteger)primaryValue {
     NSDictionary *dict = [self sjQueryRawStorageData:cls primaryValue:primaryValue];
+    if ( !dict ) return nil;
     NSArray<SJDBMapCorrespondingKeyModel *>*cKr = [self sjGetCorrespondingKeys:cls];
     NSArray<SJDBMapArrayCorrespondingKeysModel *> *aKr = [self sjGetArrayCorrespondingKeys:cls];
     id model = [cls new];

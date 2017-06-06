@@ -15,12 +15,6 @@ s.source_files  = 'SJDBMap/*.{h,m}'
 
 s.requires_arc = true
 
-s.subspec 'standard' do |ss|
-ss.library = 'sqlite3'
-ss.source_files = 'SJDBMap/*.{h,m}'
-ss.exclude_files = 'SJDBMap/SJDBMap.m'
-end
-
 
 # build the latest stable version of sqlite3
 s.subspec 'standalone' do |ss|
