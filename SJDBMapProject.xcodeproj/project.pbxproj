@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A7C21FAEDA989DF63569DE4 /* libPods-SJDBMapProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D2DAC9C94365CD0165361DA /* libPods-SJDBMapProject.a */; };
 		7745B21D1EE5D39B00EC4614 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B21C1EE5D39B00EC4614 /* main.m */; };
 		7745B2201EE5D39B00EC4614 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B21F1EE5D39B00EC4614 /* AppDelegate.m */; };
 		7745B2231EE5D39B00EC4614 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2221EE5D39B00EC4614 /* ViewController.m */; };
@@ -28,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D2DAC9C94365CD0165361DA /* libPods-SJDBMapProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SJDBMapProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BDF88F9711C9429F86150C3 /* Pods-SJDBMapProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.release.xcconfig"; sourceTree = "<group>"; };
 		7745B2181EE5D39B00EC4614 /* SJDBMapProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SJDBMapProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7745B21C1EE5D39B00EC4614 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7745B21E1EE5D39B00EC4614 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -63,6 +66,7 @@
 		77EAE40E1EE5EC3800E21057 /* SJDatabaseMap+GetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDatabaseMap+GetInfo.m"; sourceTree = "<group>"; };
 		77EAE4101EE5EC3F00E21057 /* SJDatabaseMap+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDatabaseMap+Server.h"; sourceTree = "<group>"; };
 		77EAE4111EE5EC3F00E21057 /* SJDatabaseMap+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDatabaseMap+Server.m"; sourceTree = "<group>"; };
+		E559417A2BA48C41C6BC60ED /* Pods-SJDBMapProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,18 +75,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				7745B25A1EE5D3C500EC4614 /* libsqlite3.tbd in Frameworks */,
+				1A7C21FAEDA989DF63569DE4 /* libPods-SJDBMapProject.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E14FCBBD131126DAA5EF665 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E559417A2BA48C41C6BC60ED /* Pods-SJDBMapProject.debug.xcconfig */,
+				6BDF88F9711C9429F86150C3 /* Pods-SJDBMapProject.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		7745B20F1EE5D39B00EC4614 = {
 			isa = PBXGroup;
 			children = (
 				7745B21A1EE5D39B00EC4614 /* SJDBMapProject */,
 				7745B2191EE5D39B00EC4614 /* Products */,
 				7745B2571EE5D3BC00EC4614 /* Frameworks */,
+				5E14FCBBD131126DAA5EF665 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -137,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				7745B2581EE5D3BC00EC4614 /* libsqlite3.tbd */,
+				0D2DAC9C94365CD0165361DA /* libPods-SJDBMapProject.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -173,9 +189,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7745B22F1EE5D39B00EC4614 /* Build configuration list for PBXNativeTarget "SJDBMapProject" */;
 			buildPhases = (
+				8324FDE679459AB9C1C60A0F /* [CP] Check Pods Manifest.lock */,
 				7745B2141EE5D39B00EC4614 /* Sources */,
 				7745B2151EE5D39B00EC4614 /* Frameworks */,
 				7745B2161EE5D39B00EC4614 /* Resources */,
+				3AEC004DEE8D8245270FE20B /* [CP] Embed Pods Frameworks */,
+				F3574251A1B62D1F9219130A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -231,6 +250,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3AEC004DEE8D8245270FE20B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8324FDE679459AB9C1C60A0F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F3574251A1B62D1F9219130A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7745B2141EE5D39B00EC4614 /* Sources */ = {
@@ -370,6 +437,7 @@
 		};
 		7745B2301EE5D39B00EC4614 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E559417A2BA48C41C6BC60ED /* Pods-SJDBMapProject.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SJDBMapProject/Info.plist;
@@ -381,6 +449,7 @@
 		};
 		7745B2311EE5D39B00EC4614 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6BDF88F9711C9429F86150C3 /* Pods-SJDBMapProject.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SJDBMapProject/Info.plist;
