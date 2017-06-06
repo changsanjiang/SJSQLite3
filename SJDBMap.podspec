@@ -15,13 +15,5 @@ s.source_files  = 'SJDBMap/*.{h,m}'
 
 s.requires_arc = true
 
-
-# build the latest stable version of sqlite3
-s.subspec 'standalone' do |ss|
-ss.xcconfig = { 'OTHER_CFLAGS' => '$(inherited) -DSJDBMAP_SQLITE_STANDALONE' }
-ss.dependency 'sqlite3'
-ss.source_files = 'SJDBMap/*.{h,m}'
-ss.exclude_files = 'SJDBMap/SJDBMap.m'
-end
-
+s.ios.library = 'sqlite3'
 end
