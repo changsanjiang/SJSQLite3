@@ -218,7 +218,7 @@
 /*!
  *  生成批量更新或插入数据
  */
-- (NSString *)sjBatchGetInsertOrUpdateSubffixSQL:(NSArray<id<SJDBMapUseProtocol>> *)models {
+- (NSString *)sjGetBatchInsertOrUpdateSubffixSQL:(NSArray<id<SJDBMapUseProtocol>> *)models {
     NSMutableString *subffixSQLM = [NSMutableString new];
     [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [subffixSQLM appendFormat:@"UNION ALL %@ ", [self sjGetInsertOrUpdateSuffixSQL:obj]];
@@ -249,6 +249,23 @@
     
     return sql;
 }
+
+/*!
+ *  生成批量删除Sql语句
+ */
+- (NSString *)sjGetBatchDeleteSQL:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues {
+    const char *tabName = [self sjGetTabName:cls];
+    NSString *primaryFields = [self sjGetPrimaryKey:cls].ownerFields;
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"DELETE FROM %s WHERE %@ in (", tabName, primaryFields];
+    
+    [primaryValues enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [sql appendFormat:@"%@, " , obj];
+    }];
+    [sql deleteCharactersInRange:NSMakeRange(sql.length - 2, 1)];
+    [sql appendString:@");"];
+    return sql;
+}
+
 
 /*!
  *  获取该类主键

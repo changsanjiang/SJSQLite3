@@ -52,12 +52,17 @@
 /*!
  *  生成批量更新或插入数据
  */
-- (NSString *)sjBatchGetInsertOrUpdateSubffixSQL:(NSArray<id<SJDBMapUseProtocol>> *)models;
+- (NSString *)sjGetBatchInsertOrUpdateSubffixSQL:(NSArray<id<SJDBMapUseProtocol>> *)models;
 
 /*!
  *  生成删除Sql语句
  */
 - (NSString *)sjGetDeleteSQL:(Class)cls uM:(SJDBMapUnderstandingModel *)uM deletePrimary:(NSInteger)primaryValue;
+
+/*!
+ *  生成批量删除Sql语句
+ */
+- (NSString *)sjGetBatchDeleteSQL:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues;
 
 /*!
  *  获取该类主键

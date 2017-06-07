@@ -12,6 +12,30 @@
 #import "PersonTag.h"
 #import "Book.h"
 
+@interface ViewController (InsertOrUpdate)
+
+- (void)insertOrUpdate;
+
+@end
+
+@interface ViewController (Delete)
+
+- (void)del;
+
+- (void)delWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues;
+
+- (void)delWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models;
+
+@end
+
+@interface ViewController (Query)
+
+- (void)query;
+
+- (void)queryWithDict:(NSDictionary *)dict;
+
+@end
+
 @interface ViewController ()
 
 @end
@@ -23,17 +47,18 @@
     
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
-    //    [self del];
+
     
-    [self insertOrUpdate];
-    
-//    [self query];
     
     [self queryWithDict:@{@"name":@"sj"}];
     
     // Do any additional setup after loading the view, typically from a nib.
 }
 
+@end
+
+
+@implementation ViewController (InsertOrUpdate)
 
 - (void)insertOrUpdate {
     
@@ -48,9 +73,6 @@
     
     sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
     
-    //    [[SJDBMap sharedServer] insertOrUpdateDataWithModel:sj callBlock:^(BOOL result) {
-    //
-    //    }];
     
     Person *sj2 = [Person new];
     sj2.personID = 2;
@@ -69,18 +91,33 @@
     }];
 }
 
+@end
+
+@implementation ViewController (Delete)
+
 - (void)del {
     [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] primaryValue:0 callBlock:^(BOOL result) {
         // ...
     }];
-    
-    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] primaryValue:1 callBlock:^(BOOL result) {
-        // ...
-    }];
-    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] primaryValue:2 callBlock:^(BOOL result) {
-        // ...
+}
+
+- (void)delWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues {
+    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] primaryValues:primaryValues callBlock:^(BOOL r) {
+        
     }];
 }
+
+- (void)delWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models {
+    [[SJDatabaseMap sharedServer] deleteDataWithModels:models callBlock:^(BOOL result) {
+       
+    }];
+}
+
+@end
+
+
+@implementation ViewController (Query)
+
 
 - (void)query {
     [[SJDatabaseMap sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id> * _Nonnull data) {
@@ -95,6 +132,5 @@
         }];
     }];
 }
-
 
 @end

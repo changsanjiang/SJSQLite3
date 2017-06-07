@@ -205,7 +205,6 @@ static NSOperationQueue *_operationQueue;
         NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
         NSString *sql = [self sjGetDeleteSQL:cls uM:uM deletePrimary:primaryValue];
         __block BOOL result = YES;
-        
         [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
             if ( !r ) NSLog(@"[%@] 删除失败.", sql), result = NO;
         }];
@@ -222,31 +221,38 @@ static NSOperationQueue *_operationQueue;
  */
 - (void)deleteDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues callBlock:(void (^)(BOOL))block {
     __weak typeof(self) _self = self;
+    
     [self.operationQueue addOperationWithBlock:^{
         __strong typeof(_self) self = _self;
         if ( !self ) return;
-        
-#warning Next...
-        
+        __block BOOL r = YES;
+        NSString *sql = [self sjGetBatchDeleteSQL:cls primaryValues:primaryValues];
+        [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL result) {
+            if ( !result ) NSLog(@"[%@] 删除失败.", sql), r = NO;
+        }];
         dispatch_async(dispatch_get_main_queue(), ^{
-            if ( block ) block(NO);
+            if ( block ) block(r);
         });
     }];
 }
 
 /*!
  *  删
- */
-- (void)deleteDataWithClass:(Class)cls models:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL))block {
+ */ 
+- (void)deleteDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL))block {
     __weak typeof(self) _self = self;
     [self.operationQueue addOperationWithBlock:^{
         __strong typeof(_self) self = _self;
         if ( !self ) return;
-        
-#warning Next...
-        
+        __block BOOL r = YES;
+        [[self sjPutInOrderModels:models] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull clsName, NSArray<id<SJDBMapUseProtocol>> * _Nonnull obj, BOOL * _Nonnull stop) {
+            NSString *sql = [self sjGetBatchDeleteSQL:NSClassFromString(clsName) primaryValues:[self sjGetPrimaryValues:obj]];
+            [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL result) {
+                if ( !result ) NSLog(@"[%@] 删除失败.", sql), r = NO;
+            }];
+        }];
         dispatch_async(dispatch_get_main_queue(), ^{
-            if ( block ) block(NO);
+            if ( block ) block(r);
         });
     }];
 }

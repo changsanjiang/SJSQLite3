@@ -35,7 +35,7 @@ extern char *_sjmystrcat(char *dst, const char *src);
 /*!
  *  整理模型数据
  */
-- (NSDictionary<NSString *, NSArray<id> *> *)sjPutInOrderModels:(NSArray<id> *)models;
+- (NSDictionary<NSString *, NSArray<id<SJDBMapUseProtocol>> *> *)sjPutInOrderModels:(NSArray<id> *)models;
 
 /*!
  *  查询数据. 返回转换成型的模型数据
@@ -67,4 +67,8 @@ extern char *_sjmystrcat(char *dst, const char *src);
  */
 - (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model;
 
+/*!
+ *  获取主键值
+ */
+- (NSArray<NSNumber *> *)sjGetPrimaryValues:(NSArray<id<SJDBMapUseProtocol>> *)models;
 @end

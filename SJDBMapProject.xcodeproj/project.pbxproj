@@ -160,19 +160,19 @@
 		7745B2761EE5DD4900EC4614 /* SJDBMap */ = {
 			isa = PBXGroup;
 			children = (
+				7745B2831EE5DD4900EC4614 /* SJDBMap.h */,
+				7745B27B1EE5DD4900EC4614 /* SJDatabaseMap.h */,
+				7745B27C1EE5DD4900EC4614 /* SJDatabaseMap.m */,
 				77EAE40D1EE5EC3800E21057 /* SJDatabaseMap+GetInfo.h */,
 				77EAE40E1EE5EC3800E21057 /* SJDatabaseMap+GetInfo.m */,
 				77EAE4101EE5EC3F00E21057 /* SJDatabaseMap+Server.h */,
 				77EAE4111EE5EC3F00E21057 /* SJDatabaseMap+Server.m */,
-				7745B27B1EE5DD4900EC4614 /* SJDatabaseMap.h */,
-				7745B27C1EE5DD4900EC4614 /* SJDatabaseMap.m */,
 				7745B27D1EE5DD4900EC4614 /* SJDBMapArrayCorrespondingKeysModel.h */,
 				7745B27E1EE5DD4900EC4614 /* SJDBMapArrayCorrespondingKeysModel.m */,
 				7745B27F1EE5DD4900EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.h */,
 				7745B2801EE5DD4900EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.m */,
 				7745B2811EE5DD4900EC4614 /* SJDBMapCorrespondingKeyModel.h */,
 				7745B2821EE5DD4900EC4614 /* SJDBMapCorrespondingKeyModel.m */,
-				7745B2831EE5DD4900EC4614 /* SJDBMap.h */,
 				7745B2841EE5DD4900EC4614 /* SJDBMapPrimaryKeyModel.h */,
 				7745B2851EE5DD4900EC4614 /* SJDBMapPrimaryKeyModel.m */,
 				7745B2861EE5DD4900EC4614 /* SJDBMapUnderstandingModel.h */,

@@ -53,6 +53,8 @@
     
     if ( !objFields.count ) return YES;
     
+    __block BOOL exeSQLResultBol = YES;
+    
     [objFields enumerateObjectsUsingBlock:^(NSString * _Nonnull objF, BOOL * _Nonnull stop) {
         const char *tabName = [self sjGetTabName:cls];
         __block const char *fields = NULL;
@@ -77,14 +79,14 @@
         NSString *sql = [NSString stringWithFormat:@"ALTER TABLE '%s' ADD '%s' %s;", tabName, fields, dbType];
         
         [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL result) {
-            if ( !result ) NSLog(@"[%@] 添加字段[%@]失败", cls, objF);
+            if ( !result ) NSLog(@"[%@] 添加字段[%@]失败", cls, objF), exeSQLResultBol = NO;
         }];
         
 #ifdef _SJLog
         NSLog(@"%@", sql);
 #endif
     }];
-    return YES;
+    return exeSQLResultBol;
 }
 
 /*!
@@ -122,7 +124,7 @@
 /*!
  *  整理模型数据
  */
-- (NSDictionary<NSString *, NSArray<id> *> *)sjPutInOrderModels:(NSArray<id> *)models {
+- (NSDictionary<NSString *, NSArray<id<SJDBMapUseProtocol>> *> *)sjPutInOrderModels:(NSArray<id> *)models {
     NSMutableDictionary<NSString *, NSMutableArray<id> *> *modelsDictM = [NSMutableDictionary new];
     [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *tabName = NSStringFromClass([obj class]);
@@ -286,11 +288,24 @@
         NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
         NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
         [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
-            if ( !r ) result = NO;
-            NSLog(@"[%@] 插入或更新失败", model);
+            if ( !r ) result = NO, NSLog(@"[%@] 插入或更新失败", model);
         }];
     }];
     return result;
+}
+
+/*!
+ *  获取主键值
+ */
+- (NSArray<NSNumber *> *)sjGetPrimaryValues:(NSArray<id<SJDBMapUseProtocol>> *)models {
+    if ( !models.count ) return nil;
+    NSString *primaryFields = [self sjGetPrimaryKey:[models[0] class]].ownerFields;
+    if ( !primaryFields ) return nil;
+    NSMutableArray<NSNumber *> * primaryValuesM = [NSMutableArray new];
+    [models enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [primaryValuesM addObject:[obj valueForKey:primaryFields]];
+    }];
+    return primaryValuesM;
 }
 
 /*!
