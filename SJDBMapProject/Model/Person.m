@@ -9,8 +9,11 @@
 #import "Person.h"
 #import "PersonTag.h"
 #import "Book.h"
+#import <YYKit.h>
 
 @implementation Person
+
+// MARK: SJDBUseProtocol
 
 + (NSString *)primaryKey {
     return @"personID";
@@ -22,6 +25,12 @@
 
 + (NSDictionary<NSString *,NSString *> *)correspondingKeys {
     return @{@"aBook":@"bookID"};
+}
+
+// MARK: YYKit
+
+- (NSString *)description {
+    return [self modelDescription];
 }
 
 @end

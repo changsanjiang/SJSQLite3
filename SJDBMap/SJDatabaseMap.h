@@ -86,6 +86,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)deleteDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue callBlock:(void(^)(BOOL result))block;
 
+/*!
+ *  删
+ *  primaryValues -> primaryValues
+ */
+- (void)deleteDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues callBlock:(void (^)(BOOL))block;
+
+/*!
+ *  删
+ */
+- (void)deleteDataWithClass:(Class)cls models:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL))block;
+
 @end
 
 

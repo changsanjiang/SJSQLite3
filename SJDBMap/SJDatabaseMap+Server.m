@@ -13,6 +13,13 @@
 
 @implementation SJDatabaseMap (Server)
 
+/*!
+ *  执行SQL语句
+ */
+- (void)sjExeSQL:(const char *)sql completeBlock:(void(^)(BOOL r))block {
+    BOOL r = (SQLITE_OK == sqlite3_exec(self.sqDB, sql, NULL, NULL, NULL));
+    if ( block ) block(r);
+}
 
 /*!
  *  创建或更新一张表
@@ -69,7 +76,9 @@
         
         NSString *sql = [NSString stringWithFormat:@"ALTER TABLE '%s' ADD '%s' %s;", tabName, fields, dbType];
         
-        if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 添加字段[%@]失败", cls, objF);
+        [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL result) {
+            if ( !result ) NSLog(@"[%@] 添加字段[%@]失败", cls, objF);
+        }];
         
 #ifdef _SJLog
         NSLog(@"%@", sql);
@@ -77,7 +86,7 @@
     }];
     return YES;
 }
-    
+
 /*!
  *  自动创建相关的表
  */
@@ -203,7 +212,6 @@
     return incompleteData;
 }
 
-
 /*!
  *  查询数据库原始存储数据
  */
@@ -277,7 +285,10 @@
         NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
         NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
         NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
-        if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 插入或更新失败", model), result = NO;
+        [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
+            if ( !r ) result = NO;
+            NSLog(@"[%@] 插入或更新失败", model);
+        }];
     }];
     return result;
 }
@@ -342,8 +353,7 @@
         else if ( NULL != model.primaryKey &&
                  0 == strcmp(field, model.primaryKey.ownerFields.UTF8String) )
             _sjmystrcat(sql, " PRIMARY KEY");
-        // 如果是相应键
-        
+
         _sjmystrcat(sql, ",");
     }
     
@@ -356,8 +366,11 @@
 #ifdef _SJLog
     NSLog(@"%s", sql);
 #endif
+        
+    [self sjExeSQL:sql completeBlock:^(BOOL result) {
+        if ( !result ) NSLog(@"[%@] 创建表失败", cls);
+    }];
     
-    if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql, NULL, NULL, NULL)) ) NSLog(@"[%@] 创建表失败", cls);
     
     free(sql);
     free(ivarList);
@@ -376,7 +389,10 @@
     __block BOOL result = YES;
     [fields enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *sql = [NSString stringWithFormat:@"ALTER TABLE '%s' ADD '%@' %s;", [self sjGetTabName:cls], obj, _sjGetDatabaseIvarType(cls, [NSString stringWithFormat:@"_%@", obj].UTF8String)];
-        if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 添加字段[%@]失败", cls, obj), result = NO;
+        [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
+            if ( !r ) NSLog(@"[%@] 添加字段[%@]失败", cls, obj), result = NO;
+        }];
+        
 #ifdef _SJLog
         NSLog(@"%@", sql);
 #endif

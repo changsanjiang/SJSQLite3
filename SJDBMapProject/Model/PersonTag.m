@@ -7,18 +7,27 @@
 //
 
 #import "PersonTag.h"
+#import <YYKit.h>
 
 @implementation PersonTag
-
-+ (NSString *)primaryKey {
-    return @"tagID";
-}
 
 + (instancetype)tagWithID:(NSInteger)tagID des:(NSString *)des {
     PersonTag *tag = [PersonTag new];
     tag.tagID = tagID;
     tag.des = des;
     return tag;
+}
+
+// MARK: SJDBUseProtocol
+
++ (NSString *)primaryKey {
+    return @"tagID";
+}
+
+// MARK: YYKit
+
+- (NSString *)description {
+    return [self modelDescription];
 }
 
 @end

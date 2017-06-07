@@ -23,14 +23,13 @@
     
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
-    
     //    [self del];
     
     [self insertOrUpdate];
-    //
-    //    //    [self query];
-    //
-    //    [self queryWithDict:@{@"name":@"sj"}];
+    
+//    [self query];
+    
+    [self queryWithDict:@{@"name":@"sj"}];
     
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -90,8 +89,10 @@
 }
 
 - (void)queryWithDict:(NSDictionary *)dict {
-    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id> *data) {
-        NSLog(@"%@", data);
+    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+        [data enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSLog(@"%@", obj);
+        }];
     }];
 }
 
