@@ -204,10 +204,49 @@ static NSOperationQueue *_operationQueue;
         SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
         NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
         NSString *sql = [self sjGetDeleteSQL:cls uM:uM deletePrimary:primaryValue];
-        BOOL result = YES;
-        if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 删除失败.", sql), result = NO;
+        __block BOOL result = YES;
+        
+        [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
+            if ( !r ) NSLog(@"[%@] 删除失败.", sql), result = NO;
+        }];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
+        });
+    }];
+}
+
+/*!
+ *  删
+ *  primaryValues -> primaryValues
+ */
+- (void)deleteDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues callBlock:(void (^)(BOOL))block {
+    __weak typeof(self) _self = self;
+    [self.operationQueue addOperationWithBlock:^{
+        __strong typeof(_self) self = _self;
+        if ( !self ) return;
+        
+#warning Next...
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(NO);
+        });
+    }];
+}
+
+/*!
+ *  删
+ */
+- (void)deleteDataWithClass:(Class)cls models:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL))block {
+    __weak typeof(self) _self = self;
+    [self.operationQueue addOperationWithBlock:^{
+        __strong typeof(_self) self = _self;
+        if ( !self ) return;
+        
+#warning Next...
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(NO);
         });
     }];
 }

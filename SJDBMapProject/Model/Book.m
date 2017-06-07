@@ -7,18 +7,27 @@
 //
 
 #import "Book.h"
+#import <YYKit.h>
 
 @implementation Book
-
-+ (NSString *)primaryKey {
-    return @"bookID";
-}
 
 + (instancetype)bookWithID:(NSInteger)bid name:(NSString *)name {
     Book *book = [Book new];
     book.bookID = bid;
     book.name = name;
     return book;
+}
+
+// MARK: SJDBUserProtocol
+
++ (NSString *)primaryKey {
+    return @"bookID";
+}
+
+// MARK: YYKit
+
+- (NSString *)description {
+    return [self modelDescription];
 }
 
 @end

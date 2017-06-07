@@ -13,6 +13,11 @@ extern char *_sjmystrcat(char *dst, const char *src);
 @interface SJDatabaseMap (Server)
 
 /*!
+ *  执行SQL语句
+ */
+- (void)sjExeSQL:(const char *)sql completeBlock:(void(^)(BOOL result))block;
+
+/*!
  *  创建或更新一张表
  */
 - (BOOL)sjCreateOrAlterTabWithClass:(Class)cls;
