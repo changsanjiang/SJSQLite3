@@ -11,6 +11,7 @@
 #import "Person.h"
 #import "PersonTag.h"
 #import "Book.h"
+#import "Goods.h"
 
 @interface ViewController (InsertOrUpdate)
 
@@ -47,11 +48,22 @@
     
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
+    Goods *g = [Goods new];
+    g.name = @"哈哈";
+    
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModel:g callBlock:^(BOOL result) {
+        
+    }];
+    
+    Goods *g2 = [Goods new];
+    g2.name = @"哈哈";
 
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModel:g2 callBlock:^(BOOL result) {
+        
+    }];
     
-    
-    [self queryWithDict:@{@"name":@"sj"}];
-    
+    [self insertOrUpdate];
+
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -59,6 +71,8 @@
 
 
 @implementation ViewController (InsertOrUpdate)
+
+
 
 - (void)insertOrUpdate {
     

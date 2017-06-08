@@ -381,9 +381,18 @@
 #ifdef _SJLog
     NSLog(@"%s", sql);
 #endif
-        
+    
+    __weak typeof(self) _self = self;
     [self sjExeSQL:sql completeBlock:^(BOOL result) {
         if ( !result ) NSLog(@"[%@] 创建表失败", cls);
+        if ( !model.autoincrementPrimaryKey ) return;
+        
+        __strong typeof(_self) self = _self;
+        if ( !self ) return;
+        /*!
+         *  如果是自增键。由于 0 在OC 中为空。 遇到自增主键值为0时，不好判断出是插入还是更新。为了避免这种情况，让ID从1开始。
+         */
+        [self sjExeSQL:[NSString stringWithFormat:@"dbcc checkident('%s', reseed, 0)", tabName].UTF8String completeBlock:nil];
     }];
     
     

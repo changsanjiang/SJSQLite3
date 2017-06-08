@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A7C21FAEDA989DF63569DE4 /* libPods-SJDBMapProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D2DAC9C94365CD0165361DA /* libPods-SJDBMapProject.a */; };
+		7732A9981EE983D30037A195 /* Goods.m in Sources */ = {isa = PBXBuildFile; fileRef = 7732A9971EE983D30037A195 /* Goods.m */; };
 		7745B21D1EE5D39B00EC4614 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B21C1EE5D39B00EC4614 /* main.m */; };
 		7745B2201EE5D39B00EC4614 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B21F1EE5D39B00EC4614 /* AppDelegate.m */; };
 		7745B2231EE5D39B00EC4614 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2221EE5D39B00EC4614 /* ViewController.m */; };
@@ -31,6 +32,8 @@
 /* Begin PBXFileReference section */
 		0D2DAC9C94365CD0165361DA /* libPods-SJDBMapProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SJDBMapProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BDF88F9711C9429F86150C3 /* Pods-SJDBMapProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.release.xcconfig"; sourceTree = "<group>"; };
+		7732A9961EE983D30037A195 /* Goods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Goods.h; sourceTree = "<group>"; };
+		7732A9971EE983D30037A195 /* Goods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Goods.m; sourceTree = "<group>"; };
 		7745B2181EE5D39B00EC4614 /* SJDBMapProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SJDBMapProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7745B21C1EE5D39B00EC4614 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7745B21E1EE5D39B00EC4614 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -144,6 +147,8 @@
 				7745B2361EE5D3A700EC4614 /* Person.m */,
 				7745B2371EE5D3A700EC4614 /* PersonTag.h */,
 				7745B2381EE5D3A700EC4614 /* PersonTag.m */,
+				7732A9961EE983D30037A195 /* Goods.h */,
+				7732A9971EE983D30037A195 /* Goods.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 				77EAE40E1EE5EC3800E21057 /* SJDatabaseMap+GetInfo.m */,
 				77EAE4101EE5EC3F00E21057 /* SJDatabaseMap+Server.h */,
 				77EAE4111EE5EC3F00E21057 /* SJDatabaseMap+Server.m */,
+				779CB60A1EE871B200CE6916 /* Relevance */,
 				7745B27D1EE5DD4900EC4614 /* SJDBMapArrayCorrespondingKeysModel.h */,
 				7745B27E1EE5DD4900EC4614 /* SJDBMapArrayCorrespondingKeysModel.m */,
 				7745B27F1EE5DD4900EC4614 /* SJDBMapAutoincrementPrimaryKeyModel.h */,
@@ -181,6 +187,13 @@
 			);
 			path = SJDBMap;
 			sourceTree = SOURCE_ROOT;
+		};
+		779CB60A1EE871B200CE6916 /* Relevance */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Relevance;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -316,6 +329,7 @@
 				7745B21D1EE5D39B00EC4614 /* main.m in Sources */,
 				7745B28B1EE5DD4900EC4614 /* SJDatabaseMap.m in Sources */,
 				7745B2901EE5DD4900EC4614 /* SJDBMapUnderstandingModel.m in Sources */,
+				7732A9981EE983D30037A195 /* Goods.m in Sources */,
 				7745B24E1EE5D3A700EC4614 /* PersonTag.m in Sources */,
 				77EAE40F1EE5EC3800E21057 /* SJDatabaseMap+GetInfo.m in Sources */,
 			);
