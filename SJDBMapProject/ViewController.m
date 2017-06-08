@@ -49,14 +49,14 @@
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
     Goods *g = [Goods new];
-    g.name = @"哈哈";
+    g.name = @"He";
     
     [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModel:g callBlock:^(BOOL result) {
         
     }];
     
     Goods *g2 = [Goods new];
-    g2.name = @"哈哈";
+    g2.name = @"Wu";
 
     [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModel:g2 callBlock:^(BOOL result) {
         
