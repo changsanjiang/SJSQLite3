@@ -295,7 +295,7 @@
             if ( [aPKV integerValue] ) return;
             aPKV = [self sjGetLastDataIDWithClass:[obj class] autoincrementPrimaryKeyModel:aPKM];
             /*!
-             *  如果是自增主键, 在模型没有自增主键的情况下。 插入完数据后， 为这个模型的自增主键赋值。
+             *  如果是自增主键, 在模型自增主键为0的情况下, 插入完数据后, 为这个模型的自增主键赋值. 防止重复插入.
              */
             [(id)obj setValue:aPKV forKey:aPKM.ownerFields];
         }];
