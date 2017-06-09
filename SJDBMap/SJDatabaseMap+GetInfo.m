@@ -120,8 +120,6 @@
         _sjmystrcat(sql, "',");
     }];
     
-    
-    
     if ( sql[strlen(sql) - 1] == ',' ) sql[strlen(sql) - 1] = '\0';
     _sjmystrcat(sql, ")");
     free(sql);
@@ -148,11 +146,11 @@
         __block id appendValue = nil;
         __block BOOL addedBol = NO;
         
-        /*!
-         *  如果是自增主键. 等于0 直接插入null.
-         */
         if ( [fields isEqualToString:autoincrementPrimaryKeyModel.ownerFields] ) {
             id fieldsValue = [(id)model valueForKey:fields];
+            /*!
+             *  如果是自增主键. 等于 0 的情况下 表示是一条新增的数据。 直接跳到插入代码
+             */
             if ( ![fieldsValue integerValue] ) goto _SJInsertValue;
         }
         
@@ -201,8 +199,14 @@
                          *  如果是自增主键
                          *  主键有值就更新, 没值就插入
                          */
-                        // MARK: 自增主键还需要再次观察
-                        if ( aPM ) {[primaryKeyValuesM addObject:[value valueForKey:pM.ownerFields]];};
+                        if ( !aPM ) return ;
+                        __block id aPKV = [value valueForKey:aPM.ownerFields];
+                        if ( 0 != [aPKV integerValue] )
+                            [primaryKeyValuesM addObject:[value valueForKey:aPM.ownerFields]];
+                        else {
+                            [self sjInsertOrUpdateDataWithModel:value];
+                            [primaryKeyValuesM addObject:[value valueForKey:aPM.ownerFields]];
+                        }
                     }];
                     
                     /*!
@@ -348,6 +352,16 @@
  */
 - (const char *)sjGetTabName:(Class)cls {
     return class_getName(cls);
+}
+
+/*!
+ *  根据ID排序, 获取最后一条数据的ID
+ */
+- (NSNumber *)sjGetLastDataIDWithClass:(Class)cls autoincrementPrimaryKeyModel:(SJDBMapAutoincrementPrimaryKeyModel *)aPKM {
+    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %s ORDER by %@ desc limit 1;", aPKM.ownerFields, [self sjGetTabName:cls], aPKM.ownerFields];
+    NSDictionary *dict = [self sjQueryWithSQLStr:sql].firstObject;
+    if ( !dict && !dict.count ) return 0;
+    return dict[@"goodsID"];
 }
 
 /*!

@@ -48,6 +48,11 @@ extern char *_sjmystrcat(char *dst, const char *src);
 - (id<SJDBMapUseProtocol>)sjQueryConversionMolding:(Class)cls primaryValue:(NSInteger)primaryValue;
 
 /*!
+ *  查
+ */
+- (NSArray<NSDictionary *> *)sjQueryWithSQLStr:(NSString *)sqlStr;
+
+/*!
  *  根据条件查询数据
  */
 - (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict;

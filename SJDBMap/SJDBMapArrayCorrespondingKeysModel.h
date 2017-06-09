@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SJDBMapUseProtocol.h"
 
 @class SJDBMapPrimaryKeyModel, SJDBMapAutoincrementPrimaryKeyModel;
 
-@interface SJDBMapArrayCorrespondingKeysModel : NSObject
+@interface SJDBMapArrayCorrespondingKeysModel : NSObject<SJDBMapUseProtocol>
 
+@property (nonatomic, assign) NSInteger aCKMID;
 @property (nonatomic, assign) Class ownerCls;
 @property (nonatomic, strong) NSString *ownerFields;
 @property (nonatomic, assign) Class correspondingCls;

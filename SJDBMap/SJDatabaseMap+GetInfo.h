@@ -89,4 +89,8 @@
  */
 - (const char *)sjGetTabName:(Class)cls;
 
+/*!
+ *  根据ID排序, 获取最后一条数据的ID
+ */
+- (NSNumber *)sjGetLastDataIDWithClass:(Class)cls autoincrementPrimaryKeyModel:(SJDBMapAutoincrementPrimaryKeyModel *)aPKM;
 @end

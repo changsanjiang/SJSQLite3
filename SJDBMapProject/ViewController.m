@@ -48,19 +48,6 @@
     
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
-    Goods *g = [Goods new];
-    g.name = @"He";
-    
-    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModel:g callBlock:^(BOOL result) {
-        
-    }];
-    
-    Goods *g2 = [Goods new];
-    g2.name = @"Wu";
-
-    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModel:g2 callBlock:^(BOOL result) {
-        
-    }];
     
     [self insertOrUpdate];
 
@@ -87,20 +74,14 @@
     
     sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
     
+    Goods *g = [Goods new];
+    g.name = @"G1";
+    Goods *g2 = [Goods new];
+    g2.name = @"G2";
+
+    sj.goods = @[g, g2];
     
-    Person *sj2 = [Person new];
-    sj2.personID = 2;
-    sj2.name = @"sj";
-    sj2.tags = @[[PersonTag tagWithID:0 des:@"A"],
-                 [PersonTag tagWithID:1 des:@"B"],
-                 [PersonTag tagWithID:2 des:@"C"],
-                 [PersonTag tagWithID:3 des:@"D"],
-                 [PersonTag tagWithID:4 des:@"E"],];
-    
-    sj2.aBook = [Book bookWithID:123 name:@"How Are You?"];
-    
-    
-    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:@[sj, sj2] callBlock:^(BOOL r) {
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:@[sj] callBlock:^(BOOL r) {
         
     }];
 }

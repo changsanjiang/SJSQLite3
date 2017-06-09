@@ -1,25 +1,23 @@
 //
-//  Goods.m
+//  SJDBMapClassInfoModel.m
 //  SJDBMapProject
 //
-//  Created by BlueDancer on 2017/6/8.
+//  Created by BlueDancer on 2017/6/9.
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
 
-#import "Goods.h"
+#import "SJDBMapClassInfoModel.h"
 #import <YYKit.h>
 
-@implementation Goods
+@implementation SJDBMapClassInfoModel
 
 + (NSString *)autoincrementPrimaryKey {
-    return @"goodsID";
+    return @"cIMID";
 }
-
 
 // MARK: YYKit
 
 - (NSString *)description {
     return [self modelDescription];
 }
-
 @end

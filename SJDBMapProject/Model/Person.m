@@ -10,6 +10,7 @@
 #import "PersonTag.h"
 #import "Book.h"
 #import <YYKit.h>
+#import "Goods.h"
 
 @implementation Person
 
@@ -20,11 +21,13 @@
 }
 
 + (NSDictionary<NSString *,Class> *)arrayCorrespondingKeys {
-    return @{@"tags":[PersonTag class]};
+    return @{@"tags":[PersonTag class],
+             @"goods":[Goods class]};
 }
 
 + (NSDictionary<NSString *,NSString *> *)correspondingKeys {
-    return @{@"aBook":@"bookID"};
+    return @{@"aBook":@"bookID",
+             /*@"aGoods":@"goodsID"*/};
 }
 
 // MARK: YYKit

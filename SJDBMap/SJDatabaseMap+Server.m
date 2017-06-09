@@ -104,7 +104,7 @@
 - (NSMutableArray<NSString *> *)sjQueryTabAllFieldsWithClass:(Class)cls {
     NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", [self sjGetTabName:cls]];
     NSMutableArray<NSString *> *dbFields = [NSMutableArray new];
-    [[self _sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [[self sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [dbFields addObject:obj[@"name"]];
     }];
     if ( !dbFields.count ) return NULL;
@@ -114,7 +114,7 @@
 - (NSMutableSet<NSString *> *)_sjQueryTabAllFields_Set_WithClass:(Class)cls {
     NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", [self sjGetTabName:cls]];
     NSMutableSet<NSString *> *dbFields = [NSMutableSet new];
-    [[self _sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [[self sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [dbFields addObject:obj[@"name"]];
     }];
     if ( !dbFields.count ) return NULL;
@@ -163,7 +163,7 @@
     [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr];
     return model;
 }
-
+ 
 - (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict {
     SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
     if ( !uM.primaryKey && !uM.autoincrementPrimaryKey ) return nil;
@@ -181,7 +181,7 @@
     [fieldsSqlM appendString:@";"];
     
     NSMutableArray<NSMutableDictionary *> *incompleteData = [NSMutableArray new];
-    [[self _sjQueryWithSQLStr:fieldsSqlM] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [[self sjQueryWithSQLStr:fieldsSqlM] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [incompleteData addObject:obj.mutableCopy];
     }];
     
@@ -208,7 +208,7 @@
     NSString *sql = [NSString stringWithFormat:@"select *from %s;", tabName];
     
     NSMutableArray<NSMutableDictionary *> *incompleteData = [NSMutableArray new];
-    [[self _sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [[self sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [incompleteData addObject:obj.mutableCopy];
     }];
     return incompleteData;
@@ -224,7 +224,7 @@
     NSString *fields = uM.primaryKey ? uM.primaryKey.ownerFields : uM.autoincrementPrimaryKey.ownerFields;
     NSString *sql = [NSString stringWithFormat:@"select * from %s where %@ = %zd;", tabName, fields, primaryValue];
     __block NSDictionary *incompleteData = nil;
-    [[self _sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [[self sjQueryWithSQLStr:sql] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         incompleteData = obj;
     }];
     return incompleteData;
@@ -289,6 +289,15 @@
         NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
         [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
             if ( !r ) result = NO, NSLog(@"[%@] 插入或更新失败", model);
+            SJDBMapAutoincrementPrimaryKeyModel *aPKM = [self sjGetAutoincrementPrimaryKey:[obj class]];
+            if ( !aPKM ) return;
+            id aPKV = [(id)obj valueForKey:aPKM.ownerFields];
+            if ( [aPKV integerValue] ) return;
+            aPKV = [self sjGetLastDataIDWithClass:[obj class] autoincrementPrimaryKeyModel:aPKM];
+            /*!
+             *  如果是自增主键, 在模型没有自增主键的情况下。 插入完数据后， 为这个模型的自增主键赋值。
+             */
+            [(id)obj setValue:aPKV forKey:aPKM.ownerFields];
         }];
     }];
     return result;
@@ -427,7 +436,7 @@
 /*!
  *  查
  */
-- (NSArray<NSDictionary *> *)_sjQueryWithSQLStr:(NSString *)sqlStr {
+- (NSArray<NSDictionary *> *)sjQueryWithSQLStr:(NSString *)sqlStr {
     
     sqlite3_stmt *stmt;
     int result = sqlite3_prepare_v2(self.sqDB, sqlStr.UTF8String, -1, &stmt, NULL);

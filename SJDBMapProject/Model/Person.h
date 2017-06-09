@@ -11,6 +11,7 @@
 
 @class Book;
 @class PersonTag;
+@class Goods;
 
 @interface Person : NSObject<SJDBMapUseProtocol>
 
@@ -27,5 +28,7 @@
 @property (nonatomic, strong) NSString *teet;
 
 @property (nonatomic, strong) NSString *ttttt;
+
+@property (nonatomic, strong) NSArray<Goods *> *goods;
 
 @end
