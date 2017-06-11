@@ -498,9 +498,6 @@ extern char *_sjmystrcat(char *dst, const char *src) {
     return p;
 }
 
-/*!
- *  返回变量相应的数据库字段类型
- */
 static char *_sjGetDatabaseIvarType(Class cls, const char *ivarName) {
     Ivar iv = class_getInstanceVariable(cls, ivarName);
     const char *type = ivar_getTypeEncoding(iv);
@@ -646,3 +643,25 @@ static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
 
 
 @end
+
+/*!
+ //    if      ( 0 == strcmp(type, @encode(short))) return "INTEGER";
+ //    else if ( 0 == strcmp(type, @encode(unsigned short))) return "INTEGER";
+ //    else if ( 0 == strcmp(type, @encode(int))) return "INTEGER";
+ //    else if ( 0 == strcmp(type, @encode(unsigned int))) return "INTEGER";
+ //    else if ( 0 == strcmp(type, @encode(long))) return "INTEGER";
+ //    else if ( 0 == strcmp(type, @encode(unsigned long))) return "INTEGER";
+ //    else if ( 0 == strcmp(type, @encode(long long))) return "INTEGER";
+ //    else if ( 0 == strcmp(type, @encode(unsigned long long))) return "INTEGER";
+ //    else if ( 0 == strcmp(type, @encode(NSInteger))) return "INTEGER";
+ //    else if ( 0 == strcmp(type, @encode(float))) return "REAL";
+ //    else if ( 0 == strcmp(type, @encode(double))) return "REAL";
+ //    else if ( 0 == strcmp(type, @encode(char))) return "TEXT";
+ //    else if ( 0 == strcmp(type, @encode(char *))) return "TEXT";
+ //    else if ( 0 == strcmp(type, @encode(BOOL))) return "INTEGER";
+ //    else if ( 0 == strcmp(type, @encode(bool))) return "INTEGER";
+ //    else if ( 0 == strcmp(type, @encode(NSString))) return "TEXT";
+ //    else if ( 0 == strcmp(type, @encode(NSMutableString))) return "TEXT";
+ //    else if ( 0 == strcmp(type, @encode(NSArray))) return "TEXT";
+ //    else if ( 0 == strcmp(type, @encode(NSMutableArray))) return "TEXT";
+ */

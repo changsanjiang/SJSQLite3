@@ -163,10 +163,10 @@ static NSOperationQueue *_operationQueue;
          */
         __block BOOL result = YES;
         [modelsDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull tabName, NSArray<id> * _Nonnull modelsArr, BOOL * _Nonnull stop) {
-//            只做了第一层
+            //            只做了第一层
 //            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:NSClassFromString(tabName)];
 //            NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
-//            NSString *subffixSQLM = [self sjBatchGetInsertOrUpdateSubffixSQL:modelsArr];
+//            NSString *subffixSQLM = [self sjGetBatchInsertOrUpdateSubffixSQL:modelsArr];
 //            NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQLM];
 //            NSLog(@"%@", sql);
 //            if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 创建或更新失败.", sql), result = NO;

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SJDBMapUseProtocol.h"
 
-@interface SJDBMapClassInfoModel : NSObject
+@interface SJDBMapClassInfoModel : NSObject<SJDBMapUseProtocol>
 
 @property (nonatomic, assign) NSInteger cIMID;
 
