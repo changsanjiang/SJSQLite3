@@ -7,7 +7,7 @@
 //
 
 #import "SJDBMapClassInfoModel.h"
-#import <YYKit.h>
+//#import <YYKit.h>
 
 @implementation SJDBMapClassInfoModel
 
@@ -15,9 +15,9 @@
     return @"cIMID";
 }
 
-// MARK: YYKit
-
-- (NSString *)description {
-    return [self modelDescription];
-}
+//// MARK: YYKit
+//
+//- (NSString *)description {
+//    return [self modelDescription];
+//}
 @end

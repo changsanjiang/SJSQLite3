@@ -8,7 +8,7 @@
 
 #import "SJDBMapUnderstandingModel.h"
 #import "SJDBMap.h"
-#import <YYKit.h>
+//#import <YYKit.h>
 
 @implementation SJDBMapUnderstandingModel
 
@@ -16,9 +16,9 @@
     return @"uMID";
 }
 
-// MARK: YYKit
-
-- (NSString *)description {
-    return [self modelDescription];
-}
+//// MARK: YYKit
+//
+//- (NSString *)description {
+//    return [self modelDescription];
+//}
 @end
