@@ -16,5 +16,5 @@ s.source_files  = 'SJDBMap/*.{h,m}'
 s.requires_arc = true
 
 s.ios.library = 'sqlite3'
-s.dependency 'YYKit'
+
 end

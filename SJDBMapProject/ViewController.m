@@ -49,7 +49,8 @@
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
     
-    [self insertOrUpdate];
+//    [self insertOrUpdate];
+    [self query];
 
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -116,7 +117,9 @@
 
 - (void)query {
     [[SJDatabaseMap sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id> * _Nonnull data) {
-        // ...
+        [data enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSLog(@"%@", obj);
+        }];
     }];
 }
 
