@@ -151,6 +151,7 @@
         [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr];
         [allDataModel addObject:model];
     }];
+    if ( 0 == allDataModel.count ) return nil;
     return allDataModel;
 }
 
@@ -197,6 +198,7 @@
         [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr];
         [allDataModel addObject:model];
     }];
+    if ( 0 == allDataModel.count ) return nil;
     return allDataModel;
 }
 

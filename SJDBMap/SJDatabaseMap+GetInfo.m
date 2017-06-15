@@ -185,7 +185,7 @@
             
             [aK enumerateObjectsUsingBlock:^(SJDBMapArrayCorrespondingKeysModel * _Nonnull ACKM, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSArray<id> *cValues = [(id)model valueForKey:ACKM.ownerFields];
-                if ( [fields isEqualToString:ACKM.ownerFields] ) {
+                if ( [fields isEqualToString:ACKM.ownerFields] && !cValues.count ) {
                     
                     SJDBMapPrimaryKeyModel *pM = [self sjGetPrimaryKey:[cValues[0] class]];
                     SJDBMapAutoincrementPrimaryKeyModel *aPM = [self sjGetAutoincrementPrimaryKey:[cValues[0] class]];
