@@ -14,7 +14,6 @@
 
 @interface SJDatabaseMap (GetInfo)
 
-
 /*!
  *  获取与该类相关的类
  */

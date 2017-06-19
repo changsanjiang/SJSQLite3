@@ -226,7 +226,7 @@
 
     _SJInsertValue:
         if ( !appendValue ) {[sqlM appendFormat:@"%@,", appendValue];}
-        else {[sqlM appendFormat:@"'%@',", appendValue];}
+        else {[sqlM appendFormat:@"\"%@\",", appendValue];}
     }];
     
     [sqlM deleteCharactersInRange:NSMakeRange(sqlM.length - 1, 1)];
@@ -355,7 +355,7 @@
 }
 
 /*!
- *  根据ID排序, 获取最后一条数据的ID
+ *  获取自增键最后一个ID. 根据ID排序, 获取最后一条数据的ID
  */
 - (NSNumber *)sjGetLastDataIDWithClass:(Class)cls autoincrementPrimaryKeyModel:(SJDBMapAutoincrementPrimaryKeyModel *)aPKM {
     NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %s ORDER by %@ desc limit 1;", aPKM.ownerFields, [self sjGetTabName:cls], aPKM.ownerFields];
