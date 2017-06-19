@@ -49,8 +49,8 @@
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
     
-//    [self insertOrUpdate];
-    [self query];
+    [self insertOrUpdate];
+//    [self query];
 
     // Do any additional setup after loading the view, typically from a nib.
 }

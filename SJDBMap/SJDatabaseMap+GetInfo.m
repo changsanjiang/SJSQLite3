@@ -225,8 +225,14 @@
         }
 
     _SJInsertValue:
-        if ( !appendValue ) {[sqlM appendFormat:@"%@,", appendValue];}
-        else {[sqlM appendFormat:@"\"%@\",", appendValue];}
+        if ( !appendValue ) {
+            [sqlM appendFormat:@"%@,", appendValue];
+        }
+        else if ( [appendValue isKindOfClass:[NSString class]] && [(NSString *)appendValue containsString:@"'"] )
+            [sqlM appendFormat:@"\"%@\",", appendValue];
+        else
+            [sqlM appendFormat:@"'%@',", appendValue];
+
     }];
     
     [sqlM deleteCharactersInRange:NSMakeRange(sqlM.length - 1, 1)];
