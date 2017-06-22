@@ -15,8 +15,6 @@
  */
 static NSString *_sjDatabaseDefaultFolder();
 
-static sqlite3 *_sqDb;
-
 /*!
  *  操作队列。 只使用了一条子线程.
  */
@@ -24,7 +22,6 @@ static NSOperationQueue *_operationQueue;
 
 
 // MARK: Root
-
 
 @interface SJDatabaseMap ()
 
@@ -41,7 +38,9 @@ static NSOperationQueue *_operationQueue;
 @end
 
 
-@implementation SJDatabaseMap
+@implementation SJDatabaseMap {
+    sqlite3 *_sqDb;
+}
 
 /*!
  *  使用此方法, 数据库将使用默认路径创建
@@ -60,7 +59,8 @@ static NSOperationQueue *_operationQueue;
  */
 - (instancetype)initWithPath:(NSString *)path {
     if ( !(self = [super init] ) ) return nil;
-    NSAssert(SQLITE_OK == sqlite3_open(path.UTF8String, &_sqDb), @"初始化数据库失败, 请检查路径");
+    if ( SQLITE_OK != sqlite3_open(path.UTF8String, &_sqDb) )
+        NSLog(@"初始化数据库失败, 请检查路径");
     return self;
 }
 
@@ -164,12 +164,12 @@ static NSOperationQueue *_operationQueue;
         __block BOOL result = YES;
         [modelsDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull tabName, NSArray<id> * _Nonnull modelsArr, BOOL * _Nonnull stop) {
             //            只做了第一层
-//            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:NSClassFromString(tabName)];
-//            NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
-//            NSString *subffixSQLM = [self sjGetBatchInsertOrUpdateSubffixSQL:modelsArr];
-//            NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQLM];
-//            NSLog(@"%@", sql);
-//            if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 创建或更新失败.", sql), result = NO;
+            //            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:NSClassFromString(tabName)];
+            //            NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
+            //            NSString *subffixSQLM = [self sjGetBatchInsertOrUpdateSubffixSQL:modelsArr];
+            //            NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQLM];
+            //            NSLog(@"%@", sql);
+            //            if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 创建或更新失败.", sql), result = NO;
             /*!
              *  获取相关的数据模型
              */
@@ -238,7 +238,7 @@ static NSOperationQueue *_operationQueue;
 
 /*!
  *  删
- */ 
+ */
 - (void)deleteDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL))block {
     __weak typeof(self) _self = self;
     [self.operationQueue addOperationWithBlock:^{
