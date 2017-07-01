@@ -122,8 +122,9 @@
     
     if ( sql[strlen(sql) - 1] == ',' ) sql[strlen(sql) - 1] = '\0';
     _sjmystrcat(sql, ")");
+    NSString *sqlStr = [NSString stringWithFormat:@"%s", sql];
     free(sql);
-    return [NSString stringWithFormat:@"%s", sql];
+    return sqlStr;
 }
 
 /*!
@@ -232,7 +233,6 @@
             [sqlM appendFormat:@"\"%@\",", appendValue];
         else
             [sqlM appendFormat:@"'%@',", appendValue];
-
     }];
     
     [sqlM deleteCharactersInRange:NSMakeRange(sqlM.length - 1, 1)];

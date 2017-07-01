@@ -70,7 +70,7 @@
     sj.tags = @[[PersonTag tagWithID:0 des:@"A"],
                 [PersonTag tagWithID:1 des:@"B"],
                 [PersonTag tagWithID:2 des:@"C"],
-                [PersonTag tagWithID:3 des:@"D"],
+                [PersonTag tagWithID:3 des:@"'D'"],
                 [PersonTag tagWithID:4 des:@"E"],];
     
     sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
