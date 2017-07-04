@@ -43,6 +43,7 @@
  *  获取与该对象相关的对象
  */
 - (NSMutableSet<id<SJDBMapUseProtocol>> *)sjGetRelevanceObjs:(id<SJDBMapUseProtocol>)rootObj {
+    if ( !rootObj ) return nil;
     NSMutableSet<id<SJDBMapUseProtocol>> *set = [NSMutableSet new];
     [set addObject:rootObj];
     [self _sjCycleGetCorrespondingValueWithObj:rootObj container:set];
