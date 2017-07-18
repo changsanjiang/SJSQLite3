@@ -307,6 +307,25 @@ static NSOperationQueue *_operationQueue;
     }];
 }
 
+/*!
+ *  模糊查询
+ */
+- (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
+    [self fuzzyQueryDataWithClass:cls queryDict:dict match:SJDatabaseMapFuzzyMatchAll completeCallBlock:block];
+}
+
+/*!
+ *  模糊查询
+ */
+- (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict match:(SJDatabaseMapFuzzyMatch)match completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
+    [self.operationQueue addOperationWithBlock:^{
+        NSArray *models = [self sjFuzzyQueryConversionMolding:cls match:match dict:dict];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(models);
+        });
+    }];
+}
+
 @end
 
 

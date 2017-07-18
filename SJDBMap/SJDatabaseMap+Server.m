@@ -175,7 +175,10 @@
     NSMutableString *fieldsSqlM = [NSMutableString new];
     [fieldsSqlM appendFormat:@"select * from %s where ", tabName];
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        [fieldsSqlM appendFormat:@"%@ = '%@'", key, obj];
+        if ( [obj isKindOfClass:[NSString class]] && [(NSString *)obj containsString:@"'"] )
+            [fieldsSqlM appendFormat:@"%@ = \"%@\"", key, obj];
+        else
+            [fieldsSqlM appendFormat:@"%@ = '%@'", key, obj];
         [fieldsSqlM appendString:@" and "];
     }];
     [fieldsSqlM deleteCharactersInRange:NSMakeRange(fieldsSqlM.length - 5, 5)];
@@ -188,6 +191,66 @@
     
     return [self _sjConversionMolding:cls rawStorageData:incompleteData];
 }
+
+/*!
+ *  根据条件模糊查询
+ */
+- (NSArray<id<SJDBMapUseProtocol>> *)sjFuzzyQueryConversionMolding:(Class)cls match:(SJDatabaseMapFuzzyMatch)match dict:(NSDictionary *)dict {
+    SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
+    if ( !uM.primaryKey && !uM.autoincrementPrimaryKey ) return nil;
+    NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
+    
+    const char *tabName = [self sjGetTabName:cls];
+    
+    NSMutableString *fieldsSqlM = [NSMutableString new];
+    [fieldsSqlM appendFormat:@"select * from %s where ", tabName];
+    [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        
+        switch (match) {
+                //      *  ...A...
+            case SJDatabaseMapFuzzyMatchAll:
+            {
+                if ( [obj isKindOfClass:[NSString class]] && [(NSString *)obj containsString:@"'"] )
+                    [fieldsSqlM appendFormat:@"%@ like \"%%%@%%\"", key, obj];
+                else
+                    [fieldsSqlM appendFormat:@"%@ like '%%%@%%'", key, obj];
+            }
+                break;
+                //      *  ABC.....
+            case SJDatabaseMapFuzzyMatchFront:
+            {
+                if ( [obj isKindOfClass:[NSString class]] && [(NSString *)obj containsString:@"'"] )
+                    [fieldsSqlM appendFormat:@"%@ like \"%@%%\"", key, obj];
+                else
+                    [fieldsSqlM appendFormat:@"%@ like '%@%%'", key, obj];
+            }
+                break;
+                //     *  ...DEF
+            case SJDatabaseMapFuzzyMatchLater:
+            {
+                if ( [obj isKindOfClass:[NSString class]] && [(NSString *)obj containsString:@"'"] )
+                    [fieldsSqlM appendFormat:@"%@ like \"%%%@\"", key, obj];
+                else
+                    [fieldsSqlM appendFormat:@"%@ like '%%%@'", key, obj];
+            }
+                break;
+            default:
+                break;
+        }
+        
+        [fieldsSqlM appendString:@" and "];
+    }];
+    [fieldsSqlM deleteCharactersInRange:NSMakeRange(fieldsSqlM.length - 5, 5)];
+    [fieldsSqlM appendString:@";"];
+    
+    NSMutableArray<NSMutableDictionary *> *incompleteData = [NSMutableArray new];
+    [[self sjQueryWithSQLStr:fieldsSqlM] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [incompleteData addObject:obj.mutableCopy];
+    }];
+    
+    return [self _sjConversionMolding:cls rawStorageData:incompleteData];
+}
+
 
 - (NSArray<id> *)_sjConversionMolding:(Class)cls rawStorageData:(NSArray<NSDictionary *> *)rawStorageData {
     NSMutableArray<id> *allDataModel = [NSMutableArray new];

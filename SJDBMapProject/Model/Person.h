@@ -31,4 +31,6 @@
 
 @property (nonatomic, strong) NSArray<Goods *> *goods;
 
+@property (nonatomic, assign) NSInteger age;
+
 @end

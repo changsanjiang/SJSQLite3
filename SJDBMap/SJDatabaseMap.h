@@ -103,6 +103,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // MARK: Query
 
+
 @interface SJDatabaseMap (Query)
 
 /*!
@@ -121,6 +122,37 @@ NS_ASSUME_NONNULL_BEGIN
  *  queryDict ->  key : property
  */
 - (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+
+/*!
+ *  模糊查询
+ *  default SJDatabaseMapFuzzyMatchAll
+ */
+- (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+
+typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
+    /*!
+     *  匹配左右两边
+     *  ...A...
+     */
+    SJDatabaseMapFuzzyMatchAll = 0,
+    /*!
+     *  匹配以什么开头
+     *  ABC.....
+     */
+    SJDatabaseMapFuzzyMatchFront,
+    /*!
+     *  匹配以什么结尾
+     *  ...DEF
+     */
+    SJDatabaseMapFuzzyMatchLater,
+};
+
+/*!
+ *  模糊查询
+ */
+- (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict match:(SJDatabaseMapFuzzyMatch)match completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
 @end
 

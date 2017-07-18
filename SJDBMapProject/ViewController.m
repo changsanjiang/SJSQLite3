@@ -50,8 +50,11 @@
     
     
     [self insertOrUpdate];
-//    [self query];
-
+    
+    [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"j"} match:SJDatabaseMapFuzzyMatchLater completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+        NSLog(@"count = %zd", data.count);
+        NSLog(@"%@", data);
+    }];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -74,6 +77,7 @@
                 [PersonTag tagWithID:4 des:@"E"],];
     
     sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
+    sj.age = 20;
     
     Goods *g = [Goods new];
     g.name = @"G1";
@@ -82,7 +86,21 @@
 
     sj.goods = @[g, g2];
     
-    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:@[sj] callBlock:^(BOOL r) {
+    
+    Person *sj1 = [Person new];
+    sj1.personID = 1;
+    sj1.name = @"'sj'";
+    sj1.tags = @[[PersonTag tagWithID:0 des:@"A"],
+                 [PersonTag tagWithID:1 des:@"B"],
+                 [PersonTag tagWithID:2 des:@"C"],
+                 [PersonTag tagWithID:3 des:@"'D'"],
+                 [PersonTag tagWithID:4 des:@"E"],];
+    
+    sj1.aBook = [Book bookWithID:123 name:@"How Are You?"];
+    sj1.age = 20;
+    sj1.goods = @[g, g2];
+    
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:@[sj, sj1] callBlock:^(BOOL r) {
         
     }];
 }

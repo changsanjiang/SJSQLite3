@@ -58,6 +58,11 @@ extern char *_sjmystrcat(char *dst, const char *src);
 - (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict;
 
 /*!
+ *  根据条件模糊查询
+ */
+- (NSArray<id<SJDBMapUseProtocol>> *)sjFuzzyQueryConversionMolding:(Class)cls match:(SJDatabaseMapFuzzyMatch)match dict:(NSDictionary *)dict;
+
+/*!
  *  查询数据库原始存储数据
  */
 - (NSArray<NSDictionary *> *)sjQueryRawStorageData:(Class)cls;
