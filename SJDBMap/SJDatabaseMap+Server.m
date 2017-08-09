@@ -347,6 +347,7 @@
  */
 - (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model {
     __block BOOL result = YES;
+    [self _sjBeginTransaction];
     [[self sjGetRelevanceObjs:model] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[obj class]];
         NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
@@ -366,7 +367,16 @@
             [(id)obj setValue:aPKV forKey:aPKM.ownerFields];
         }];
     }];
+    [self _sjCommitTransaction];
     return result;
+}
+
+- (void)_sjBeginTransaction {
+    sqlite3_exec(self.sqDB, "begin", 0, 0, 0);
+}
+
+- (void)_sjCommitTransaction {
+    sqlite3_exec(self.sqDB, "commit", 0, 0, 0);
 }
 
 /*!
@@ -504,15 +514,15 @@
  */
 - (NSArray<NSDictionary *> *)sjQueryWithSQLStr:(NSString *)sqlStr {
     
-    sqlite3_stmt *stmt;
-    int result = sqlite3_prepare_v2(self.sqDB, sqlStr.UTF8String, -1, &stmt, NULL);
+    sqlite3_stmt *pstmt;
+    int result = sqlite3_prepare_v2(self.sqDB, sqlStr.UTF8String, -1, &pstmt, NULL);
     
     NSArray <NSDictionary *> *dataArr = nil;
     
-    if (SQLITE_OK == result) dataArr = [self sjGetTabDataWithStmt:stmt];
+    if (SQLITE_OK == result) dataArr = [self sjGetTabDataWithStmt:pstmt];
     
-    sqlite3_finalize(stmt);
-    
+    sqlite3_finalize(pstmt);
+
     return dataArr;
 }
 

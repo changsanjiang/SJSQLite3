@@ -11,8 +11,6 @@
 
 @protocol SJDBMapUseProtocol;
 
-@class FMDatabase;
-
 NS_ASSUME_NONNULL_BEGIN
 
 /**
