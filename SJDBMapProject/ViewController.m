@@ -24,6 +24,8 @@
 
 @end
 
+
+
 @interface ViewController (Delete)
 
 - (void)del;
@@ -34,6 +36,9 @@
 
 @end
 
+
+
+
 @interface ViewController (Query)
 
 - (void)query;
@@ -41,6 +46,9 @@
 - (void)queryWithDict:(NSDictionary *)dict;
 
 @end
+
+
+
 
 @interface ViewController ()
 
@@ -57,9 +65,11 @@
     [self insertOrUpdate];
     
     [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"j"} match:SJDatabaseMapFuzzyMatchLater completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
-        NSLog(@"count = %zd", data.count);
-        NSLog(@"%@", data);
+        [data enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSLog(@"%@", obj);
+        }];
     }];
+    
     // Do any additional setup after loading the view, typically from a nib.
 }
 
