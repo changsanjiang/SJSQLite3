@@ -51,8 +51,6 @@ The query data will read all the data associated with that class and convert the
 }
 ```
 #### Use attention 使用注意
-1. Use to follow SJDBMapUseProtocol
-   使用需要遵守 SJDBMapUseProtocol   
-   
-2. The model requires a primary key or a self-incrementing key
+ 
+   The model requires a primary key or a self-incrementing key
    模型需要一个主键或自增主键
