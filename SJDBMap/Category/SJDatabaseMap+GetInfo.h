@@ -68,10 +68,14 @@
  */
 - (SJDBMapPrimaryKeyModel *)sjGetPrimaryKey:(Class)cls;
 
+- (BOOL)sjHasPrimaryKey:(Class)cls;
+
 /*!
  *  获取自增主键
  */
 - (SJDBMapAutoincrementPrimaryKeyModel *)sjGetAutoincrementPrimaryKey:(Class)cls;
+
+- (BOOL)sjHasAutoPrimaryKey:(Class)cls;
 
 /*!
  *  获取数组相应键

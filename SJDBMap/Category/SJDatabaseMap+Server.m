@@ -7,9 +7,21 @@
 //
 
 #import "SJDatabaseMap+Server.h"
-#import "SJDBMap.h"
+
+#import <objc/message.h>
+
+#import "SJDatabaseMap+GetInfo.h"
+
+#import "SJDBMapUnderstandingModel.h"
+#import "SJDBMapPrimaryKeyModel.h"
+#import "SJDBMapAutoincrementPrimaryKeyModel.h"
+#import "SJDBMapCorrespondingKeyModel.h"
+#import "SJDBMapArrayCorrespondingKeysModel.h"
+
+
 
 #define _SJLog
+
 
 @implementation SJDatabaseMap (Server)
 
@@ -133,6 +145,18 @@
     }];
     return modelsDictM;
 }
+
+- (NSDictionary<NSString *, NSArray<id<SJDBMapUseProtocol>> *> *)sjPutInOrderModelsSet:(NSSet<id> *)models {
+    NSMutableDictionary<NSString *, NSMutableArray<id> *> *modelsDictM = [NSMutableDictionary new];
+    [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSString *tabName = NSStringFromClass([obj class]);
+        if ( !modelsDictM[tabName] ) modelsDictM[tabName] = [NSMutableArray new];
+        [modelsDictM[tabName] addObject:obj];
+    }];
+    return modelsDictM;
+
+}
+
 
 /*!
  *  返回转换成型的模型数据
@@ -345,36 +369,68 @@
 /*!
  *  插入
  */
-- (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model {
-    return [self sjInsertOrUpdateDataWithModels:@[model]];
-}
-
 - (BOOL)sjInsertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models {
     __block BOOL result = YES;
     [self _sjBeginTransaction];
-    [models enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
-        __block SJDBMapUnderstandingModel *uM;
-        [[self sjGetRelevanceObjs:model] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-            if ( [obj class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[obj class]];
-            NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
-            NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
-            NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
-            [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
-                if ( !r ) result = NO, NSLog(@"[%@] 插入或更新失败", model);
-                SJDBMapAutoincrementPrimaryKeyModel *aPKM = [self sjGetAutoincrementPrimaryKey:[obj class]];
-                if ( !aPKM ) return;
-                id aPKV = [(id)obj valueForKey:aPKM.ownerFields];
-                if ( 0 != [aPKV integerValue] ) return;
-                aPKV = [self sjGetLastDataIDWithClass:[obj class] autoincrementPrimaryKeyModel:aPKM];
-                /*!
-                 *  如果是自增主键, 在模型自增主键为0的情况下, 插入完数据后, 为这个模型的自增主键赋值. 防止重复插入.
-                 */
-                if ( !aPKV ) return;
-                [(id)obj setValue:aPKV forKey:aPKM.ownerFields];
-            }];
-        }];
+    __block SJDBMapUnderstandingModel *uM;
+    NSMutableSet<id<SJDBMapUseProtocol>> *modelsSetM = [NSMutableSet new];
+    [models enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        // 获取所有相关的模型数据
+        NSMutableSet<id<SJDBMapUseProtocol>> *set = [self sjGetRelevanceObjs:obj];
+        if ( set ) [modelsSetM unionSet:set];
     }];
+    
+    // 归类整理
+    NSMutableSet<id<SJDBMapUseProtocol>> *hasPrimaryKeyModelsSetM = [NSMutableSet new];
+    NSMutableSet<id<SJDBMapUseProtocol>> *hasAutoPrimaryKeyModelsSetM = [NSMutableSet new];
+    
+    // 模型整理 去除重复数据.
+    NSDictionary<NSString *, NSArray<id> *> *putInOrderResult = [self sjPutInOrderModelsSet:modelsSetM];
+    [putInOrderResult.allKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull clsStr, NSUInteger idx, BOOL * _Nonnull stop) {
+        Class cls = NSClassFromString(clsStr);
+        BOOL hasPrimaryKey = [self sjHasPrimaryKey:cls];
+        BOOL hasAutoPrimaryKey = [self sjHasAutoPrimaryKey:cls];
+        if ( hasPrimaryKey ) [hasPrimaryKeyModelsSetM addObjectsFromArray:putInOrderResult[clsStr]];
+        else if ( hasAutoPrimaryKey ) [hasAutoPrimaryKeyModelsSetM addObjectsFromArray:putInOrderResult[clsStr]];
+        NSAssert(hasPrimaryKey || hasAutoPrimaryKey , @"%@ - 该类没有实现主键或自增主键.", cls);
+    }];
+    
+    // 优先 插入自增主键类
+    [hasAutoPrimaryKeyModelsSetM enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull model, BOOL * _Nonnull stop) {
+        if ( [model class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[model class]];
+        [self sjInsertOrUpdateDataWithModel:model uM:uM];
+    }];
+    
+    // 插入 主键类
+    [hasPrimaryKeyModelsSetM enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull model, BOOL * _Nonnull stop) {
+        if ( [model class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[model class]];
+        [self sjInsertOrUpdateDataWithModel:model uM:uM];
+    }];
+    
     [self _sjCommitTransaction];
+    return result;
+}
+
+- (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)obj uM:(SJDBMapUnderstandingModel *)uM {
+    __block BOOL result = YES;
+    if ( [obj class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[obj class]];
+    NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
+    NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
+    NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
+    
+    [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
+        if ( !r ) result = NO, NSLog(@"[%@] 插入或更新失败", obj);
+        SJDBMapAutoincrementPrimaryKeyModel *aPKM = [self sjGetAutoincrementPrimaryKey:[obj class]];
+        if ( !aPKM ) return;
+        id aPKV = [(id)obj valueForKey:aPKM.ownerFields];
+        if ( 0 != [aPKV integerValue] ) return;
+        aPKV = [self sjGetLastDataIDWithClass:[obj class] autoincrementPrimaryKeyModel:aPKM];
+        /*!
+         *  如果是自增主键, 在模型自增主键为0的情况下, 插入完数据后, 为这个模型的自增主键赋值. 防止重复插入.
+         */
+        if ( !aPKV ) return;
+        [(id)obj setValue:aPKV forKey:aPKM.ownerFields];
+    }];
     return result;
 }
 

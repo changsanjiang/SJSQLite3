@@ -7,7 +7,17 @@
 //
 
 #import "SJDatabaseMap+GetInfo.h"
-#import "SJDBMap.h"
+
+#import <objc/message.h>
+
+#import "SJDatabaseMap+Server.h"
+#import "SJDBMapUnderstandingModel.h"
+#import "SJDBMapPrimaryKeyModel.h"
+#import "SJDBMapAutoincrementPrimaryKeyModel.h"
+#import "SJDBMapCorrespondingKeyModel.h"
+#import "SJDBMapArrayCorrespondingKeysModel.h"
+
+
 
 @implementation SJDatabaseMap (GetInfo)
 
@@ -206,7 +216,8 @@
                         if ( 0 != [aPKV integerValue] )
                             [primaryKeyValuesM addObject:[value valueForKey:aPM.ownerFields]];
                         else {
-                            [self sjInsertOrUpdateDataWithModel:value];
+                            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[value class]];
+                            [self sjInsertOrUpdateDataWithModel:value uM:uM];
                             [primaryKeyValuesM addObject:[value valueForKey:aPM.ownerFields]];
                         }
                     }];
@@ -305,6 +316,10 @@
     return model;
 }
 
+- (BOOL)sjHasPrimaryKey:(Class)cls {
+    return [(id)cls respondsToSelector:@selector(primaryKey)];
+}
+
 /*!
  *  获取自增主键
  */
@@ -315,6 +330,10 @@
     model.ownerCls = cls;
     model.ownerFields = key;
     return model;
+}
+
+- (BOOL)sjHasAutoPrimaryKey:(Class)cls {
+    return [(id)cls respondsToSelector:@selector(autoincrementPrimaryKey)];
 }
 
 /*!

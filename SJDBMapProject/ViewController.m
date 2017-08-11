@@ -64,11 +64,11 @@
     
     [self insertOrUpdate];
     
-    [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"j"} match:SJDatabaseMapFuzzyMatchLater completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
-        [data enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSLog(@"%@", obj);
-        }];
-    }];
+//    [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"j"} match:SJDatabaseMapFuzzyMatchLater completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+//        [data enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            NSLog(@"%@", obj);
+//        }];
+//    }];
     
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -81,42 +81,38 @@
 
 
 - (void)insertOrUpdate {
-    
-    Person *sj = [Person new];
-    sj.personID = 0;
-    sj.name = @"sj";
-    sj.tags = @[[PersonTag tagWithID:0 des:@"A"],
-                [PersonTag tagWithID:1 des:@"B"],
-                [PersonTag tagWithID:2 des:@"C"],
-                [PersonTag tagWithID:3 des:@"'D'"],
-                [PersonTag tagWithID:4 des:@"E"],];
-    
-    sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
-    sj.age = 20;
-    
     Goods *g = [Goods new];
     g.name = @"G1";
+    g.price = [[Price alloc] initWithPriceId:0 price:20];
     Goods *g2 = [Goods new];
+    g2.price = [[Price alloc] initWithPriceId:1 price:33];
     g2.name = @"G2";
-
-    sj.goods = @[g, g2];
     
+    NSArray *tags = @[[PersonTag tagWithID:0 des:@"A"],
+                     [PersonTag tagWithID:1 des:@"B"],
+                     [PersonTag tagWithID:2 des:@"C"],
+                     [PersonTag tagWithID:3 des:@"'D'"],
+                     [PersonTag tagWithID:4 des:@"E"],];
     
-    Person *sj1 = [Person new];
-    sj1.personID = 1;
-    sj1.name = @"'sj'";
-    sj1.tags = @[[PersonTag tagWithID:0 des:@"A"],
-                 [PersonTag tagWithID:1 des:@"B"],
-                 [PersonTag tagWithID:2 des:@"C"],
-                 [PersonTag tagWithID:3 des:@"'D'"],
-                 [PersonTag tagWithID:4 des:@"E"],];
-    
-    sj1.aBook = [Book bookWithID:123 name:@"How Are You?"];
-    sj1.age = 20;
-    sj1.goods = @[g, g2];
-    
-    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:@[sj, sj1] callBlock:^(BOOL r) {
+    NSMutableArray <Person *> *arrM = [NSMutableArray new];
+    for ( int i = 0 ; i < 4000 ; i ++ ) {
+        Person *sj = [Person new];
+        sj.personID = i;
+        sj.name = @"sj";
+        sj.tags = tags;
         
+        sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
+        sj.age = 20;
+        sj.goods = @[g, g2];
+        
+        [arrM addObject:sj];
+    }
+    
+    
+    NSDate* tmpStartData = [NSDate date];
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL r) {
+        double deltaTime = [[NSDate date] timeIntervalSinceDate:tmpStartData];
+        NSLog(@"%lf", deltaTime);
     }];
 }
 

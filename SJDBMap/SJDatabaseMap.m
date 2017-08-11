@@ -6,7 +6,18 @@
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
 #import "SJDBMap.h"
+
 #import <objc/message.h>
+
+#import "SJDatabaseMap+Server.h"
+#import "SJDatabaseMap+GetInfo.h"
+
+#import "SJDBMapUnderstandingModel.h"
+#import "SJDBMapPrimaryKeyModel.h"
+#import "SJDBMapAutoincrementPrimaryKeyModel.h"
+#import "SJDBMapCorrespondingKeyModel.h"
+#import "SJDBMapArrayCorrespondingKeysModel.h"
+
 
 /**
  *  数据文件夹
@@ -117,13 +128,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
  */
 - (void)insertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model callBlock:(void(^)(BOOL result))block {
     if ( nil == model ) { if ( block ) block(NO); return;}
-    [self addOperationWithBlock:^{
-        [self sjAutoCreateOrAlterRelevanceTabWithClass:[model class]];
-        BOOL result = [self sjInsertOrUpdateDataWithModel:model];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if ( block ) block( result );
-        });
-    }];
+    [self insertOrUpdateDataWithModels:@[model] callBlock:block];
 }
 
 /*!
@@ -133,9 +138,8 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL result))block {
     if ( 0 == models.count ) { if ( block ) block(NO); return;}
     [self addOperationWithBlock:^{
-        
         /*!
-         *  整理模型数组
+         *  归类整理
          */
         NSDictionary<NSString *, NSArray<id> *> *modelsDict = [self sjPutInOrderModels:models];
         
@@ -147,18 +151,10 @@ inline static NSString *_sjDatabaseDefaultFolder() {
         }];
         
         /*!
-         *  批量插入或更新数据
+         *  批量插入或更新
          */
         __block BOOL result = YES;
         [modelsDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull tabName, NSArray<id> * _Nonnull modelsArr, BOOL * _Nonnull stop) {
-//            //            只做了第一层
-//            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:NSClassFromString(tabName)];
-//            NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
-//            NSString *subffixSQLM = [self sjGetBatchInsertOrUpdateSubffixSQL:modelsArr];
-//            NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQLM];
-//            NSLog(@"%@", sql);
-//            if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 创建或更新失败.", sql), result = NO;
-            
             result = [self sjInsertOrUpdateDataWithModels:modelsArr];
         }];
         dispatch_async(dispatch_get_main_queue(), ^{

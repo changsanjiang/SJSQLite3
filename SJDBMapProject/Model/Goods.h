@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "SJDBMapUseProtocol.h"
+#import "Price.h"
+
 @interface Goods : NSObject<SJDBMapUseProtocol>
 
 @property (nonatomic, assign) NSInteger goodsID;
 @property (nonatomic, strong) NSString *name;
+
+@property (nonatomic, strong) Price *price;
 
 @end

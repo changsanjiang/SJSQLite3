@@ -8,6 +8,8 @@
 
 #import "SJDatabaseMap.h"
 
+@class SJDBMapUnderstandingModel;
+
 extern char *_sjmystrcat(char *dst, const char *src);
 
 @interface SJDatabaseMap (Server)
@@ -36,6 +38,8 @@ extern char *_sjmystrcat(char *dst, const char *src);
  *  整理模型数据
  */
 - (NSDictionary<NSString *, NSArray<id<SJDBMapUseProtocol>> *> *)sjPutInOrderModels:(NSArray<id> *)models;
+- (NSDictionary<NSString *, NSArray<id<SJDBMapUseProtocol>> *> *)sjPutInOrderModelsSet:(NSSet<id> *)models;
+
 
 /*!
  *  查询数据. 返回转换成型的模型数据
@@ -75,7 +79,7 @@ extern char *_sjmystrcat(char *dst, const char *src);
 /*!
  *  插入
  */
-- (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model;
+- (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)obj uM:(SJDBMapUnderstandingModel *)uM;
 
 - (BOOL)sjInsertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models;
 

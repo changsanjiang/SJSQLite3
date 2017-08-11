@@ -28,6 +28,7 @@
 		7782528A1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782527D1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m */; };
 		7782528B1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782527F1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m */; };
 		7782528C1F3D59AD006F5156 /* SJDatabaseMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252811F3D59AD006F5156 /* SJDatabaseMap.m */; };
+		7782528F1F3D9064006F5156 /* Price.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782528E1F3D9064006F5156 /* Price.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,8 @@
 		778252811F3D59AD006F5156 /* SJDatabaseMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDatabaseMap.m; sourceTree = "<group>"; };
 		778252821F3D59AD006F5156 /* SJDBMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMap.h; sourceTree = "<group>"; };
 		778252831F3D59AD006F5156 /* SJDBMapUseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUseProtocol.h; sourceTree = "<group>"; };
+		7782528D1F3D9064006F5156 /* Price.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Price.h; sourceTree = "<group>"; };
+		7782528E1F3D9064006F5156 /* Price.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Price.m; sourceTree = "<group>"; };
 		E559417A2BA48C41C6BC60ED /* Pods-SJDBMapProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -152,6 +155,8 @@
 				7745B2381EE5D3A700EC4614 /* PersonTag.m */,
 				7732A9961EE983D30037A195 /* Goods.h */,
 				7732A9971EE983D30037A195 /* Goods.m */,
+				7782528D1F3D9064006F5156 /* Price.h */,
+				7782528E1F3D9064006F5156 /* Price.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -344,6 +349,7 @@
 				7782528C1F3D59AD006F5156 /* SJDatabaseMap.m in Sources */,
 				7745B2201EE5D39B00EC4614 /* AppDelegate.m in Sources */,
 				7745B21D1EE5D39B00EC4614 /* main.m in Sources */,
+				7782528F1F3D9064006F5156 /* Price.m in Sources */,
 				778252891F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m in Sources */,
 				7732A9981EE983D30037A195 /* Goods.m in Sources */,
 				7745B24E1EE5D3A700EC4614 /* PersonTag.m in Sources */,

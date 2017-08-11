@@ -15,6 +15,9 @@
     return @"goodsID";
 }
 
++ (NSDictionary<NSString *,NSString *> *)correspondingKeys {
+    return @{@"price":@"priceId"};
+}
 
 // MARK: YYKit
 
