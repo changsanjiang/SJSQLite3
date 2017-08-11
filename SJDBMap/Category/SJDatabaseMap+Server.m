@@ -413,7 +413,6 @@
 
 - (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)obj uM:(SJDBMapUnderstandingModel *)uM {
     __block BOOL result = YES;
-    if ( [obj class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[obj class]];
     NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
     NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
     NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
@@ -441,6 +440,69 @@
 - (void)_sjCommitTransaction {
     sqlite3_exec(self.sqDB, "commit", 0, 0, 0);
 }
+
+/*!
+ *  更新
+ */
+- (BOOL)sjUpdateProperty:(NSArray<NSString *> *)fields target:(id<SJDBMapUseProtocol>)model {
+    __block BOOL result = YES;
+    
+    [self _sjBeginTransaction];
+    
+    // 查看是否有特殊字段
+    
+    // 存放普通字段
+    NSMutableArray<NSString *> *commonFields = [NSMutableArray new];
+    
+    // 存放独特字段
+    NSMutableArray<NSString *> *uniqueFields = [NSMutableArray new];
+    
+    /*!
+     *  可能的特殊字段
+     *  1. 相应键
+     *  2. 数组相应键
+     */
+    NSArray<NSString *> *corOriginFields = [self sjGetCorrespondingOriginFields:[model class]];
+
+    NSArray<NSString *> *arrCorOriginFields = [self sjGetArrCorrespondingOriginFields:[model class]];
+
+    // 搜索特殊字段
+    [fields enumerateObjectsUsingBlock:^(NSString * _Nonnull outObj, NSUInteger idx, BOOL * _Nonnull stop) {
+        __block BOOL addedBol = NO;
+        [corOriginFields enumerateObjectsUsingBlock:^(NSString * _Nonnull inObj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ( [outObj isEqualToString:inObj] ) { [uniqueFields addObject:inObj]; addedBol = YES;}
+        }];
+        [arrCorOriginFields enumerateObjectsUsingBlock:^(NSString * _Nonnull inObj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ( [outObj isEqualToString:inObj] ) { [uniqueFields addObject:inObj]; addedBol = YES;}
+        }];
+        if ( !addedBol ) [commonFields addObject:outObj];
+    }];
+    
+    // 如果没有特殊字段
+    if ( 0 == uniqueFields.count ) {
+        NSString *sql = [self sjGetCommonUpdateSQLWithFields:fields model:model];
+        [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
+            if ( !r ) result = NO, NSLog(@"[%@]- %@ 插入或更新失败", model, sql);
+        }];
+    }
+    else {
+        // 先处理普通字段, 再处理特殊字段
+        NSString *sql = [self sjGetCommonUpdateSQLWithFields:commonFields model:model];
+        [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
+            if ( !r ) result = NO, NSLog(@"[%@]- %@ 插入或更新失败", model, sql);
+        }];
+        
+        if ( !result ) return NO;
+        
+        //  处理特殊字段
+#warning Next...
+    }
+    
+    [self _sjCommitTransaction];
+    return result;
+}
+
+
 
 /*!
  *  获取主键值

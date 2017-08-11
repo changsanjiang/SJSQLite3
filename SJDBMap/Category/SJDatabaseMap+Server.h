@@ -17,7 +17,7 @@ extern char *_sjmystrcat(char *dst, const char *src);
 /*!
  *  执行SQL语句
  */
-- (void)sjExeSQL:(const char *)sql completeBlock:(void(^)(BOOL result))block;
+- (void)sjExeSQL:(const char *)sql completeBlock:(void(^)(BOOL r))block;
 
 /*!
  *  创建或更新一张表
@@ -82,6 +82,11 @@ extern char *_sjmystrcat(char *dst, const char *src);
 - (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)obj uM:(SJDBMapUnderstandingModel *)uM;
 
 - (BOOL)sjInsertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models;
+
+/*!
+ *  更新
+ */
+- (BOOL)sjUpdateProperty:(NSArray<NSString *> *)fields target:(id<SJDBMapUseProtocol>)model;
 
 /*!
  *  获取主键值

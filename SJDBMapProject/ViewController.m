@@ -22,6 +22,8 @@
 
 - (void)insertOrUpdate;
 
+- (void)update;
+
 @end
 
 
@@ -62,7 +64,9 @@
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
     
-    [self insertOrUpdate];
+//    [self insertOrUpdate];
+    
+    [self update];
     
 //    [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"j"} match:SJDatabaseMapFuzzyMatchLater completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
 //        [data enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -78,17 +82,17 @@
 
 @implementation ViewController (InsertOrUpdate)
 
-
-
 - (void)insertOrUpdate {
     Goods *g = [Goods new];
     g.name = @"G1";
     g.price = [[Price alloc] initWithPriceId:0 price:20];
-    Goods *g2 = [Goods new];
-    g2.price = [[Price alloc] initWithPriceId:1 price:33];
-    g2.name = @"G2";
     
-    NSArray *tags = @[[PersonTag tagWithID:0 des:@"A"],
+    Goods *g2 = [Goods new];
+    g2.name = @"G2";
+    g2.price = [[Price alloc] initWithPriceId:1 price:33];
+    
+    NSArray *tags = @[
+                     [PersonTag tagWithID:0 des:@"A"],
                      [PersonTag tagWithID:1 des:@"B"],
                      [PersonTag tagWithID:2 des:@"C"],
                      [PersonTag tagWithID:3 des:@"'D'"],
@@ -103,17 +107,29 @@
         
         sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
         sj.age = 20;
-        sj.goods = @[g, g2];
         
+        sj.goods = @[g, g2];
         [arrM addObject:sj];
     }
     
-    
-    NSDate* tmpStartData = [NSDate date];
     [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL r) {
-        double deltaTime = [[NSDate date] timeIntervalSinceDate:tmpStartData];
-        NSLog(@"%lf", deltaTime);
+        
     }];
+}
+
+- (void)update {
+    
+    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] primaryValue:2 completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable model) {
+        if ( nil == model ) return ;
+        Person *person = model;
+        person.name = @"xiaoHHHHHHH";
+        person.age = 9999999;
+        person.test = @"ttetetetetetetetet't'eteettet";
+        [[SJDatabaseMap sharedServer] updateProperty:@[@"name", @"age", @"test"] target:person callBlock:^(BOOL result) {
+            NSLog(@"end");
+        }];
+    }];
+    
 }
 
 @end

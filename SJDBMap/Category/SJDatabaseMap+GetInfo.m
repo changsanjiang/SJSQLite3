@@ -265,6 +265,33 @@
 }
 
 /*!
+ *  获取一般的更新语句
+ */
+- (NSString *)sjGetCommonUpdateSQLWithFields:(NSArray<NSString *> *)fields model:(id<SJDBMapUseProtocol>)model {
+//    update Person set name = 'xiaoMing', age = 21 where personID = 0;
+    NSMutableString *sqlM = [NSMutableString stringWithFormat:@"UPDATE %@ SET ", [model class]];
+    [fields enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        id value = [(id)model valueForKey:obj];
+        if ( [value isKindOfClass:[NSString class]] && [(NSString *)value containsString:@"'"] )
+             [sqlM appendFormat:@"%@ = \"%@\",", obj, value];
+        else [sqlM appendFormat:@"%@ = '%@',", obj, value];
+    }];
+    [sqlM deleteCharactersInRange:NSMakeRange(sqlM.length - 1, 1)];
+    
+    NSString *primaryFields = nil;
+    
+    if ( [self sjHasPrimaryKey:[model class]] ) {
+        primaryFields = [self sjGetPrimaryFields:[model class]];
+    }
+    else if ( [self sjHasAutoPrimaryKey:[model class]] ) {
+        primaryFields = [self sjGetAutoPrimaryFields:[model class]];
+    }
+    
+    [sqlM appendFormat:@" where %@ = %@;", primaryFields, [(id)model valueForKey:primaryFields]];
+    return sqlM.copy;
+}
+
+/*!
  *  生成删除Sql语句
  */
 - (NSString *)sjGetDeleteSQL:(Class)cls uM:(SJDBMapUnderstandingModel *)uM deletePrimary:(NSInteger)primaryValue {
@@ -316,6 +343,14 @@
     return model;
 }
 
+/*!
+ *  获取主键字段
+ */
+- (NSString *)sjGetPrimaryFields:(Class)cls {
+    NSString *key = [self _sjPerformClassMethod:cls sel:@selector(primaryKey) obj1:nil obj2:nil];
+    return key;
+}
+
 - (BOOL)sjHasPrimaryKey:(Class)cls {
     return [(id)cls respondsToSelector:@selector(primaryKey)];
 }
@@ -330,6 +365,14 @@
     model.ownerCls = cls;
     model.ownerFields = key;
     return model;
+}
+
+/*!
+ *  获取自增主键字段
+ */
+- (NSString *)sjGetAutoPrimaryFields:(Class)cls {
+    NSString *key = [self _sjPerformClassMethod:cls sel:@selector(autoincrementPrimaryKey) obj1:nil obj2:nil];
+    return key;
 }
 
 - (BOOL)sjHasAutoPrimaryKey:(Class)cls {
@@ -356,6 +399,25 @@
 }
 
 /*!
+ *  dict keys
+ */
+- (NSArray<NSString *> *)sjGetArrCorrespondingOriginFields:(Class)cls {
+    NSDictionary<NSString *, Class> *keys = [self _sjPerformClassMethod:cls sel:@selector(arrayCorrespondingKeys) obj1:nil obj2:nil];
+    if ( !keys ) return NULL;
+    return keys.allKeys;
+}
+
+/*!
+ *  dict values
+ */
+- (NSArray<Class> *)sjGetArrCorrespondingFields:(Class)cls {
+    NSDictionary<NSString *, Class> *keys = [self _sjPerformClassMethod:cls sel:@selector(arrayCorrespondingKeys) obj1:nil obj2:nil];
+    if ( !keys ) return NULL;
+    return keys.allValues;
+}
+
+
+/*!
  *  获取相应键
  */
 - (NSArray<SJDBMapCorrespondingKeyModel *>*)sjGetCorrespondingKeys:(Class)cls {
@@ -371,6 +433,24 @@
         [modelsM addObject:model];
     }];
     return modelsM;
+}
+
+/*!
+ *  dict keys
+ */
+- (NSArray<NSString *> *)sjGetCorrespondingOriginFields:(Class)cls {
+    NSDictionary<NSString *,NSString *> *keys = [self _sjPerformClassMethod:cls sel:@selector(correspondingKeys) obj1:nil obj2:nil];
+    if ( !keys ) return NULL;
+    return keys.allKeys;
+}
+
+/*!
+ *  dict values
+ */
+- (NSArray<NSString *> *)sjGetCorrespondingFields:(Class)cls {
+    NSDictionary<NSString *,NSString *> *keys = [self _sjPerformClassMethod:cls sel:@selector(correspondingKeys) obj1:nil obj2:nil];
+    if ( !keys ) return NULL;
+   return keys.allValues;
 }
 
 /*!

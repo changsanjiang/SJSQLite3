@@ -69,6 +69,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^ __nullable)(BOOL result))block;
 
+/*!
+ *  更新指定的属性
+ *  如果数据库没有这条数据, 将不会保存
+ */
+- (void)updateProperty:(NSArray<NSString *> *)fields target:(id<SJDBMapUseProtocol>)model callBlock:(void (^ __nullable)(BOOL result))block;
+
 @end
 
 

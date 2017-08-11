@@ -163,6 +163,23 @@ inline static NSString *_sjDatabaseDefaultFolder() {
     }];
 }
 
+/*!
+ *  更新指定的属性
+ *  如果数据库没有这条数据, 将不会保存
+ */
+- (void)updateProperty:(NSArray<NSString *> *)fields target:(id<SJDBMapUseProtocol>)target callBlock:(void (^ __nullable)(BOOL result))block {
+    if ( 0 == fields.count || nil == target ) { if ( block ) block(NO); return;}
+    [self addOperationWithBlock:^{
+        [self queryDataWithClass:[target class] primaryValue:[[(id)target valueForKey:[self sjGetPrimaryFields:[target class]]] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable model) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ( nil == model ) { if ( block ) { block(NO); return;} }
+                if ( block ) block([self sjUpdateProperty:fields target:target]);
+            });
+
+        }];
+    }];
+}
+
 @end
 
 

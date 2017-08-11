@@ -54,6 +54,11 @@
 - (NSString *)sjGetBatchInsertOrUpdateSubffixSQL:(NSArray<id<SJDBMapUseProtocol>> *)models;
 
 /*!
+ *  获取一般的更新语句
+ */
+- (NSString *)sjGetCommonUpdateSQLWithFields:(NSArray<NSString *> *)fields model:(id<SJDBMapUseProtocol>)model;
+
+/*!
  *  生成删除Sql语句
  */
 - (NSString *)sjGetDeleteSQL:(Class)cls uM:(SJDBMapUnderstandingModel *)uM deletePrimary:(NSInteger)primaryValue;
@@ -68,12 +73,22 @@
  */
 - (SJDBMapPrimaryKeyModel *)sjGetPrimaryKey:(Class)cls;
 
+/*!
+ *  获取主键字段
+ */
+- (NSString *)sjGetPrimaryFields:(Class)cls;
+
 - (BOOL)sjHasPrimaryKey:(Class)cls;
 
 /*!
  *  获取自增主键
  */
 - (SJDBMapAutoincrementPrimaryKeyModel *)sjGetAutoincrementPrimaryKey:(Class)cls;
+
+/*!
+ *  获取自增主键字段
+ */
+- (NSString *)sjGetAutoPrimaryFields:(Class)cls;
 
 - (BOOL)sjHasAutoPrimaryKey:(Class)cls;
 
@@ -83,9 +98,30 @@
 - (NSArray<SJDBMapArrayCorrespondingKeysModel *> *)sjGetArrayCorrespondingKeys:(Class)cls;
 
 /*!
+ *  dict keys
+ */
+- (NSArray<NSString *> *)sjGetArrCorrespondingOriginFields:(Class)cls;
+
+/*!
+ *  dict values
+ */
+- (NSArray<Class> *)sjGetArrCorrespondingFields:(Class)cls;
+
+/*!
  *  获取相应键
  */
 - (NSArray<SJDBMapCorrespondingKeyModel *>*)sjGetCorrespondingKeys:(Class)cls;
+
+/*!
+ *  dict keys
+ */
+- (NSArray<NSString *> *)sjGetCorrespondingOriginFields:(Class)cls;
+
+/*!
+ *  dict values
+ */
+- (NSArray<NSString *> *)sjGetCorrespondingFields:(Class)cls;
+
 
 /*!
  *  获取表名称
