@@ -158,6 +158,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 //            NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQLM];
 //            NSLog(@"%@", sql);
 //            if ( !(SQLITE_OK == sqlite3_exec(self.sqDB, sql.UTF8String, NULL, NULL, NULL)) ) NSLog(@"[%@] 创建或更新失败.", sql), result = NO;
+            
             result = [self sjInsertOrUpdateDataWithModels:modelsArr];
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
