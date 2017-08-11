@@ -77,6 +77,8 @@ extern char *_sjmystrcat(char *dst, const char *src);
  */
 - (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model;
 
+- (BOOL)sjInsertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models;
+
 /*!
  *  获取主键值
  */

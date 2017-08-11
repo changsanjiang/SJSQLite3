@@ -346,25 +346,32 @@
  *  插入
  */
 - (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model {
+    return [self sjInsertOrUpdateDataWithModels:@[model]];
+}
+
+- (BOOL)sjInsertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models {
     __block BOOL result = YES;
     [self _sjBeginTransaction];
-    [[self sjGetRelevanceObjs:model] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-        SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[obj class]];
-        NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
-        NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
-        NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
-        [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
-            if ( !r ) result = NO, NSLog(@"[%@] 插入或更新失败", model);
-            SJDBMapAutoincrementPrimaryKeyModel *aPKM = [self sjGetAutoincrementPrimaryKey:[obj class]];
-            if ( !aPKM ) return;
-            id aPKV = [(id)obj valueForKey:aPKM.ownerFields];
-            if ( [aPKV integerValue] ) return;
-            aPKV = [self sjGetLastDataIDWithClass:[obj class] autoincrementPrimaryKeyModel:aPKM];
-            /*!
-             *  如果是自增主键, 在模型自增主键为0的情况下, 插入完数据后, 为这个模型的自增主键赋值. 防止重复插入.
-             */
-            if ( !aPKV ) return;
-            [(id)obj setValue:aPKV forKey:aPKM.ownerFields];
+    [models enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
+        __block SJDBMapUnderstandingModel *uM;
+        [[self sjGetRelevanceObjs:model] enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+            if ( [obj class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[obj class]];
+            NSString *prefixSQL  = [self sjGetInsertOrUpdatePrefixSQL:uM];
+            NSString *subffixSQL = [self sjGetInsertOrUpdateSuffixSQL:obj];
+            NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
+            [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
+                if ( !r ) result = NO, NSLog(@"[%@] 插入或更新失败", model);
+                SJDBMapAutoincrementPrimaryKeyModel *aPKM = [self sjGetAutoincrementPrimaryKey:[obj class]];
+                if ( !aPKM ) return;
+                id aPKV = [(id)obj valueForKey:aPKM.ownerFields];
+                if ( 0 != [aPKV integerValue] ) return;
+                aPKV = [self sjGetLastDataIDWithClass:[obj class] autoincrementPrimaryKeyModel:aPKM];
+                /*!
+                 *  如果是自增主键, 在模型自增主键为0的情况下, 插入完数据后, 为这个模型的自增主键赋值. 防止重复插入.
+                 */
+                if ( !aPKV ) return;
+                [(id)obj setValue:aPKV forKey:aPKM.ownerFields];
+            }];
         }];
     }];
     [self _sjCommitTransaction];
