@@ -155,7 +155,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
          */
         __block BOOL result = YES;
         [modelsDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull tabName, NSArray<id> * _Nonnull modelsArr, BOOL * _Nonnull stop) {
-            result = [self sjInsertOrUpdateDataWithModels:modelsArr];
+            result = [self sjInsertOrUpdateDataWithModels:modelsArr enableTransaction:YES];
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
@@ -170,12 +170,20 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)updateProperty:(NSArray<NSString *> *)fields target:(id<SJDBMapUseProtocol>)target callBlock:(void (^ __nullable)(BOOL result))block {
     if ( 0 == fields.count || nil == target ) { if ( block ) block(NO); return;}
     [self addOperationWithBlock:^{
-        [self queryDataWithClass:[target class] primaryValue:[[(id)target valueForKey:[self sjGetPrimaryFields:[target class]]] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable model) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if ( nil == model ) { if ( block ) { block(NO); return;} }
-                if ( block ) block([self sjUpdateProperty:fields target:target]);
-            });
+        [self queryDataWithClass:[target class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:target] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable model) {
+            if ( nil == model ) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ( nil == model ) { if ( block ) block(NO);}
+                });
+                return;
+            }
+            else {
+                BOOL result = [self sjUpdateProperty:fields target:target];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ( block ) block(result);
+                });
 
+            }
         }];
     }];
 }

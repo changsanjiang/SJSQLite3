@@ -193,44 +193,10 @@
 
         if ( 0 != aK.count ) {
             
-            NSMutableArray *primaryKeyValuesM = [NSMutableArray new];
-            
             [aK enumerateObjectsUsingBlock:^(SJDBMapArrayCorrespondingKeysModel * _Nonnull ACKM, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSArray<id> *cValues = [(id)model valueForKey:ACKM.ownerFields];
-                if ( [fields isEqualToString:ACKM.ownerFields] && 0 != cValues.count ) {
-                    
-                    SJDBMapPrimaryKeyModel *pM = [self sjGetPrimaryKey:[cValues[0] class]];
-                    SJDBMapAutoincrementPrimaryKeyModel *aPM = [self sjGetAutoincrementPrimaryKey:[cValues[0] class]];
-                    NSAssert((pM || aPM), @"[%@] 该类没有设置主键.", [cValues[0] class]);
-                    [cValues enumerateObjectsUsingBlock:^(id  _Nonnull value, NSUInteger idx, BOOL * _Nonnull stop) {
-                        /*!
-                         *  如果是主键
-                         */
-                        if ( pM ) [primaryKeyValuesM addObject:[value valueForKey:pM.ownerFields]];
-                        /*!
-                         *  如果是自增主键
-                         *  主键有值就更新, 没值就插入
-                         */
-                        if ( !aPM ) return ;
-                        __block id aPKV = [value valueForKey:aPM.ownerFields];
-                        if ( 0 != [aPKV integerValue] )
-                            [primaryKeyValuesM addObject:[value valueForKey:aPM.ownerFields]];
-                        else {
-                            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[value class]];
-                            [self sjInsertOrUpdateDataWithModel:value uM:uM];
-                            [primaryKeyValuesM addObject:[value valueForKey:aPM.ownerFields]];
-                        }
-                    }];
-                    
-                    /*!
-                     *  转为字典 字符串
-                     *  key : 数组元素中的类名
-                     *  vlaue : 数组元的主键
-                     */
-                    NSData *data = [NSJSONSerialization dataWithJSONObject:@{NSStringFromClass([cValues[0] class]) : primaryKeyValuesM} options:0 error:nil];
-                    NSMutableString *strM = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding].mutableCopy;
-                    
-                    appendValue = strM;
+                NSArray<id> *arrModels = [(id)model valueForKey:ACKM.ownerFields];
+                if ( [fields isEqualToString:ACKM.ownerFields] && 0 != arrModels.count ) {
+                    appendValue = [self sjGetArrModelPrimaryValues:arrModels].mutableCopy;;
                     addedBol = YES;
                     *stop = YES;
                 }
@@ -356,6 +322,14 @@
 }
 
 /*!
+ *  获取主键值
+ */
+- (NSNumber *)sjGetPrimaryValue:(id<SJDBMapUseProtocol>)model {
+    NSString *primaryFields = [self sjGetPrimaryFields:[model class]];
+    if ( 0 == primaryFields.length ) return nil;
+    return [(id)model valueForKey:primaryFields];
+}
+/*!
  *  获取自增主键
  */
 - (SJDBMapAutoincrementPrimaryKeyModel *)sjGetAutoincrementPrimaryKey:(Class)cls{
@@ -374,6 +348,32 @@
     NSString *key = [self _sjPerformClassMethod:cls sel:@selector(autoincrementPrimaryKey) obj1:nil obj2:nil];
     return key;
 }
+
+/*!
+ *  获取自增主键值
+ */
+- (NSNumber *)sjGetAutoPrimaryValue:(id<SJDBMapUseProtocol>)model {
+    NSString *autoPrimaryFields = [self sjGetAutoPrimaryFields:[model class]];
+    if ( 0 == autoPrimaryFields.length ) return nil;
+    return [(id)model valueForKey:autoPrimaryFields];
+}
+
+/*!
+ *  获取主键字段或自增主键字段
+ */
+- (NSString *)sjGetPrimaryOrAutoPrimaryFields:(Class)cls {
+    NSString *fields = [self sjGetPrimaryFields:cls];
+    return fields ? fields : [self sjGetAutoPrimaryFields:cls];
+}
+
+/*!
+ *  获取主键值或者自增主键值
+ */
+- (NSNumber *)sjGetPrimaryOrAutoPrimaryValue:(id<SJDBMapUseProtocol>)model {
+    NSNumber *value = [self sjGetPrimaryValue:model];
+    return value ? value : [self sjGetAutoPrimaryValue:model];
+}
+
 
 - (BOOL)sjHasAutoPrimaryKey:(Class)cls {
     return [(id)cls respondsToSelector:@selector(autoincrementPrimaryKey)];
@@ -468,6 +468,41 @@
     NSDictionary *dict = [self sjQueryWithSQLStr:sql].firstObject;
     if ( !dict && !dict.count ) return 0;
     return dict[@"goodsID"];
+}
+
+/*!
+ *  {"PersonTag":[0,1,2]}
+ *  {"Goods":[13,14]}
+ */
+- (NSString *)sjGetArrModelPrimaryValues:(NSArray<id<SJDBMapUseProtocol>> *)cValues {
+    if ( 0 == cValues.count ) return nil;
+    NSMutableArray *primaryKeyValuesM = [NSMutableArray new];
+    SJDBMapPrimaryKeyModel *pM = [self sjGetPrimaryKey:[cValues[0] class]];
+    SJDBMapAutoincrementPrimaryKeyModel *aPM = [self sjGetAutoincrementPrimaryKey:[cValues[0] class]];
+    NSAssert((pM || aPM), @"[%@] 该类没有设置主键或自增主键.", [cValues[0] class]);
+    [cValues enumerateObjectsUsingBlock:^(id  _Nonnull value, NSUInteger idx, BOOL * _Nonnull stop) {
+        /*!
+         *  如果是主键
+         */
+        if ( pM ) [primaryKeyValuesM addObject:[value valueForKey:pM.ownerFields]];
+        /*!
+         *  如果是自增主键
+         *  主键有值就更新, 没值就插入
+         */
+        if ( !aPM ) return ;
+        __block id aPKV = [value valueForKey:aPM.ownerFields];
+        if ( 0 != [aPKV integerValue] )
+            [primaryKeyValuesM addObject:[value valueForKey:aPM.ownerFields]];
+        else {
+            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[value class]];
+            [self sjInsertOrUpdateDataWithModel:value uM:uM];
+            [primaryKeyValuesM addObject:[value valueForKey:aPM.ownerFields]];
+        }
+    }];
+    
+    NSData *data = [NSJSONSerialization dataWithJSONObject:@{NSStringFromClass([cValues[0] class]) : primaryKeyValuesM} options:0 error:nil];
+    NSMutableString *strM = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding].mutableCopy;
+    return strM;
 }
 
 /*!

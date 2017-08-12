@@ -112,6 +112,7 @@
 
 /*!
  *  查询表中的所有字段
+ *  select name from sqlite_master;
  */
 - (NSMutableArray<NSString *> *)sjQueryTabAllFieldsWithClass:(Class)cls {
     NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", [self sjGetTabName:cls]];
@@ -123,6 +124,7 @@
     return dbFields;
 }
 
+// select name from sqlite_master;
 - (NSMutableSet<NSString *> *)_sjQueryTabAllFields_Set_WithClass:(Class)cls {
     NSString *sql = [NSString stringWithFormat:@"PRAGMA  table_info('%s');", [self sjGetTabName:cls]];
     NSMutableSet<NSString *> *dbFields = [NSMutableSet new];
@@ -369,9 +371,9 @@
 /*!
  *  插入
  */
-- (BOOL)sjInsertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models {
+- (BOOL)sjInsertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models enableTransaction:(BOOL)enableTransaction {
     __block BOOL result = YES;
-    [self _sjBeginTransaction];
+    if ( enableTransaction ) [self _sjBeginTransaction];
     __block SJDBMapUnderstandingModel *uM;
     NSMutableSet<id<SJDBMapUseProtocol>> *modelsSetM = [NSMutableSet new];
     [models enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -407,7 +409,7 @@
         [self sjInsertOrUpdateDataWithModel:model uM:uM];
     }];
     
-    [self _sjCommitTransaction];
+    if ( enableTransaction ) [self _sjCommitTransaction];
     return result;
 }
 
@@ -478,26 +480,40 @@
         if ( !addedBol ) [commonFields addObject:outObj];
     }];
     
-    // 如果没有特殊字段
-    if ( 0 == uniqueFields.count ) {
-        NSString *sql = [self sjGetCommonUpdateSQLWithFields:fields model:model];
-        [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
-            if ( !r ) result = NO, NSLog(@"[%@]- %@ 插入或更新失败", model, sql);
-        }];
-    }
-    else {
-        // 先处理普通字段, 再处理特殊字段
+    // 先处理普通字段, 再处理特殊字段
+    if ( 0 != commonFields.count ) {
         NSString *sql = [self sjGetCommonUpdateSQLWithFields:commonFields model:model];
         [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
             if ( !r ) result = NO, NSLog(@"[%@]- %@ 插入或更新失败", model, sql);
         }];
-        
-        if ( !result ) return NO;
-        
-        //  处理特殊字段
-#warning Next...
     }
     
+    if ( result && 0 != uniqueFields.count ) {
+        
+        NSMutableString *arrSqlM = [NSMutableString stringWithFormat:@"UPDATE %@ SET ", NSStringFromClass([model class])];
+        NSMutableArray *corModelArrM = [NSMutableArray new];
+        [uniqueFields enumerateObjectsUsingBlock:^(NSString * _Nonnull fields, NSUInteger idx, BOOL * _Nonnull stop) {
+            id uniqueValue = [(id)model valueForKey:fields];
+            // is Arr
+            if ( [uniqueValue isKindOfClass:[NSArray class]] ) {
+                [arrSqlM appendFormat:@"%@ = ", fields];
+                [arrSqlM appendFormat:@"'%@',", [self sjGetArrModelPrimaryValues:uniqueValue]];
+                [corModelArrM addObjectsFromArray:uniqueValue];
+                return;
+            }
+            [corModelArrM addObject:uniqueValue];
+        }];
+        
+        if ( [arrSqlM hasSuffix:@","] ) {
+            [arrSqlM deleteCharactersInRange:NSMakeRange(arrSqlM.length - 1, 1)];
+            [arrSqlM appendFormat:@" where %@ = %@;", [self sjGetPrimaryOrAutoPrimaryFields:[model class]], [self sjGetPrimaryOrAutoPrimaryValue:model]];
+            [self sjExeSQL:arrSqlM.UTF8String completeBlock:^(BOOL r) {
+                if ( !r ) result = NO, NSLog(@"[%@]- %@ 插入或更新失败", model, arrSqlM);
+            }];
+            
+            if ( result ) result = [self sjInsertOrUpdateDataWithModels:corModelArrM enableTransaction:NO];
+        }
+    }
     [self _sjCommitTransaction];
     return result;
 }

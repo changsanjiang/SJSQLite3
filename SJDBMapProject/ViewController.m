@@ -64,9 +64,9 @@
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
     
-//    [self insertOrUpdate];
+    [self insertOrUpdate];
     
-    [self update];
+    
     
 //    [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"j"} match:SJDatabaseMapFuzzyMatchLater completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
 //        [data enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -114,18 +114,24 @@
     
     [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL r) {
         
+        [self update];
+        
     }];
 }
 
 - (void)update {
-    
+
     [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] primaryValue:2 completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable model) {
         if ( nil == model ) return ;
         Person *person = model;
-        person.name = @"xiaoHHHHHHH";
-        person.age = 9999999;
-        person.test = @"ttetetetetetetetet't'eteettet";
-        [[SJDatabaseMap sharedServer] updateProperty:@[@"name", @"age", @"test"] target:person callBlock:^(BOOL result) {
+        NSMutableArray *tagsM = person.tags.mutableCopy;
+        [tagsM addObject:[PersonTag tagWithID:5 des:@"从前有一座links"]];
+        person.tags = tagsM;
+        
+        person.name = @"xiaoMing";
+        
+        // Update tags....
+        [[SJDatabaseMap sharedServer] updateProperty:@[@"tags"] target:person callBlock:^(BOOL result) {
             NSLog(@"end");
         }];
     }];
