@@ -198,7 +198,7 @@
 - (void)queryWithDict:(NSDictionary *)dict {
     [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
         
-        // query result 
+        // query result
         [data enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSLog(@"%@", obj);
         }];

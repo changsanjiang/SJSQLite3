@@ -400,14 +400,17 @@
     // 优先 插入自增主键类
     [hasAutoPrimaryKeyModelsSetM enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull model, BOOL * _Nonnull stop) {
         if ( [model class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[model class]];
-        [self sjInsertOrUpdateDataWithModel:model uM:uM];
+        result = [self sjInsertOrUpdateDataWithModel:model uM:uM];
+        if ( !result ) *stop = YES;
     }];
     
-    // 插入 主键类
-    [hasPrimaryKeyModelsSetM enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull model, BOOL * _Nonnull stop) {
-        if ( [model class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[model class]];
-        [self sjInsertOrUpdateDataWithModel:model uM:uM];
-    }];
+    if ( result ) {
+        // 插入 主键类
+        [hasPrimaryKeyModelsSetM enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull model, BOOL * _Nonnull stop) {
+            if ( [model class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[model class]];
+            [self sjInsertOrUpdateDataWithModel:model uM:uM];
+        }];
+    }
     
     if ( enableTransaction ) [self _sjCommitTransaction];
     return result;
@@ -658,9 +661,10 @@
         _sjmystrcat(fieldSql, " ");
         _sjmystrcat(fieldSql, fieldType);
         
-        if ( NULL != strstr(sql, fieldSql) ) continue;
+        if ( NULL != strstr(sql, fieldSql) ) {free(fieldSql); continue;}
         
         _sjmystrcat(sql, fieldSql);
+        free(fieldSql);
         
         // 如果是自增主键
         if      ( NULL != model.autoincrementPrimaryKey &&
@@ -920,7 +924,7 @@ typedef void(^SJIvarValueBlock)(id value);
 /*!
  *  获取类中相关的私有变量
  */
-static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
+inline static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
     NSMutableSet<NSString *> *ivarListSetM = [NSMutableSet new];
     unsigned int outCount = 0;
     Ivar *ivarList = class_copyIvarList(cls, &outCount);
@@ -933,7 +937,6 @@ static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
     free(ivarList);
     return ivarListSetM;
 }
-
 
 @end
 

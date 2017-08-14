@@ -156,6 +156,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
         __block BOOL result = YES;
         [modelsDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull tabName, NSArray<id> * _Nonnull modelsArr, BOOL * _Nonnull stop) {
             result = [self sjInsertOrUpdateDataWithModels:modelsArr enableTransaction:YES];
+            if ( !result ) *stop = YES;
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
