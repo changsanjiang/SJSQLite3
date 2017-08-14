@@ -547,8 +547,10 @@
 
 - (BOOL)sjUpdate:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> *)insertedOrUpdatedValues {
     if ( 0 == insertedOrUpdatedValues.allValues ) return YES;
-    __block BOOL result = YES;
     
+    [self _sjBeginTransaction];
+    
+    __block BOOL result = YES;
     // 查看是否有特殊字段
     NSDictionary<NSString *, NSArray<NSString *> *> *putInOrderResult = [self _sjPutInOrderModel:model fields:insertedOrUpdatedValues.allKeys];
     
@@ -582,6 +584,9 @@
     }
     // update
     result = [self sjInsertOrUpdateDataWithModel:model uM:[self sjGetUnderstandingWithClass:[model class]]];
+    
+    [self _sjCommitTransaction];
+    
     return result;
 }
 
