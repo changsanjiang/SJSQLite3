@@ -124,14 +124,25 @@
     [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] primaryValue:2 completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable model) {
         if ( nil == model ) return ;
         Person *person = model;
-        NSMutableArray *tagsM = person.tags.mutableCopy;
-        [tagsM addObject:[PersonTag tagWithID:5 des:@"从前有一座links"]];
-        person.tags = tagsM;
         
-        person.name = @"xiaoMing";
+        NSMutableArray *tagsM = [NSMutableArray new];
+        [tagsM addObject:[PersonTag tagWithID:7 des:@"从前有一座links"]];
+        [tagsM addObject:[PersonTag tagWithID:8 des:@"links"]];
         
-        // Update tags....
-        [[SJDatabaseMap sharedServer] updateProperty:@[@"tags"] target:person callBlock:^(BOOL result) {
+        // insert two data
+        person.tags = [person.tags arrayByAddingObjectsFromArray:tagsM];
+        
+        // inset bBook
+        person.bBook = [Book bookWithID:1 name:@"BBBBBBB"];
+        
+        
+        // update tags first object
+        person.tags.firstObject.des = @"XXXXXXXXXXXXXXXXXXXXX";
+        
+        // update goods first object
+        person.goods.firstObject.name = @"LLKLKLKLKLKLKLKLKLKLK";
+        
+        [[SJDatabaseMap sharedServer] update:person updateValues:@{@"tags":person.tags.firstObject, @"goods":person.goods.firstObject} insertValues:@{@"bBook":person.bBook, @"tags":tagsM} callBlock:^(BOOL r) {
             NSLog(@"end");
         }];
     }];

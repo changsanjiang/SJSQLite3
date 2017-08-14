@@ -167,24 +167,52 @@ inline static NSString *_sjDatabaseDefaultFolder() {
  *  更新指定的属性
  *  如果数据库没有这条数据, 将不会保存
  */
-- (void)updateProperty:(NSArray<NSString *> *)fields target:(id<SJDBMapUseProtocol>)target callBlock:(void (^ __nullable)(BOOL result))block {
-    if ( 0 == fields.count || nil == target ) { if ( block ) block(NO); return;}
+- (void)update:(id<SJDBMapUseProtocol>)model property:(NSArray<NSString *> *)fields callBlock:(void (^ __nullable)(BOOL result))block {
+    if ( 0 == fields.count || nil == model ) { if ( block ) block(NO); return;}
     [self addOperationWithBlock:^{
-        [self queryDataWithClass:[target class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:target] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable model) {
-            if ( nil == model ) {
+        [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
+            if ( nil == m ) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if ( nil == model ) { if ( block ) block(NO);}
+                    if ( block ) block(NO);
                 });
                 return;
             }
-            else {
-                BOOL result = [self sjUpdateProperty:fields target:target];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if ( block ) block(result);
-                });
-
-            }
+            BOOL result = [self sjUpdate:model property:fields];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ( block ) block(result);
+            });
         }];
+    }];
+}
+
+
+/*!
+ *  提供更详细的信息去更新, 这将提高更新速度
+ *  如果数据库没有这个模型, 将不会保存
+ *
+ *  updateValues :
+ *  字典值, key 更新的这个模型对应的属性. value 属性更新的模型, 可以是数组, 也可以是单个模型
+ *
+ *  insertValues :
+ *  字典值, key 更新的这个模型对应的属性. value 属性新增的模型, 可以是数组, 也可以是单个模型
+ */
+- (void)update:(id<SJDBMapUseProtocol>)model updateValues:(NSDictionary<NSString *, id> *)updateValues insertValues:(NSDictionary<NSString *, id> *)insertValues callBlock:(void (^)(BOOL))block {
+    if ( 0 == updateValues.allKeys && 0 == insertValues.allKeys ) { if ( block ) block(NO); return; }
+    [self addOperationWithBlock:^{
+       [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
+           if ( nil == m ) {
+               dispatch_async(dispatch_get_main_queue(), ^{
+                   if ( block ) block(NO);
+               });
+               return ;
+           }
+           
+           BOOL result = [self sjUpdate:model updateValues:updateValues insertValues:insertValues];
+           dispatch_async(dispatch_get_main_queue(), ^{
+               if ( block ) block(result);
+           });
+
+       }];
     }];
 }
 

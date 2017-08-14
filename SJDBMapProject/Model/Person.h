@@ -33,4 +33,6 @@
 
 @property (nonatomic, assign) NSInteger age;
 
+@property (nonatomic, strong) Book *bBook;
+
 @end

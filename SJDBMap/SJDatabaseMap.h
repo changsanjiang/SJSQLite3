@@ -71,9 +71,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*!
  *  更新指定的属性
- *  如果数据库没有这条数据, 将不会保存
+ *  如果数据库没有这个模型, 将不会保存
  */
-- (void)updateProperty:(NSArray<NSString *> *)fields target:(id<SJDBMapUseProtocol>)model callBlock:(void (^ __nullable)(BOOL result))block;
+- (void)update:(id<SJDBMapUseProtocol>)model property:(NSArray<NSString *> *)fields callBlock:(void (^ __nullable)(BOOL result))block;
+
+/*!
+ *  提供更详细的信息去更新, 这将提高更新速度
+ *  如果数据库没有这个模型, 将不会保存
+ *
+ *  updateValues :
+ *  字典值, key 更新的这个模型对应的属性. value 属性更新的模型, 可以是数组, 也可以是单个模型
+ *
+ *  insertValues :
+ *  字典值, key 更新的这个模型对应的属性. value 属性新增的模型, 可以是数组, 也可以是单个模型
+ */
+- (void)update:(id<SJDBMapUseProtocol>)model updateValues:(NSDictionary<NSString *, id> * __nullable)updateValues insertValues:(NSDictionary<NSString *, id> *__nullable)insertValues callBlock:(void (^)(BOOL))block;
 
 @end
 

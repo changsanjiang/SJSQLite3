@@ -26,7 +26,7 @@
 }
 
 + (NSDictionary<NSString *,NSString *> *)correspondingKeys {
-    return @{@"aBook":@"bookID",
+    return @{@"aBook":@"bookID",@"bBook":@"bookID",
              /*@"aGoods":@"goodsID"*/};
 }
 
