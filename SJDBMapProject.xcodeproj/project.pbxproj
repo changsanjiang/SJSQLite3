@@ -19,6 +19,7 @@
 		7745B24D1EE5D3A700EC4614 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2361EE5D3A700EC4614 /* Person.m */; };
 		7745B24E1EE5D3A700EC4614 /* PersonTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2381EE5D3A700EC4614 /* PersonTag.m */; };
 		7745B25A1EE5D3C500EC4614 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7745B2581EE5D3BC00EC4614 /* libsqlite3.tbd */; };
+		7755AD3A1F41801D009073D2 /* SJDBMapInsertedOrUpdatedValues.m in Sources */ = {isa = PBXBuildFile; fileRef = 7755AD391F41801D009073D2 /* SJDBMapInsertedOrUpdatedValues.m */; };
 		778252841F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252701F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m */; };
 		778252851F3D59AD006F5156 /* SJDatabaseMap+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252721F3D59AD006F5156 /* SJDatabaseMap+Server.m */; };
 		778252861F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252751F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m */; };
@@ -53,6 +54,8 @@
 		7745B2371EE5D3A700EC4614 /* PersonTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonTag.h; sourceTree = "<group>"; };
 		7745B2381EE5D3A700EC4614 /* PersonTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonTag.m; sourceTree = "<group>"; };
 		7745B2581EE5D3BC00EC4614 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		7755AD381F41801D009073D2 /* SJDBMapInsertedOrUpdatedValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapInsertedOrUpdatedValues.h; sourceTree = "<group>"; };
+		7755AD391F41801D009073D2 /* SJDBMapInsertedOrUpdatedValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapInsertedOrUpdatedValues.m; sourceTree = "<group>"; };
 		7782526F1F3D59AD006F5156 /* SJDatabaseMap+GetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDatabaseMap+GetInfo.h"; sourceTree = "<group>"; };
 		778252701F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDatabaseMap+GetInfo.m"; sourceTree = "<group>"; };
 		778252711F3D59AD006F5156 /* SJDatabaseMap+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDatabaseMap+Server.h"; sourceTree = "<group>"; };
@@ -209,6 +212,8 @@
 				7782527D1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m */,
 				7782527E1F3D59AD006F5156 /* SJDBMapUnderstandingModel.h */,
 				7782527F1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m */,
+				7755AD381F41801D009073D2 /* SJDBMapInsertedOrUpdatedValues.h */,
+				7755AD391F41801D009073D2 /* SJDBMapInsertedOrUpdatedValues.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -338,6 +343,7 @@
 			files = (
 				7745B24C1EE5D3A700EC4614 /* Book.m in Sources */,
 				778252841F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m in Sources */,
+				7755AD3A1F41801D009073D2 /* SJDBMapInsertedOrUpdatedValues.m in Sources */,
 				7745B2231EE5D39B00EC4614 /* ViewController.m in Sources */,
 				778252871F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */,
 				7782528B1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m in Sources */,

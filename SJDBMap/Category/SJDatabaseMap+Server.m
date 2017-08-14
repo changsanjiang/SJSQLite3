@@ -374,6 +374,7 @@
 - (BOOL)sjInsertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models enableTransaction:(BOOL)enableTransaction {
     __block BOOL result = YES;
     if ( enableTransaction ) [self _sjBeginTransaction];
+    
     __block SJDBMapUnderstandingModel *uM;
     NSMutableSet<id<SJDBMapUseProtocol>> *modelsSetM = [NSMutableSet new];
     [models enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -386,7 +387,6 @@
     NSMutableSet<id<SJDBMapUseProtocol>> *hasPrimaryKeyModelsSetM = [NSMutableSet new];
     NSMutableSet<id<SJDBMapUseProtocol>> *hasAutoPrimaryKeyModelsSetM = [NSMutableSet new];
     
-    // 模型整理 去除重复数据.
     NSDictionary<NSString *, NSArray<id> *> *putInOrderResult = [self sjPutInOrderModelsSet:modelsSetM];
     [putInOrderResult.allKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull clsStr, NSUInteger idx, BOOL * _Nonnull stop) {
         Class cls = NSClassFromString(clsStr);
@@ -396,7 +396,7 @@
         else if ( hasAutoPrimaryKey ) [hasAutoPrimaryKeyModelsSetM addObjectsFromArray:putInOrderResult[clsStr]];
         NSAssert(hasPrimaryKey || hasAutoPrimaryKey , @"%@ - 该类没有实现主键或自增主键.", cls);
     }];
-    
+
     // 优先 插入自增主键类
     [hasAutoPrimaryKeyModelsSetM enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull model, BOOL * _Nonnull stop) {
         if ( [model class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[model class]];
@@ -545,40 +545,25 @@
     return dictM;
 }
 
-- (BOOL)sjUpdate:(id<SJDBMapUseProtocol>)model updateValues:(NSDictionary<NSString *, id> *)updateValues insertValues:(NSDictionary<NSString *, id> *)insertValues {
-    __block BOOL result = YES;
-    [self _sjBeginTransaction];
-    result = [self _sjUpdate:model updateValues:updateValues];
-    if ( !result ) goto SJExitFunction;
-
-    result = [self _sjUpdate:model insertValues:insertValues];
-
-SJExitFunction:
-    [self _sjCommitTransaction];
-    return result;
-}
-
-- (BOOL)_sjUpdate:(id<SJDBMapUseProtocol>)model updateValues:(NSDictionary<NSString *, id> *)updateValues {
-    if ( 0 == updateValues.allValues ) return YES;
+- (BOOL)sjUpdate:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> *)insertedOrUpdatedValues {
+    if ( 0 == insertedOrUpdatedValues.allValues ) return YES;
     __block BOOL result = YES;
     
     // 查看是否有特殊字段
-    NSDictionary<NSString *, NSArray<NSString *> *> *putInOrderResult = [self _sjPutInOrderModel:model fields:updateValues.allKeys];
+    NSDictionary<NSString *, NSArray<NSString *> *> *putInOrderResult = [self _sjPutInOrderModel:model fields:insertedOrUpdatedValues.allKeys];
     
     // 存放普通字段
     NSArray<NSString *> *commonFields = putInOrderResult[@"commonFields"];
     
     // 存放独特字段
     NSArray<NSString *> *uniqueFields = putInOrderResult[@"uniqueFields"];
-
+    
     // 先处理普通字段, 再处理特殊字段
     
-    
-    // 更新操作
     if ( 0 != commonFields.count ) {
         result = [self _sjUpdate:model commonFields:commonFields];
     }
-
+    
     if ( result && 0 != uniqueFields.count ) {
         // 特殊字段
         [uniqueFields enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -595,51 +580,8 @@ SJExitFunction:
             if ( !result ) { *stop = YES;}
         }];
     }
-    return result;
-}
-
-- (BOOL)_sjUpdate:(id<SJDBMapUseProtocol>)model insertValues:(NSDictionary<NSString *, id> *)insertValues {
-    if ( 0 == insertValues.allValues ) return YES;
-    __block BOOL result = YES;
-    // 查看是否有特殊字段
-    NSDictionary<NSString *, NSArray<NSString *> *> *putInOrderResult = [self _sjPutInOrderModel:model fields:insertValues.allKeys];
-    
-    // 存放普通字段
-    NSArray<NSString *> *commonFields = putInOrderResult[@"commonFields"];
-    // 存放独特字段
-    NSArray<NSString *> *uniqueFields = putInOrderResult[@"uniqueFields"];
-
-    // 先处理普通字段, 再处理特殊字段
-
-    // 插入操作
-    if ( 0 != commonFields.count ) {
-        [commonFields enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            id value = [(id)model valueForKey:obj];
-            // insert value
-            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[value class]];
-            result = [self sjInsertOrUpdateDataWithModel:value uM:uM];
-            if ( !result ) { *stop = YES;}
-        }];
-    }
-
-    if ( result && 0 != uniqueFields.count ) {
-        [uniqueFields enumerateObjectsUsingBlock:^(NSString * _Nonnull fields, NSUInteger idx, BOOL * _Nonnull stop) {
-            id uniqueValue = [(id)model valueForKey:fields];
-            // is Arr
-            if ( [uniqueValue isKindOfClass:[NSArray class]] ) {
-                // insert arr values
-                result = [self sjInsertOrUpdateDataWithModels:insertValues[fields] enableTransaction:YES];
-                return;
-            }
-            // is cor
-            // insert cor
-            if ( result ) result = [self sjInsertOrUpdateDataWithModel:insertValues[fields] uM:[self sjGetUnderstandingWithClass:[uniqueValue class]]];
-        }];
-        
-        // update
-        result = [self sjInsertOrUpdateDataWithModel:model uM:[self sjGetUnderstandingWithClass:[model class]]];
-    }
-    
+    // update
+    result = [self sjInsertOrUpdateDataWithModel:model uM:[self sjGetUnderstandingWithClass:[model class]]];
     return result;
 }
 
@@ -704,12 +646,16 @@ SJExitFunction:
         // 如果字段类型未知, 目前跳过该字段
         if ( 0 == strlen(fieldType) ) continue;
         
-        if ( NULL != strstr(sql, field) ) continue;
+        char *fieldSql = malloc(256);
         
-        _sjmystrcat(sql, " ");
-        _sjmystrcat(sql, field);
-        _sjmystrcat(sql, " ");
-        _sjmystrcat(sql, fieldType);
+        _sjmystrcat(fieldSql, " ");
+        _sjmystrcat(fieldSql, field);
+        _sjmystrcat(fieldSql, " ");
+        _sjmystrcat(fieldSql, fieldType);
+        
+        if ( NULL != strstr(sql, fieldSql) ) continue;
+        
+        _sjmystrcat(sql, fieldSql);
         
         // 如果是自增主键
         if      ( NULL != model.autoincrementPrimaryKey &&

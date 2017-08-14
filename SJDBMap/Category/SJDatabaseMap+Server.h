@@ -87,7 +87,7 @@ extern char *_sjmystrcat(char *dst, const char *src);
  */
 - (BOOL)sjUpdate:(id<SJDBMapUseProtocol>)model property:(NSArray<NSString *> *)fields;
 
-- (BOOL)sjUpdate:(id<SJDBMapUseProtocol>)model updateValues:(NSDictionary<NSString *, id> *)updateValues insertValues:(NSDictionary<NSString *, id> *)insertValues;
+- (BOOL)sjUpdate:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> *)insertedOrUpdatedValues;
 
 /*!
  *  获取主键值

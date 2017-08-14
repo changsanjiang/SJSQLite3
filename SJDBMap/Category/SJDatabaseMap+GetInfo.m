@@ -61,6 +61,8 @@
     return set;
 }
 
+static char const *sjAutoPrimaryKeyValueFlag = "sjAutoPrimaryKeyValueFlag";
+
 - (void)_sjCycleGetCorrespondingValueWithObj:(id<SJDBMapUseProtocol>)obj container:(NSMutableSet<id<SJDBMapUseProtocol>> *)set {
     [[self sjGetCorrespondingKeys:[obj class]] enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
         id value = [(id)obj valueForKey:model.ownerFields];
