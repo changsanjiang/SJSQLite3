@@ -65,6 +65,7 @@
     
     
     [self insertOrUpdate];
+
     
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -102,7 +103,7 @@
                      [PersonTag tagWithID:4 des:@"E"],];
     
     NSMutableArray <Person *> *arrM = [NSMutableArray new];
-    for ( int i = 0 ; i < 20 ; i ++ ) {
+    for ( int i = 0 ; i < 4000 ; i ++ ) {
         Person *sj = [Person new];
         sj.personID = i;
         sj.name = @"sj";
@@ -148,7 +149,11 @@
         // mixed
         [tagsM addObject:person.tags.firstObject];
         [[SJDatabaseMap sharedServer] update:person insertedOrUpdatedValues:@{@"tags":tagsM, @"goods":person.goods.firstObject} callBlock:^(BOOL r) {
-            NSLog(@"end");
+            
+            
+            // query sample
+            [self queryWithDict:@{@"personID":@"33"}];
+            
         }];
     }];
     
@@ -192,6 +197,8 @@
 
 - (void)queryWithDict:(NSDictionary *)dict {
     [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+        
+        // query result 
         [data enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSLog(@"%@", obj);
         }];
