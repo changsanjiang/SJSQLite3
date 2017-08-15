@@ -195,7 +195,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> * __nullable)insertedOrUpdatedValues callBlock:(void (^)(BOOL))block {
     if ( 0 == insertedOrUpdatedValues.allKeys ) { if ( block ) block(NO); return; }
     [self addOperationWithBlock:^{
-        [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
+        [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
             if ( nil == m ) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if ( block ) block(NO);

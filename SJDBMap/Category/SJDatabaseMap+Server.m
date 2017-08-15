@@ -620,7 +620,7 @@
     
     SJDBMapUnderstandingModel *model = [self sjGetUnderstandingWithClass:cls];
     
-    NSAssert(model.primaryKey || model.autoincrementPrimaryKey, @"[%@] 只能有一个主键.", cls);
+    NSAssert(model.primaryKey || model.autoincrementPrimaryKey, @"[%@] 需要一个主键.", cls);
     
     // 获取表名称
     const char *tabName = [self sjGetTabName:cls];
