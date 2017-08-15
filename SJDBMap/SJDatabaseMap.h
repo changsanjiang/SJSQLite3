@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  deletedValues : key 更新的这个模型对应的属性(字段为数组). value 数组中删除掉的模型.
  */
-- (void)update:(id<SJDBMapUseProtocol>)model deletedValues:(NSDictionary<NSString *, id> *__nullable)deletedValues callBlock:(void (^)(BOOL))block;
+- (void)updateTheDeletedValuesInTheModel:(id<SJDBMapUseProtocol>)model callBlock:(void (^)(BOOL))block;
 
 @end
 

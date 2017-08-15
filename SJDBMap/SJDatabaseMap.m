@@ -172,12 +172,13 @@ inline static NSString *_sjDatabaseDefaultFolder() {
     if ( 0 == fields.count || nil == model ) { if ( block ) block(NO); return;}
     [self addOperationWithBlock:^{
         [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
-            if ( nil == m ) {
-                if ( block ) block(NO);
-                return;
-            }
-            BOOL result = [self sjUpdate:model property:fields];
-            if ( block ) block(result);
+            if ( nil == m ) { if ( block ) block(NO); return; }
+            [self addOperationWithBlock:^{
+                BOOL result = [self sjUpdate:model property:fields];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ( block ) block(result);
+                });
+            }];
         }];
     }];
 }
@@ -192,13 +193,13 @@ inline static NSString *_sjDatabaseDefaultFolder() {
     if ( 0 == insertedOrUpdatedValues.allKeys ) { if ( block ) block(NO); return; }
     [self addOperationWithBlock:^{
         [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
-            if ( nil == m ) {
-                if ( block ) block(NO);
-                return ;
-            }
-            
-            BOOL result = [self sjUpdate:model insertedOrUpdatedValues:insertedOrUpdatedValues];
-            if ( block ) block(result);
+            if ( nil == m ) { if ( block ) block(NO); return ; }
+            [self addOperationWithBlock:^{
+               BOOL result = [self sjUpdate:model insertedOrUpdatedValues:insertedOrUpdatedValues];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ( block ) block(result);
+                });
+            }];
         }];
     }];
 }
@@ -209,16 +210,16 @@ inline static NSString *_sjDatabaseDefaultFolder() {
  *
  *  deletedValues : key 更新的这个模型对应的属性(字段为数组). value 数组中删除掉的模型.
  */
-- (void)update:(id<SJDBMapUseProtocol>)model deletedValues:(NSDictionary<NSString *, id> *__nullable)deletedValues callBlock:(void (^)(BOOL))block {
-    if ( 0 == deletedValues.allKeys ) { if ( block ) block(NO); return;}
+- (void)updateTheDeletedValuesInTheModel:(id<SJDBMapUseProtocol>)model callBlock:(void (^)(BOOL))block {
     [self addOperationWithBlock:^{
         [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
-            if ( nil == m ) {
-                if ( block ) block(NO);
-                return ;
-            }
-            BOOL result = [self sjInsertOrUpdateDataWithModel:model uM:[self sjGetUnderstandingWithClass:[model class]]];
-            if ( block ) block(result);
+            if ( nil == m ) { if ( block ) block(NO); return ; }
+            [self addOperationWithBlock:^{
+                BOOL result = [self sjInsertOrUpdateDataWithModel:model uM:[self sjGetUnderstandingWithClass:[model class]]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ( block ) block(result);
+                });
+            }];
         }];
     }];
 }
