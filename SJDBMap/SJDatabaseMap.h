@@ -86,6 +86,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> * __nullable)insertedOrUpdatedValues callBlock:(void (^)(BOOL))block;
 
+/*!
+ *  此接口针对数组字段使用.
+ *  如果数据库没有这个模型, 将不会保存
+ *
+ *  deletedValues : key 更新的这个模型对应的属性(字段为数组). value 数组中删除掉的模型.
+ */
+- (void)update:(id<SJDBMapUseProtocol>)model deletedValues:(NSDictionary<NSString *, id> *__nullable)deletedValues callBlock:(void (^)(BOOL))block;
+
 @end
 
 

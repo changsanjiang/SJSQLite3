@@ -173,15 +173,11 @@ inline static NSString *_sjDatabaseDefaultFolder() {
     [self addOperationWithBlock:^{
         [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
             if ( nil == m ) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if ( block ) block(NO);
-                });
+                if ( block ) block(NO);
                 return;
             }
             BOOL result = [self sjUpdate:model property:fields];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if ( block ) block(result);
-            });
+            if ( block ) block(result);
         }];
     }];
 }
@@ -197,17 +193,32 @@ inline static NSString *_sjDatabaseDefaultFolder() {
     [self addOperationWithBlock:^{
         [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
             if ( nil == m ) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if ( block ) block(NO);
-                });
+                if ( block ) block(NO);
                 return ;
             }
             
             BOOL result = [self sjUpdate:model insertedOrUpdatedValues:insertedOrUpdatedValues];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if ( block ) block(result);
-            });
-            
+            if ( block ) block(result);
+        }];
+    }];
+}
+
+/*!
+ *  此接口针对数组字段使用.
+ *  如果数据库没有这个模型, 将不会保存
+ *
+ *  deletedValues : key 更新的这个模型对应的属性(字段为数组). value 数组中删除掉的模型.
+ */
+- (void)update:(id<SJDBMapUseProtocol>)model deletedValues:(NSDictionary<NSString *, id> *__nullable)deletedValues callBlock:(void (^)(BOOL))block {
+    if ( 0 == deletedValues.allKeys ) { if ( block ) block(NO); return;}
+    [self addOperationWithBlock:^{
+        [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
+            if ( nil == m ) {
+                if ( block ) block(NO);
+                return ;
+            }
+            BOOL result = [self sjInsertOrUpdateDataWithModel:model uM:[self sjGetUnderstandingWithClass:[model class]]];
+            if ( block ) block(result);
         }];
     }];
 }
