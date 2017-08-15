@@ -466,8 +466,10 @@
 - (NSNumber *)sjGetLastDataIDWithClass:(Class)cls autoincrementPrimaryKeyModel:(SJDBMapAutoincrementPrimaryKeyModel *)aPKM {
     NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %s ORDER by %@ desc limit 1;", aPKM.ownerFields, [self sjGetTabName:cls], aPKM.ownerFields];
     NSDictionary *dict = [self sjQueryWithSQLStr:sql].firstObject;
-    if ( !dict && !dict.count ) return 0;
-    return dict[@"goodsID"];
+    if ( !dict && !dict.count ) return nil;
+    NSString *fields = [self sjGetAutoPrimaryFields:cls];
+    if ( 0 == fields.length ) return nil;
+    return dict[fields];
 }
 
 /*!
