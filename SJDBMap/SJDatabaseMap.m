@@ -67,6 +67,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
     if ( !(self = [super init] ) ) return nil;
     if ( SQLITE_OK != sqlite3_open(path.UTF8String, &_sqDb) )
         NSLog(@"初始化数据库失败, 请检查路径");
+    _dbPath = path;
     return self;
 }
 
