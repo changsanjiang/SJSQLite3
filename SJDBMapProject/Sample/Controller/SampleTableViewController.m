@@ -18,6 +18,8 @@
 
 #import "SampleVideoModel.h"
 
+#import "SJDatabaseMap.h"
+
 static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
 
 @interface SampleTableViewController ()
@@ -31,10 +33,29 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self sectionsM];
+    
+    [self _setupView];
+    
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:self.sections callBlock:^(BOOL result) {
+        NSLog(@"插入数据库: %zd", result);
+        NSLog(@"database path: %@", [SJDatabaseMap sharedServer].dbPath);
+    }];
+    
+}
+
+
+// UI
+- (void)_setupView {
     self.view.backgroundColor = [UIColor whiteColor];
-    
     [self.tableView registerNib:[UINib nibWithNibName:SampleTableViewCellID bundle:nil] forCellReuseIdentifier:SampleTableViewCellID];
-    
+    self.tableView.rowHeight = [UIScreen mainScreen].bounds.size.width * 9 / 16 + 5;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
+
+// load local data
+- (NSArray<SampleVideoSection *> *)sectionsM {
+    if ( _sections ) return _sections;
     NSData *localJSONData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SampleData.json" ofType:@""]];
     NSDictionary *convertedDict = [NSJSONSerialization JSONObjectWithData:localJSONData options:0 error:nil];
     
@@ -54,9 +75,8 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
         [sectionsM addObject:section];
     }
     
-    self.sections = sectionsM;
-    
-    self.tableView.rowHeight = [UIScreen mainScreen].bounds.size.width * 9 / 16 + 5;
+    _sections = sectionsM;
+    return _sections;
 }
 
 #pragma mark - Table view data source

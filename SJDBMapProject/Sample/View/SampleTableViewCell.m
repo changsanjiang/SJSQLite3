@@ -33,16 +33,14 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    _coverImageView.backgroundColor = [UIColor colorWithRed:1.0 * (arc4random() % 256 / 255.0)
-                                                      green:1.0 * (arc4random() % 256 / 255.0)
-                                                       blue:1.0 * (arc4random() % 256 / 255.0)
-                                                      alpha:1];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     // Initialization code
 }
 
 - (void)setModel:(SampleVideoModel *)model  {
     _model = model;
-    [_coverImageView setImageWithURL:[NSURL URLWithString:model.videoCoverUrl] options:YYWebImageOptionSetImageWithFadeAnimation];
+    [_coverImageView setImageWithURL:[NSURL URLWithString:model.videoCoverUrl] placeholder:[UIImage imageNamed:@"placehodler"]];
     _titleLabel.text = model.title;
     _organLabel.text = model.organ.identification;
     if ( model.likedUsers.count > 0 ) _userImageView0.image = [UIImage imageNamed:model.likedUsers[0].avatar];

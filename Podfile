@@ -6,5 +6,5 @@ target 'SJDBMapProject' do
   # use_frameworks!
 
   # Pods for SJDBMapProject
-  pod 'YYKit'
+   pod 'YYKit'
 end
