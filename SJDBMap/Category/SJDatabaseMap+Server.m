@@ -454,6 +454,8 @@
     
     [self _sjBeginTransaction];
     
+    [self sjCreateOrAlterTabWithClass:[model class]];
+    
     // 查看是否有特殊字段
     NSDictionary<NSString *, NSArray<NSString *> *> *putInOrderResult = [self _sjPutInOrderModel:model fields:fields];
     
@@ -497,10 +499,12 @@
         // is Arr
         if ( [uniqueValue isKindOfClass:[NSArray class]] ) {
             // insert arr values
+            [self sjCreateOrAlterTabWithClass:[[uniqueValue firstObject] class]];
             result = [self sjInsertOrUpdateDataWithModels:uniqueValue enableTransaction:NO];
             return;
         }
         // is cor
+        [self sjCreateOrAlterTabWithClass:[uniqueValue class]];
         if ( result ) result = [self sjInsertOrUpdateDataWithModel:uniqueValue uM:[self sjGetUnderstandingWithClass:[uniqueValue class]]];
     }];
     
@@ -575,12 +579,14 @@
             id uniqueValue = [(id)model valueForKey:obj];
             // is Arr
             if ( [uniqueValue isKindOfClass:[NSArray class]] ) {
+                [self sjCreateOrAlterTabWithClass:[[uniqueValue firstObject] class]];
                 result = [self sjInsertOrUpdateDataWithModels:uniqueValue enableTransaction:NO];
                 if ( !result ) { *stop = YES;}
                 return;
             }
             // is cor
             SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[uniqueValue class]];
+            [self sjCreateOrAlterTabWithClass:uniqueValue];
             result = [self sjInsertOrUpdateDataWithModel:uniqueValue uM:uM];
             if ( !result ) { *stop = YES;}
         }];

@@ -56,6 +56,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SJDatabaseMap (InsertOrUpdate)
 
+
+// MARK: ---------------------------------------------------------
+/*!
+ *  数据库依据模型来存储. 所以在存储之前, 请将模型更新到最新状态, 再进行存储.
+ */
+// MARK: ---------------------------------------------------------
+
+
 /*!
  *  插入数据或更新数据
  *  如果没有表, 会自动创建表
@@ -84,15 +92,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  insertedOrUpdatedValues : key 更新的这个模型对应的属性. value 属性 更新/新增 的模型, 可以是数组, 也可以是单个模型
  */
-- (void)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> * __nullable)insertedOrUpdatedValues callBlock:(void (^)(BOOL))block;
+- (void)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> * __nullable)insertedOrUpdatedValues callBlock:(void (^)(BOOL result))block;
 
 /*!
  *  此接口针对数组字段使用.
  *  如果数据库没有这个模型, 将不会保存
  *
- *  deletedValues : key 更新的这个模型对应的属性(字段为数组). value 数组中删除掉的模型.
  */
-- (void)updateTheDeletedValuesInTheModel:(id<SJDBMapUseProtocol>)model callBlock:(void (^)(BOOL))block;
+- (void)updateTheDeletedValuesInTheModel:(id<SJDBMapUseProtocol>)model callBlock:(void (^)(BOOL result))block;
 
 @end
 

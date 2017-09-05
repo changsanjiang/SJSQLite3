@@ -208,7 +208,6 @@ inline static NSString *_sjDatabaseDefaultFolder() {
  *  此接口针对数组字段使用.
  *  如果数据库没有这个模型, 将不会保存
  *
- *  deletedValues : key 更新的这个模型对应的属性(字段为数组). value 数组中删除掉的模型.
  */
 - (void)updateTheDeletedValuesInTheModel:(id<SJDBMapUseProtocol>)model callBlock:(void (^)(BOOL))block {
     [self addOperationWithBlock:^{
