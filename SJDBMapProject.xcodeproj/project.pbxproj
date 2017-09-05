@@ -29,6 +29,16 @@
 		7782528B1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782527F1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m */; };
 		7782528C1F3D59AD006F5156 /* SJDatabaseMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252811F3D59AD006F5156 /* SJDatabaseMap.m */; };
 		7782528F1F3D9064006F5156 /* Price.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782528E1F3D9064006F5156 /* Price.m */; };
+		77BED2C31F5EC92B0024D879 /* SampleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2C21F5EC92B0024D879 /* SampleTableViewController.m */; };
+		77BED2C91F5EC9560024D879 /* SampleVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2C81F5EC9560024D879 /* SampleVideoModel.m */; };
+		77BED2CB1F5ECA0B0024D879 /* SampleData.json in Resources */ = {isa = PBXBuildFile; fileRef = 77BED2CA1F5ECA0B0024D879 /* SampleData.json */; };
+		77BED2CE1F5ECCC00024D879 /* SampleVideoSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2CD1F5ECCC00024D879 /* SampleVideoSection.m */; };
+		77BED2D11F5ECE330024D879 /* SampleVideoTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2D01F5ECE330024D879 /* SampleVideoTag.m */; };
+		77BED2D41F5ED0CE0024D879 /* SampleUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2D31F5ED0CE0024D879 /* SampleUser.m */; };
+		77BED2D71F5ED2C10024D879 /* SampleOrgan.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2D61F5ED2C10024D879 /* SampleOrgan.m */; };
+		77BED2DD1F5ED62C0024D879 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2DC1F5ED62C0024D879 /* UIView+Extension.m */; };
+		77BED2EA1F5ED7860024D879 /* SampleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2E81F5ED7860024D879 /* SampleTableViewCell.m */; };
+		77BED2EB1F5ED7860024D879 /* SampleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77BED2E91F5ED7860024D879 /* SampleTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +85,24 @@
 		778252831F3D59AD006F5156 /* SJDBMapUseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUseProtocol.h; sourceTree = "<group>"; };
 		7782528D1F3D9064006F5156 /* Price.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Price.h; sourceTree = "<group>"; };
 		7782528E1F3D9064006F5156 /* Price.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Price.m; sourceTree = "<group>"; };
+		77BED2C11F5EC92B0024D879 /* SampleTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleTableViewController.h; sourceTree = "<group>"; };
+		77BED2C21F5EC92B0024D879 /* SampleTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleTableViewController.m; sourceTree = "<group>"; };
+		77BED2C71F5EC9560024D879 /* SampleVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleVideoModel.h; sourceTree = "<group>"; };
+		77BED2C81F5EC9560024D879 /* SampleVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleVideoModel.m; sourceTree = "<group>"; };
+		77BED2CA1F5ECA0B0024D879 /* SampleData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SampleData.json; sourceTree = "<group>"; };
+		77BED2CC1F5ECCC00024D879 /* SampleVideoSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleVideoSection.h; sourceTree = "<group>"; };
+		77BED2CD1F5ECCC00024D879 /* SampleVideoSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleVideoSection.m; sourceTree = "<group>"; };
+		77BED2CF1F5ECE330024D879 /* SampleVideoTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleVideoTag.h; sourceTree = "<group>"; };
+		77BED2D01F5ECE330024D879 /* SampleVideoTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleVideoTag.m; sourceTree = "<group>"; };
+		77BED2D21F5ED0CD0024D879 /* SampleUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleUser.h; sourceTree = "<group>"; };
+		77BED2D31F5ED0CE0024D879 /* SampleUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleUser.m; sourceTree = "<group>"; };
+		77BED2D51F5ED2C10024D879 /* SampleOrgan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleOrgan.h; sourceTree = "<group>"; };
+		77BED2D61F5ED2C10024D879 /* SampleOrgan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleOrgan.m; sourceTree = "<group>"; };
+		77BED2DB1F5ED62C0024D879 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		77BED2DC1F5ED62C0024D879 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
+		77BED2E71F5ED7860024D879 /* SampleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleTableViewCell.h; sourceTree = "<group>"; };
+		77BED2E81F5ED7860024D879 /* SampleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleTableViewCell.m; sourceTree = "<group>"; };
+		77BED2E91F5ED7860024D879 /* SampleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SampleTableViewCell.xib; sourceTree = "<group>"; };
 		E559417A2BA48C41C6BC60ED /* Pods-SJDBMapProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,11 +149,12 @@
 		7745B21A1EE5D39B00EC4614 /* SJDBMapProject */ = {
 			isa = PBXGroup;
 			children = (
+				7782526D1F3D59AD006F5156 /* SJDBMap */,
 				7745B21E1EE5D39B00EC4614 /* AppDelegate.h */,
 				7745B21F1EE5D39B00EC4614 /* AppDelegate.m */,
 				7745B2211EE5D39B00EC4614 /* ViewController.h */,
 				7745B2221EE5D39B00EC4614 /* ViewController.m */,
-				7782526D1F3D59AD006F5156 /* SJDBMap */,
+				77BED2BD1F5EC8E00024D879 /* Sample */,
 				7745B2321EE5D3A700EC4614 /* Model */,
 				7745B2241EE5D39B00EC4614 /* Main.storyboard */,
 				7745B2271EE5D39B00EC4614 /* Assets.xcassets */,
@@ -213,6 +242,55 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		77BED2BD1F5EC8E00024D879 /* Sample */ = {
+			isa = PBXGroup;
+			children = (
+				77BED2BE1F5EC9110024D879 /* Controller */,
+				77BED2C01F5EC9110024D879 /* View */,
+				77BED2BF1F5EC9110024D879 /* Model */,
+			);
+			path = Sample;
+			sourceTree = "<group>";
+		};
+		77BED2BE1F5EC9110024D879 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				77BED2C11F5EC92B0024D879 /* SampleTableViewController.h */,
+				77BED2C21F5EC92B0024D879 /* SampleTableViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		77BED2BF1F5EC9110024D879 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				77BED2CC1F5ECCC00024D879 /* SampleVideoSection.h */,
+				77BED2CD1F5ECCC00024D879 /* SampleVideoSection.m */,
+				77BED2C71F5EC9560024D879 /* SampleVideoModel.h */,
+				77BED2C81F5EC9560024D879 /* SampleVideoModel.m */,
+				77BED2CF1F5ECE330024D879 /* SampleVideoTag.h */,
+				77BED2D01F5ECE330024D879 /* SampleVideoTag.m */,
+				77BED2D21F5ED0CD0024D879 /* SampleUser.h */,
+				77BED2D31F5ED0CE0024D879 /* SampleUser.m */,
+				77BED2D51F5ED2C10024D879 /* SampleOrgan.h */,
+				77BED2D61F5ED2C10024D879 /* SampleOrgan.m */,
+				77BED2CA1F5ECA0B0024D879 /* SampleData.json */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		77BED2C01F5EC9110024D879 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				77BED2DB1F5ED62C0024D879 /* UIView+Extension.h */,
+				77BED2DC1F5ED62C0024D879 /* UIView+Extension.m */,
+				77BED2E71F5ED7860024D879 /* SampleTableViewCell.h */,
+				77BED2E81F5ED7860024D879 /* SampleTableViewCell.m */,
+				77BED2E91F5ED7860024D879 /* SampleTableViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -276,8 +354,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7745B22B1EE5D39B00EC4614 /* LaunchScreen.storyboard in Resources */,
+				77BED2EB1F5ED7860024D879 /* SampleTableViewCell.xib in Resources */,
 				7745B2281EE5D39B00EC4614 /* Assets.xcassets in Resources */,
 				7745B2261EE5D39B00EC4614 /* Main.storyboard in Resources */,
+				77BED2CB1F5ECA0B0024D879 /* SampleData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,13 +424,21 @@
 				778252861F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */,
 				778252851F3D59AD006F5156 /* SJDatabaseMap+Server.m in Sources */,
 				7782528A1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m in Sources */,
+				77BED2D41F5ED0CE0024D879 /* SampleUser.m in Sources */,
 				778252881F3D59AD006F5156 /* SJDBMapClassInfoModel.m in Sources */,
 				7745B24D1EE5D3A700EC4614 /* Person.m in Sources */,
 				7782528C1F3D59AD006F5156 /* SJDatabaseMap.m in Sources */,
 				7745B2201EE5D39B00EC4614 /* AppDelegate.m in Sources */,
 				7745B21D1EE5D39B00EC4614 /* main.m in Sources */,
+				77BED2C91F5EC9560024D879 /* SampleVideoModel.m in Sources */,
+				77BED2D71F5ED2C10024D879 /* SampleOrgan.m in Sources */,
+				77BED2C31F5EC92B0024D879 /* SampleTableViewController.m in Sources */,
 				7782528F1F3D9064006F5156 /* Price.m in Sources */,
 				778252891F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m in Sources */,
+				77BED2DD1F5ED62C0024D879 /* UIView+Extension.m in Sources */,
+				77BED2CE1F5ECCC00024D879 /* SampleVideoSection.m in Sources */,
+				77BED2D11F5ECE330024D879 /* SampleVideoTag.m in Sources */,
+				77BED2EA1F5ED7860024D879 /* SampleTableViewCell.m in Sources */,
 				7732A9981EE983D30037A195 /* Goods.m in Sources */,
 				7745B24E1EE5D3A700EC4614 /* PersonTag.m in Sources */,
 			);

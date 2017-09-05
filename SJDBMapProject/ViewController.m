@@ -61,13 +61,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
+    self.view.backgroundColor = [UIColor whiteColor];
     
+    NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
     [self insertOrUpdate];
 
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sample" style:UIBarButtonItemStyleDone target:self action:@selector(clickedItem:)];
     
     // Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)clickedItem:(UIBarButtonItem *)item {
+    [self.navigationController pushViewController:[NSClassFromString(@"SampleTableViewController") new] animated:YES];
 }
 
 @end
