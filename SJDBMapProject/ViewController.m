@@ -65,6 +65,10 @@
     
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
+    
+#warning - Please perform " pod update --no-repo-update " to update the project
+    
+    
     // sample 1
     [self insertOrUpdate];
 
