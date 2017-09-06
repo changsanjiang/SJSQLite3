@@ -8,8 +8,8 @@ Automatically create tables based on the model. To achieve additions and deletio
 
 #### Use
 
-实现协议方法.
-Imp <SJDBMapUseProtocol> Method.
+实现协议方法.   
+Imp SJDBMapUseProtocol Method.
 
 ```
 @interface SampleVideoModel : NSObject<SJDBMapUseProtocol>
@@ -42,10 +42,10 @@ Imp <SJDBMapUseProtocol> Method.
 ```
 
 #### insertOrUpdate 插入数据或更新数据
+数据在插入表之前， 会检测是否已经存在相关表。如果不存在，会先创建相关表（可能会创建多个表）， 再进行数据的更新或插入。
+如果类中新添了属性， 会自动检测并更新相关表字段。    
 Data before the table is inserted, it will detect whether the relevant table already exists. If it does not exist, it will first create a related table (may create multiple tables), and then update the data or insert.
 If a new attribute is added to the class, the associated table field is automatically detected and updated.
-数据在插入表之前， 会检测是否已经存在相关表。如果不存在，会先创建相关表（可能会创建多个表）， 再进行数据的更新或插入。
-如果类中新添了属性， 会自动检测并更新相关表字段。
 
 ```
 - (void)insertOrUpdate {
@@ -63,30 +63,78 @@ If a new attribute is added to the class, the associated table field is automati
         // ....
     }];
 }
+- (void)update {
+    [[SJDatabaseMap sharedServer] update:person property:@[@"tags", @"age"] callBlock:^(BOOL result) {
+            // ....
+    }];
+    
+    [[SJDatabaseMap sharedServer] update:person insertedOrUpdatedValues:@{@"tags":insertedValues} callBlock:^(BOOL r) { 
+        // ....
+    }];
+}
 ```
 #### delete 删除
+删除数据是删除该类对应的表的数据， 与其关联的其他类的数据没有做处理。    
 Deleting data is to delete the data of the corresponding table of the class, and the data of the other class associated with it is not processed.
-删除数据是删除该类对应的表的数据， 与其关联的其他类的数据没有做处理。
 
 ```
 - (void)del {
     [[SJDBMap sharedServer] deleteDataWithClass:[Person class] primaryValue:0 callBlock:^(BOOL result) {
        // ...
     }];
+    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] primaryValues:@[@(1), @(0)] callBlock:^(BOOL r) {
+       // ... 
+    }];
+    [[SJDatabaseMap sharedServer] deleteDataWithModels:personModels callBlock:^(BOOL result) {
+       // ...
+    }];
 }
 ```
 #### query 查询
+查询数据会将与该类相关的所有数据都读取出来， 并转换相应的模型。    
 The query data will read all the data associated with that class and convert the corresponding model.
-查询数据会将与该类相关的所有数据都读取出来， 并转换相应的模型。
 
 ```
 - (void)query {
     [[SJDBMap sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id> * _Nonnull data) {
        // ...
     }];
+    
+    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] primaryValue:12 completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable model) {
+        // ...
+    }];
+    
+    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:@{@"name":@"sj", @"age":@(20)} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+        // ...
+    }];
+    
+    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] range:NSMakeRange(2, 10) completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) { 
+        // ...
+    }];
+}
+// 模糊查询
+- (void)fuzzyQuery {
+    // 匹配以 's' 开头的name.
+    [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"s"} match:SJDatabaseMapFuzzyMatchFront completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+       // ... 
+    }];
+     *  匹配左右两边
+     *  ...A...
+     */
+    SJDatabaseMapFuzzyMatchAll = 0,
+    /*!
+     *  匹配以什么开头
+     *  ABC.....
+     */
+    SJDatabaseMapFuzzyMatchFront,
+    /*!
+     *  匹配以什么结尾
+     *  ...DEF
+     */
+    SJDatabaseMapFuzzyMatchLater
 }
 ```
 #### Use attention 使用注意
- 
+   模型需要一个主键或自增主键     
    The model requires a primary key or a self-incrementing key
-   模型需要一个主键或自增主键
+
