@@ -20,6 +20,8 @@
 
 #import "SJDatabaseMap.h"
 
+#import "SampleVideoPlayViewController.h"
+
 static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
 
 @interface SampleTableViewController ()
@@ -82,7 +84,7 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
     }];
     
     NSMutableArray<SampleVideoSection *> *sectionsM = [NSMutableArray new];
-    for ( int i = 0 ; i < 2000; ++i ) {
+    for ( int i = 0 ; i < 1000; ++i ) {
         SampleVideoSection *section = [SampleVideoSection new];
         section.sectionId = i;
         section.sectionTitle = [NSString stringWithFormat:@"%04zd", i];
@@ -113,5 +115,12 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
     return [NSString stringWithFormat:@"%@", self.sections[section].sectionTitle];
 }
 
+#pragma mark -
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    SampleVideoModel *video = self.sections[indexPath.section].videos[indexPath.row];
+    SampleVideoPlayViewController *vc = [[SampleVideoPlayViewController alloc] initWithModel:video];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 @end

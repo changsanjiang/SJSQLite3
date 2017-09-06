@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 
+#import "SampleVideoPlayNavigationController.h"
+
 @interface AppDelegate ()
 
 @end
@@ -18,7 +20,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     UIViewController *vc = [NSClassFromString(@"ViewController") new];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    SampleVideoPlayNavigationController *nav = [[SampleVideoPlayNavigationController alloc] initWithRootViewController:vc];
     _window = [UIWindow new];
     _window.rootViewController = nav;
     [_window makeKeyAndVisible];
