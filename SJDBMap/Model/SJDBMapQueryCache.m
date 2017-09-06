@@ -8,7 +8,9 @@
 
 #import "SJDBMapQueryCache.h"
 
+#ifdef __SJDBug
 #import <NSObject+YYModel.h>
+#endif
 
 @implementation SJDBMapModelCache
 
@@ -20,9 +22,11 @@
     return _memeryM;
 }
 
+#ifdef __SJDBug
 - (NSString *)description {
     return [self modelDescription];
 }
+#endif
 
 @end
 
@@ -38,9 +42,12 @@
     return _modelCacheM;
 }
 
+
+#ifdef __SJDBug
 - (NSString *)description {
     return [self modelDescription];
 }
+#endif
 
 - (void)dealloc {
     NSLog(@"%zd - %s", __LINE__, __func__);

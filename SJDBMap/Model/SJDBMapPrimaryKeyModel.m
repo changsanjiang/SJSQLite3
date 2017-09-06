@@ -7,7 +7,10 @@
 //
 
 #import "SJDBMapPrimaryKeyModel.h"
+
+#ifdef __SJDBug
 #import <YYKit.h>
+#endif
 
 @implementation SJDBMapPrimaryKeyModel
 
@@ -15,9 +18,11 @@
     return @"pKMID";
 }
 
-// MARK: YYKit
 
+#ifdef __SJDBug
 - (NSString *)description {
     return [self modelDescription];
 }
+#endif
+
 @end

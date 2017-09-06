@@ -7,8 +7,10 @@
 //
 
 #import "SJDBMapUnderstandingModel.h"
-#import "SJDBMap.h"
+
+#ifdef __SJDBug
 #import <YYKit.h>
+#endif
 
 @implementation SJDBMapUnderstandingModel
 
@@ -16,9 +18,11 @@
     return @"uMID";
 }
 
-// MARK: YYKit
 
+#ifdef __SJDBug
 - (NSString *)description {
     return [self modelDescription];
 }
+#endif
+
 @end

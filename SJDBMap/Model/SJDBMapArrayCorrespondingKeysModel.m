@@ -7,8 +7,10 @@
 //
 
 #import "SJDBMapArrayCorrespondingKeysModel.h"
-#import "SJDBMap.h"
+
+#ifdef __SJDBug
 #import <YYKit.h>
+#endif
 
 @implementation SJDBMapArrayCorrespondingKeysModel
 
@@ -17,8 +19,10 @@
 }
 
 // MARK: YYKit
-
+#ifdef __SJDBug
 - (NSString *)description {
     return [self modelDescription];
 }
+#endif
+
 @end
