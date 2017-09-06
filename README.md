@@ -87,6 +87,6 @@ The query data will read all the data associated with that class and convert the
 }
 ```
 #### Use attention 使用注意
-   模型需要一个主键或自增主键     
+   模型需要一个主键或自增主键     
    The model requires a primary key or a self-incrementing key
 
