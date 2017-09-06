@@ -45,6 +45,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self setBackBlock];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -61,6 +62,15 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self stop];
+}
+
+- (void)setBackBlock {
+    __weak typeof(self) _self = self;
+    [SJVideoPlayer sharedPlayer].clickedBackEvent = ^{
+        __strong typeof(_self) self = _self;
+        if ( !self ) return;
+        [self.navigationController popViewControllerAnimated:YES];
+    };
 }
 
 - (void)play {
