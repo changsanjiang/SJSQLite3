@@ -2,8 +2,44 @@
 
 pod 'SJDBMap' （Please perform " pod update --no-repo-update "）
 
-Automatically create tables based on the model. To achieve additions and deletions. When the class adds a new attribute, it will automatically update the relevant table field.
 根据模型自动创建与该类相关的表(多个表), 可以进行增删改查. 当类添加了新的属性的时候, 会自动更新相关的表字段.
+Automatically create tables based on the model. To achieve additions and deletions. When the class adds a new attribute, it will automatically update the relevant table field.
+
+
+#### Use
+
+实现协议方法.
+Imp <SJDBMapUseProtocol> Method.
+
+```
+@interface SampleVideoModel : NSObject<SJDBMapUseProtocol>
+@property (nonatomic, assign) NSInteger videoId;
+@property (nonatomic, strong) NSArray<SampleVideoTag *> *tags;
+@property (nonatomic, strong) NSArray<SampleUser *> *likedUsers;
+@property (nonatomic, strong) SampleOrgan *organ;
+@end
+
+@implementation SampleVideoModel
++ (NSString *)primaryKey {
+    return @"videoId";
+}
+
+// model
++ (NSDictionary<NSString *,NSString *> *)correspondingKeys {
+    return @{
+            @"organ":@"code",
+            };
+}
+
+// arr
++ (NSDictionary<NSString *,Class> *)arrayCorrespondingKeys {
+    return @{
+            @"tags":[SampleVideoTag class],
+            @"likedUsers":[SampleUser class],
+            };
+}
+@end
+```
 
 #### insertOrUpdate 插入数据或更新数据
 Data before the table is inserted, it will detect whether the relevant table already exists. If it does not exist, it will first create a related table (may create multiple tables), and then update the data or insert.
