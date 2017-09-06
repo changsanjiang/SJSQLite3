@@ -7,7 +7,7 @@
 //
 
 #import "SJDBMapAutoincrementPrimaryKeyModel.h"
-//#import <YYKit.h>
+#import <YYKit.h>
 
 @implementation SJDBMapAutoincrementPrimaryKeyModel
 
@@ -15,9 +15,9 @@
     return @"aPKMID";
 }
 
-//// MARK: YYKit
-//
-//- (NSString *)description {
-//    return [self modelDescription];
-//}
+// MARK: YYKit
+
+- (NSString *)description {
+    return [self modelDescription];
+}
 @end

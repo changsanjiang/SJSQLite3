@@ -33,15 +33,30 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self sectionsM];
-    
     [self _setupView];
     
-    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:self.sections callBlock:^(BOOL result) {
+    NSMutableArray<SampleVideoSection *> *sections = [self _convertJsonData];
+
+    __weak typeof(self) _self = self;
+    // insert
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:sections callBlock:^(BOOL result) {
         NSLog(@"插入数据库: %zd", result);
         NSLog(@"database path: %@", [SJDatabaseMap sharedServer].dbPath);
+        NSDate* tmpStartData = [NSDate date];
+        // query
+        [[SJDatabaseMap sharedServer] queryAllDataWithClass:[SampleVideoSection class] completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+            double deltaTime = [[NSDate date] timeIntervalSinceDate:tmpStartData];
+            NSLog(@"%lf", deltaTime);
+            __strong typeof(_self) self = _self;
+            if ( !self ) return;
+            self.sections = data;
+            [self.tableView reloadData];
+        }];
     }];
-    
+}
+
+- (void)dealloc {
+    NSLog(@"%zd - %s", __LINE__, __func__);
 }
 
 
@@ -53,9 +68,8 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
-// load local data
-- (NSArray<SampleVideoSection *> *)sectionsM {
-    if ( _sections ) return _sections;
+// Json Data
+- (NSMutableArray<SampleVideoSection *> *)_convertJsonData {
     NSData *localJSONData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SampleData.json" ofType:@""]];
     NSDictionary *convertedDict = [NSJSONSerialization JSONObjectWithData:localJSONData options:0 error:nil];
     
@@ -75,8 +89,7 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
         [sectionsM addObject:section];
     }
     
-    _sections = sectionsM;
-    return _sections;
+    return sectionsM;
 }
 
 #pragma mark - Table view data source

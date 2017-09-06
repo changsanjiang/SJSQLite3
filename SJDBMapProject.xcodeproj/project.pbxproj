@@ -23,7 +23,6 @@
 		778252851F3D59AD006F5156 /* SJDatabaseMap+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252721F3D59AD006F5156 /* SJDatabaseMap+Server.m */; };
 		778252861F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252751F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m */; };
 		778252871F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252771F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.m */; };
-		778252881F3D59AD006F5156 /* SJDBMapClassInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252791F3D59AD006F5156 /* SJDBMapClassInfoModel.m */; };
 		778252891F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782527B1F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m */; };
 		7782528A1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782527D1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m */; };
 		7782528B1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782527F1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m */; };
@@ -39,6 +38,7 @@
 		77BED2DD1F5ED62C0024D879 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2DC1F5ED62C0024D879 /* UIView+Extension.m */; };
 		77BED2EA1F5ED7860024D879 /* SampleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2E81F5ED7860024D879 /* SampleTableViewCell.m */; };
 		77BED2EB1F5ED7860024D879 /* SampleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77BED2E91F5ED7860024D879 /* SampleTableViewCell.xib */; };
+		77BED2EE1F5FA2B20024D879 /* SJDBMapQueryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2ED1F5FA2B20024D879 /* SJDBMapQueryCache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,8 +71,6 @@
 		778252751F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapArrayCorrespondingKeysModel.m; sourceTree = "<group>"; };
 		778252761F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapAutoincrementPrimaryKeyModel.h; sourceTree = "<group>"; };
 		778252771F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapAutoincrementPrimaryKeyModel.m; sourceTree = "<group>"; };
-		778252781F3D59AD006F5156 /* SJDBMapClassInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapClassInfoModel.h; sourceTree = "<group>"; };
-		778252791F3D59AD006F5156 /* SJDBMapClassInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapClassInfoModel.m; sourceTree = "<group>"; };
 		7782527A1F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapCorrespondingKeyModel.h; sourceTree = "<group>"; };
 		7782527B1F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapCorrespondingKeyModel.m; sourceTree = "<group>"; };
 		7782527C1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapPrimaryKeyModel.h; sourceTree = "<group>"; };
@@ -103,6 +101,8 @@
 		77BED2E71F5ED7860024D879 /* SampleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleTableViewCell.h; sourceTree = "<group>"; };
 		77BED2E81F5ED7860024D879 /* SampleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleTableViewCell.m; sourceTree = "<group>"; };
 		77BED2E91F5ED7860024D879 /* SampleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SampleTableViewCell.xib; sourceTree = "<group>"; };
+		77BED2EC1F5FA2B10024D879 /* SJDBMapQueryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapQueryCache.h; sourceTree = "<group>"; };
+		77BED2ED1F5FA2B20024D879 /* SJDBMapQueryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapQueryCache.m; sourceTree = "<group>"; };
 		E559417A2BA48C41C6BC60ED /* Pods-SJDBMapProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -226,12 +226,12 @@
 		778252731F3D59AD006F5156 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				77BED2EC1F5FA2B10024D879 /* SJDBMapQueryCache.h */,
+				77BED2ED1F5FA2B20024D879 /* SJDBMapQueryCache.m */,
 				778252741F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.h */,
 				778252751F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m */,
 				778252761F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.h */,
 				778252771F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.m */,
-				778252781F3D59AD006F5156 /* SJDBMapClassInfoModel.h */,
-				778252791F3D59AD006F5156 /* SJDBMapClassInfoModel.m */,
 				7782527A1F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.h */,
 				7782527B1F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m */,
 				7782527C1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.h */,
@@ -425,7 +425,6 @@
 				778252851F3D59AD006F5156 /* SJDatabaseMap+Server.m in Sources */,
 				7782528A1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m in Sources */,
 				77BED2D41F5ED0CE0024D879 /* SampleUser.m in Sources */,
-				778252881F3D59AD006F5156 /* SJDBMapClassInfoModel.m in Sources */,
 				7745B24D1EE5D3A700EC4614 /* Person.m in Sources */,
 				7782528C1F3D59AD006F5156 /* SJDatabaseMap.m in Sources */,
 				7745B2201EE5D39B00EC4614 /* AppDelegate.m in Sources */,
@@ -435,6 +434,7 @@
 				77BED2C31F5EC92B0024D879 /* SampleTableViewController.m in Sources */,
 				7782528F1F3D9064006F5156 /* Price.m in Sources */,
 				778252891F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m in Sources */,
+				77BED2EE1F5FA2B20024D879 /* SJDBMapQueryCache.m in Sources */,
 				77BED2DD1F5ED62C0024D879 /* UIView+Extension.m in Sources */,
 				77BED2CE1F5ECCC00024D879 /* SampleVideoSection.m in Sources */,
 				77BED2D11F5ECE330024D879 /* SampleVideoTag.m in Sources */,

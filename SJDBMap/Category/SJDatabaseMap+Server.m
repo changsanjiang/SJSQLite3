@@ -17,7 +17,7 @@
 #import "SJDBMapAutoincrementPrimaryKeyModel.h"
 #import "SJDBMapCorrespondingKeyModel.h"
 #import "SJDBMapArrayCorrespondingKeysModel.h"
-
+#import "SJDBMapQueryCache.h"
 
 
 #define _SJLog
@@ -163,7 +163,7 @@
 /*!
  *  返回转换成型的模型数据
  */
-- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls {
+- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls memeryCache:(SJDBMapQueryCache *)cache {
     /*!
      *  获取存储数据
      */
@@ -174,7 +174,7 @@
     NSArray<SJDBMapArrayCorrespondingKeysModel *> *aKr = [self sjGetArrayCorrespondingKeys:cls];
     [RawStorageData enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull dict, NSUInteger idx, BOOL * _Nonnull stop) {
         id model = [cls new];
-        [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr];
+        [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr memeryCache:cache];
         [allDataModel addObject:model];
     }];
     if ( 0 == allDataModel.count ) return nil;
@@ -187,7 +187,7 @@
     NSArray<SJDBMapCorrespondingKeyModel *>*cKr = [self sjGetCorrespondingKeys:cls];
     NSArray<SJDBMapArrayCorrespondingKeysModel *> *aKr = [self sjGetArrayCorrespondingKeys:cls];
     id model = [cls new];
-    [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr];
+    [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr memeryCache:[SJDBMapQueryCache new]];
     return model;
 }
  
@@ -284,7 +284,7 @@
     NSArray<SJDBMapArrayCorrespondingKeysModel *> *aKr = [self sjGetArrayCorrespondingKeys:cls];
     [rawStorageData enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull dict, NSUInteger idx, BOOL * _Nonnull stop) {
         id model = [cls new];
-        [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr];
+        [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr memeryCache:[SJDBMapQueryCache new]];
         [allDataModel addObject:model];
     }];
     if ( 0 == allDataModel.count ) return nil;
@@ -321,17 +321,65 @@
     return incompleteData;
 }
 
-- (void)_sjConversionModelWithOwnerModel:(id)model dict:(NSDictionary *)dict cKr:(NSArray<SJDBMapCorrespondingKeyModel *>*)cKr aKr:(NSArray<SJDBMapArrayCorrespondingKeysModel *> *)aKr {
+- (id<SJDBMapUseProtocol>)_sjQueryCached:(SJDBMapQueryCache *)cache cPV:(NSInteger)cPrimaryValue cCN:(NSString *)corClassName {
+    __block id<SJDBMapUseProtocol> cacheModel = nil;
+    // query cache.
+    [cache.modelCacheM enumerateObjectsUsingBlock:^(SJDBMapModelCache * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ( ![obj.className isEqualToString:corClassName] ) return;
+        [obj.memeryM enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSInteger cacheKeyValue = [[self sjGetPrimaryOrAutoPrimaryValue:obj] integerValue];
+            if ( cacheKeyValue != cPrimaryValue ) return;
+            cacheModel = obj;
+            *stop = YES;
+        }];
+    }];
+    return cacheModel;
+}
+
+- (void)_sjAddToQueryCache:(SJDBMapQueryCache *)cache target:(id<SJDBMapUseProtocol>)target {
+    if ( !target ) return;
+    NSString *clsName = NSStringFromClass([target class]);
+    __block BOOL added = NO;
+    [cache.modelCacheM enumerateObjectsUsingBlock:^(SJDBMapModelCache * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ( ![obj.className isEqualToString:clsName] ) return ;
+        [obj.memeryM addObject:target];
+        added = YES;
+        *stop = YES;
+    }];
+    
+    if ( added ) return;
+    
+    SJDBMapModelCache *obj = [SJDBMapModelCache new];
+    obj.className = clsName;
+    [obj.memeryM addObject:target];
+    [cache.modelCacheM addObject:obj];
+}
+
+
+- (void)_sjConversionModelWithOwnerModel:(id)model dict:(NSDictionary *)dict cKr:(NSArray<SJDBMapCorrespondingKeyModel *>*)cKr aKr:(NSArray<SJDBMapArrayCorrespondingKeysModel *> *)aKr memeryCache:(SJDBMapQueryCache *)cache {
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull fields, id  _Nonnull fieldsValue, BOOL * _Nonnull stop) {
-        
         __block BOOL continueBool = NO;
         [cKr enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            // is cor
             if ( [fields isEqualToString:obj.correspondingFields] ) {
                 NSInteger cPrimaryValue = [fieldsValue integerValue];
-                id cmodel = [obj.correspondingCls new];
+
+                NSString *corClassName = NSStringFromClass(obj.correspondingCls);
+                id cmodel = [self _sjQueryCached:cache cPV:cPrimaryValue cCN:corClassName];
+
+                if ( cmodel )  {
+                    [model setValue:cmodel forKey:obj.ownerFields];
+                    continueBool = YES;
+                    *stop = YES;
+                    return;
+                }
+                
+                cmodel = [obj.correspondingCls new];
                 NSArray<SJDBMapCorrespondingKeyModel *>*ccKr = [self sjGetCorrespondingKeys:obj.correspondingCls];
                 NSArray<SJDBMapArrayCorrespondingKeysModel *> *caKr = [self sjGetArrayCorrespondingKeys:obj.correspondingCls];
-                [self _sjConversionModelWithOwnerModel:cmodel dict:[self sjQueryRawStorageData:obj.correspondingCls primaryValue:cPrimaryValue] cKr:ccKr aKr:caKr];
+                [self _sjConversionModelWithOwnerModel:cmodel dict:[self sjQueryRawStorageData:obj.correspondingCls primaryValue:cPrimaryValue] cKr:ccKr aKr:caKr memeryCache:cache];
+                [self _sjAddToQueryCache:cache target:cmodel];
                 [model setValue:cmodel forKey:obj.ownerFields];
                 continueBool = YES;
                 *stop = YES;
@@ -341,16 +389,22 @@
         if ( continueBool ) return;
         
         [aKr enumerateObjectsUsingBlock:^(SJDBMapArrayCorrespondingKeysModel * _Nonnull ACKM, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            // is arr
             if ( [fields isEqualToString:ACKM.ownerFields] ) {
                 NSData *data = [fieldsValue dataUsingEncoding:NSUTF8StringEncoding];
                 NSDictionary<NSString *, NSArray<NSNumber *> *> *aPrimaryValues = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                [aPrimaryValues enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray<NSNumber *> * _Nonnull obj, BOOL * _Nonnull stop) {
+                [aPrimaryValues enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull clsName, NSArray<NSNumber *> * _Nonnull aPVlues, BOOL * _Nonnull stop) {
                     NSMutableArray<id> *ar = [NSMutableArray new];
-                    [obj enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                        id amodel = [ACKM.correspondingCls new];
-                        NSArray<SJDBMapCorrespondingKeyModel *>*ccKr = [self sjGetCorrespondingKeys:ACKM.correspondingCls];
-                        NSArray<SJDBMapArrayCorrespondingKeysModel *> *caKr = [self sjGetArrayCorrespondingKeys:ACKM.correspondingCls];
-                        [self _sjConversionModelWithOwnerModel:amodel dict:[self sjQueryRawStorageData:ACKM.correspondingCls primaryValue:[obj integerValue]] cKr:ccKr aKr:caKr];
+                    [aPVlues enumerateObjectsUsingBlock:^(NSNumber * _Nonnull value, NSUInteger idx, BOOL * _Nonnull stop) {
+                        id amodel = [self _sjQueryCached:cache cPV:[value integerValue] cCN:NSStringFromClass(ACKM.correspondingCls)];
+                        if ( !amodel ) {
+                            amodel = [ACKM.correspondingCls new];
+                            NSArray<SJDBMapCorrespondingKeyModel *>*ccKr = [self sjGetCorrespondingKeys:ACKM.correspondingCls];
+                            NSArray<SJDBMapArrayCorrespondingKeysModel *> *caKr = [self sjGetArrayCorrespondingKeys:ACKM.correspondingCls];
+                            [self _sjConversionModelWithOwnerModel:amodel dict:[self sjQueryRawStorageData:ACKM.correspondingCls primaryValue:[value integerValue]] cKr:ccKr aKr:caKr memeryCache:cache];
+                            [self _sjAddToQueryCache:cache target:amodel];
+                        }
                         [ar addObject:amodel];
                     }];
                     [model setValue:ar forKey:ACKM.ownerFields];
@@ -362,6 +416,7 @@
         
         if ( continueBool ) return;
         
+        // is common
         if ( [model respondsToSelector:NSSelectorFromString(fields)] ) {
             [model setValue:fieldsValue forKey:fields];
         }

@@ -8,7 +8,7 @@
 
 #import "SJDatabaseMap.h"
 
-@class SJDBMapUnderstandingModel;
+@class SJDBMapUnderstandingModel, SJDBMapQueryCache;
 
 extern char *_sjmystrcat(char *dst, const char *src);
 
@@ -43,7 +43,7 @@ extern char *_sjmystrcat(char *dst, const char *src);
 /*!
  *  查询数据. 返回转换成型的模型数据
  */
-- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls;
+- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls memeryCache:(SJDBMapQueryCache *)cache;
 
 /*!
  *  根据主键值查询数据
@@ -93,4 +93,5 @@ extern char *_sjmystrcat(char *dst, const char *src);
  *  获取主键值
  */
 - (NSArray<NSNumber *> *)sjGetPrimaryValues:(NSArray<id<SJDBMapUseProtocol>> *)models;
+
 @end

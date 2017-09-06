@@ -82,10 +82,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 }
 
 - (void)addOperationWithBlock:(void(^)())block {
-    __weak typeof(self) _self = self;
     dispatch_async(self.operationQueue, ^{
-        __strong typeof(_self) self = _self;
-        if ( !self ) return;
         if ( block ) block();
     });
 }
@@ -296,6 +293,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 
 // MARK: Query
 
+#import "SJDBMapQueryCache.h"
 
 @implementation SJDatabaseMap (Query)
 
@@ -306,7 +304,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^)(NSArray<id<SJDBMapUseProtocol>> *data))block {
     if ( nil == cls ) { if ( block ) block(nil); return;}
     [self addOperationWithBlock:^{
-        NSArray *models = [self sjQueryConversionMolding:cls];
+        NSArray *models = [self sjQueryConversionMolding:cls memeryCache:[SJDBMapQueryCache new]];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(models);
         });

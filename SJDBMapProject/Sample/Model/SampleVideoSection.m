@@ -10,6 +10,8 @@
 
 #import "SampleVideoModel.h"
 
+#import <NSObject+YYModel.h>
+
 @implementation SampleVideoSection
 
 + (NSString *)primaryKey {
@@ -18,6 +20,10 @@
 
 + (NSDictionary<NSString *,Class> *)arrayCorrespondingKeys {
     return @{@"videos":[SampleVideoModel class]};
+}
+
+- (NSString *)description {
+    return [self modelDescription];
 }
 
 @end
