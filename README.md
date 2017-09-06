@@ -8,8 +8,8 @@ Automatically create tables based on the model. To achieve additions and deletio
 
 #### Use
 
-实现协议方法.
-Imp <SJDBMapUseProtocol> Method.
+实现协议方法.   
+Imp SJDBMapUseProtocol Method.
 
 ```
 @interface SampleVideoModel : NSObject<SJDBMapUseProtocol>
