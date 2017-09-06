@@ -163,12 +163,13 @@
 /*!
  *  返回转换成型的模型数据
  */
-- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls memeryCache:(SJDBMapQueryCache *)cache {
+- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls {
     /*!
      *  获取存储数据
      */
     NSArray<NSDictionary *> *RawStorageData = [self sjQueryRawStorageData:cls];
     if ( !RawStorageData ) return nil;
+    SJDBMapQueryCache *cache = [SJDBMapQueryCache new];
     NSMutableArray<id> *allDataModel = [NSMutableArray new];
     NSArray<SJDBMapCorrespondingKeyModel *>*cKr = [self sjGetCorrespondingKeys:cls];
     NSArray<SJDBMapArrayCorrespondingKeysModel *> *aKr = [self sjGetArrayCorrespondingKeys:cls];
@@ -215,6 +216,25 @@
         [incompleteData addObject:obj.mutableCopy];
     }];
     
+    return [self _sjConversionMolding:cls rawStorageData:incompleteData];
+}
+
+/*!
+ *  查询指定区间数据
+ */
+- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls range:(NSRange)range {
+    SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
+    if ( !uM.primaryKey && !uM.autoincrementPrimaryKey ) return nil;
+    NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
+
+    const char *tabName = [self sjGetTabName:cls];
+    
+    NSMutableString *fieldsSqlM = [NSMutableString new];
+    [fieldsSqlM appendFormat:@"SELECT * FROM %s LIMIT %zd, %zd;", tabName, range.location, range.length];
+    NSMutableArray<NSMutableDictionary *> *incompleteData = [NSMutableArray new];
+    [[self sjQueryWithSQLStr:fieldsSqlM] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [incompleteData addObject:obj.mutableCopy];
+    }];
     return [self _sjConversionMolding:cls rawStorageData:incompleteData];
 }
 

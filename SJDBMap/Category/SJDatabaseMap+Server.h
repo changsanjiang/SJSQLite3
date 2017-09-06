@@ -43,7 +43,7 @@ extern char *_sjmystrcat(char *dst, const char *src);
 /*!
  *  查询数据. 返回转换成型的模型数据
  */
-- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls memeryCache:(SJDBMapQueryCache *)cache;
+- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls;
 
 /*!
  *  根据主键值查询数据
@@ -59,6 +59,11 @@ extern char *_sjmystrcat(char *dst, const char *src);
  *  根据条件查询数据
  */
 - (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict;
+
+/*!
+ *  查询指定区间数据
+ */
+- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls range:(NSRange)range;
 
 /*!
  *  根据条件模糊查询

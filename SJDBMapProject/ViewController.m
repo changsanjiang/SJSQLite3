@@ -66,7 +66,7 @@
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
     // sample 1
-//    [self insertOrUpdate];
+    [self insertOrUpdate];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sample" style:UIBarButtonItemStyleDone target:self action:@selector(clickedItem:)];
     
@@ -206,10 +206,13 @@
 - (void)queryWithDict:(NSDictionary *)dict {
     [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
         
-        // query result
-        [data enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSLog(@"%@", obj);
+        NSLog(@"%zd", data.count);
+        
+        // range query
+        [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] range:NSMakeRange(2, 10) completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+            NSLog(@"%zd", data.count);
         }];
+        
     }];
 }
 

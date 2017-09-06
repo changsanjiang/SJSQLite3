@@ -153,6 +153,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
+/*!
+ *  查询指定区间数据
+ */
+- (void)queryDataWithClass:(Class)cls range:(NSRange)range completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
 /*!
  *  模糊查询

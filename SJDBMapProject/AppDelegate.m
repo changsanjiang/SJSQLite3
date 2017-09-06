@@ -21,7 +21,7 @@
     // Override point for customization after application launch.
     UIViewController *vc = [NSClassFromString(@"ViewController") new];
     SampleVideoPlayNavigationController *nav = [[SampleVideoPlayNavigationController alloc] initWithRootViewController:vc];
-    _window = [UIWindow new];
+    _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     _window.rootViewController = nav;
     [_window makeKeyAndVisible];
     return YES;

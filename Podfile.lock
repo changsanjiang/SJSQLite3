@@ -3,7 +3,7 @@ PODS:
   - SJBorderLineView (0.0.3)
   - SJSlider (0.0.8):
     - Masonry
-  - SJVideoPlayer (0.0.1):
+  - SJVideoPlayer (0.0.2):
     - Masonry
     - SJBorderLineView
     - SJSlider
@@ -19,7 +19,7 @@ SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   SJBorderLineView: 791d0ba12a8dd7be28b898e0c60b9e07b7f5c62f
   SJSlider: 6aaa472b70f4a9d0467e680b3e78871956e90ff3
-  SJVideoPlayer: 6ee3b312fd14e65b58071f301007712e477fc812
+  SJVideoPlayer: 4fc1da834277b46f0865a8d0dd219301548f83cd
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
 PODFILE CHECKSUM: 76d1dc30d98739cae64dcbfface0305ec3737ba6

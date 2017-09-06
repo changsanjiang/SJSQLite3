@@ -293,8 +293,6 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 
 // MARK: Query
 
-#import "SJDBMapQueryCache.h"
-
 @implementation SJDatabaseMap (Query)
 
 /*!
@@ -304,7 +302,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^)(NSArray<id<SJDBMapUseProtocol>> *data))block {
     if ( nil == cls ) { if ( block ) block(nil); return;}
     [self addOperationWithBlock:^{
-        NSArray *models = [self sjQueryConversionMolding:cls memeryCache:[SJDBMapQueryCache new]];
+        NSArray *models = [self sjQueryConversionMolding:cls];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(models);
         });
@@ -336,6 +334,20 @@ inline static NSString *_sjDatabaseDefaultFolder() {
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(models);
         });
+    }];
+}
+
+/*!
+ *  查询指定区间数据
+ */
+- (void)queryDataWithClass:(Class)cls range:(NSRange)range completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
+    if ( nil == cls ) { if ( block ) block(nil); return;}
+    [self addOperationWithBlock:^{
+        NSArray *models = [self sjQueryConversionMolding:cls range:range];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(models);
+        });
+
     }];
 }
 
