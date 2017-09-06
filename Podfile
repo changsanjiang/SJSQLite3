@@ -7,4 +7,5 @@ target 'SJDBMapProject' do
 
   # Pods for SJDBMapProject
    pod 'YYKit'
+   pod 'SJVideoPlayer'
 end

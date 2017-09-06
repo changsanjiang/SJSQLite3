@@ -1,12 +1,12 @@
 //
-//  UIView+Extension.m
-//  CSJQQMusic
+//  UIView+SJExtension.m
+//  SJVideoPlayerProject
 //
-//  Created by ya on 12/21/16.
-//  Copyright © 2016 ya. All rights reserved.
+//  Created by BlueDancer on 2017/9/6.
+//  Copyright © 2017年 SanJiang. All rights reserved.
 //
 
-#import "UIView+Extension.h"
+#import "UIView+SJExtension.h"
 
 
 @interface _SJRoundImageView : UIImageView
@@ -43,11 +43,11 @@
 @end
 
 
-@implementation UIView (Extension)
+@implementation UIView (SJExtension)
 
 
 - (UIViewController *)csj_viewController {
-
+    
     if ([self isKindOfClass:[UIView class]]) {
         UIView *view = (UIView *)self;
         UIResponder *responder = view.nextResponder;
@@ -59,11 +59,11 @@
         }
         return (UIViewController *)responder;
     }
-
+    
     return nil;
 }
 
- /// 截当前视图, 返回Image.
+/// 截当前视图, 返回Image.
 - (UIImage *)csj_currentSnapshot {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 0);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -72,9 +72,9 @@
     return result;
 }
 
- /// 视图底部 用OC 画虚线. ⚠️ 需要把代码拷贝到 drawRect中.
+/// 视图底部 用OC 画虚线. ⚠️ 需要把代码拷贝到 drawRect中.
 - (void)csj_lyXuXian {
-
+    
     CGRect  rect        = self.bounds;
     CGFloat width       = rect.size.width;
     CGFloat height      = rect.size.height;
@@ -82,20 +82,20 @@
     CGFloat length      = width - gapSpace * 2;
     NSInteger count     = length * 0.5;
     CGFloat startX      = gapSpace;
-
+    
     UIBezierPath *path  = [UIBezierPath bezierPath];
     for (int i = 0; i < count * 0.5; i ++) {
         [path moveToPoint:CGPointMake(startX + i * 2.0,
                                       height)];
-
+        
         [path addLineToPoint:CGPointMake(startX + (i + 1) * 2.0,
                                          height)];
         startX += 2.0;
         [path setLineWidth:6.0 / [UIScreen mainScreen].scale];
-
+        
         /// 颜色
         [UIColor.redColor set];
-
+        
         /// 绘制
         [path stroke];
     }
@@ -149,7 +149,7 @@
     CGRect frame        = self.frame;
     frame.size          = csj_size;
     self.frame          = frame;
-
+    
 }
 
 - (CGSize)csj_size {
@@ -176,6 +176,14 @@
     return self.center.y;
 }
 
+- (CGFloat)csj_maxX {
+    return self.csj_x + self.csj_w;
+}
+
+- (CGFloat)csj_maxY {
+    return self.csj_y + self.csj_h;
+}
+
 - (void)csj_cornerRadius {
     CGFloat min = MIN(self.csj_w, self.csj_h);
     self.layer.cornerRadius  = min * 0.5;
@@ -184,7 +192,7 @@
 
 #pragma mark - layer
 - (void)rounded:(CGFloat)cornerRadius {
-    [self rounded:cornerRadius width:0 color:nil];
+    [self rounded:cornerRadius width:0 color:[UIColor clearColor]];
 }
 
 - (void)border:(CGFloat)borderWidth color:(UIColor *)borderColor {
@@ -273,7 +281,7 @@
 
 - (void)animationWithType:(NSString *)type key:(NSString *)key {
     CATransition *anima = [CATransition animation];
-    anima.type = type; 
+    anima.type = type;
     anima.subtype = kCATransitionFromRight;
     anima.duration = 1.0f;
     [self.layer addAnimation:anima forKey:key];
@@ -288,7 +296,7 @@
     anima.repeatCount = 1;
     [self.layer addAnimation:anima forKey:@"scaleAnimation"];
 }
-    
+
 - (void)praiseAnimationWithFatherView:(UIView *)fatherView complete:(void(^)())block {
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     NSInteger random = arc4random() % 8;
@@ -373,7 +381,7 @@
         [imageView removeFromSuperview];
         if ( block ) block();
     }];
-
+    
 }
 
 - (void)praiseAnimationWithFatherView:(UIView *)fatherView {
@@ -470,12 +478,12 @@
     flowLayout.scrollDirection = direction;
     flowLayout.headerReferenceSize = headerSize;
     flowLayout.footerReferenceSize = footerSize;
-
+    
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
     collectionView.backgroundColor = backgroundColor;
     collectionView.showsHorizontalScrollIndicator = YES;
     collectionView.showsVerticalScrollIndicator = YES;
-
+    
     return collectionView;
 }
 
@@ -484,11 +492,11 @@
 }
 
 + (UIButton *)buttonWithImageName:(NSString *)imageName title:(NSString *)title tag:(NSUInteger)tag target:(id)target sel:(SEL)sel {
-    return [self buttonWithImageName:imageName title:title backgroundColor:nil tag:tag target:target sel:sel];
+    return [self buttonWithImageName:imageName title:title backgroundColor:[UIColor clearColor] tag:tag target:target sel:sel];
 }
 
 + (UIButton *)buttonWithImageName:(NSString *)imageName title:(NSString *)title backgroundColor:(UIColor *)backgroundColor tag:(NSUInteger)tag target:(id)target sel:(SEL)sel {
-    return [self buttonWithImageName:imageName title:title titleColor:[UIColor whiteColor] backgroundColor:nil tag:tag target:target sel:sel];
+    return [self buttonWithImageName:imageName title:title titleColor:[UIColor whiteColor] backgroundColor:backgroundColor tag:tag target:target sel:sel];
 }
 
 + (UIButton *)buttonWithImageName:(NSString *)imageName title:(NSString *)title titleColor:(UIColor *)titleColor backgroundColor:(UIColor *)backgroundColor tag:(NSUInteger)tag target:(id)target sel:(SEL)sel {
@@ -501,11 +509,11 @@
     [btn addTarget:target action:sel forControlEvents:UIControlEventTouchUpInside];
     btn.titleLabel.font = [UIFont systemFontOfSize:14];
     return btn;
-
+    
 }
 
 + (UIButton *)buttonWithTitle:(NSString *)title backgroundColor:(UIColor *)backgroundColor tag:(NSUInteger)tag  target:(id)target sel:(SEL)sel fontSize:(CGFloat)fontSize {
-    return [self buttonWithTitle:title titleColor:nil backgroundColor:backgroundColor tag:tag target:target sel:sel fontSize:fontSize];
+    return [self buttonWithTitle:title titleColor:[UIColor whiteColor] backgroundColor:backgroundColor tag:tag target:target sel:sel fontSize:fontSize];
 }
 
 + (UIButton *)buttonWithTitle:(NSString *)title titleColor:(UIColor *)titleColor backgroundColor:(UIColor *)backgroundColor tag:(NSUInteger)tag target:(id)target sel:(SEL)sel fontSize:(CGFloat)fontSize {

@@ -35,7 +35,6 @@
 		77BED2D11F5ECE330024D879 /* SampleVideoTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2D01F5ECE330024D879 /* SampleVideoTag.m */; };
 		77BED2D41F5ED0CE0024D879 /* SampleUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2D31F5ED0CE0024D879 /* SampleUser.m */; };
 		77BED2D71F5ED2C10024D879 /* SampleOrgan.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2D61F5ED2C10024D879 /* SampleOrgan.m */; };
-		77BED2DD1F5ED62C0024D879 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2DC1F5ED62C0024D879 /* UIView+Extension.m */; };
 		77BED2EA1F5ED7860024D879 /* SampleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2E81F5ED7860024D879 /* SampleTableViewCell.m */; };
 		77BED2EB1F5ED7860024D879 /* SampleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77BED2E91F5ED7860024D879 /* SampleTableViewCell.xib */; };
 		77BED2EE1F5FA2B20024D879 /* SJDBMapQueryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2ED1F5FA2B20024D879 /* SJDBMapQueryCache.m */; };
@@ -96,8 +95,6 @@
 		77BED2D31F5ED0CE0024D879 /* SampleUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleUser.m; sourceTree = "<group>"; };
 		77BED2D51F5ED2C10024D879 /* SampleOrgan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleOrgan.h; sourceTree = "<group>"; };
 		77BED2D61F5ED2C10024D879 /* SampleOrgan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleOrgan.m; sourceTree = "<group>"; };
-		77BED2DB1F5ED62C0024D879 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
-		77BED2DC1F5ED62C0024D879 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		77BED2E71F5ED7860024D879 /* SampleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleTableViewCell.h; sourceTree = "<group>"; };
 		77BED2E81F5ED7860024D879 /* SampleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleTableViewCell.m; sourceTree = "<group>"; };
 		77BED2E91F5ED7860024D879 /* SampleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SampleTableViewCell.xib; sourceTree = "<group>"; };
@@ -282,8 +279,6 @@
 		77BED2C01F5EC9110024D879 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				77BED2DB1F5ED62C0024D879 /* UIView+Extension.h */,
-				77BED2DC1F5ED62C0024D879 /* UIView+Extension.m */,
 				77BED2E71F5ED7860024D879 /* SampleTableViewCell.h */,
 				77BED2E81F5ED7860024D879 /* SampleTableViewCell.m */,
 				77BED2E91F5ED7860024D879 /* SampleTableViewCell.xib */,
@@ -435,7 +430,6 @@
 				7782528F1F3D9064006F5156 /* Price.m in Sources */,
 				778252891F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m in Sources */,
 				77BED2EE1F5FA2B20024D879 /* SJDBMapQueryCache.m in Sources */,
-				77BED2DD1F5ED62C0024D879 /* UIView+Extension.m in Sources */,
 				77BED2CE1F5ECCC00024D879 /* SampleVideoSection.m in Sources */,
 				77BED2D11F5ECE330024D879 /* SampleVideoTag.m in Sources */,
 				77BED2EA1F5ED7860024D879 /* SampleTableViewCell.m in Sources */,

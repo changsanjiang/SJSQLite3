@@ -62,9 +62,10 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
 
 // UI
 - (void)_setupView {
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor orangeColor];
     [self.tableView registerNib:[UINib nibWithNibName:SampleTableViewCellID bundle:nil] forCellReuseIdentifier:SampleTableViewCellID];
     self.tableView.rowHeight = [UIScreen mainScreen].bounds.size.width * 9 / 16 + 5;
+    self.tableView.sectionHeaderHeight = 30;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
@@ -81,10 +82,10 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
     }];
     
     NSMutableArray<SampleVideoSection *> *sectionsM = [NSMutableArray new];
-    for ( int i = 0 ; i < 999; ++i ) {
+    for ( int i = 0 ; i < 2000; ++i ) {
         SampleVideoSection *section = [SampleVideoSection new];
         section.sectionId = i;
-        section.sectionTitle = [NSString stringWithFormat:@"%03zd", i];
+        section.sectionTitle = [NSString stringWithFormat:@"%04zd", i];
         section.videos = videosM;
         [sectionsM addObject:section];
     }
@@ -107,5 +108,10 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
     [cell setValue:self.sections[indexPath.section].videos[indexPath.row] forKey:@"model"];
     return cell;
 }
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [NSString stringWithFormat:@"%@", self.sections[section].sectionTitle];
+}
+
 
 @end
