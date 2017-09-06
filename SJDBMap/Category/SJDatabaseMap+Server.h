@@ -27,7 +27,7 @@ extern char *_sjmystrcat(char *dst, const char *src);
 /*!
  *  自动创建相关的表
  */
-- (void)sjAutoCreateOrAlterRelevanceTabWithClass:(Class)cls;
+- (BOOL)sjAutoCreateOrAlterRelevanceTabWithClass:(Class)cls;
 
 /*!
  *  查询表中的所有字段

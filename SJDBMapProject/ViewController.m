@@ -66,8 +66,7 @@
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
     
-#warning - Please perform " pod update --no-repo-update " to update the project
-    
+#warning - if it can't run. please perform " pod update --no-repo-update " to update the project. The update may be a bit slow.
     
     // sample 1
     [self insertOrUpdate];
@@ -115,7 +114,7 @@
                      [PersonTag tagWithID:4 des:@"E"],];
     
     NSMutableArray <Person *> *arrM = [NSMutableArray new];
-    for ( int i = 0 ; i < 4000 ; i ++ ) {
+    for ( int i = 0 ; i < 3 ; i ++ ) {
         Person *sj = [Person new];
         sj.personID = i;
         sj.name = @"sj";
@@ -126,8 +125,9 @@
         
         sj.goods = goods;
         [arrM addObject:sj];
-    }
     
+    }
+
     
     // insert or update  sample
     [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL r) {

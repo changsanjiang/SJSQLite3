@@ -140,18 +140,26 @@ inline static NSString *_sjDatabaseDefaultFolder() {
          *  归类整理
          */
         NSDictionary<NSString *, NSArray<id> *> *modelsDict = [self sjPutInOrderModels:models];
+        __block BOOL result = YES;
         
         /*!
          *  自动创建表
          */
         [modelsDict.allKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [self sjAutoCreateOrAlterRelevanceTabWithClass:NSClassFromString(obj)];
+            result = [self sjAutoCreateOrAlterRelevanceTabWithClass:NSClassFromString(obj)];
+            if ( result ) return;
+            result = NO;
+            *stop = YES;
         }];
+        
+        if ( !result ) {
+            if ( block ) block(result);
+            return ;
+        }
         
         /*!
          *  批量插入或更新
          */
-        __block BOOL result = YES;
         [modelsDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull tabName, NSArray<id> * _Nonnull modelsArr, BOOL * _Nonnull stop) {
             result = [self sjInsertOrUpdateDataWithModels:modelsArr enableTransaction:YES];
             if ( !result ) *stop = YES;

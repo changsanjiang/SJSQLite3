@@ -29,8 +29,13 @@
  *  执行SQL语句
  */
 - (void)sjExeSQL:(const char *)sql completeBlock:(void(^)(BOOL r))block {
-    BOOL r = (SQLITE_OK == sqlite3_exec(self.sqDB, sql, NULL, NULL, NULL));
+    char *error = NULL;
+    BOOL r = (SQLITE_OK == sqlite3_exec(self.sqDB, sql, NULL, NULL, &error));
     if ( block ) block(r);
+    if ( error != NULL ) {
+        NSLog(@"SJDatabaseMap Error ==> \n SQL  : %s\n Error: %s", sql, error);
+        sqlite3_free(error);
+    }
 }
 
 /*!
@@ -42,7 +47,7 @@
      *  如果表不存在创建表
      */
     NSMutableSet<NSString *> *fieldsSet = [self _sjQueryTabAllFields_Set_WithClass:cls];
-    if ( !fieldsSet ) {[self _sjCreateTab:cls]; return YES;}
+    if ( !fieldsSet ) {return [self _sjCreateTab:cls];}
     
     /*!
      *  如果表存在, 查看是否有更新字段
@@ -104,10 +109,15 @@
 /*!
  *  自动创建相关的表
  */
-- (void)sjAutoCreateOrAlterRelevanceTabWithClass:(Class)cls {
+- (BOOL)sjAutoCreateOrAlterRelevanceTabWithClass:(Class)cls {
+    __block BOOL result = YES;
     [[self sjGetRelevanceClasses:cls] enumerateObjectsUsingBlock:^(Class  _Nonnull relevanceCls, BOOL * _Nonnull stop) {
-        [self sjCreateOrAlterTabWithClass:relevanceCls];
+        result = [self sjCreateOrAlterTabWithClass:relevanceCls];
+        if ( result ) return;
+        result = NO;
+        *stop = YES;
     }];
+    return result;
 }
 
 /*!
@@ -770,18 +780,28 @@
 #endif
     
     __weak typeof(self) _self = self;
+    __block BOOL createResult = YES;
     [self sjExeSQL:sql completeBlock:^(BOOL result) {
-        if ( !result ) NSLog(@"[%@] 创建表失败", cls);
+        createResult = result;
+        if ( !result ) {
+            NSLog(@"[%@] 创建表失败", cls);
+            return;
+        }
         if ( !model.autoincrementPrimaryKey ) return;
-        
+
         __strong typeof(_self) self = _self;
         if ( !self ) return;
         /*!
          *  如果是自增键。由于 0 在OC 中为空。 遇到自增主键值为0时，不好判断出是插入还是更新。为了避免这种情况，让ID从1开始。
          */
-        [self sjExeSQL:[NSString stringWithFormat:@"dbcc checkident('%s', reseed, 0)", tabName].UTF8String completeBlock:nil];
+        [self sjExeSQL:[NSString stringWithFormat:@"dbcc checkident('%s', reseed, 0)", tabName].UTF8String completeBlock:^(BOOL r) {
+            createResult = result;
+            if ( !result ) {
+                NSLog(@"[%@] 自增键设置失败", cls);
+                return;
+            }
+        }];
     }];
-    
     
     free(sql);
     free(ivarList);
@@ -789,7 +809,7 @@
     sql = NULL;
     ivarList = NULL;
     
-    return YES;
+    return createResult;
 }
 
 /*!
