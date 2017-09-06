@@ -216,7 +216,7 @@
         [incompleteData addObject:obj.mutableCopy];
     }];
     
-    return [self _sjConversionMolding:cls rawStorageData:incompleteData];
+    return [self _sjConversionMolding:cls rawStorageData:incompleteData memeryCache:[SJDBMapQueryCache new]];
 }
 
 /*!
@@ -235,7 +235,7 @@
     [[self sjQueryWithSQLStr:fieldsSqlM] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [incompleteData addObject:obj.mutableCopy];
     }];
-    return [self _sjConversionMolding:cls rawStorageData:incompleteData];
+    return [self _sjConversionMolding:cls rawStorageData:incompleteData memeryCache:[SJDBMapQueryCache new]];
 }
 
 /*!
@@ -294,17 +294,17 @@
         [incompleteData addObject:obj.mutableCopy];
     }];
     
-    return [self _sjConversionMolding:cls rawStorageData:incompleteData];
+    return [self _sjConversionMolding:cls rawStorageData:incompleteData memeryCache:[SJDBMapQueryCache new]];
 }
 
 
-- (NSArray<id> *)_sjConversionMolding:(Class)cls rawStorageData:(NSArray<NSDictionary *> *)rawStorageData {
+- (NSArray<id> *)_sjConversionMolding:(Class)cls rawStorageData:(NSArray<NSDictionary *> *)rawStorageData memeryCache:(SJDBMapQueryCache *)cache {
     NSMutableArray<id> *allDataModel = [NSMutableArray new];
     NSArray<SJDBMapCorrespondingKeyModel *>*cKr = [self sjGetCorrespondingKeys:cls];
     NSArray<SJDBMapArrayCorrespondingKeysModel *> *aKr = [self sjGetArrayCorrespondingKeys:cls];
     [rawStorageData enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull dict, NSUInteger idx, BOOL * _Nonnull stop) {
         id model = [cls new];
-        [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr memeryCache:[SJDBMapQueryCache new]];
+        [self _sjConversionModelWithOwnerModel:model dict:dict cKr:cKr aKr:aKr memeryCache:cache];
         [allDataModel addObject:model];
     }];
     if ( 0 == allDataModel.count ) return nil;

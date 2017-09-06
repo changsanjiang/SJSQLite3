@@ -138,6 +138,9 @@
 
     [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] primaryValue:2 completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable model) {
         if ( nil == model ) return ;
+        
+        NSLog(@"query single person");
+        
         Person *person = model;
         
         NSMutableArray *tagsM = [NSMutableArray new];
@@ -157,12 +160,13 @@
         // mixed
         [tagsM addObject:person.tags.firstObject];
         [[SJDatabaseMap sharedServer] update:person insertedOrUpdatedValues:@{@"tags":tagsM, @"goods":person.goods.firstObject} callBlock:^(BOOL r) {
-            
+            NSLog(@"update end");
             
             // query sample
             [self queryWithDict:@{@"personID":@"33"}];
             
         }];
+        
     }];
     
 }
@@ -201,16 +205,31 @@
             NSLog(@"%@", obj);
         }];
     }];
+    
+    
 }
 
 - (void)queryWithDict:(NSDictionary *)dict {
-    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:@{@"name":@"sj", @"age":@(20)} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
         
         NSLog(@"%zd", data.count);
         
         // range query
         [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] range:NSMakeRange(2, 10) completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
             NSLog(@"%zd", data.count);
+            
+            
+            // fuzzy query
+            [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"s"} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+                NSLog(@"%zd", data.count);
+                
+                // 匹配以 's' 开头的name.
+                [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"s"} match:SJDatabaseMapFuzzyMatchFront completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+                    NSLog(@"%zd", data.count);
+                }];
+                
+            }];
+    
         }];
         
     }];
