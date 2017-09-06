@@ -63,6 +63,15 @@ If a new attribute is added to the class, the associated table field is automati
         // ....
     }];
 }
+- (void)update {
+    [[SJDatabaseMap sharedServer] update:person property:@[@"tags", @"age"] callBlock:^(BOOL result) {
+            // ....
+    }];
+    
+    [[SJDatabaseMap sharedServer] update:person insertedOrUpdatedValues:@{@"tags":insertedValues} callBlock:^(BOOL r) { 
+        // ....
+    }];
+}
 ```
 #### delete 删除
 删除数据是删除该类对应的表的数据， 与其关联的其他类的数据没有做处理。    
@@ -71,6 +80,12 @@ Deleting data is to delete the data of the corresponding table of the class, and
 ```
 - (void)del {
     [[SJDBMap sharedServer] deleteDataWithClass:[Person class] primaryValue:0 callBlock:^(BOOL result) {
+       // ...
+    }];
+    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] primaryValues:@[@(1), @(0)] callBlock:^(BOOL r) {
+       // ... 
+    }];
+    [[SJDatabaseMap sharedServer] deleteDataWithModels:personModels callBlock:^(BOOL result) {
        // ...
     }];
 }
@@ -84,6 +99,39 @@ The query data will read all the data associated with that class and convert the
     [[SJDBMap sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id> * _Nonnull data) {
        // ...
     }];
+    
+    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] primaryValue:12 completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable model) {
+        // ...
+    }];
+    
+    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:@{@"name":@"sj", @"age":@(20)} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+        // ...
+    }];
+    
+    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] range:NSMakeRange(2, 10) completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) { 
+        // ...
+    }];
+}
+// 模糊查询
+- (void)fuzzyQuery {
+    // 匹配以 's' 开头的name.
+    [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"s"} match:SJDatabaseMapFuzzyMatchFront completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+       // ... 
+    }];
+     *  匹配左右两边
+     *  ...A...
+     */
+    SJDatabaseMapFuzzyMatchAll = 0,
+    /*!
+     *  匹配以什么开头
+     *  ABC.....
+     */
+    SJDatabaseMapFuzzyMatchFront,
+    /*!
+     *  匹配以什么结尾
+     *  ...DEF
+     */
+    SJDatabaseMapFuzzyMatchLater
 }
 ```
 #### Use attention 使用注意
