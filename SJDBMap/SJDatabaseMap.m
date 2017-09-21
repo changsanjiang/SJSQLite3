@@ -81,7 +81,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
     return _operationQueue;
 }
 
-- (void)addOperationWithBlock:(void(^)())block {
+- (void)addOperationWithBlock:(void(^)(void))block {
     dispatch_async(self.operationQueue, ^{
         if ( block ) block();
     });
@@ -104,7 +104,10 @@ inline static NSString *_sjDatabaseDefaultFolder() {
         __block BOOL result = YES;
         [[self sjGetRelevanceClasses:cls] enumerateObjectsUsingBlock:^(Class  _Nonnull relevanceCls, BOOL * _Nonnull stop) {
             BOOL r = [self sjCreateOrAlterTabWithClass:relevanceCls];
-            if ( !r ) NSLog(@"[%@] 创建或更新表失败.", relevanceCls), result = NO;
+            if ( !r ) {
+                NSLog(@"[%@] 创建或更新表失败.", relevanceCls);
+                result = NO;
+            }
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
@@ -250,7 +253,10 @@ inline static NSString *_sjDatabaseDefaultFolder() {
         NSString *sql = [self sjGetDeleteSQL:cls uM:uM deletePrimary:primaryValue];
         __block BOOL result = YES;
         [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
-            if ( !r ) NSLog(@"[%@] 删除失败.", sql), result = NO;
+            if ( !r ) {
+                NSLog(@"[%@] 删除失败.", sql);
+                result = NO;
+            }
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -269,7 +275,10 @@ inline static NSString *_sjDatabaseDefaultFolder() {
         __block BOOL r = YES;
         NSString *sql = [self sjGetBatchDeleteSQL:cls primaryValues:primaryValues];
         [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL result) {
-            if ( !result ) NSLog(@"[%@] 删除失败.", sql), r = NO;
+            if ( !result ) {
+                NSLog(@"[%@] 删除失败.", sql);
+                r = NO;
+            }
         }];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(r);
@@ -287,7 +296,10 @@ inline static NSString *_sjDatabaseDefaultFolder() {
         [[self sjPutInOrderModels:models] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull clsName, NSArray<id<SJDBMapUseProtocol>> * _Nonnull obj, BOOL * _Nonnull stop) {
             NSString *sql = [self sjGetBatchDeleteSQL:NSClassFromString(clsName) primaryValues:[self sjGetPrimaryValues:obj]];
             [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL result) {
-                if ( !result ) NSLog(@"[%@] 删除失败.", sql), r = NO;
+                if ( !result ) {
+                    NSLog(@"[%@] 删除失败.", sql);
+                    r = NO;
+                }
             }];
         }];
         dispatch_async(dispatch_get_main_queue(), ^{

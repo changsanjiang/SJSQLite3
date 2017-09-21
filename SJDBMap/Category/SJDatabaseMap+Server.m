@@ -91,12 +91,18 @@
         
         if ( containerBol ) return;
         
-        if ( NULL == fields) fields = objF.UTF8String, dbType = _sjGetDatabaseIvarType(cls, [NSString stringWithFormat:@"_%@", objF].UTF8String);
+        if ( NULL == fields) {
+            fields = objF.UTF8String;
+            dbType = _sjGetDatabaseIvarType(cls, [NSString stringWithFormat:@"_%@", objF].UTF8String);
+        }
         
         NSString *sql = [NSString stringWithFormat:@"ALTER TABLE '%s' ADD '%s' %s;", tabName, fields, dbType];
         
         [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL result) {
-            if ( !result ) NSLog(@"[%@] 添加字段[%@]失败", cls, objF), exeSQLResultBol = NO;
+            if ( !result ) {
+                NSLog(@"[%@] 添加字段[%@]失败", cls, objF);
+                exeSQLResultBol = NO;
+            }
         }];
         
 #ifdef _SJLog
@@ -508,7 +514,10 @@
     NSString *sql = [NSString stringWithFormat:@"%@ %@;", prefixSQL, subffixSQL];
     
     [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
-        if ( !r ) result = NO, NSLog(@"[%@] 插入或更新失败", obj);
+        if ( !r ) {
+            result = NO;
+            NSLog(@"[%@] 插入或更新失败", obj);
+        }
         SJDBMapAutoincrementPrimaryKeyModel *aPKM = [self sjGetAutoincrementPrimaryKey:[obj class]];
         if ( !aPKM ) return;
         id aPKV = [(id)obj valueForKey:aPKM.ownerFields];
@@ -566,7 +575,10 @@
     NSString *sql = [self sjGetCommonUpdateSQLWithFields:fiedls model:model];
     __block BOOL result = YES;
     [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
-        if ( !r ) result = NO, NSLog(@"[%@]- %@ 插入或更新失败", model, sql);
+        if ( !r ) {
+            result = NO;
+            NSLog(@"[%@]- %@ 插入或更新失败", model, sql);
+        }
     }];
     return result;
 }
@@ -821,7 +833,10 @@
     [fields enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *sql = [NSString stringWithFormat:@"ALTER TABLE '%s' ADD '%@' %s;", [self sjGetTabName:cls], obj, _sjGetDatabaseIvarType(cls, [NSString stringWithFormat:@"_%@", obj].UTF8String)];
         [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
-            if ( !r ) NSLog(@"[%@] 添加字段[%@]失败", cls, obj), result = NO;
+            if ( !r ) {
+                NSLog(@"[%@] 添加字段[%@]失败", cls, obj);
+                result = NO;
+            }
         }];
         
 #ifdef _SJLog
