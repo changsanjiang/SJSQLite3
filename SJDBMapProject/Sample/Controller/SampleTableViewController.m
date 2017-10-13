@@ -22,6 +22,8 @@
 
 #import "SampleVideoPlayViewController.h"
 
+#import <UIViewController+SJVideoPlayerAdd.h>
+
 static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
 
 @interface SampleTableViewController ()
@@ -55,6 +57,19 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
             [self.tableView reloadData];
         }];
     }];
+    
+    
+    self.sj_viewWillBeginDragging = ^(__kindof UIViewController *vc) {
+        __strong typeof(_self) self = _self;
+        if ( !self ) return;
+        self.tableView.scrollEnabled = NO;
+    };
+    
+    self.sj_viewDidEndDragging = ^(__kindof UIViewController *vc) {
+        __strong typeof(_self) self = _self;
+        if ( !self ) return;
+        self.tableView.scrollEnabled = YES;
+    };
 }
 
 - (void)dealloc {
