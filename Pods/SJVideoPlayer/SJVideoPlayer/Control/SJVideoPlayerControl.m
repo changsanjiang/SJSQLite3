@@ -307,16 +307,25 @@ typedef NS_ENUM(NSUInteger, SJVideoPlayerPlayState) {
 }
 
 - (void)_buffering {
-    if ( 0 == self.lastPlaybackRate && self.backstageRegistrar.playState != SJVideoPlayerPlayState_Buffing ) {
-        [self _clickedPause];
-        self.backstageRegistrar.playState = SJVideoPlayerPlayState_Buffing;
-    }
+    
+    if ( self.backstageRegistrar.playState == SJVideoPlayerPlayState_PlayEnd ) return;
+    
+    if ( self.backstageRegistrar.playState == SJVideoPlayerPlayState_Buffing ) return;
+    
+    if ( self.backstageRegistrar.userClickedPause ) return;
+    
+    [self _clickedPause];
+    
+    self.backstageRegistrar.playState = SJVideoPlayerPlayState_Buffing;
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if ( !_playerItem.isPlaybackLikelyToKeepUp ) {
-            [self _buffering];
-            return ;
+            [self _buffering];     return ;
         }
-        [self _clickedPlay];
+        if ( self.backstageRegistrar.playState != SJVideoPlayerPlayState_Playing &&
+            !self.backstageRegistrar.userClickedPause ) {
+            [self _clickedPlay];
+        }
     });
 }
 
@@ -1068,6 +1077,9 @@ __SJQuit:
     
     if ( object == self.playerItem ) {
         if ( [keyPath isEqualToString:@"status"] ) {
+            if ( self.backstageRegistrar.playState == SJVideoPlayerPlayState_PlayEnd ) return;
+            if ( self.backstageRegistrar.userClickedPause ) return;
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (self.playerItem.status == AVPlayerItemStatusReadyToPlay) {
                     
@@ -1318,7 +1330,8 @@ typedef NS_ENUM(NSUInteger, SJVerticalPanLocation) {
 }
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)tap {
-    if ( self.lastPlaybackRate > 0.f ) {
+    
+    if ( !self.backstageRegistrar.userClickedPause ) {
         [self controlView:self.controlView clickedBtnTag:SJVideoPlayControlViewTag_Pause];
     }
     else {
@@ -1473,6 +1486,7 @@ static UIView *target = nil;
     self.controlView.hiddenPreview = YES;
     self.controlView.hiddenMoreBtn = YES;
     self.controlView.hiddenControl = YES;
+    self.controlView.hiddenLockContainerView = YES;
 }
 
 - (void)_controlViewPlayingStatus {
@@ -1496,10 +1510,12 @@ static UIView *target = nil;
         self.controlView.hiddenPreviewBtn = YES;
         self.controlView.hiddenPreview = YES;
         self.controlView.hiddenMoreBtn = YES;
+        self.controlView.hiddenLockContainerView = YES;
     }
     // 全屏
     else {
         self.controlView.hiddenMoreBtn = NO;
+        self.controlView.hiddenLockContainerView = NO;
         if ( self.backstageRegistrar.generatedImages ) self.controlView.hiddenPreviewBtn = NO;
         else { self.controlView.hiddenPreviewBtn = YES; self.controlView.hiddenPreview = YES;}
     }
@@ -1527,12 +1543,14 @@ static UIView *target = nil;
     self.controlView.hiddenMoreSettingsTwoLevelView = YES;
     self.controlView.hiddenMoreBtn = YES;
     self.controlView.hiddenPreviewBtn = YES;
+    self.controlView.hiddenLockContainerView = YES;
     if ( self.backstageRegistrar.playingOnCell ) self.controlView.hiddenBackBtn = YES;
 }
 
 - (void)_controlViewFullScreen {
     self.controlView.hiddenControl = NO;
     self.controlView.hiddenBackBtn = NO;
+    self.controlView.hiddenLockContainerView = NO;
     if ( self.backstageRegistrar.generatedImages ) self.controlView.hiddenPreviewBtn = NO;
     self.controlView.hiddenMoreBtn = NO;
 }
