@@ -1,1 +1,1 @@
-../../../SJVideoPlayer/SJVideoPlayer/SJVideoPlayer.h
+../../../SJVideoPlayer/SJVideoPlayer/VideoPlayer/SJVideoPlayer.h

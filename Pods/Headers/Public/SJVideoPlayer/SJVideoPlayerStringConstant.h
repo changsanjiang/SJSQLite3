@@ -1,1 +1,1 @@
-../../../SJVideoPlayer/SJVideoPlayer/SJVideoPlayerStringConstant.h
+../../../SJVideoPlayer/SJVideoPlayer/Constant/SJVideoPlayerStringConstant.h

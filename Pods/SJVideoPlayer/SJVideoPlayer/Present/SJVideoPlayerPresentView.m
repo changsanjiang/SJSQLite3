@@ -7,19 +7,12 @@
 //
 
 #import "SJVideoPlayerPresentView.h"
-
 #import <AVFoundation/AVPlayerLayer.h>
-
 #import <AVFoundation/AVPlayer.h>
-
 #import <Masonry/Masonry.h>
-
 #import "SJVideoPlayerStringConstant.h"
-
 #import "UIView+SJExtension.h"
-
 #import <AVFoundation/AVAssetImageGenerator.h>
-
 #import <AVFoundation/AVPlayerItem.h>
 
 #pragma mark -
@@ -216,7 +209,7 @@
 - (void)handleDeviceOrientationChange:(NSNotification *)notification {
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     if ( self.lastOrientation == orientation ) return;
-    
+    NSLog(@"%zd", [UIApplication sharedApplication].statusBarOrientation);
     switch (orientation) {
         case UIDeviceOrientationLandscapeLeft:
             self.lastOrientation = orientation; /// 屏幕向左横置

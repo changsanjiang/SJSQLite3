@@ -1,12 +1,78 @@
 PODS:
-  - Masonry (1.0.2)
+  - Masonry (1.1.0)
   - SJBorderLineView (0.0.3)
-  - SJSlider (0.0.8):
+  - SJPrompt (0.0.2):
     - Masonry
-  - SJVideoPlayer (0.0.2):
+  - SJSlider (0.0.9):
+    - Masonry
+  - SJVideoPlayer (0.0.9):
     - Masonry
     - SJBorderLineView
+    - SJPrompt
     - SJSlider
+    - SJVideoPlayer/Category (= 0.0.9)
+    - SJVideoPlayer/Constant (= 0.0.9)
+    - SJVideoPlayer/Control (= 0.0.9)
+    - SJVideoPlayer/Loading (= 0.0.9)
+    - SJVideoPlayer/Model (= 0.0.9)
+    - SJVideoPlayer/Present (= 0.0.9)
+    - SJVideoPlayer/VideoPlayer (= 0.0.9)
+    - SJVideoPlayerBackGR
+  - SJVideoPlayer/Category (0.0.9):
+    - Masonry
+    - SJBorderLineView
+    - SJPrompt
+    - SJSlider
+    - SJVideoPlayerBackGR
+  - SJVideoPlayer/Constant (0.0.9):
+    - Masonry
+    - SJBorderLineView
+    - SJPrompt
+    - SJSlider
+    - SJVideoPlayerBackGR
+  - SJVideoPlayer/Control (0.0.9):
+    - Masonry
+    - SJBorderLineView
+    - SJPrompt
+    - SJSlider
+    - SJVideoPlayer/Category
+    - SJVideoPlayer/Constant
+    - SJVideoPlayer/Loading
+    - SJVideoPlayer/Model
+    - SJVideoPlayerBackGR
+  - SJVideoPlayer/Loading (0.0.9):
+    - Masonry
+    - SJBorderLineView
+    - SJPrompt
+    - SJSlider
+    - SJVideoPlayerBackGR
+  - SJVideoPlayer/Model (0.0.9):
+    - Masonry
+    - SJBorderLineView
+    - SJPrompt
+    - SJSlider
+    - SJVideoPlayerBackGR
+  - SJVideoPlayer/Present (0.0.9):
+    - Masonry
+    - SJBorderLineView
+    - SJPrompt
+    - SJSlider
+    - SJVideoPlayer/Category
+    - SJVideoPlayer/Constant
+    - SJVideoPlayer/Control
+    - SJVideoPlayerBackGR
+  - SJVideoPlayer/VideoPlayer (0.0.9):
+    - Masonry
+    - SJBorderLineView
+    - SJPrompt
+    - SJSlider
+    - SJVideoPlayer/Constant
+    - SJVideoPlayer/Control
+    - SJVideoPlayer/Loading
+    - SJVideoPlayer/Model
+    - SJVideoPlayer/Present
+    - SJVideoPlayerBackGR
+  - SJVideoPlayerBackGR (0.0.9)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
@@ -16,12 +82,14 @@ DEPENDENCIES:
   - YYKit
 
 SPEC CHECKSUMS:
-  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   SJBorderLineView: 791d0ba12a8dd7be28b898e0c60b9e07b7f5c62f
-  SJSlider: 6aaa472b70f4a9d0467e680b3e78871956e90ff3
-  SJVideoPlayer: 4fc1da834277b46f0865a8d0dd219301548f83cd
+  SJPrompt: eb3e7efb0cf796e114d1838695deb66f2cd18a7d
+  SJSlider: c637f70af30f0e80dea0f092307260faa35913e2
+  SJVideoPlayer: 563d3538358e53c75f02d58db83284551c11ead1
+  SJVideoPlayerBackGR: deb1ac8d29b52a36c039ce287868e33a7dfafdb8
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
 PODFILE CHECKSUM: 76d1dc30d98739cae64dcbfface0305ec3737ba6
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.3.1

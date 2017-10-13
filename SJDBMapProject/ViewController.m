@@ -67,7 +67,7 @@
     NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
     
-#warning - if it can't run. please perform " pod update --no-repo-update " to update the project. The update may be a bit slow.
+#warning - if it can't run. please perform " pod update " to update the project. The update may be a bit slow.
     
     // sample 1
     [self insertOrUpdate];

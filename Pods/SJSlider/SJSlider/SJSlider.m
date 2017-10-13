@@ -298,7 +298,7 @@
     }
     
     CGPoint offset = [pan velocityInView:pan.view];
-    self.value += offset.x / 10000;
+    self.value += offset.x / 15000;
 }
 
 // MARK: UI
@@ -394,11 +394,15 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context  {
     if ( ![keyPath isEqualToString:@"value"] ) return;
-    CGFloat offset = _thumbImageView.image.size.width * 0.225;
-    if ( self.rate > 0.5 ) offset = -offset;
+    CGFloat rate = self.rate;
+    CGFloat minX = _thumbImageView.csj_w * 0.25 / self.containerView.csj_w;
+    // spacing
+    if ( 0 == minX ) {}
+    else if ( rate < minX ) rate = minX;
+    else if ( rate > (1 - minX) ) rate = 1 - minX;
     [_traceImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.leading.bottom.offset(0);
-        make.width.equalTo(_traceImageView.superview).multipliedBy(self.rate).offset(offset);
+        make.width.equalTo(_traceImageView.superview).multipliedBy(rate);
     }];
 }
 

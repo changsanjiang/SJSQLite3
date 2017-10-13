@@ -16,15 +16,22 @@
 #import "SJVideoPlayerControlView.h"
 #import "SJVideoPlayerTipsView.h"
 #import "NSTimer+SJExtension.h"
-#import "SJVideoPlayer.h"
-#import "SJVideoPlayer.h"
+#import "SJVideoPreviewModel.h"
+#import "SJVideoPlayerMoreSetting.h"
+#import "SJVideoPlayerSettings.h"
+#import <SJPrompt/SJPrompt.h>
+
+#define SJGetFileWithName(name)    [@"SJVideoPlayer.bundle" stringByAppendingPathComponent:name]
 
 /*!
  *  Refresh interval for timed observations of AVPlayer
  */
 #define REFRESH_INTERVAL (0.5)
 
-#define SJPreViewImgsMaxCount (30)
+/*!
+ *  0.0 - 1.0
+ */
+#define SJPreImgGenerateInterval (0.05)
 
 typedef NS_ENUM(NSUInteger, SJVideoPlayerPlayState) {
     SJVideoPlayerPlayState_Unknown,
@@ -323,11 +330,11 @@ typedef NS_ENUM(NSUInteger, SJVideoPlayerPlayState) {
 - (void)generatePreviewImgs {
     NSMutableArray<NSValue *> *timesM = [NSMutableArray new];
     
-    NSInteger second = (long)_asset.duration.value / _asset.duration.timescale;
-    short interval = 1;
-    __block NSInteger maxCount = 0;
-A: maxCount = second / interval;
-    if ( maxCount > SJPreViewImgsMaxCount ) { interval += 2; goto A;}
+    NSInteger seconds = (long)_asset.duration.value / _asset.duration.timescale;
+    if ( 0 == seconds || isnan(seconds) ) return;
+    if ( SJPreImgGenerateInterval > 1.0 ) return;
+    __block short maxCount = (short)floorf(1.0 / SJPreImgGenerateInterval);
+    short interval = (short)floor(seconds * SJPreImgGenerateInterval);
     for ( int i = 0 ; i < maxCount ; i ++ ) {
         CMTime time = CMTimeMake(i * interval, 1);
         NSValue *tV = [NSValue valueWithCMTime:time];
@@ -337,7 +344,7 @@ A: maxCount = second / interval;
     NSMutableArray <SJVideoPreviewModel *> *imagesM = [NSMutableArray new];
     _imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:_asset];
     _imageGenerator.appliesPreferredTrackTransform = YES;
-    _imageGenerator.maximumSize = CGSizeMake(SJPreviewImgW * 2, SJPreViewImgH * 2);
+    _imageGenerator.maximumSize = CGSizeMake(SJPreviewImgH * 3, SJPreviewImgH * 3);
     [_imageGenerator generateCGImagesAsynchronouslyForTimes:timesM completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable imageRef, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error) {
         if ( result == AVAssetImageGeneratorSucceeded ) {
             UIImage *image = [UIImage imageWithCGImage:imageRef];
@@ -409,7 +416,6 @@ A: maxCount = second / interval;
     
     [_imageGenerator cancelAllCGImageGeneration];
     
-    
     [self _playerUnlocked];
     
     _rate = 1;
@@ -424,6 +430,9 @@ A: maxCount = second / interval;
     self.asset = nil;
     self.playerItem = nil;
     self.player = nil;
+    
+    [self.prompt hidden];
+    
 }
 
 - (void)jumpedToTime:(NSTimeInterval)time completionHandler:(void (^)(BOOL))completionHandler {
@@ -432,7 +441,6 @@ A: maxCount = second / interval;
 }
 
 - (void)_setEnabledGestureRecognizer:(BOOL)bol {
-    self.singleTap.enabled = bol;
     self.doubleTap.enabled = bol;
     if ( self.backstageRegistrar.fullScreen ) self.panGR.enabled = bol;
     else {
@@ -499,6 +507,7 @@ A: maxCount = second / interval;
         volumeSlider.delegate = self;
         rateSlider.delegate = self;
     }];
+    [self _controlViewUnknownStatus];
     return _controlView;
 }
 
@@ -531,7 +540,7 @@ A: maxCount = second / interval;
     return _SJPlayerQueue;
 }
 
-- (void)_addOperation:(void(^)())block {
+- (void)_addOperation:(void(^)(void))block {
     __weak typeof(self) _self = self;
     dispatch_async(self.SJPlayerQueue, ^{
         __strong typeof(_self) self = _self;
@@ -547,9 +556,16 @@ A: maxCount = second / interval;
 @implementation SJVideoPlayerControl (SJVideoPlayerControlViewDelegateMethods)
 
 - (void)controlView:(SJVideoPlayerControlView *)controlView selectedPreviewModel:(SJVideoPreviewModel *)model {
+    NSInteger seconds = CMTimeGetSeconds(model.localTime);
+    
+    [self.prompt showTitle:[NSString stringWithFormat:@"跳转至: %@", [_controlView formatSeconds:seconds]] duration:-1];
+    
     [self jumpedToCMTime:model.localTime completionHandler:^(BOOL finished) {
+        [self.prompt hidden];
+        if ( !finished ) { return;}
         if ( self.lastPlaybackRate > 0.f) [self _clickedPlay];
     }];
+    
 }
 
 - (void)controlView:(SJVideoPlayerControlView *)controlView clickedBtnTag:(SJVideoPlayControlViewTag)tag {
@@ -560,7 +576,7 @@ A: maxCount = second / interval;
         }
             break;
         case SJVideoPlayControlViewTag_Pause: {
-            [[SJVideoPlayer sharedPlayer] showTitle:@"已暂停" duration:0.8];
+            [self.prompt showTitle:@"已暂停" duration:0.8];
             self.backstageRegistrar.userClickedPause = YES;
             [self _clickedPause];
         }
@@ -612,7 +628,6 @@ A: maxCount = second / interval;
 }
 
 - (void)_clickedReplay {
-    [[NSNotificationCenter defaultCenter] postNotificationName:SJPlayerBeginPlayingNotification object:nil];
     [self _clickedPlay];
 }
 
@@ -645,7 +660,7 @@ A: maxCount = second / interval;
 - (void)_clickedLoadFailed {
     /// 重新加载
     _controlView.hiddenLoadFailedBtn = YES;
-    [SJVideoPlayer sharedPlayer].assetURL = [SJVideoPlayer sharedPlayer].assetURL;
+    if ( _clickedLoadFiledBtnCallBlock ) _clickedLoadFiledBtnCallBlock(self);
 }
 
 - (void)clickedMore {
@@ -657,14 +672,21 @@ A: maxCount = second / interval;
 }
 
 - (void)jumpedToCMTime:(CMTime)time completionHandler:(void (^)(BOOL))completionHandler {
-    if ( self.playerItem.status != AVPlayerStatusReadyToPlay ) {
-        if ( completionHandler ) completionHandler(NO);
-        return;
-    }
-    CMTime sub = CMTimeSubtract(_playerItem.currentTime, time);
-    // 小于1秒 不给跳.
-    if ( labs((long)sub.value / sub.timescale) < 1 ) {if ( completionHandler ) completionHandler(YES); return;}
+    if ( self.playerItem.status != AVPlayerStatusReadyToPlay ) goto __SJQuit;
+    // compare return. same = 0. time > currentTime = 1. time < current Time = -1
+    if ( 0 == CMTimeCompare(time, _playerItem.currentTime) ) goto __SJQuit;
+    if ( 1 == CMTimeCompare(time, _playerItem.duration) ) goto __SJQuit;
+    // seek to time
+    [self _seekToTime:time completionHandler:completionHandler];
+    return;
+    
+__SJQuit:
+    if ( completionHandler ) completionHandler(NO);
+}
+
+- (void)_seekToTime:(CMTime)time completionHandler:(void (^)(BOOL))completionHandler {
     [self.player seekToTime:time completionHandler:^(BOOL finished) {
+        if ( !finished ) return;
         if ( completionHandler ) completionHandler(finished);
     }];
 }
@@ -888,7 +910,7 @@ A: maxCount = second / interval;
     [moreSttingsM addObject:setting];
     if ( !setting.showTowSetting ) return;
     [setting.twoSettingItems enumerateObjectsUsingBlock:^(SJVideoPlayerMoreSettingTwoSetting * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self addSetting:obj container:moreSttingsM];
+        [self addSetting:(SJVideoPlayerMoreSetting *)obj container:moreSttingsM];
     }];
 }
 
@@ -940,9 +962,14 @@ A: maxCount = second / interval;
 - (void)_scrollViewDidScroll {
     if ( [self.scrollView isKindOfClass:[UITableView class]] ) {
         UITableView *tableView = (UITableView *)self.scrollView;
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:self.indexPath];
-        NSArray *visableCells = tableView.visibleCells;
-        if ( [visableCells containsObject:cell] ) {
+        __block BOOL visable = NO;
+        [tableView.indexPathsForVisibleRows enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ( [obj compare:self.indexPath] == NSOrderedSame ) {
+                visable = YES;
+                *stop = YES;
+            }
+        }];
+        if ( visable ) {
             /// 滑入时 恢复.
             self.backstageRegistrar.scrollIn = YES;
         }
@@ -1123,7 +1150,6 @@ A: maxCount = second / interval;
             break;
         case SJVideoPlayerPlayState_Prepare: {
             [self _controlViewPrepareToPlayStatus];
-            [self _setEnabledGestureRecognizer:NO];
         }
             break;
         case SJVideoPlayerPlayState_Buffing: {
@@ -1132,7 +1158,6 @@ A: maxCount = second / interval;
             break;
         case SJVideoPlayerPlayState_Playing: {
             [self _controlViewPlayingStatus];
-            [self _setEnabledGestureRecognizer:YES];
             [_controlView stopLoading];
         }
             break;
@@ -1280,6 +1305,7 @@ typedef NS_ENUM(NSUInteger, SJVerticalPanLocation) {
 }
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)tap {
+    if ( self.backstageRegistrar.isLock ) return;
     if ( !self.controlView.hiddenMoreSettingsView ) {
         self.controlView.hiddenMoreSettingsView = YES;
         return;
@@ -1431,6 +1457,8 @@ static UIView *target = nil;
     self.controlView.hiddenReplayBtn = YES;
     self.controlView.hiddenLoadFailedBtn = YES;
     self.controlView.hiddenControl = YES;
+    self.controlView.hiddenDraggingProgress = YES;
+    self.controlView.hiddenPlayBtn = YES;
 }
 
 - (void)_controlViewPrepareToPlayStatus {
@@ -1448,12 +1476,20 @@ static UIView *target = nil;
 }
 
 - (void)_controlViewPlayingStatus {
+    
     self.controlView.hiddenPlayBtn = YES;
     self.controlView.hiddenPauseBtn = NO;
     self.controlView.hiddenReplayBtn = YES;
     self.controlView.hiddenDraggingProgress = YES;
     self.controlView.hiddenLoadFailedBtn = YES;
-    self.controlView.hiddenControl = NO;
+    
+    // 锁定
+    if ( self.backstageRegistrar.isLock ) {
+        self.controlView.hiddenControl = YES;
+    }
+    else {
+        self.controlView.hiddenControl = NO;
+    }
     
     // 小屏
     if ( !self.backstageRegistrar.fullScreen ) {

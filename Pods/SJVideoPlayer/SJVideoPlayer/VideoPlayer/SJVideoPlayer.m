@@ -18,9 +18,11 @@
 #import "SJVideoPlayerPresentView.h"
 #import "SJVideoPlayerControl.h"
 #import "SJVideoPlayerStringConstant.h"
-#import "SJVideoPlayerPrompt.h"
+#import <SJPrompt/SJPrompt.h>
 #import "SJVideoPlayerAssetCarrier.h"
-
+#import "SJVideoPlayerMoreSetting.h"
+#import "SJVideoPlayerMoreSettingTwoSetting.h"
+#import "SJVideoPlayerSettings.h"
 
 #pragma mark -
 
@@ -29,7 +31,7 @@
 @property (nonatomic, strong, readonly) UIView *containerView;
 @property (nonatomic, strong, readonly) SJVideoPlayerControl *control;
 @property (nonatomic, strong, readonly) SJVideoPlayerPresentView *presentView;
-@property (nonatomic, strong, readonly) SJVideoPlayerPrompt *prompt;
+@property (nonatomic, strong, readonly) SJPrompt *prompt;
 
 @property (nonatomic, strong, readonly) SJVideoPlayerSettings *settings;
 
@@ -38,6 +40,10 @@
 @property (nonatomic, assign, readwrite) NSInteger onViewTag;
 
 @property (nonatomic, strong, readwrite) SJVideoPlayerAssetCarrier *assetCarrier;
+
+@property (nonatomic, assign, readwrite) BOOL needJump;
+
+@property (nonatomic, assign, readwrite) NSTimeInterval jumpedToTime;
 
 @end
 
@@ -99,7 +105,7 @@
 
 // MARK: Setter
 
-- (void)setClickedBackEvent:(void (^)())clickedBackEvent {
+- (void)setClickedBackEvent:(void (^)(void))clickedBackEvent {
     _presentView.back = clickedBackEvent;
 }
 
@@ -132,6 +138,8 @@
 - (void)_prepareToPlay {
     
     [self stop];
+
+    [[UIApplication sharedApplication]setStatusBarOrientation:UIInterfaceOrientationPortrait];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:SJPlayerPrepareToPlayNotification object:nil];
     
@@ -144,6 +152,13 @@
     // control
     _control.assetCarrier = _assetCarrier;
     _control.delegate = _presentView;
+    _control.prompt = self.prompt;
+    __weak typeof(self) _self = self;
+    _control.clickedLoadFiledBtnCallBlock = ^(SJVideoPlayerControl * _Nonnull control) {
+        __strong typeof(_self) self = _self;
+        if ( !self ) return;
+        self.assetURL = self.assetURL;
+    };
     
     // present
     _assetCarrier.presentViewSuperView = _containerView;
@@ -172,9 +187,9 @@
     return _control;
 }
 
-- (SJVideoPlayerPrompt *)prompt {
+- (SJPrompt *)prompt {
     if ( _prompt ) return _prompt;
-    _prompt = [SJVideoPlayerPrompt promptWithPresentView:self.presentView];
+    _prompt = [SJPrompt promptWithPresentView:self.presentView];
     return _prompt;
 }
 
@@ -215,6 +230,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerPlayFailedErrorNotification:) name:SJPlayerPlayFailedErrorNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerScrollInNotification) name:SJPlayerScrollInNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerScrollOutNotification) name:SJPlayerScrollOutNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerBeginPlayingNotification) name:SJPlayerBeginPlayingNotification object:nil];
 }
 
 - (void)_removeNotifications {
@@ -249,6 +265,13 @@
     self.containerView.alpha = 0.001;
 }
 
+- (void)playerBeginPlayingNotification {
+    if ( !self.needJump ) return;
+    [self jumpedToTime:self.jumpedToTime completionHandler:nil];
+    self.needJump = NO;
+    self.jumpedToTime = 0;
+}
+
 @end
 
 
@@ -260,6 +283,17 @@
 
 - (NSTimeInterval)currentTime {
     return CMTimeGetSeconds(self.assetCarrier.playerItem.currentTime);
+}
+
+- (void)playWithURL:(NSURL *)playURL {
+    self.assetURL = playURL;
+}
+
+- (void)playWithURL:(NSURL *)playURL jumpedToTime:(NSTimeInterval)time {
+    self.assetURL = playURL;
+    if ( 0 == time ) return;
+    self.jumpedToTime = time;
+    self.needJump = YES;
 }
 
 - (void)play {
@@ -320,75 +354,9 @@
     [self.prompt showTitle:title duration:duration];
 }
 
-- (void)hidden {
+- (void)hiddenTitle {
     [self.prompt hidden];
 }
 
 @end
 
-
-@implementation SJVideoPlayerSettings@end
-
-
-@implementation SJVideoPlayerMoreSetting
-
-+ (UIColor *)titleColor {
-    UIColor *color = objc_getAssociatedObject(self, _cmd);
-    if ( color ) return color;
-    color = [UIColor whiteColor];
-    [self setTitleColor:color];
-    return color;
-}
-
-+ (void)setTitleColor:(UIColor *)titleColor {
-    objc_setAssociatedObject(self, @selector(titleColor), titleColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-+ (float)titleFontSize {
-    float fontSize = [objc_getAssociatedObject(self, _cmd) floatValue];
-    if ( 0 != fontSize ) return fontSize;
-    fontSize = 12;
-    [self setTitleFontSize:fontSize];
-    return fontSize;
-}
-
-+ (void)setTitleFontSize:(float)titleFontSize {
-    objc_setAssociatedObject(self, @selector(titleFontSize), @(titleFontSize), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (instancetype)initWithTitle:(NSString *)title image:(UIImage *)image clickedExeBlock:(void(^)(SJVideoPlayerMoreSetting *model))block {
-    return [self initWithTitle:title image:image showTowSetting:NO twoSettingTopTitle:@"" twoSettingItems:@[] clickedExeBlock:block];
-}
-
-- (instancetype)initWithTitle:(NSString *)title image:(UIImage *)image showTowSetting:(BOOL)showTowSetting twoSettingTopTitle:(nonnull NSString *)twoSettingTopTitle twoSettingItems:(nonnull NSArray<SJVideoPlayerMoreSettingTwoSetting *> *)items clickedExeBlock:(nonnull void (^)(SJVideoPlayerMoreSetting * _Nonnull))block {
-    self = [super init];
-    if ( !self ) return self;
-    self.title = title;
-    self.image = image;
-    self.twoSettingTopTitle = twoSettingTopTitle;
-    self.showTowSetting = showTowSetting;
-    self.twoSettingItems = items;
-    self.clickedExeBlock = block;
-    return self;
-}
-
-@end
-
-
-#pragma mark -
-
-@implementation SJVideoPlayerMoreSettingTwoSetting
-
-+ (void)setTopTitleFontSize:(float)topTitleFontSize {
-    objc_setAssociatedObject(self, @selector(topTitleFontSize), @(topTitleFontSize), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-+ (float)topTitleFontSize {
-    float fontSize = [objc_getAssociatedObject(self, _cmd) floatValue];
-    if ( 0 != fontSize ) return fontSize;
-    fontSize = 14;
-    [self setTopTitleFontSize:fontSize];
-    return fontSize;
-}
-
-@end
