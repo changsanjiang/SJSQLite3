@@ -99,4 +99,9 @@ extern char *_sjmystrcat(char *dst, const char *src);
  */
 - (NSArray<NSNumber *> *)sjGetPrimaryValues:(NSArray<id<SJDBMapUseProtocol>> *)models;
 
+/*!
+ *  删除整个表
+ */
+- (BOOL)sjDeleteWithClass:(Class)cls;
+
 @end

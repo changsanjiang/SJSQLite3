@@ -711,6 +711,19 @@
 }
 
 /*!
+ *  删除整个表
+ */
+- (BOOL)sjDeleteWithClass:(Class)cls {
+    if ( 0 == [self _sjQueryTabAllFields_Set_WithClass:cls] ) return YES;
+    NSString *deleteSQL = [NSString stringWithFormat:@"DELETE FROM %s;", [self sjGetTabName:cls]];
+    __block BOOL result = NO;
+    [self sjExeSQL:deleteSQL.UTF8String completeBlock:^(BOOL r) {
+        result = r;
+    }];
+    return result;
+}
+
+/*!
  *  创建表
  */
 - (BOOL)_sjCreateTab:(Class)cls {

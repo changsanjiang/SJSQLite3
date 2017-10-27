@@ -308,6 +308,16 @@ inline static NSString *_sjDatabaseDefaultFolder() {
     }];
 }
 
+/*!
+ *  删除所有数据
+ */
+- (void)deleteDataWithClass:(Class)cls callBlock:(void (^)(BOOL))block {
+    [self addOperationWithBlock:^{
+        BOOL result = [self sjDeleteWithClass:cls];
+        if ( block ) block(result);
+    }];
+}
+
 @end
 
 

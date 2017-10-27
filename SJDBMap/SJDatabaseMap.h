@@ -127,6 +127,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)deleteDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^ __nullable)(BOOL result))block;
 
+/*!
+ *  删除表
+ */
+- (void)deleteDataWithClass:(Class)cls callBlock:(void (^)(BOOL))block;
+
 @end
 
 
