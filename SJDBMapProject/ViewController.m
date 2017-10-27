@@ -115,11 +115,13 @@
                      [PersonTag tagWithID:4 des:@"E"],];
     
     NSMutableArray <Person *> *arrM = [NSMutableArray new];
-    for ( int i = 0 ; i < 3 ; i ++ ) {
+    for ( int i = 0 ; i < 10 ; i ++ ) {
         Person *sj = [Person new];
         sj.personID = i;
         sj.name = @"sj";
         sj.tags = tags;
+        sj.group = 100;
+        sj.index = i;
         
         sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
         sj.age = 20;
@@ -161,6 +163,9 @@
         // update goods first object
         person.goods.firstObject.name = @"OOOOOOOOOOOOOOOOOOOOO";
         
+        // update group and index
+        person.group = 121;
+        person.index = 32112;
         
         // mixed
         [tagsM addObject:person.tags.firstObject];
@@ -168,7 +173,7 @@
             NSLog(@"update end");
             
             // query sample
-            [self queryWithDict:@{@"personID":@"33"}];
+            [self queryWithDict:@{@"group":@(121), @"index":@(32112)}];
             
         }];
         
@@ -215,7 +220,8 @@
 }
 
 - (void)queryWithDict:(NSDictionary *)dict {
-    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:@{@"name":@"sj", @"age":@(20)} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+    
+    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:dict completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
         
         NSLog(@"%zd", data.count);
         

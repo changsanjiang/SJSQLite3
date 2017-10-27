@@ -219,9 +219,9 @@
     [fieldsSqlM appendFormat:@"select * from %s where ", tabName];
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         if ( [obj isKindOfClass:[NSString class]] && [(NSString *)obj containsString:@"'"] )
-            [fieldsSqlM appendFormat:@"%@ = \"%@\"", key, obj];
+            [fieldsSqlM appendFormat:@"\"%@\" = \"%@\"", key, obj];
         else
-            [fieldsSqlM appendFormat:@"%@ = '%@'", key, obj];
+            [fieldsSqlM appendFormat:@"\"%@\" = '%@'", key, obj];
         [fieldsSqlM appendString:@" and "];
     }];
     [fieldsSqlM deleteCharactersInRange:NSMakeRange(fieldsSqlM.length - 5, 5)];
@@ -772,9 +772,9 @@
         
         char *fieldSql = malloc(256);
         
-        _sjmystrcat(fieldSql, " ");
+        _sjmystrcat(fieldSql, " '");
         _sjmystrcat(fieldSql, field);
-        _sjmystrcat(fieldSql, " ");
+        _sjmystrcat(fieldSql, "' ");
         _sjmystrcat(fieldSql, fieldType);
         
         if ( NULL != strstr(sql, fieldSql) ) {free(fieldSql); continue;}
@@ -804,7 +804,6 @@
     NSLog(@"%s", sql);
 #endif
     
-    __weak typeof(self) _self = self;
     __block BOOL createResult = YES;
     [self sjExeSQL:sql completeBlock:^(BOOL result) {
         createResult = result;
@@ -812,20 +811,6 @@
             NSLog(@"[%@] 创建表失败", cls);
             return;
         }
-        if ( !model.autoincrementPrimaryKey ) return;
-
-        __strong typeof(_self) self = _self;
-        if ( !self ) return;
-        /*!
-         *  如果是自增键。由于 0 在OC 中为空。 遇到自增主键值为0时，不好判断出是插入还是更新。为了避免这种情况，让ID从1开始。
-         */
-        [self sjExeSQL:[NSString stringWithFormat:@"dbcc checkident('%s', reseed, 0)", tabName].UTF8String completeBlock:^(BOOL r) {
-            createResult = result;
-            if ( !result ) {
-                NSLog(@"[%@] 自增键设置失败", cls);
-                return;
-            }
-        }];
     }];
     
     free(sql);

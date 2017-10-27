@@ -33,4 +33,8 @@
 
 @property (nonatomic, assign) NSInteger age;
 
+@property (nonatomic, assign) NSInteger group;
+
+@property (nonatomic, assign) NSInteger index;
+
 @end
