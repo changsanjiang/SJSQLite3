@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SJDBMapUseProtocol.h"
+@protocol SJDBMapUseProtocol;
 
 NS_ASSUME_NONNULL_BEGIN
 

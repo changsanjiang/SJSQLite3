@@ -367,9 +367,13 @@
     return cacheModel;
 }
 
+- (Class)_sjTargetClass:(id<SJDBMapUseProtocol>)target {
+    return [(id)target class];
+}
+
 - (void)_sjAddToQueryCache:(SJDBMapQueryCache *)cache target:(id<SJDBMapUseProtocol>)target {
     if ( !target ) return;
-    NSString *clsName = NSStringFromClass([target class]);
+    NSString *clsName = NSStringFromClass([self _sjTargetClass:target]);
     __block BOOL added = NO;
     [cache.modelCacheM enumerateObjectsUsingBlock:^(SJDBMapModelCache * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ( ![obj.className isEqualToString:clsName] ) return ;
@@ -485,7 +489,8 @@
 
     // 优先 插入自增主键类
     [hasAutoPrimaryKeyModelsSetM enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull model, BOOL * _Nonnull stop) {
-        if ( [model class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[model class]];
+        Class cls = [self _sjTargetClass:model];
+        if ( cls != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:cls];
         result = [self sjInsertOrUpdateDataWithModel:model uM:uM];
         if ( !result ) *stop = YES;
     }];
@@ -493,7 +498,8 @@
     if ( result ) {
         // 插入 主键类
         [hasPrimaryKeyModelsSetM enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull model, BOOL * _Nonnull stop) {
-            if ( [model class] != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:[model class]];
+            Class cls = [self _sjTargetClass:model];
+            if ( cls != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:cls];
             [self sjInsertOrUpdateDataWithModel:model uM:uM];
         }];
     }
@@ -513,11 +519,12 @@
             result = NO;
             NSLog(@"[%@] 插入或更新失败", obj);
         }
-        SJDBMapAutoincrementPrimaryKeyModel *aPKM = [self sjGetAutoincrementPrimaryKey:[obj class]];
+        Class cls = [self _sjTargetClass:obj];
+        SJDBMapAutoincrementPrimaryKeyModel *aPKM = [self sjGetAutoincrementPrimaryKey:cls];
         if ( !aPKM ) return;
         id aPKV = [(id)obj valueForKey:aPKM.ownerFields];
         if ( 0 != [aPKV integerValue] ) return;
-        aPKV = [self sjGetLastDataIDWithClass:[obj class] autoincrementPrimaryKeyModel:aPKM];
+        aPKV = [self sjGetLastDataIDWithClass:cls autoincrementPrimaryKeyModel:aPKM];
         /*!
          *  如果是自增主键, 在模型自增主键为0的情况下, 插入完数据后, 为这个模型的自增主键赋值. 防止重复插入.
          */
@@ -543,7 +550,7 @@
     
     [self _sjBeginTransaction];
     
-    [self sjCreateOrAlterTabWithClass:[model class]];
+    [self sjCreateOrAlterTabWithClass:[self _sjTargetClass:model]];
     
     // 查看是否有特殊字段
     NSDictionary<NSString *, NSArray<NSString *> *> *putInOrderResult = [self _sjPutInOrderModel:model fields:fields];
@@ -581,7 +588,7 @@
 - (BOOL)_sjUpdate:(id<SJDBMapUseProtocol>)model uniqueFields:(NSArray<NSString *> *)uniqueFields {
     __block BOOL result = YES;
     // Update model
-    result = [self sjInsertOrUpdateDataWithModel:model uM:[self sjGetUnderstandingWithClass:[model class]]];
+    result = [self sjInsertOrUpdateDataWithModel:model uM:[self sjGetUnderstandingWithClass:[self _sjTargetClass:model]]];
     
     if ( !result ) return NO;
     
@@ -622,9 +629,10 @@
      *  1. 相应键
      *  2. 数组相应键
      */
-    NSArray<NSString *> *corOriginFields = [self sjGetCorrespondingOriginFields:[model class]];
+    Class cls = [self _sjTargetClass:model];
+    NSArray<NSString *> *corOriginFields = [self sjGetCorrespondingOriginFields:cls];
     
-    NSArray<NSString *> *arrCorOriginFields = [self sjGetArrCorrespondingOriginFields:[model class]];
+    NSArray<NSString *> *arrCorOriginFields = [self sjGetArrCorrespondingOriginFields:cls];
     
     // 搜索特殊字段
     [fields enumerateObjectsUsingBlock:^(NSString * _Nonnull outObj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -684,7 +692,7 @@
         }];
     }
     // update
-    result = [self sjInsertOrUpdateDataWithModel:model uM:[self sjGetUnderstandingWithClass:[model class]]];
+    result = [self sjInsertOrUpdateDataWithModel:model uM:[self sjGetUnderstandingWithClass:[self _sjTargetClass:model]]];
     
     [self _sjCommitTransaction];
     
@@ -696,7 +704,7 @@
  */
 - (NSArray<NSNumber *> *)sjGetPrimaryValues:(NSArray<id<SJDBMapUseProtocol>> *)models {
     if ( !models.count ) return nil;
-    NSString *primaryFields = [self sjGetPrimaryKey:[models[0] class]].ownerFields;
+    NSString *primaryFields = [self sjGetPrimaryKey:[self _sjTargetClass:models[0]]].ownerFields;
     if ( !primaryFields ) return nil;
     NSMutableArray<NSNumber *> * primaryValuesM = [NSMutableArray new];
     [models enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

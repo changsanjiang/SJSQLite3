@@ -5,13 +5,12 @@
 //  Created by BlueDancer on 2017/6/3.
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
-#import "SJDBMap.h"
 
+#import "SJDatabaseMap.h"
+#import "SJDBMapUseProtocol.h"
 #import <objc/message.h>
-
 #import "SJDatabaseMap+Server.h"
 #import "SJDatabaseMap+GetInfo.h"
-
 #import "SJDBMapUnderstandingModel.h"
 #import "SJDBMapPrimaryKeyModel.h"
 #import "SJDBMapAutoincrementPrimaryKeyModel.h"

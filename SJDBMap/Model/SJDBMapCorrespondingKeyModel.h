@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SJDBMapUseProtocol.h"
 
+
 @interface SJDBMapCorrespondingKeyModel : NSObject<SJDBMapUseProtocol>
 
 @property (nonatomic, assign) NSInteger cKMID;
