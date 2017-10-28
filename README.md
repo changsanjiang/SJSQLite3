@@ -1,11 +1,27 @@
 # Object To Database Mapping
 
 ### Pod
-pod 'SJDBMap' （Please perform " pod update --no-repo-update "）
+pod 'SJDBMap' （Please perform " pod update "）
 
-### des
+### Des
 根据模型自动创建与该类相关的表(多个表), 可以进行增删改查. 当类添加了新的属性的时候, 会自动更新相关的表字段.
 Automatically create tables based on the model. To achieve additions and deletions. When the class adds a new attribute, it will automatically update the relevant table field.
+
+数据库依据模型进行存储,因此存储的目标需要是对象.例如直接存储数组是无法存储的, 需要在外层包一个类, 将数组做为这个类的属性. 示例如下:
+```
+@interface ClassA : NSObject
+@end
+
+@interface Example : NSObject
+@property(nonatomic, assign) NSInteger ID;
+@property(nonatomic, strong) NSArray<ClassA *> *arr; 
+@end
+
+Example *obj = [Example new];
+obj.ID = 111;
+obj.arr = @[A1, A2, A3];
+[[SJDatabaseMap sharedServer] insertOrUpdateDataWithModel:obj callBlock:nil];
+```
 
 #### insertOrUpdate 插入数据或更新数据
 数据在插入表之前， 会检测是否已经存在相关表。如果不存在，会先创建相关表（可能会创建多个表）， 再进行数据的更新或插入。
