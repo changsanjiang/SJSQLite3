@@ -18,6 +18,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     // Override point for customization after application launch.
     UIViewController *vc = [NSClassFromString(@"ViewController") new];
     SampleVideoPlayNavigationController *nav = [[SampleVideoPlayNavigationController alloc] initWithRootViewController:vc];

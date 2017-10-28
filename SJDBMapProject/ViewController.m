@@ -118,7 +118,7 @@
     for ( int i = 0 ; i < 10 ; i ++ ) {
         Person *sj = [Person new];
         sj.personID = i;
-        sj.name = @"sj";
+        sj.name = @"A'''B\"C'D\"";
         sj.tags = tags;
         sj.group = 100;
         sj.index = i;
@@ -166,6 +166,7 @@
         // update group and index
         person.group = 121;
         person.index = 32112;
+        person.name = @"B''''B\"\"\"BBBB";
         
         // mixed
         [tagsM addObject:person.tags.firstObject];
@@ -173,12 +174,61 @@
             NSLog(@"update end");
             
             // query sample
-            [self queryWithDict:@{@"group":@(121), @"index":@(32112)}];
+            [self queryWithDict:@{@"name":@"B''''B\"\"\"BBBB", @"group":@(121), @"index":@(32112)}];
+            
             
         }];
         
     }];
     
+}
+
+
+
+
+// ..
+- (void)insertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model callBlock:(void(^)(BOOL result))block {
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModel:[Person new] callBlock:nil];
+}
+
+- (void)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL result))block {
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:@[[Person new], [Person new]] callBlock:nil];
+}
+
+- (void)update:(id<SJDBMapUseProtocol>)model property:(NSArray<NSString *> *)fields callBlock:(void (^ __nullable)(BOOL result))block {
+    Person *xiaoMing = [Person new];
+    xiaoMing.name = @"xiaoMing";
+    xiaoMing.age = 20;
+    xiaoMing.group = 121;
+    
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModel:xiaoMing callBlock:^(BOOL result) {
+        
+        xiaoMing.age = 30;
+        xiaoMing.name = @"xiaoMMM";
+        
+        // update
+        [[SJDatabaseMap sharedServer] update:xiaoMing property:@[@"age", @"name"] callBlock:nil];
+        
+    }];
+}
+
+- (void)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> * __nullable)insertedOrUpdatedValues callBlock:(void (^ __nullable)(BOOL result))block {
+    
+    Person *xiaoMing = [Person new];
+    xiaoMing.name = @"xiaoMing";
+    xiaoMing.age = 20;
+    xiaoMing.group = 121;
+    
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModel:xiaoMing callBlock:^(BOOL result) {
+        
+        xiaoMing.age = 30;
+        xiaoMing.name = @"xiaoMMM";
+        
+        // update
+        // 这个接口主要针对数组属性. 比如说某个对象的数组实例中加入了新的元素, 用这个接口来更新数据相对快一点.
+        [[SJDatabaseMap sharedServer] update:xiaoMing insertedOrUpdatedValues:@{@"age":@(30), @"name":@"xiaoMMM"} callBlock:nil];
+        
+    }];
 }
 
 @end
@@ -192,15 +242,15 @@
 }
 
 - (void)delWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues {
-    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] primaryValues:primaryValues callBlock:^(BOOL r) {
-        
-    }];
+    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] primaryValues:primaryValues callBlock:nil];
 }
 
 - (void)delWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models {
-    [[SJDatabaseMap sharedServer] deleteDataWithModels:models callBlock:^(BOOL result) {
-       
-    }];
+    [[SJDatabaseMap sharedServer] deleteDataWithModels:models callBlock:nil];
+}
+
+- (void)delWithClass:(Class)cls {
+    [[SJDatabaseMap sharedServer] deleteDataWithClass:cls callBlock:nil];
 }
 
 @end
@@ -231,12 +281,18 @@
             
             
             // fuzzy query
-            [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"s"} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+            [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"A"} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
                 NSLog(@"%zd", data.count);
                 
                 // 匹配以 's' 开头的name.
-                [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"s"} match:SJDatabaseMapFuzzyMatchFront completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+                [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"B"} match:SJDatabaseMapFuzzyMatchFront completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
                     NSLog(@"%zd", data.count);
+                    
+                    // 清空某张表. 只会清空此表, 相关联的类不会删除
+//                    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] callBlock:^(BOOL r) {
+//                        NSLog(@"%zd", r);
+//                    }];
+                    
                 }];
                 
             }];

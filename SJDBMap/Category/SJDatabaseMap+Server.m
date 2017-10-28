@@ -112,6 +112,12 @@
     return exeSQLResultBol;
 }
 
+- (id)filterValue:(id)target {
+    if ( ![target isKindOfClass:[NSString class]] ) return target;
+    if ( ![target containsString:@"'"] ) return target;
+    return [target stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+}
+
 /*!
  *  自动创建相关的表
  */
@@ -218,11 +224,7 @@
     NSMutableString *fieldsSqlM = [NSMutableString new];
     [fieldsSqlM appendFormat:@"select * from %s where ", tabName];
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if ( [obj isKindOfClass:[NSString class]] && [(NSString *)obj containsString:@"'"] )
-            [fieldsSqlM appendFormat:@"\"%@\" = \"%@\"", key, obj];
-        else
-            [fieldsSqlM appendFormat:@"\"%@\" = '%@'", key, obj];
-        [fieldsSqlM appendString:@" and "];
+        [fieldsSqlM appendFormat:@"\"%@\" = '%@' and ", key, [self filterValue:obj]];
     }];
     [fieldsSqlM deleteCharactersInRange:NSMakeRange(fieldsSqlM.length - 5, 5)];
     [fieldsSqlM appendString:@";"];
@@ -268,32 +270,25 @@
     [fieldsSqlM appendFormat:@"select * from %s where ", tabName];
     [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         
+        obj = [self filterValue:obj];
+        
         switch (match) {
                 //      *  ...A...
             case SJDatabaseMapFuzzyMatchAll:
             {
-                if ( [obj isKindOfClass:[NSString class]] && [(NSString *)obj containsString:@"'"] )
-                    [fieldsSqlM appendFormat:@"%@ like \"%%%@%%\"", key, obj];
-                else
-                    [fieldsSqlM appendFormat:@"%@ like '%%%@%%'", key, obj];
+                [fieldsSqlM appendFormat:@"%@ like '%%%@%%'", key, obj];
             }
                 break;
                 //      *  ABC.....
             case SJDatabaseMapFuzzyMatchFront:
             {
-                if ( [obj isKindOfClass:[NSString class]] && [(NSString *)obj containsString:@"'"] )
-                    [fieldsSqlM appendFormat:@"%@ like \"%@%%\"", key, obj];
-                else
-                    [fieldsSqlM appendFormat:@"%@ like '%@%%'", key, obj];
+                [fieldsSqlM appendFormat:@"%@ like '%@%%'", key, obj];
             }
                 break;
                 //     *  ...DEF
             case SJDatabaseMapFuzzyMatchLater:
             {
-                if ( [obj isKindOfClass:[NSString class]] && [(NSString *)obj containsString:@"'"] )
-                    [fieldsSqlM appendFormat:@"%@ like \"%%%@\"", key, obj];
-                else
-                    [fieldsSqlM appendFormat:@"%@ like '%%%@'", key, obj];
+                [fieldsSqlM appendFormat:@"%@ like '%%%@'", key, obj];
             }
                 break;
             default:

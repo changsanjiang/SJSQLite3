@@ -24,6 +24,8 @@ extern char *_sjmystrcat(char *dst, const char *src);
  */
 - (BOOL)sjCreateOrAlterTabWithClass:(Class)cls;
 
+- (id)filterValue:(id)target;
+
 /*!
  *  自动创建相关的表
  */

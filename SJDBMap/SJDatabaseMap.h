@@ -83,6 +83,8 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  *  更新指定的属性
  *  如果数据库没有这个模型, 将不会保存
+ 
+ *  property:@[@"name", @"age"]
  */
 - (void)update:(id<SJDBMapUseProtocol>)model property:(NSArray<NSString *> *)fields callBlock:(void (^ __nullable)(BOOL result))block;
 
@@ -91,8 +93,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  如果数据库没有这个模型, 将不会保存
  *
  *  insertedOrUpdatedValues : key 更新的这个模型对应的属性. value 属性 更新/新增 的模型, 可以是数组, 也可以是单个模型
+ *  更新之前, 请将模型赋值为最新状态.
+ *  @{@"tags":@[newTag1, newTag2], @"age":@(newAge)}
  */
-- (void)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> * __nullable)insertedOrUpdatedValues callBlock:(void (^)(BOOL result))block;
+- (void)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> * __nullable)insertedOrUpdatedValues callBlock:(void (^ __nullable)(BOOL result))block;
 
 /*!
  *  此接口针对数组字段使用.
@@ -108,6 +112,13 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: Delete
 
 @interface SJDatabaseMap (Delete)
+
+// MARK: ---------------------------------------------------------
+/*!
+ *  只会删除这个类(表)的数据, 相关联的类(表)的数据不会删除.
+ */
+// MARK: ---------------------------------------------------------
+
 
 /*!
  *  删
@@ -130,7 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*!
  *  删除表
  */
-- (void)deleteDataWithClass:(Class)cls callBlock:(void (^)(BOOL))block;
+- (void)deleteDataWithClass:(Class)cls callBlock:(void (^ __nullable)(BOOL r))block;
 
 @end
 

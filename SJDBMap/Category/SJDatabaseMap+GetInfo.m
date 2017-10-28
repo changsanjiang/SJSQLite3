@@ -207,10 +207,9 @@
         if ( !appendValue ) {
             [sqlM appendFormat:@"%@,", appendValue];
         }
-        else if ( [appendValue isKindOfClass:[NSString class]] && [(NSString *)appendValue containsString:@"'"] )
-            [sqlM appendFormat:@"\"%@\",", appendValue];
-        else
-            [sqlM appendFormat:@"'%@',", appendValue];
+        else {
+            [sqlM appendFormat:@"'%@',", [self filterValue:appendValue]];
+        }
     }];
     
     [sqlM deleteCharactersInRange:NSMakeRange(sqlM.length - 1, 1)];
@@ -238,9 +237,7 @@
     NSMutableString *sqlM = [NSMutableString stringWithFormat:@"UPDATE %@ SET ", [model class]];
     [fields enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         id value = [(id)model valueForKey:obj];
-        if ( [value isKindOfClass:[NSString class]] && [(NSString *)value containsString:@"'"] )
-             [sqlM appendFormat:@"%@ = \"%@\",", obj, value];
-        else [sqlM appendFormat:@"%@ = '%@',", obj, value];
+        [sqlM appendFormat:@"%@ = '%@',", obj, [self filterValue:value]];
     }];
     [sqlM deleteCharactersInRange:NSMakeRange(sqlM.length - 1, 1)];
     
