@@ -7,9 +7,7 @@
 //
 
 #import "SJDatabaseMap+Server.h"
-
 #import <objc/message.h>
-
 #import "SJDatabaseMap+GetInfo.h"
 
 #import "SJDBMapUnderstandingModel.h"

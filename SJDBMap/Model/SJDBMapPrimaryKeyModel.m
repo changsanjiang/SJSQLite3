@@ -8,21 +8,10 @@
 
 #import "SJDBMapPrimaryKeyModel.h"
 
-#ifdef __SJDBug
-#import <YYKit.h>
-#endif
-
 @implementation SJDBMapPrimaryKeyModel
 
 + (NSString *)autoincrementPrimaryKey {
     return @"pKMID";
 }
-
-
-#ifdef __SJDBug
-- (NSString *)description {
-    return [self modelDescription];
-}
-#endif
 
 @end

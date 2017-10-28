@@ -8,21 +8,10 @@
 
 #import "SJDBMapUnderstandingModel.h"
 
-#ifdef __SJDBug
-#import <YYKit.h>
-#endif
-
 @implementation SJDBMapUnderstandingModel
 
 + (NSString *)autoincrementPrimaryKey {
     return @"uMID";
 }
-
-
-#ifdef __SJDBug
-- (NSString *)description {
-    return [self modelDescription];
-}
-#endif
 
 @end

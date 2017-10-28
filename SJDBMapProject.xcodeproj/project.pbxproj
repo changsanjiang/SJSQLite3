@@ -28,6 +28,7 @@
 		7782528B1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782527F1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m */; };
 		7782528F1F3D9064006F5156 /* Price.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782528E1F3D9064006F5156 /* Price.m */; };
 		7795B1A21FA447E2008FD0DE /* SJDatabaseMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 7795B1A11FA447E2008FD0DE /* SJDatabaseMap.m */; };
+		7795B1AB1FA45F4B008FD0DE /* NSObject+DBUG.m in Sources */ = {isa = PBXBuildFile; fileRef = 7795B1AA1FA45F4B008FD0DE /* NSObject+DBUG.m */; };
 		77BED2C31F5EC92B0024D879 /* SampleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2C21F5EC92B0024D879 /* SampleTableViewController.m */; };
 		77BED2C91F5EC9560024D879 /* SampleVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2C81F5EC9560024D879 /* SampleVideoModel.m */; };
 		77BED2CB1F5ECA0B0024D879 /* SampleData.json in Resources */ = {isa = PBXBuildFile; fileRef = 77BED2CA1F5ECA0B0024D879 /* SampleData.json */; };
@@ -84,6 +85,8 @@
 		7795B1A01FA447E2008FD0DE /* SJDatabaseMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDatabaseMap.h; sourceTree = "<group>"; };
 		7795B1A11FA447E2008FD0DE /* SJDatabaseMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDatabaseMap.m; sourceTree = "<group>"; };
 		7795B1A71FA45431008FD0DE /* SJDBMapUseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUseProtocol.h; sourceTree = "<group>"; };
+		7795B1A91FA45F4B008FD0DE /* NSObject+DBUG.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+DBUG.h"; sourceTree = "<group>"; };
+		7795B1AA1FA45F4B008FD0DE /* NSObject+DBUG.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DBUG.m"; sourceTree = "<group>"; };
 		77BED2C11F5EC92B0024D879 /* SampleTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleTableViewController.h; sourceTree = "<group>"; };
 		77BED2C21F5EC92B0024D879 /* SampleTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleTableViewController.m; sourceTree = "<group>"; };
 		77BED2C71F5EC9560024D879 /* SampleVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleVideoModel.h; sourceTree = "<group>"; };
@@ -189,6 +192,7 @@
 				7732A9971EE983D30037A195 /* Goods.m */,
 				7782528D1F3D9064006F5156 /* Price.h */,
 				7782528E1F3D9064006F5156 /* Price.m */,
+				7795B1A81FA45F1B008FD0DE /* DBUG */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -251,6 +255,15 @@
 				7795B1A71FA45431008FD0DE /* SJDBMapUseProtocol.h */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		7795B1A81FA45F1B008FD0DE /* DBUG */ = {
+			isa = PBXGroup;
+			children = (
+				7795B1A91FA45F4B008FD0DE /* NSObject+DBUG.h */,
+				7795B1AA1FA45F4B008FD0DE /* NSObject+DBUG.m */,
+			);
+			path = DBUG;
 			sourceTree = "<group>";
 		};
 		77BED2BD1F5EC8E00024D879 /* Sample */ = {
@@ -442,6 +455,7 @@
 				778252871F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */,
 				7782528B1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m in Sources */,
 				778252861F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */,
+				7795B1AB1FA45F4B008FD0DE /* NSObject+DBUG.m in Sources */,
 				778252851F3D59AD006F5156 /* SJDatabaseMap+Server.m in Sources */,
 				7782528A1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m in Sources */,
 				77BED2D41F5ED0CE0024D879 /* SampleUser.m in Sources */,

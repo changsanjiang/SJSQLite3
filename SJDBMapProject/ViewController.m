@@ -115,7 +115,7 @@
                      [PersonTag tagWithID:4 des:@"E"],];
     
     NSMutableArray <Person *> *arrM = [NSMutableArray new];
-    for ( int i = 0 ; i < 10 ; i ++ ) {
+    for ( int i = 0 ; i < 100 ; i ++ ) {
         Person *sj = [Person new];
         sj.personID = i;
         sj.name = @"A'''B\"C'D\"";
@@ -125,13 +125,11 @@
         
         sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
         sj.age = 20;
-        
+
         sj.ID = 21321;
         sj.goods = goods;
         [arrM addObject:sj];
-    
     }
-
     
     // insert or update  sample
     [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL r) {
