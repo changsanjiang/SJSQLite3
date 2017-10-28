@@ -126,6 +126,7 @@
         sj.aBook = [Book bookWithID:123 name:@"How Are You?"];
         sj.age = 20;
         
+        sj.ID = 21321;
         sj.goods = goods;
         [arrM addObject:sj];
     
