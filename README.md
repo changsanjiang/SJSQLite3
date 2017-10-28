@@ -8,6 +8,7 @@ pod 'SJDBMap' （Please perform " pod update "）
 Automatically create tables based on the model. To achieve additions and deletions. When the class adds a new attribute, it will automatically update the relevant table field.
 
 数据库依据模型进行存储,因此存储的目标需要是对象.例如直接存储数组是无法存储的, 需要在外层包一个类, 将数组做为这个类的属性. 示例如下:
+The database is stored on the basis of the model, so the stored target needs to be an object. For example, a array can not be stored, a class is needed in the outer layer, and the array is used as an property for this class.
 ```
 @interface ClassA : NSObject
 @end
