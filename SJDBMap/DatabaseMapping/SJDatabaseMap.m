@@ -354,6 +354,12 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 
 /*!
  *  查
+ */
+- (id<SJDBMapUseProtocol>)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue {
+    return [self sjQueryConversionMolding:cls primaryValue:primaryValue];
+}
+/*!
+ *  查
  *  queryDict ->  key : property
  */
 - (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> *data))block {

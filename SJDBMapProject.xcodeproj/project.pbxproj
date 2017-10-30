@@ -29,6 +29,7 @@
 		7782528F1F3D9064006F5156 /* Price.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782528E1F3D9064006F5156 /* Price.m */; };
 		7795B1A21FA447E2008FD0DE /* SJDatabaseMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 7795B1A11FA447E2008FD0DE /* SJDatabaseMap.m */; };
 		7795B1AB1FA45F4B008FD0DE /* NSObject+DBUG.m in Sources */ = {isa = PBXBuildFile; fileRef = 7795B1AA1FA45F4B008FD0DE /* NSObject+DBUG.m */; };
+		7795B1C61FA6C708008FD0DE /* SJDBMap.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 7795B1C51FA6C708008FD0DE /* SJDBMap.podspec */; };
 		77BED2C31F5EC92B0024D879 /* SampleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2C21F5EC92B0024D879 /* SampleTableViewController.m */; };
 		77BED2C91F5EC9560024D879 /* SampleVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2C81F5EC9560024D879 /* SampleVideoModel.m */; };
 		77BED2CB1F5ECA0B0024D879 /* SampleData.json in Resources */ = {isa = PBXBuildFile; fileRef = 77BED2CA1F5ECA0B0024D879 /* SampleData.json */; };
@@ -87,6 +88,7 @@
 		7795B1A71FA45431008FD0DE /* SJDBMapUseProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapUseProtocol.h; sourceTree = "<group>"; };
 		7795B1A91FA45F4B008FD0DE /* NSObject+DBUG.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+DBUG.h"; sourceTree = "<group>"; };
 		7795B1AA1FA45F4B008FD0DE /* NSObject+DBUG.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DBUG.m"; sourceTree = "<group>"; };
+		7795B1C51FA6C708008FD0DE /* SJDBMap.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SJDBMap.podspec; sourceTree = SOURCE_ROOT; };
 		77BED2C11F5EC92B0024D879 /* SampleTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleTableViewController.h; sourceTree = "<group>"; };
 		77BED2C21F5EC92B0024D879 /* SampleTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleTableViewController.m; sourceTree = "<group>"; };
 		77BED2C71F5EC9560024D879 /* SampleVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleVideoModel.h; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 		7745B20F1EE5D39B00EC4614 = {
 			isa = PBXGroup;
 			children = (
+				7795B1C51FA6C708008FD0DE /* SJDBMap.podspec */,
 				7745B21A1EE5D39B00EC4614 /* SJDBMapProject */,
 				7745B2191EE5D39B00EC4614 /* Products */,
 				7745B2571EE5D3BC00EC4614 /* Frameworks */,
@@ -381,6 +384,7 @@
 			files = (
 				7745B22B1EE5D39B00EC4614 /* LaunchScreen.storyboard in Resources */,
 				77BED2EB1F5ED7860024D879 /* SampleTableViewCell.xib in Resources */,
+				7795B1C61FA6C708008FD0DE /* SJDBMap.podspec in Resources */,
 				7745B2281EE5D39B00EC4614 /* Assets.xcassets in Resources */,
 				7745B2261EE5D39B00EC4614 /* Main.storyboard in Resources */,
 				77BED2CB1F5ECA0B0024D879 /* SampleData.json in Resources */,

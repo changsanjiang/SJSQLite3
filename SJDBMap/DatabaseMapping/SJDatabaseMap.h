@@ -76,7 +76,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  批量插入或更新
  *  如果没有表, 会自动创建表
  *  数组中的模型, 可以不同
- *  如果是模型具有自增主键, 将会随机插入.
+ *
+ *  如果模型具有自增主键, 将会随机插入.
  */
 - (void)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^ __nullable)(BOOL result))block;
 
@@ -162,6 +163,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  查
  */
 - (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^ __nullable)(id<SJDBMapUseProtocol> _Nullable model))block;
+
+/*!
+ *  查, 实时获取
+ */
+- (id<SJDBMapUseProtocol>)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue;
 
 /*!
  *  查
