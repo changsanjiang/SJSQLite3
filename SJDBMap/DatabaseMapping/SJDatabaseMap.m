@@ -98,16 +98,8 @@ inline static NSString *_sjDatabaseDefaultFolder() {
  *  根据类创建一个表
  */
 - (void)createTabWithClass:(Class)cls callBlock:(void(^)(BOOL result))block {
-    if ( nil == cls ) { if ( block ) block(NO); return;}
     [self addOperationWithBlock:^{
-        __block BOOL result = YES;
-        [[self sjGetRelevanceClasses:cls] enumerateObjectsUsingBlock:^(Class  _Nonnull relevanceCls, BOOL * _Nonnull stop) {
-            BOOL r = [self sjCreateOrAlterTabWithClass:relevanceCls];
-            if ( !r ) {
-                NSLog(@"[%@] 创建或更新表失败.", relevanceCls);
-                result = NO;
-            }
-        }];
+        BOOL result = [self createTabWithClass:cls];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
         });
@@ -138,34 +130,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL result))block {
     if ( 0 == models.count ) { if ( block ) block(NO); return;}
     [self addOperationWithBlock:^{
-        /*!
-         *  归类整理
-         */
-        NSDictionary<NSString *, NSArray<id> *> *modelsDict = [self sjPutInOrderModels:models];
-        __block BOOL result = YES;
-        
-        /*!
-         *  自动创建表
-         */
-        [modelsDict.allKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            result = [self sjAutoCreateOrAlterRelevanceTabWithClass:NSClassFromString(obj)];
-            if ( result ) return;
-            result = NO;
-            *stop = YES;
-        }];
-        
-        if ( !result ) {
-            if ( block ) block(result);
-            return ;
-        }
-        
-        /*!
-         *  批量插入或更新
-         */
-        [modelsDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull tabName, NSArray<id> * _Nonnull modelsArr, BOOL * _Nonnull stop) {
-            result = [self sjInsertOrUpdateDataWithModels:modelsArr enableTransaction:YES];
-            if ( !result ) *stop = YES;
-        }];
+        BOOL result = [self insertOrUpdateDataWithModels:models];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
         });
@@ -179,15 +144,10 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)update:(id<SJDBMapUseProtocol>)model property:(NSArray<NSString *> *)fields callBlock:(void (^ __nullable)(BOOL result))block {
     if ( 0 == fields.count || nil == model ) { if ( block ) block(NO); return;}
     [self addOperationWithBlock:^{
-        [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
-            if ( nil == m ) { if ( block ) block(NO); return; }
-            [self addOperationWithBlock:^{
-                BOOL result = [self sjUpdate:model property:fields];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if ( block ) block(result);
-                });
-            }];
-        }];
+        BOOL result = [self update:model property:fields];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(result);
+        });
     }];
 }
 
@@ -200,15 +160,10 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> * __nullable)insertedOrUpdatedValues callBlock:(void (^)(BOOL))block {
     if ( 0 == insertedOrUpdatedValues.allKeys ) { if ( block ) block(NO); return; }
     [self addOperationWithBlock:^{
-        [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
-            if ( nil == m ) { if ( block ) block(NO); return ; }
-            [self addOperationWithBlock:^{
-               BOOL result = [self sjUpdate:model insertedOrUpdatedValues:insertedOrUpdatedValues];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if ( block ) block(result);
-                });
-            }];
-        }];
+        BOOL result = [self update:model insertedOrUpdatedValues:insertedOrUpdatedValues];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(result);
+        });
     }];
 }
 
@@ -219,15 +174,10 @@ inline static NSString *_sjDatabaseDefaultFolder() {
  */
 - (void)updateTheDeletedValuesInTheModel:(id<SJDBMapUseProtocol>)model callBlock:(void (^)(BOOL))block {
     [self addOperationWithBlock:^{
-        [self queryDataWithClass:[model class] primaryValue:[[self sjGetPrimaryOrAutoPrimaryValue:model] integerValue] completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable m) {
-            if ( nil == m ) { if ( block ) block(NO); return ; }
-            [self addOperationWithBlock:^{
-                BOOL result = [self sjInsertOrUpdateDataWithModel:model uM:[self sjGetUnderstandingWithClass:[model class]]];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if ( block ) block(result);
-                });
-            }];
-        }];
+        BOOL result = [self updateTheDeletedValuesInTheModel:model];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(result);
+        });
     }];
 }
 
@@ -247,17 +197,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)deleteDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue callBlock:(void(^)(BOOL result))block {
     if ( nil == cls ) { if ( block ) block(NO); return;}
     [self addOperationWithBlock:^{
-        SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
-        NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
-        NSString *sql = [self sjGetDeleteSQL:cls uM:uM deletePrimary:primaryValue];
-        __block BOOL result = YES;
-        [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL r) {
-            if ( !r ) {
-                NSLog(@"[%@] 删除失败.", sql);
-                result = NO;
-            }
-        }];
-        
+        BOOL result = [self deleteDataWithClass:cls primaryValue:primaryValue];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
         });
@@ -271,14 +211,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)deleteDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues callBlock:(void (^)(BOOL))block {
     if ( nil == cls || 0 == primaryValues.count ) { if ( block ) block(NO); return;}
     [self addOperationWithBlock:^{
-        __block BOOL r = YES;
-        NSString *sql = [self sjGetBatchDeleteSQL:cls primaryValues:primaryValues];
-        [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL result) {
-            if ( !result ) {
-                NSLog(@"[%@] 删除失败.", sql);
-                r = NO;
-            }
-        }];
+        BOOL r = [self deleteDataWithClass:cls primaryValues:primaryValues];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(r);
         });
@@ -291,16 +224,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)deleteDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^)(BOOL))block {
     if ( 0 == models.count ) { if ( block ) block(NO); return;}
     [self addOperationWithBlock:^{
-        __block BOOL r = YES;
-        [[self sjPutInOrderModels:models] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull clsName, NSArray<id<SJDBMapUseProtocol>> * _Nonnull obj, BOOL * _Nonnull stop) {
-            NSString *sql = [self sjGetBatchDeleteSQL:NSClassFromString(clsName) primaryValues:[self sjGetPrimaryValues:obj]];
-            [self sjExeSQL:sql.UTF8String completeBlock:^(BOOL result) {
-                if ( !result ) {
-                    NSLog(@"[%@] 删除失败.", sql);
-                    r = NO;
-                }
-            }];
-        }];
+        BOOL r = [self deleteDataWithModels:models];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(r);
         });
@@ -312,8 +236,11 @@ inline static NSString *_sjDatabaseDefaultFolder() {
  */
 - (void)deleteDataWithClass:(Class)cls callBlock:(void (^)(BOOL))block {
     [self addOperationWithBlock:^{
-        BOOL result = [self sjDeleteWithClass:cls];
-        if ( block ) block(result);
+        BOOL result = [self deleteDataWithClass:cls];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(result);
+        });
+
     }];
 }
 
@@ -331,7 +258,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^)(NSArray<id<SJDBMapUseProtocol>> *data))block {
     if ( nil == cls ) { if ( block ) block(nil); return;}
     [self addOperationWithBlock:^{
-        NSArray *models = [self sjQueryConversionMolding:cls];
+        NSArray *models = [self queryAllDataWithClass:cls];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(models);
         });
@@ -344,7 +271,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^)(id<SJDBMapUseProtocol> model))block {
     if ( nil == cls ) { if ( block ) block(nil); return;}
     [self addOperationWithBlock:^{
-        id model = [self sjQueryConversionMolding:cls primaryValue:primaryValue];
+        id model = [self queryDataWithClass:cls primaryValue:primaryValue];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(model);
         });
@@ -356,7 +283,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
  *  查
  */
 - (id<SJDBMapUseProtocol>)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue {
-    return [self sjQueryConversionMolding:cls primaryValue:primaryValue];
+    return [self sjQueryDataWithClass:cls primaryValue:primaryValue];;
 }
 /*!
  *  查
@@ -365,7 +292,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> *data))block {
     if ( nil == cls || 0 == dict.allKeys ) { if ( block ) block(nil); return;}
     [self addOperationWithBlock:^{
-        NSArray *models = [self sjQueryConversionMolding:cls dict:dict];
+        NSArray *models = [self queryDataWithClass:cls queryDict:dict];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(models);
         });
@@ -378,7 +305,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)queryDataWithClass:(Class)cls range:(NSRange)range completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
     if ( nil == cls ) { if ( block ) block(nil); return;}
     [self addOperationWithBlock:^{
-        NSArray *models = [self sjQueryConversionMolding:cls range:range];
+        NSArray *models = [self queryDataWithClass:cls range:range];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(models);
         });
@@ -400,7 +327,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 - (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict match:(SJDatabaseMapFuzzyMatch)match completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
     [self addOperationWithBlock:^{
         if ( nil == cls || 0 == dict.allKeys ) { if ( block ) block(nil); return;}
-        NSArray *models = [self sjFuzzyQueryConversionMolding:cls match:match dict:dict];
+        NSArray *models = [self fuzzyQueryDataWithClass:cls queryDict:dict match:match];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(models);
         });

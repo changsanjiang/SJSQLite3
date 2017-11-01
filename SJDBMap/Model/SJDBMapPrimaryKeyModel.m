@@ -10,8 +10,4 @@
 
 @implementation SJDBMapPrimaryKeyModel
 
-+ (NSString *)autoincrementPrimaryKey {
-    return @"pKMID";
-}
-
 @end

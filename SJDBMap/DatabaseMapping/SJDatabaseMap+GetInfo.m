@@ -458,18 +458,6 @@
 }
 
 /*!
- *  获取自增键最后一个ID. 根据ID排序, 获取最后一条数据的ID
- */
-- (NSNumber *)sjGetLastDataIDWithClass:(Class)cls autoincrementPrimaryKeyModel:(SJDBMapAutoincrementPrimaryKeyModel *)aPKM {
-    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %s ORDER by %@ desc limit 1;", aPKM.ownerFields, [self sjGetTabName:cls], aPKM.ownerFields];
-    NSDictionary *dict = [self sjQueryWithSQLStr:sql].firstObject;
-    if ( !dict && !dict.count ) return nil;
-    NSString *fields = [self sjGetAutoPrimaryFields:cls];
-    if ( 0 == fields.length ) return nil;
-    return dict[fields];
-}
-
-/*!
  *  {"PersonTag":[0,1,2]}
  *  {"Goods":[13,14]}
  */
@@ -489,14 +477,7 @@
          *  主键有值就更新, 没值就插入
          */
         if ( !aPM ) return ;
-        __block id aPKV = [value valueForKey:aPM.ownerFields];
-        if ( 0 != [aPKV integerValue] )
-            [primaryKeyValuesM addObject:[value valueForKey:aPM.ownerFields]];
-        else {
-            SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:[value class]];
-            [self sjInsertOrUpdateDataWithModel:value uM:uM];
-            [primaryKeyValuesM addObject:[value valueForKey:aPM.ownerFields]];
-        }
+        [primaryKeyValuesM addObject:[value valueForKey:aPM.ownerFields]];
     }];
     
     NSData *data = [NSJSONSerialization dataWithJSONObject:@{NSStringFromClass([cValues[0] class]) : primaryKeyValuesM} options:0 error:nil];

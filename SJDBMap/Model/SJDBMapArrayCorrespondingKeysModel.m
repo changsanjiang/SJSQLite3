@@ -10,8 +10,4 @@
 
 @implementation SJDBMapArrayCorrespondingKeysModel
 
-+ (NSString *)autoincrementPrimaryKey {
-    return @"aCKMID";
-}
-
 @end

@@ -8,102 +8,55 @@
 
 #import "SJDatabaseMap.h"
 
+
 @class SJDBMapUnderstandingModel, SJDBMapQueryCache;
+
+NS_ASSUME_NONNULL_BEGIN
 
 extern char *_sjmystrcat(char *dst, const char *src);
 
 @interface SJDatabaseMap (Server)
 
-/*!
- *  执行SQL语句
- */
-- (void)sjExeSQL:(const char *)sql completeBlock:(void(^)(BOOL r))block;
-
-/*!
- *  创建或更新一张表
- */
-- (BOOL)sjCreateOrAlterTabWithClass:(Class)cls;
-
 - (id)filterValue:(id)target;
 
 /*!
- *  自动创建相关的表
- */
-- (BOOL)sjAutoCreateOrAlterRelevanceTabWithClass:(Class)cls;
+ *  查询表中的所有字段 */
+- (NSMutableArray<NSString *> * __nullable)sjQueryTabAllFieldsWithClass:(Class)cls;
 
-/*!
- *  查询表中的所有字段
- */
-- (NSMutableArray<NSString *> *)sjQueryTabAllFieldsWithClass:(Class)cls;
+#pragma mark -
 
-/*!
- *  整理模型数据
- */
-- (NSDictionary<NSString *, NSArray<id<SJDBMapUseProtocol>> *> *)sjPutInOrderModels:(NSArray<id> *)models;
-- (NSDictionary<NSString *, NSArray<id<SJDBMapUseProtocol>> *> *)sjPutInOrderModelsSet:(NSSet<id> *)models;
+- (BOOL)createTabWithClass:(Class)cls;
 
-/*!
- *  查询数据. 返回转换成型的模型数据
- */
-- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls;
+#pragma mark - insert or update
+- (BOOL)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models;
 
-/*!
- *  根据主键值查询数据
- */
-- (id<SJDBMapUseProtocol>)sjQueryConversionMolding:(Class)cls primaryValue:(NSInteger)primaryValue;
+- (BOOL)update:(id<SJDBMapUseProtocol>)model property:(NSArray<NSString *> *)fields;
 
-/*!
- *  查
- */
-- (NSArray<NSDictionary *> *)sjQueryWithSQLStr:(NSString *)sqlStr;
+- (BOOL)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> *)insertedOrUpdatedValues;
 
-/*!
- *  根据条件查询数据
- */
-- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls dict:(NSDictionary *)dict;
+- (BOOL)updateTheDeletedValuesInTheModel:(id<SJDBMapUseProtocol>)model;
 
-/*!
- *  查询指定区间数据
- */
-- (NSArray<id<SJDBMapUseProtocol>> *)sjQueryConversionMolding:(Class)cls range:(NSRange)range;
+#pragma mark - delete
+- (BOOL)deleteDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue;
 
-/*!
- *  根据条件模糊查询
- */
-- (NSArray<id<SJDBMapUseProtocol>> *)sjFuzzyQueryConversionMolding:(Class)cls match:(SJDatabaseMapFuzzyMatch)match dict:(NSDictionary *)dict;
+- (BOOL)deleteDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues;
 
-/*!
- *  查询数据库原始存储数据
- */
-- (NSArray<NSDictionary *> *)sjQueryRawStorageData:(Class)cls;
+- (BOOL)deleteDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models;
 
-/*!
- *  查询数据库原始存储数据
- */
-- (NSDictionary *)sjQueryRawStorageData:(Class)cls primaryValue:(NSInteger)primaryValue;
+- (BOOL)deleteDataWithClass:(Class)cls;
 
-/*!
- *  插入
- */
-- (BOOL)sjInsertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)obj uM:(SJDBMapUnderstandingModel *)uM;
+#pragma mark - query
+- (NSArray<id<SJDBMapUseProtocol>> * __nullable)queryAllDataWithClass:(Class)cls;
 
-- (BOOL)sjInsertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models enableTransaction:(BOOL)enableTransaction;
+- (id<SJDBMapUseProtocol>)sjQueryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue;
 
-/*!
- *  更新
- */
-- (BOOL)sjUpdate:(id<SJDBMapUseProtocol>)model property:(NSArray<NSString *> *)fields;
+- (NSArray<id<SJDBMapUseProtocol>> * __nullable)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict;
 
-- (BOOL)sjUpdate:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> *)insertedOrUpdatedValues;
+- (NSArray<id<SJDBMapUseProtocol>> * __nullable)queryDataWithClass:(Class)cls range:(NSRange)range;
 
-/*!
- *  获取主键值
- */
-- (NSArray<NSNumber *> *)sjGetPrimaryValues:(NSArray<id<SJDBMapUseProtocol>> *)models;
-
-/*!
- *  删除整个表
- */
-- (BOOL)sjDeleteWithClass:(Class)cls;
+- (NSArray<id<SJDBMapUseProtocol>> * _Nullable)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict match:(SJDatabaseMapFuzzyMatch)match;
 
 @end
+
+
+NS_ASSUME_NONNULL_END

@@ -7,16 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SJDBMapUseProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class SJDBMapPrimaryKeyModel, SJDBMapAutoincrementPrimaryKeyModel, SJDBMapCorrespondingKeyModel, SJDBMapArrayCorrespondingKeysModel;
 
 
-@interface SJDBMapUnderstandingModel : NSObject<SJDBMapUseProtocol>
+@interface SJDBMapUnderstandingModel : NSObject
 
-@property (nonatomic, assign) NSInteger uMID;
 @property (nonatomic, assign, nonnull , readwrite) Class ownerCls;
 @property (nonatomic, strong, nullable, readwrite) SJDBMapPrimaryKeyModel *primaryKey;
 @property (nonatomic, strong, nullable, readwrite) SJDBMapAutoincrementPrimaryKeyModel *autoincrementPrimaryKey;

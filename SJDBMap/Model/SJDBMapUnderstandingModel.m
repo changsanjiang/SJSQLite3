@@ -10,8 +10,4 @@
 
 @implementation SJDBMapUnderstandingModel
 
-+ (NSString *)autoincrementPrimaryKey {
-    return @"uMID";
-}
-
 @end

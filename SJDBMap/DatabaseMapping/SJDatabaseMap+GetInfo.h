@@ -148,11 +148,6 @@
 - (const char *)sjGetTabName:(Class)cls;
 
 /*!
- *  根据ID排序, 获取最后一条数据的ID
- */
-- (NSNumber *)sjGetLastDataIDWithClass:(Class)cls autoincrementPrimaryKeyModel:(SJDBMapAutoincrementPrimaryKeyModel *)aPKM;
-
-/*!
  *  {"PersonTag":[0,1,2]}
  *  {"Goods":[13,14]}
  */
