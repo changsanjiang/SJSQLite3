@@ -476,9 +476,9 @@
          */
         if ( !apk ) return ;
         NSInteger apkValue = [[value valueForKey:apk.ownerFields] integerValue];
-        // 自增主键, 数据库从 1 开始, 如果为 0, 可能此模型摸存储到数据库.
+        // 自增主键, 数据库从 1 开始, 如果为 0, 可能此模型摸未存储到数据库.
         NSAssert(apkValue, @"[%@] 自增主键为0, 可能该对象未存储到数据库. 无法继续操作", value);
-        [primaryKeyValuesM addObject:[value valueForKey:apk.ownerFields]];
+        [primaryKeyValuesM addObject:@(apkValue)];
     }];
     
     NSData *data = [NSJSONSerialization dataWithJSONObject:@{NSStringFromClass([cValues[0] class]) : primaryKeyValuesM} options:0 error:nil];
