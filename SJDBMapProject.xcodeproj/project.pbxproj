@@ -41,7 +41,6 @@
 		77BED2EE1F5FA2B20024D879 /* SJDBMapQueryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2ED1F5FA2B20024D879 /* SJDBMapQueryCache.m */; };
 		77BED2FA1F5FC7C20024D879 /* SampleVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2F91F5FC7C20024D879 /* SampleVideoPlayViewController.m */; };
 		77BED3001F5FC9440024D879 /* SampleVideoPlayNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2FF1F5FC9440024D879 /* SampleVideoPlayNavigationController.m */; };
-		77DC7F501FA9D89900170B6C /* SJDBMapUniqueKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DC7F4F1FA9D89900170B6C /* SJDBMapUniqueKeysModel.m */; };
 		77DC7F531FA9EB5000170B6C /* SJDatabaseMap+RealTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DC7F521FA9EB5000170B6C /* SJDatabaseMap+RealTime.m */; };
 /* End PBXBuildFile section */
 
@@ -110,8 +109,6 @@
 		77BED2F91F5FC7C20024D879 /* SampleVideoPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleVideoPlayViewController.m; sourceTree = "<group>"; };
 		77BED2FE1F5FC9440024D879 /* SampleVideoPlayNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleVideoPlayNavigationController.h; sourceTree = "<group>"; };
 		77BED2FF1F5FC9440024D879 /* SampleVideoPlayNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleVideoPlayNavigationController.m; sourceTree = "<group>"; };
-		77DC7F4E1FA9D89900170B6C /* SJDBMapUniqueKeysModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SJDBMapUniqueKeysModel.h; sourceTree = "<group>"; };
-		77DC7F4F1FA9D89900170B6C /* SJDBMapUniqueKeysModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SJDBMapUniqueKeysModel.m; sourceTree = "<group>"; };
 		77DC7F511FA9EB5000170B6C /* SJDatabaseMap+RealTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SJDatabaseMap+RealTime.h"; sourceTree = "<group>"; };
 		77DC7F521FA9EB5000170B6C /* SJDatabaseMap+RealTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SJDatabaseMap+RealTime.m"; sourceTree = "<group>"; };
 		E559417A2BA48C41C6BC60ED /* Pods-SJDBMapProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.debug.xcconfig"; sourceTree = "<group>"; };
@@ -238,8 +235,6 @@
 				7782527B1F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m */,
 				7782527C1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.h */,
 				7782527D1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m */,
-				77DC7F4E1FA9D89900170B6C /* SJDBMapUniqueKeysModel.h */,
-				77DC7F4F1FA9D89900170B6C /* SJDBMapUniqueKeysModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -476,7 +471,6 @@
 				77BED2C31F5EC92B0024D879 /* SampleTableViewController.m in Sources */,
 				7782528F1F3D9064006F5156 /* Price.m in Sources */,
 				778252891F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m in Sources */,
-				77DC7F501FA9D89900170B6C /* SJDBMapUniqueKeysModel.m in Sources */,
 				77BED2EE1F5FA2B20024D879 /* SJDBMapQueryCache.m in Sources */,
 				7795B1A21FA447E2008FD0DE /* SJDatabaseMap.m in Sources */,
 				77BED2CE1F5ECCC00024D879 /* SampleVideoSection.m in Sources */,

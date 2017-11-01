@@ -23,10 +23,4 @@
     return self;
 }
 
-// MARK: YYKit
-
-- (NSString *)description {
-    return [self modelDescription];
-}
-
 @end

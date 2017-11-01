@@ -39,4 +39,6 @@
 
 @property (nonatomic, assign) NSInteger ID;
 
+@property (nonatomic, assign) NSInteger unique;
+
 @end

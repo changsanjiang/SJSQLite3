@@ -30,10 +30,8 @@
              /*@"aGoods":@"goodsID"*/};
 }
 
-// MARK: YYKit
-
-- (NSString *)description {
-    return [self modelDescription];
++ (NSArray<NSString *> *)uniqueKeys {
+    return @[@"unique"];
 }
 
 @end

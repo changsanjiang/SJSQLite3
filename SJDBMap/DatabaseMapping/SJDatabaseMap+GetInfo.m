@@ -16,7 +16,6 @@
 #import "SJDBMapAutoincrementPrimaryKeyModel.h"
 #import "SJDBMapCorrespondingKeyModel.h"
 #import "SJDBMapArrayCorrespondingKeysModel.h"
-#import "SJDBMapUniqueKeysModel.h"
 
 
 @implementation SJDatabaseMap (GetInfo)
@@ -104,7 +103,6 @@
     model.autoincrementPrimaryKey = [self sjGetAutoincrementPrimaryKey:cls];
     model.correspondingKeys = [self sjGetCorrespondingKeys:cls];
     model.arrayCorrespondingKeys = [self sjGetArrayCorrespondingKeys:cls];
-    model.uniqueKeys = [self sjGetUniqueKeys:cls];
     return model;
 }
 
@@ -449,18 +447,6 @@
     NSDictionary<NSString *,NSString *> *keys = [self _sjPerformClassMethod:cls sel:@selector(correspondingKeys) obj1:nil obj2:nil];
     if ( !keys ) return NULL;
    return keys.allValues;
-}
-
-/*!
- *  获取唯一值字段
- */
-- (SJDBMapUniqueKeysModel *)sjGetUniqueKeys:(Class)cls {
-    NSArray<NSString *> *keys = [self _sjPerformClassMethod:cls sel:@selector(uniqueKeys) obj1:nil obj2:nil];
-    if ( !keys ) return nil;
-    SJDBMapUniqueKeysModel *model = [SJDBMapUniqueKeysModel new];
-    model.ownerCls = cls;
-    model.keys = keys;
-    return model;
 }
 
 /*!

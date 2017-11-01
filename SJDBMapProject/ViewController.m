@@ -115,7 +115,7 @@
                      [PersonTag tagWithID:4 des:@"E"],];
     
     NSMutableArray <Person *> *arrM = [NSMutableArray new];
-    for ( int i = 0 ; i < 100 ; i ++ ) {
+    for ( int i = 0 ; i < 3 ; i ++ ) {
         Person *sj = [Person new];
         sj.personID = i;
         sj.name = @"A'''B\"C'D\"";
@@ -128,9 +128,12 @@
 
         sj.ID = 21321;
         sj.goods = goods;
-        [arrM addObject:sj];        
+        [arrM addObject:sj];
+        
+        sj.unique = i;
     }
     
+    arrM.firstObject.unique = 1;
     // insert or update  sample
     [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL r) {
         
