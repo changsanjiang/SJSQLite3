@@ -1,8 +1,8 @@
 //
-//  SJDatabaseMap+Server.h
+//  SJDatabaseMap+RealTime.h
 //  SJDBMapProject
 //
-//  Created by BlueDancer on 2017/6/6.
+//  Created by BlueDancer on 2017/11/1.
 //  Copyright © 2017年 SanJiang. All rights reserved.
 //
 
@@ -15,13 +15,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern char *_sjmystrcat(char *dst, const char *src);
 
-@interface SJDatabaseMap (Server)
+@interface SJDatabaseMap (RealTime)
 
 - (id)filterValue:(id)target;
 
 /*!
  *  查询表中的所有字段 */
 - (NSMutableArray<NSString *> * __nullable)sjQueryTabAllFieldsWithClass:(Class)cls;
+
+
+
+
+#pragma mark - =================================
+#pragma mark - real-time CRUD
+#pragma mark - =================================
 
 #pragma mark -
 

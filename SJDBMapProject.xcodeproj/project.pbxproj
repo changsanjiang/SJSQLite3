@@ -20,7 +20,6 @@
 		7745B24E1EE5D3A700EC4614 /* PersonTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2381EE5D3A700EC4614 /* PersonTag.m */; };
 		7745B25A1EE5D3C500EC4614 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7745B2581EE5D3BC00EC4614 /* libsqlite3.tbd */; };
 		778252841F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252701F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m */; };
-		778252851F3D59AD006F5156 /* SJDatabaseMap+Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252721F3D59AD006F5156 /* SJDatabaseMap+Server.m */; };
 		778252861F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252751F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m */; };
 		778252871F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252771F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.m */; };
 		778252891F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7782527B1F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m */; };
@@ -43,6 +42,7 @@
 		77BED2FA1F5FC7C20024D879 /* SampleVideoPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2F91F5FC7C20024D879 /* SampleVideoPlayViewController.m */; };
 		77BED3001F5FC9440024D879 /* SampleVideoPlayNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BED2FF1F5FC9440024D879 /* SampleVideoPlayNavigationController.m */; };
 		77DC7F501FA9D89900170B6C /* SJDBMapUniqueKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DC7F4F1FA9D89900170B6C /* SJDBMapUniqueKeysModel.m */; };
+		77DC7F531FA9EB5000170B6C /* SJDatabaseMap+RealTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DC7F521FA9EB5000170B6C /* SJDatabaseMap+RealTime.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,8 +69,6 @@
 		7745B2581EE5D3BC00EC4614 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		7782526F1F3D59AD006F5156 /* SJDatabaseMap+GetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDatabaseMap+GetInfo.h"; sourceTree = "<group>"; };
 		778252701F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDatabaseMap+GetInfo.m"; sourceTree = "<group>"; };
-		778252711F3D59AD006F5156 /* SJDatabaseMap+Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDatabaseMap+Server.h"; sourceTree = "<group>"; };
-		778252721F3D59AD006F5156 /* SJDatabaseMap+Server.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDatabaseMap+Server.m"; sourceTree = "<group>"; };
 		778252741F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapArrayCorrespondingKeysModel.h; sourceTree = "<group>"; };
 		778252751F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJDBMapArrayCorrespondingKeysModel.m; sourceTree = "<group>"; };
 		778252761F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapAutoincrementPrimaryKeyModel.h; sourceTree = "<group>"; };
@@ -114,6 +112,8 @@
 		77BED2FF1F5FC9440024D879 /* SampleVideoPlayNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleVideoPlayNavigationController.m; sourceTree = "<group>"; };
 		77DC7F4E1FA9D89900170B6C /* SJDBMapUniqueKeysModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SJDBMapUniqueKeysModel.h; sourceTree = "<group>"; };
 		77DC7F4F1FA9D89900170B6C /* SJDBMapUniqueKeysModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SJDBMapUniqueKeysModel.m; sourceTree = "<group>"; };
+		77DC7F511FA9EB5000170B6C /* SJDatabaseMap+RealTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SJDatabaseMap+RealTime.h"; sourceTree = "<group>"; };
+		77DC7F521FA9EB5000170B6C /* SJDatabaseMap+RealTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SJDatabaseMap+RealTime.m"; sourceTree = "<group>"; };
 		E559417A2BA48C41C6BC60ED /* Pods-SJDBMapProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJDBMapProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -226,6 +226,8 @@
 		778252731F3D59AD006F5156 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7782527E1F3D59AD006F5156 /* SJDBMapUnderstandingModel.h */,
+				7782527F1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m */,
 				77BED2EC1F5FA2B10024D879 /* SJDBMapQueryCache.h */,
 				77BED2ED1F5FA2B20024D879 /* SJDBMapQueryCache.m */,
 				778252741F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.h */,
@@ -236,8 +238,6 @@
 				7782527B1F3D59AD006F5156 /* SJDBMapCorrespondingKeyModel.m */,
 				7782527C1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.h */,
 				7782527D1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m */,
-				7782527E1F3D59AD006F5156 /* SJDBMapUnderstandingModel.h */,
-				7782527F1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m */,
 				77DC7F4E1FA9D89900170B6C /* SJDBMapUniqueKeysModel.h */,
 				77DC7F4F1FA9D89900170B6C /* SJDBMapUniqueKeysModel.m */,
 			);
@@ -249,10 +249,10 @@
 			children = (
 				7795B1A01FA447E2008FD0DE /* SJDatabaseMap.h */,
 				7795B1A11FA447E2008FD0DE /* SJDatabaseMap.m */,
+				77DC7F511FA9EB5000170B6C /* SJDatabaseMap+RealTime.h */,
+				77DC7F521FA9EB5000170B6C /* SJDatabaseMap+RealTime.m */,
 				7782526F1F3D59AD006F5156 /* SJDatabaseMap+GetInfo.h */,
 				778252701F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m */,
-				778252711F3D59AD006F5156 /* SJDatabaseMap+Server.h */,
-				778252721F3D59AD006F5156 /* SJDatabaseMap+Server.m */,
 			);
 			path = DatabaseMapping;
 			sourceTree = "<group>";
@@ -465,7 +465,6 @@
 				7782528B1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m in Sources */,
 				778252861F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */,
 				7795B1AB1FA45F4B008FD0DE /* NSObject+DBUG.m in Sources */,
-				778252851F3D59AD006F5156 /* SJDatabaseMap+Server.m in Sources */,
 				7782528A1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m in Sources */,
 				77BED2D41F5ED0CE0024D879 /* SampleUser.m in Sources */,
 				7745B24D1EE5D3A700EC4614 /* Person.m in Sources */,
@@ -483,6 +482,7 @@
 				77BED2CE1F5ECCC00024D879 /* SampleVideoSection.m in Sources */,
 				77BED2D11F5ECE330024D879 /* SampleVideoTag.m in Sources */,
 				77BED2EA1F5ED7860024D879 /* SampleTableViewCell.m in Sources */,
+				77DC7F531FA9EB5000170B6C /* SJDatabaseMap+RealTime.m in Sources */,
 				7732A9981EE983D30037A195 /* Goods.m in Sources */,
 				7745B24E1EE5D3A700EC4614 /* PersonTag.m in Sources */,
 			);

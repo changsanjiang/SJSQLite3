@@ -9,7 +9,7 @@
 #import "SJDatabaseMap.h"
 #import "SJDBMapUseProtocol.h"
 #import <objc/message.h>
-#import "SJDatabaseMap+Server.h"
+#import "SJDatabaseMap+RealTime.h"
 #import "SJDatabaseMap+GetInfo.h"
 #import "SJDBMapUnderstandingModel.h"
 #import "SJDBMapPrimaryKeyModel.h"

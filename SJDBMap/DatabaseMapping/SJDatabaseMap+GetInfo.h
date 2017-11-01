@@ -148,6 +148,8 @@
 - (const char *)sjGetTabName:(Class)cls;
 
 /*!
+ *  获取数组相应键存储的值
+ *
  *  {"PersonTag":[0,1,2]}
  *  {"Goods":[13,14]}
  */

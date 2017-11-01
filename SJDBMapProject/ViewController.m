@@ -128,7 +128,7 @@
 
         sj.ID = 21321;
         sj.goods = goods;
-        [arrM addObject:sj];
+        [arrM addObject:sj];        
     }
     
     // insert or update  sample
@@ -148,7 +148,6 @@
         NSLog(@"query single person");
         
         Person *person = model;
-        
         NSMutableArray *tagsM = [NSMutableArray new];
         [tagsM addObject:[PersonTag tagWithID:7 des:@"从前有一座links"]];
         [tagsM addObject:[PersonTag tagWithID:8 des:@"links"]];
