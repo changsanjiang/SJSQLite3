@@ -71,12 +71,4 @@
          */
         + (NSDictionary<NSString *, Class> *)arrayCorrespondingKeys;
 
-        /*!
-         *  指定value是唯一值的属性集合
-         *  如果插入存在的值, 将会报错
-         *
-         *  请勿将主键key设置到这里
-         */
-        + (NSArray<NSString *> *)uniqueKeys;
-
 @end
