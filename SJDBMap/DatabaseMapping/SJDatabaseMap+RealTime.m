@@ -186,7 +186,7 @@
         
         switch (match) {
                 //      *  ...A...
-            case SJDatabaseMapFuzzyMatchAll:
+            case SJDatabaseMapFuzzyMatchBilateral:
             {
                 [fieldsSqlM appendFormat:@"%@ like '%%%@%%'", key, obj];
             }
@@ -202,8 +202,6 @@
             {
                 [fieldsSqlM appendFormat:@"%@ like '%%%@'", key, obj];
             }
-                break;
-            default:
                 break;
         }
         
@@ -1201,6 +1199,28 @@ inline static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
     if ( nil == cls || 0 == dict.allKeys ) return nil;
     return [self _sjFuzzyQueryConversionMolding:cls match:match dict:dict];
 }
+
+- (NSArray<id<SJDBMapUseProtocol>> * _Nullable)fuzzyQueryDataWithClass:(Class)cls property:(NSString *)fields part1:(NSString *)part1 part2:(NSString *)part2 {
+    if ( nil == cls || 0 == fields.length || 0 == part1.length || 0 == part2.length ) return nil;
+    
+    SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
+    if ( !uM.primaryKey && !uM.autoincrementPrimaryKey ) return nil;
+    NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 该类没有设置主键", cls);
+    
+    const char *tabName = [self sjGetTabName:cls];
+    part1 = [self filterValue:part1];
+    part2 = [self filterValue:part2];
+    NSMutableString *fieldsSqlM = [NSMutableString new];
+    // where name like A%B;
+    [fieldsSqlM appendFormat:@"select * from %s where %@ like '%@%%%@';", tabName, fields, part1, part2];
+    NSMutableArray<NSMutableDictionary *> *incompleteData = [NSMutableArray new];
+    [[self _sjQueryWithSQLStr:fieldsSqlM] enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [incompleteData addObject:obj.mutableCopy];
+    }];
+    
+    return [self _sjConversionMolding:cls rawStorageData:incompleteData memeryCache:[SJDBMapQueryCache new]];
+}
+
 @end
 
 /*!

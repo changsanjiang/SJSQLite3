@@ -186,19 +186,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)queryQuantityWithClass:(Class)cls property:(NSString * __nullable)property completeCallBlock:(void (^ __nullable)(NSInteger quantity))block;
 
-/*!
- *  模糊查询
- *  default SJDatabaseMapFuzzyMatchAll
- */
-- (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
-
 
 typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
     /*!
-     *  匹配左右两边
+     *  匹配左右两侧
      *  ...A...
      */
-    SJDatabaseMapFuzzyMatchAll = 0,
+    SJDatabaseMapFuzzyMatchBilateral = 0,
     /*!
      *  匹配以什么开头
      *  ABC.....
@@ -213,9 +207,39 @@ typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
 
 /*!
  *  模糊查询
+ *
+ *  dict: @{@"name":@"A", @"tag":@"B"}  Key -> Property, Value -> Part
+ *  default SJDatabaseMapFuzzyMatchBilateral
  */
-- (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict match:(SJDatabaseMapFuzzyMatch)match completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+- (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
+
+/*!
+ *  模糊查询
+ *
+ *  dict: @{@"name":@"A", @"tag":@"B"}  Key -> Property, Value -> Part
+ */
+- (void)fuzzyQueryDataWithClass:(Class)cls
+                      queryDict:(NSDictionary *)dict
+                          match:(SJDatabaseMapFuzzyMatch)match
+              completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+/*!
+ *  模糊查询
+ *
+ *  例如: 匹配以 AB 开头, 以 EF 结尾.
+ *       [DatabaseMapping fuzzyQueryDataWithClass:[Example Class]
+ *                                          match:SJDatabaseMapFuzzyMatchMiddle
+ *                                       property:@"name"
+ *                                          part1:@"AB"
+ *                                          part2:@"EF"
+ *                              completeCallBlock:nil]
+ */
+- (void)fuzzyQueryDataWithClass:(Class)cls
+                       property:(NSString *)fields
+                          part1:(NSString *)part1
+                          part2:(NSString *)part2
+              completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 @end
 
 

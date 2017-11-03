@@ -71,10 +71,6 @@
     
     // sample 1
     [self insertOrUpdate];
-    
-    [[SJDatabaseMap sharedServer] queryQuantityWithClass:[Person class] property:@"name" completeCallBlock:^(NSInteger quantity) {
-        NSLog(@"%zd", quantity);
-    }];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sample" style:UIBarButtonItemStyleDone target:self action:@selector(clickedItem:)];
     
@@ -119,7 +115,7 @@
                      [PersonTag tagWithID:4 des:@"E"],];
     
     NSMutableArray <Person *> *arrM = [NSMutableArray new];
-    for ( int i = 0 ; i < 3 ; i ++ ) {
+    for ( int i = 0 ; i < 5 ; i ++ ) {
         Person *sj = [Person new];
         sj.personID = i;
         sj.name = @"A'''B\"C'D\"";
@@ -297,6 +293,16 @@
 //                    [[SJDatabaseMap sharedServer] deleteDataWithClass:[Person class] callBlock:^(BOOL r) {
 //                        NSLog(@"%zd", r);
 //                    }];
+                    
+                    // 查询数量
+                    [[SJDatabaseMap sharedServer] queryQuantityWithClass:[Person class] property:nil completeCallBlock:^(NSInteger quantity) {
+                        NSLog(@"%zd", quantity);
+                        
+                        [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] property:@"name" part1:@"A" part2:@"\"" completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+                            NSLog(@"%zd", data.count);
+                        }];
+                        
+                    }];
                     
                 }];
                 

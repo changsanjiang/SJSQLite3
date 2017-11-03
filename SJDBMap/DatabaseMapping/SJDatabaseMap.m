@@ -328,8 +328,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
  *  模糊查询
  */
 - (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
-    if ( nil == cls || 0 == dict.allKeys ) { if ( block ) block(nil); return;}
-    [self fuzzyQueryDataWithClass:cls queryDict:dict match:SJDatabaseMapFuzzyMatchAll completeCallBlock:block];
+    [self fuzzyQueryDataWithClass:cls queryDict:dict match:SJDatabaseMapFuzzyMatchBilateral completeCallBlock:block];
 }
 
 /*!
@@ -337,8 +336,20 @@ inline static NSString *_sjDatabaseDefaultFolder() {
  */
 - (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict match:(SJDatabaseMapFuzzyMatch)match completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
     [self addOperationWithBlock:^{
-        if ( nil == cls || 0 == dict.allKeys ) { if ( block ) block(nil); return;}
         NSArray *models = [self fuzzyQueryDataWithClass:cls queryDict:dict match:match];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(models);
+        });
+    }];
+}
+
+- (void)fuzzyQueryDataWithClass:(Class)cls
+                       property:(NSString *)fields
+                          part1:(NSString *)part1
+                          part2:(NSString *)part2
+              completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
+    [self addOperationWithBlock:^{
+        NSArray *models = [self fuzzyQueryDataWithClass:cls property:fields part1:part1 part2:part2];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(models);
         });
