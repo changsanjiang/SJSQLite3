@@ -122,20 +122,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /*!
- *  删
+ *  删单条记录
  *  cls : 对应的类
  *  primaryValue : 主键或自增键值.
  */
 - (void)deleteDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue callBlock:(void(^ __nullable)(BOOL result))block;
 
 /*!
- *  删
+ *  批量删除
  *  primaryValues -> primaryValues
  */
 - (void)deleteDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues callBlock:(void (^ __nullable)(BOOL result))block;
 
 /*!
- *  删
+ *  批量删除
  */
 - (void)deleteDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^ __nullable)(BOOL result))block;
 
@@ -154,23 +154,18 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SJDatabaseMap (Query)
 
 /*!
- *  查
+ *  查所有记录
  *  返回和这个类有关的所有数据
  */
 - (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
 /*!
- *  查
+ *  查单条记录
  */
 - (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^ __nullable)(id<SJDBMapUseProtocol> _Nullable model))block;
 
 /*!
- *  实时获取
- */
-- (id<SJDBMapUseProtocol>)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue;
-
-/*!
- *  queryDict ->  key : property
+ *  queryDict ->  key : property, value: targetValue
  */
 - (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
@@ -180,7 +175,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)queryDataWithClass:(Class)cls range:(NSRange)range completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
 /*!
- *  查有多少条记录
+ *  查记录的数量
  *
  *  如果 property 指定为 nil, 则返回所有存储的记录数量.
  */
@@ -208,8 +203,8 @@ typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
 /*!
  *  模糊查询
  *
- *  dict: @{@"name":@"A", @"tag":@"B"}  Key -> Property, Value -> Part
  *  default SJDatabaseMapFuzzyMatchBilateral
+ *  dict: @{@"name":@"A", @"tag":@"B"}  Key -> Property, Value -> Part
  */
 - (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
@@ -229,7 +224,6 @@ typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
  *
  *  例如: 匹配以 AB 开头, 以 EF 结尾.
  *       [DatabaseMapping fuzzyQueryDataWithClass:[Example Class]
- *                                          match:SJDatabaseMapFuzzyMatchMiddle
  *                                       property:@"name"
  *                                          part1:@"AB"
  *                                          part2:@"EF"

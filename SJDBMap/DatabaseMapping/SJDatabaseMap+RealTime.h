@@ -55,7 +55,7 @@ extern char *_sjmystrcat(char *dst, const char *src);
 #pragma mark - query
 - (NSArray<id<SJDBMapUseProtocol>> * __nullable)queryAllDataWithClass:(Class)cls;
 
-- (id<SJDBMapUseProtocol>)sjQueryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue;
+- (id<SJDBMapUseProtocol>)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue;
 
 - (NSArray<id<SJDBMapUseProtocol>> * __nullable)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict;
 

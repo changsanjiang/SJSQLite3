@@ -1138,7 +1138,7 @@ inline static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
     return allDataModel;
 }
 
-- (id<SJDBMapUseProtocol>)sjQueryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue {
+- (id<SJDBMapUseProtocol>)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue {
     NSDictionary *dict = [self _sjQueryRawStorageData:cls primaryValue:primaryValue];
     if ( !dict ) return nil;
     NSArray<SJDBMapCorrespondingKeyModel *>*cKr = [self sjGetCorrespondingKeys:cls];
