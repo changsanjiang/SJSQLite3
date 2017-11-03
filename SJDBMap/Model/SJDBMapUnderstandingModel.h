@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class SJDBMapPrimaryKeyModel, SJDBMapAutoincrementPrimaryKeyModel, SJDBMapCorrespondingKeyModel, SJDBMapArrayCorrespondingKeysModel, SJDBMapUniqueKeysModel;
+@class SJDBMapPrimaryKeyModel, SJDBMapAutoincrementPrimaryKeyModel, SJDBMapCorrespondingKeyModel, SJDBMapArrayCorrespondingKeysModel;
 
 
 @interface SJDBMapUnderstandingModel : NSObject
@@ -20,8 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable, readwrite) SJDBMapAutoincrementPrimaryKeyModel *autoincrementPrimaryKey;
 @property (nonatomic, strong, nullable, readwrite) NSArray<SJDBMapCorrespondingKeyModel *> *correspondingKeys;
 @property (nonatomic, strong, nullable, readwrite) NSArray<SJDBMapArrayCorrespondingKeysModel *> *arrayCorrespondingKeys;
-
-@property (nonatomic, strong, nullable, readwrite) SJDBMapUniqueKeysModel *uniqueKeys;
 
 @end
 

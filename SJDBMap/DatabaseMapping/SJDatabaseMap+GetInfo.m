@@ -16,7 +16,6 @@
 #import "SJDBMapAutoincrementPrimaryKeyModel.h"
 #import "SJDBMapCorrespondingKeyModel.h"
 #import "SJDBMapArrayCorrespondingKeysModel.h"
-#import "SJDBMapUniqueKeysModel.h"
 
 
 @implementation SJDatabaseMap (GetInfo)
@@ -104,7 +103,6 @@
     model.autoincrementPrimaryKey = [self sjGetAutoincrementPrimaryKey:cls];
     model.correspondingKeys = [self sjGetCorrespondingKeys:cls];
     model.arrayCorrespondingKeys = [self sjGetArrayCorrespondingKeys:cls];
-    model.uniqueKeys = [self sjGetUniqueKeys:cls];
     return model;
 }
 
@@ -453,18 +451,6 @@
 }
 
 /*!
- *  获取唯一值字段
- */
-- (SJDBMapUniqueKeysModel *)sjGetUniqueKeys:(Class)cls {
-    NSArray<NSString *> *keys = [self _sjPerformClassMethod:cls sel:@selector(uniqueKeys) obj1:nil obj2:nil];
-    if ( !keys ) return nil;
-    SJDBMapUniqueKeysModel *model = [SJDBMapUniqueKeysModel new];
-    model.ownerCls = cls;
-    model.keys = keys;
-    return model;
-}
-
-/*!
  *  获取表名称
  */
 - (const char *)sjGetTabName:(Class)cls {
@@ -491,9 +477,9 @@
          */
         if ( !apk ) return ;
         NSInteger apkValue = [[value valueForKey:apk.ownerFields] integerValue];
-        // 自增主键, 数据库从 1 开始, 如果为 0, 可能此模型摸存储到数据库.
+        // 自增主键, 数据库从 1 开始, 如果为 0, 可能此模型摸未存储到数据库.
         NSAssert(apkValue, @"[%@] 自增主键为0, 可能该对象未存储到数据库. 无法继续操作", value);
-        [primaryKeyValuesM addObject:[value valueForKey:apk.ownerFields]];
+        [primaryKeyValuesM addObject:@(apkValue)];
     }];
     
     NSData *data = [NSJSONSerialization dataWithJSONObject:@{NSStringFromClass([cValues[0] class]) : primaryKeyValuesM} options:0 error:nil];

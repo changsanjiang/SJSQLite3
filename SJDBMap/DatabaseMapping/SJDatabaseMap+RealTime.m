@@ -400,7 +400,8 @@
         [hasPrimaryKeyModelsSetM enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull model, BOOL * _Nonnull stop) {
             Class cls = [self _sjTargetClass:model];
             if ( cls != uM.ownerCls ) uM = [self sjGetUnderstandingWithClass:cls];
-            [self _sjInsertOrUpdateDataWithModel:model uM:uM];
+            result = [self _sjInsertOrUpdateDataWithModel:model uM:uM];
+            if ( !result ) *stop = YES;
         }];
     }
     
@@ -631,13 +632,9 @@
     
     if ( !cls ) { return NO;}
     
-    unsigned int ivarCount = 0;
+    SJDBMapUnderstandingModel *uM = [self sjGetUnderstandingWithClass:cls];
     
-    __block struct objc_ivar **ivarList = class_copyIvarList(cls, &ivarCount);
-    
-    SJDBMapUnderstandingModel *model = [self sjGetUnderstandingWithClass:cls];
-    
-    NSAssert(model.primaryKey || model.autoincrementPrimaryKey, @"[%@] 需要一个主键.", cls);
+    NSAssert(uM.primaryKey || uM.autoincrementPrimaryKey, @"[%@] 需要一个主键.", cls);
     
     // 获取表名称
     const char *tabName = [self sjGetTabName:cls];
@@ -651,6 +648,9 @@
     _sjmystrcat(sql, " ");
     _sjmystrcat(sql, "(");
     
+    unsigned int ivarCount = 0;
+    __block struct objc_ivar **ivarList = class_copyIvarList(cls, &ivarCount);
+    
     for (int i = 0; i < ivarCount; i ++) {
         char *ivarName = (char *)ivar_getName(ivarList[i]);
         
@@ -659,7 +659,7 @@
         
         // 提取相应字段(如果有)
         __block SJDBMapCorrespondingKeyModel *correspondingKeyModel = nil;
-        [model.correspondingKeys enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [uM.correspondingKeys enumerateObjectsUsingBlock:^(SJDBMapCorrespondingKeyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ( 0 == strcmp(field, obj.ownerFields.UTF8String) ) {correspondingKeyModel = obj; *stop = YES;};
         }];
         
@@ -684,14 +684,13 @@
         free(fieldSql);
         
         // 如果是自增主键
-        if      ( NULL != model.autoincrementPrimaryKey &&
-                 0 == strcmp(field, model.autoincrementPrimaryKey.ownerFields.UTF8String) )
+        if      ( NULL != uM.autoincrementPrimaryKey &&
+                 0 == strcmp(field, uM.autoincrementPrimaryKey.ownerFields.UTF8String) )
             _sjmystrcat(sql, " PRIMARY KEY AUTOINCREMENT");
         // 如果是主键
-        else if ( NULL != model.primaryKey &&
-                 0 == strcmp(field, model.primaryKey.ownerFields.UTF8String) )
+        else if ( NULL != uM.primaryKey &&
+                 0 == strcmp(field, uM.primaryKey.ownerFields.UTF8String) )
             _sjmystrcat(sql, " PRIMARY KEY");
-        
         
         _sjmystrcat(sql, ",");
     }
@@ -722,6 +721,16 @@
     ivarList = NULL;
     
     return createResult;
+}
+
+- (BOOL)_sjIsUniqueKeyWithKeys:(NSArray<NSString *> *)uniqueKeys target:(const char *)target {
+    __block BOOL result = NO;
+    [uniqueKeys enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ( 0 != strcmp(obj.UTF8String, target) ) return ;
+        result = YES;
+        *stop = NO;
+    }];
+    return result;
 }
 
 /*!

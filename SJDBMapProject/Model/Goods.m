@@ -19,10 +19,4 @@
     return @{@"price":@"priceId"};
 }
 
-// MARK: YYKit
-
-- (NSString *)description {
-    return [self modelDescription];
-}
-
 @end

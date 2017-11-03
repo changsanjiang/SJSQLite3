@@ -24,10 +24,4 @@
     return @"bookID";
 }
 
-// MARK: YYKit
-
-- (NSString *)description {
-    return [self modelDescription];
-}
-
 @end
