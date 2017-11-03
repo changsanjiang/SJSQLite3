@@ -132,7 +132,7 @@
     
     if ( sql[strlen(sql) - 1] == ',' ) sql[strlen(sql) - 1] = '\0';
     _sjmystrcat(sql, ")");
-    sql[strlen(sql)] = '\0';
+    
     NSString *sqlStr = [NSString stringWithFormat:@"%s", sql];
     free(sql);
     return sqlStr;

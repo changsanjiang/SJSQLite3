@@ -677,7 +677,7 @@
         _sjmystrcat(fieldSql, field);
         _sjmystrcat(fieldSql, "' ");
         _sjmystrcat(fieldSql, fieldType);
-        fieldSql[strlen(fieldSql)] = '\0';
+
         if ( NULL != strstr(sql, fieldSql) ) {free(fieldSql); continue;}
         
         _sjmystrcat(sql, fieldSql);
@@ -700,7 +700,7 @@
     if ( lastChar == ',' ) sql[length - 1] = '\0';
     
     _sjmystrcat(sql, ");");
-    sql[strlen(sql)] = '\0';
+    
 #ifdef _SJLog
     NSLog(@"%s", sql);
 #endif
