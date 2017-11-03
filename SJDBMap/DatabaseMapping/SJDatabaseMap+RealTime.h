@@ -59,6 +59,8 @@ extern char *_sjmystrcat(char *dst, const char *src);
 
 - (NSArray<id<SJDBMapUseProtocol>> * __nullable)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict;
 
+- (NSInteger)queryQuantityWithClass:(Class)cls property:(NSString * __nullable)property;
+
 - (NSArray<id<SJDBMapUseProtocol>> * __nullable)queryDataWithClass:(Class)cls range:(NSRange)range;
 
 - (NSArray<id<SJDBMapUseProtocol>> * _Nullable)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict match:(SJDatabaseMapFuzzyMatch)match;

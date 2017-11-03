@@ -37,6 +37,14 @@
 }
 
 /*!
+ *  查询表是否存在
+ */
+- (BOOL)_sjTableExists:(Class)cls {
+    NSString *sql = [NSString stringWithFormat:@"select count(*) from sqlite_master WHERE type='table' and name='%s'", [self sjGetTabName:cls]];
+    return [[self _sjQueryWithSQLStr:sql].firstObject[@"count(*)"] boolValue];
+}
+
+/*!
  *  创建或更新一张表
  */
 - (BOOL)_sjCreateOrAlterTabWithClass:(Class)cls {
@@ -44,12 +52,12 @@
     /*!
      *  如果表不存在创建表
      */
-    NSMutableSet<NSString *> *fieldsSet = [self _sjQueryTabAllFields_Set_WithClass:cls];
-    if ( !fieldsSet ) {return [self _sjCreateTab:cls];}
+    if ( ![self _sjTableExists:cls] ) {return [self _sjCreateTab:cls];}
     
     /*!
      *  如果表存在, 查看是否有更新字段
      */
+    NSMutableSet<NSString *> *fieldsSet = [self _sjQueryTabAllFields_Set_WithClass:cls];
     NSArray<SJDBMapCorrespondingKeyModel *> *cMs = [self sjGetCorrespondingKeys:cls];
     NSMutableSet<NSString *> *ivarNamesSet = _sjGetIvarNames(cls);
     
@@ -1163,6 +1171,14 @@ inline static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
     }];
     
     return [self _sjConversionMolding:cls rawStorageData:incompleteData memeryCache:[SJDBMapQueryCache new]];
+}
+
+- (NSInteger)queryQuantityWithClass:(Class)cls property:(NSString *)property {
+    if ( ![self _sjTableExists:cls] ) return 0;
+    if ( nil == property ) property = @"*";
+    NSString *name = [NSString stringWithFormat:@"count(%@)", property];
+    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %s;", name, [self sjGetTabName:cls]];
+    return [[self _sjQueryWithSQLStr:sql].firstObject[name] integerValue];
 }
 
 - (NSArray<id<SJDBMapUseProtocol>> *)queryDataWithClass:(Class)cls range:(NSRange)range {

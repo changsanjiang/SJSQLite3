@@ -165,12 +165,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^ __nullable)(id<SJDBMapUseProtocol> _Nullable model))block;
 
 /*!
- *  查, 实时获取
+ *  实时获取
  */
 - (id<SJDBMapUseProtocol>)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue;
 
 /*!
- *  查
  *  queryDict ->  key : property
  */
 - (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
@@ -179,6 +178,13 @@ NS_ASSUME_NONNULL_BEGIN
  *  查询指定区间数据
  */
 - (void)queryDataWithClass:(Class)cls range:(NSRange)range completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+/*!
+ *  查有多少条记录
+ *
+ *  如果 property 指定为 nil, 则返回所有存储的记录数量.
+ */
+- (void)queryQuantityWithClass:(Class)cls property:(NSString * __nullable)property completeCallBlock:(void (^ __nullable)(NSInteger quantity))block;
 
 /*!
  *  模糊查询

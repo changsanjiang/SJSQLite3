@@ -71,6 +71,10 @@
     
     // sample 1
     [self insertOrUpdate];
+    
+    [[SJDatabaseMap sharedServer] queryQuantityWithClass:[Person class] property:@"name" completeCallBlock:^(NSInteger quantity) {
+        NSLog(@"%zd", quantity);
+    }];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sample" style:UIBarButtonItemStyleDone target:self action:@selector(clickedItem:)];
     

@@ -314,6 +314,17 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 }
 
 /*!
+ *  查数量
+ */
+- (void)queryQuantityWithClass:(Class)cls property:(NSString *)property completeCallBlock:(void (^ __nullable)(NSInteger quantity))block {
+    if ( nil == cls ) {
+        if ( block ) block(0);
+        return;
+    }
+    if ( block ) block([self queryQuantityWithClass:cls property:property]);
+}
+
+/*!
  *  模糊查询
  */
 - (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
