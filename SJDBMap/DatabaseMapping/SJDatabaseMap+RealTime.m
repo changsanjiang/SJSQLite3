@@ -672,12 +672,12 @@
         if ( 0 == strlen(fieldType) ) continue;
         
         char *fieldSql = malloc(256);
-        
+        fieldSql[0] = '\0';
         _sjmystrcat(fieldSql, " '");
         _sjmystrcat(fieldSql, field);
         _sjmystrcat(fieldSql, "' ");
         _sjmystrcat(fieldSql, fieldType);
-        
+        fieldSql[strlen(fieldSql)] = '\0';
         if ( NULL != strstr(sql, fieldSql) ) {free(fieldSql); continue;}
         
         _sjmystrcat(sql, fieldSql);
@@ -701,7 +701,7 @@
     if ( lastChar == ',' ) sql[length - 1] = '\0';
     
     _sjmystrcat(sql, ");");
-    
+    sql[strlen(sql)] = '\0';
 #ifdef _SJLog
     NSLog(@"%s", sql);
 #endif
