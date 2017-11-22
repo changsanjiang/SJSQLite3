@@ -240,7 +240,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(result);
         });
-
+        
     }];
 }
 
@@ -279,10 +279,6 @@ inline static NSString *_sjDatabaseDefaultFolder() {
     }];
 }
 
-/*!
- *  查
- *  queryDict ->  key : property
- */
 - (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> *data))block {
     if ( nil == cls || 0 == dict.allKeys ) { if ( block ) block(nil); return;}
     [self addOperationWithBlock:^{
@@ -303,7 +299,7 @@ inline static NSString *_sjDatabaseDefaultFolder() {
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( block ) block(models);
         });
-
+        
     }];
 }
 
@@ -315,7 +311,12 @@ inline static NSString *_sjDatabaseDefaultFolder() {
         if ( block ) block(0);
         return;
     }
-    if ( block ) block([self queryQuantityWithClass:cls property:property]);
+    [self addOperationWithBlock:^{
+        NSInteger quantity = [self queryQuantityWithClass:cls property:property];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(quantity);
+        });
+    }];
 }
 
 /*!
@@ -350,4 +351,33 @@ inline static NSString *_sjDatabaseDefaultFolder() {
     }];
 }
 
+
+/*!
+ *  查寻
+ *
+ *
+ **/
+- (void)queryDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable))block{
+    [self addOperationWithBlock:^{
+        NSArray *models = [self queryDataWithClass:cls primaryValues:primaryValues];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(models);
+        });
+    }];
+}
+
+/*!
+ *  根据多个值查询
+ **/
+- (void)queryDataWithClass:(Class)cls property:(NSString *)property values:(NSArray *)values completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
+    [self addOperationWithBlock:^{
+        NSArray *models = [self queryDataWithClass:cls property:property values:values];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(models);
+        });
+    }];
+}
+
 @end
+
+

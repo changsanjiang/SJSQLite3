@@ -359,6 +359,7 @@
  *  获取主键字段或自增主键字段
  */
 - (NSString *)sjGetPrimaryOrAutoPrimaryFields:(Class)cls {
+    if ( !cls ) return nil;
     NSString *fields = [self sjGetPrimaryFields:cls];
     return fields ? fields : [self sjGetAutoPrimaryFields:cls];
 }

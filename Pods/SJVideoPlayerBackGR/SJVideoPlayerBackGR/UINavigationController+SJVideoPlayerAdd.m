@@ -56,7 +56,7 @@ static NSMutableArray<UIImage *> * SJVideoPlayer_screenshotImagesM;
 
 
 
-#pragma mark -
+#pragma mark - UIViewController
 
 @interface UIViewController (SJVideoPlayerExtension)
 
@@ -68,13 +68,16 @@ static NSMutableArray<UIImage *> * SJVideoPlayer_screenshotImagesM;
 @implementation UIViewController (SJVideoPlayerExtension)
 
 + (void)load {
-    Class vc = [self class];
-    
-    // dismiss
-    Method dismissViewControllerAnimatedCompletion = class_getInstanceMethod(vc, @selector(dismissViewControllerAnimated:completion:));
-    Method SJVideoPlayer_dismissViewControllerAnimatedCompletion = class_getInstanceMethod(vc, @selector(SJVideoPlayer_dismissViewControllerAnimated:completion:));
-    
-    method_exchangeImplementations(SJVideoPlayer_dismissViewControllerAnimatedCompletion, dismissViewControllerAnimatedCompletion);
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class vc = [self class];
+        
+        // dismiss
+        Method dismissViewControllerAnimatedCompletion = class_getInstanceMethod(vc, @selector(dismissViewControllerAnimated:completion:));
+        Method SJVideoPlayer_dismissViewControllerAnimatedCompletion = class_getInstanceMethod(vc, @selector(SJVideoPlayer_dismissViewControllerAnimated:completion:));
+        
+        method_exchangeImplementations(SJVideoPlayer_dismissViewControllerAnimatedCompletion, dismissViewControllerAnimatedCompletion);
+    });
 }
 
 - (void)SJVideoPlayer_dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
@@ -91,11 +94,15 @@ static NSMutableArray<UIImage *> * SJVideoPlayer_screenshotImagesM;
     [self SJVideoPlayer_dismissViewControllerAnimated:flag completion:completion];
 }
 
-- (void)SJVideoPlayer_resetScreenshotImage {
++ (void)SJVideoPlayer_resetScreenshotImage {
     // remove last screenshot
     [[[self class] SJVideoPlayer_screenshotImagesM] removeLastObject];
     // update screenshotImage
     [[[self class] SJVideoPlayer_screenshotView] setImage:[[[self class] SJVideoPlayer_screenshotImagesM] lastObject]];
+}
+
+- (void)SJVideoPlayer_resetScreenshotImage {
+    [[self class] SJVideoPlayer_resetScreenshotImage];
 }
 
 - (void)SJVideoPlayer_resetScreenshotImageForLastIndex:(NSInteger)lastIndex {
@@ -131,6 +138,7 @@ static NSMutableArray<UIImage *> * SJVideoPlayer_screenshotImagesM;
     CGFloat width = MIN(bounds.size.width, bounds.size.height);
     CGFloat height = MAX(bounds.size.width, bounds.size.height);
     SJVideoPlayer_screenshotView.frame = CGRectMake(0, 0, width, height);
+    SJVideoPlayer_screenshotView.hidden = YES;
     return SJVideoPlayer_screenshotView;
 }
 
@@ -144,11 +152,7 @@ static NSMutableArray<UIImage *> * SJVideoPlayer_screenshotImagesM;
 
 
 
-#pragma mark -
-
-
-
-
+#pragma mark - UINavigationController
 @interface UINavigationController (SJVideoPlayerExtension)<UINavigationControllerDelegate>
 
 @property (nonatomic, assign, readwrite) BOOL isObserver;
@@ -159,39 +163,42 @@ static NSMutableArray<UIImage *> * SJVideoPlayer_screenshotImagesM;
 
 + (void)load {
     
-    // App launching
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SJVideoPlayer_addscreenshotImageViewToWindow) name:UIApplicationDidFinishLaunchingNotification object:nil];
-    
-    Class nav = [self class];
-    
-    // Init
-    Method initWithRootViewController = class_getInstanceMethod(nav, @selector(initWithRootViewController:));
-    Method SJVideoPlayer_initWithRootViewController = class_getInstanceMethod(nav, @selector(SJVideoPlayer_initWithRootViewController:));
-    method_exchangeImplementations(SJVideoPlayer_initWithRootViewController, initWithRootViewController);
-    
-    // Push
-    Method pushViewControllerAnimated = class_getInstanceMethod(nav, @selector(pushViewController:animated:));
-    Method SJVideoPlayer_pushViewControllerAnimated = class_getInstanceMethod(nav, @selector(SJVideoPlayer_pushViewController:animated:));
-    method_exchangeImplementations(SJVideoPlayer_pushViewControllerAnimated, pushViewControllerAnimated);
-    
-    // Pop
-    Method popViewControllerAnimated = class_getInstanceMethod(nav, @selector(popViewControllerAnimated:));
-    Method SJVideoPlayer_popViewControllerAnimated = class_getInstanceMethod(nav, @selector(SJVideoPlayer_popViewControllerAnimated:));
-    method_exchangeImplementations(popViewControllerAnimated, SJVideoPlayer_popViewControllerAnimated);
-    
-    // Pop Root VC
-    Method popToRootViewControllerAnimated = class_getInstanceMethod(nav, @selector(popToRootViewControllerAnimated:));
-    Method SJVideoPlayer_popToRootViewControllerAnimated = class_getInstanceMethod(nav, @selector(SJVideoPlayer_popToRootViewControllerAnimated:));
-    method_exchangeImplementations(popToRootViewControllerAnimated, SJVideoPlayer_popToRootViewControllerAnimated);
-    
-    // Pop To View Controller
-    Method popToViewControllerAnimated = class_getInstanceMethod(nav, @selector(popToViewController:animated:));
-    Method SJVideoPlayer_popToViewControllerAnimated = class_getInstanceMethod(nav, @selector(SJVideoPlayer_popToViewController:animated:));
-    method_exchangeImplementations(popToViewControllerAnimated, SJVideoPlayer_popToViewControllerAnimated);
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        // App launching
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SJVideoPlayer_addscreenshotImageViewToWindow) name:UIApplicationDidFinishLaunchingNotification object:nil];
+        
+        Class nav = [self class];
+        
+        // Init
+        Method initWithRootViewController = class_getInstanceMethod(nav, @selector(initWithRootViewController:));
+        Method SJVideoPlayer_initWithRootViewController = class_getInstanceMethod(nav, @selector(SJVideoPlayer_initWithRootViewController:));
+        method_exchangeImplementations(SJVideoPlayer_initWithRootViewController, initWithRootViewController);
+        
+        // Push
+        Method pushViewControllerAnimated = class_getInstanceMethod(nav, @selector(pushViewController:animated:));
+        Method SJVideoPlayer_pushViewControllerAnimated = class_getInstanceMethod(nav, @selector(SJVideoPlayer_pushViewController:animated:));
+        method_exchangeImplementations(SJVideoPlayer_pushViewControllerAnimated, pushViewControllerAnimated);
+        
+        // Pop
+        Method popViewControllerAnimated = class_getInstanceMethod(nav, @selector(popViewControllerAnimated:));
+        Method SJVideoPlayer_popViewControllerAnimated = class_getInstanceMethod(nav, @selector(SJVideoPlayer_popViewControllerAnimated:));
+        method_exchangeImplementations(popViewControllerAnimated, SJVideoPlayer_popViewControllerAnimated);
+        
+        // Pop Root VC
+        Method popToRootViewControllerAnimated = class_getInstanceMethod(nav, @selector(popToRootViewControllerAnimated:));
+        Method SJVideoPlayer_popToRootViewControllerAnimated = class_getInstanceMethod(nav, @selector(SJVideoPlayer_popToRootViewControllerAnimated:));
+        method_exchangeImplementations(popToRootViewControllerAnimated, SJVideoPlayer_popToRootViewControllerAnimated);
+        
+        // Pop To View Controller
+        Method popToViewControllerAnimated = class_getInstanceMethod(nav, @selector(popToViewController:animated:));
+        Method SJVideoPlayer_popToViewControllerAnimated = class_getInstanceMethod(nav, @selector(SJVideoPlayer_popToViewController:animated:));
+        method_exchangeImplementations(popToViewControllerAnimated, SJVideoPlayer_popToViewControllerAnimated);
+    });
 }
 
 - (void)dealloc {
-    if ( self.isObserver ) [self.interactivePopGestureRecognizer removeObserver:(id)[self class] forKeyPath:@"state"];
+    if ( self.isObserver ) [self.interactivePopGestureRecognizer removeObserver:self forKeyPath:@"state"];
 }
 
 - (void)setIsObserver:(BOOL)isObserver {
@@ -205,9 +212,9 @@ static NSMutableArray<UIImage *> * SJVideoPlayer_screenshotImagesM;
 // App launching
 + (void)SJVideoPlayer_addscreenshotImageViewToWindow {
     UIWindow *window = [(id)[UIApplication sharedApplication].delegate valueForKey:@"window"];
+    NSAssert(window, @"Window was not found and cannot continue!");
     [window insertSubview:self.SJVideoPlayer_screenshotView atIndex:0];
 }
-
 
 // Init
 - (instancetype)SJVideoPlayer_initWithRootViewController:(UIViewController *)rootViewController {
@@ -215,23 +222,26 @@ static NSMutableArray<UIImage *> * SJVideoPlayer_screenshotImagesM;
     [[NSTimer SJVideoPlayer_scheduledTimerWithTimeInterval:0.05 exeBlock:^(NSTimer *timer) {
         if ( !_rootViewController ) { [timer invalidate]; return ; }
         if ( !_rootViewController.navigationController ) return;
+        
         // timer invalidate
         [timer invalidate];
+        
         // get nav
         UINavigationController *nav = _rootViewController.navigationController;
-        [nav.interactivePopGestureRecognizer addObserver:(id)[self class] forKeyPath:@"state" options:NSKeyValueObservingOptionNew context:(void *)nav];
+        [nav.interactivePopGestureRecognizer addObserver:nav forKeyPath:@"state" options:NSKeyValueObservingOptionNew context:nil];
         nav.isObserver = YES;
         
         // use custom gesture
         nav.useNativeGesture = NO;
         
-        // 添加阴影
+        // border shadow
         nav.view.layer.shadowOffset = CGSizeMake(-1, 0);
         nav.view.layer.shadowColor = [UIColor colorWithWhite:0 alpha:0.2].CGColor;
         nav.view.layer.shadowRadius = 1;
         nav.view.layer.shadowOpacity = 1;
+        
         // delegate
-        nav.delegate = self;
+        nav.delegate = (id)[UINavigationController class];
         
     } repeats:YES] fire];
     return [self SJVideoPlayer_initWithRootViewController:rootViewController];
@@ -261,6 +271,7 @@ static UINavigationControllerOperation _navOperation;
     return [self SJVideoPlayer_popToRootViewControllerAnimated:animated];
 }
 
+// Pop To View Controller
 - (NSArray<UIViewController *> *)SJVideoPlayer_popToViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [self.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ( viewController != obj ) return;
@@ -272,12 +283,12 @@ static UINavigationControllerOperation _navOperation;
 
 // navController delegate
 static __weak UIViewController *_tmpShowViewController;
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
++ (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     if ( _navOperation == UINavigationControllerOperationPush ) { return;}
     _tmpShowViewController = viewController;
 }
 
-- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
++ (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
     if ( _navOperation != UINavigationControllerOperationPop ) return;
     if ( _tmpShowViewController != viewController ) return;
     
@@ -288,14 +299,14 @@ static __weak UIViewController *_tmpShowViewController;
 }
 
 // observer
-+ (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(UIScreenEdgePanGestureRecognizer *)gesture change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(UINavigationController *)nav {
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(UIScreenEdgePanGestureRecognizer *)gesture change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     switch ( gesture.state ) {
         case UIGestureRecognizerStateBegan:
         case UIGestureRecognizerStateChanged:
             break;
         default: {
             // update
-            nav.useNativeGesture = nav.useNativeGesture;
+            self.useNativeGesture = self.useNativeGesture;
         }
             break;
     }
@@ -308,8 +319,7 @@ static __weak UIViewController *_tmpShowViewController;
 
 
 
-#pragma mark -
-
+#pragma mark - Gesture
 @implementation UINavigationController (SJVideoPlayerAdd)
 
 - (UIPanGestureRecognizer *)sj_pan {
@@ -324,36 +334,58 @@ static __weak UIViewController *_tmpShowViewController;
 
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
-    if (gestureRecognizer.view != self.view) return NO;
     CGPoint translate = [gestureRecognizer translationInView:self.view];
-    BOOL possible = translate.x != 0 && fabs(translate.y) == 0;
+    BOOL possible = translate.x > 0 && translate.y == 0;
     if ( possible ) return YES;
     else return NO;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    if ([otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewPanGestureRecognizer")] || [otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIPanGestureRecognizer")]|| [otherGestureRecognizer isKindOfClass:NSClassFromString(@"UIScrollViewPagingSwipeGestureRecognizer")]) {
-        UIView *aView = otherGestureRecognizer.view;
-        if ( [aView isKindOfClass:[UIScrollView class]] ) {
-            return [self SJVideoPlayer_considerScrollView:(UIScrollView *)aView];
-        }
+    if ( [otherGestureRecognizer isMemberOfClass:NSClassFromString(@"UIPanGestureRecognizer")] ) {
         return NO;
+    }
+    
+    if ([otherGestureRecognizer isMemberOfClass:NSClassFromString(@"UIScrollViewPanGestureRecognizer")] ||
+        [otherGestureRecognizer isMemberOfClass:NSClassFromString(@"UIScrollViewPagingSwipeGestureRecognizer")]) {
+        if ( [otherGestureRecognizer.view isKindOfClass:[UIScrollView class]] ) {
+            return [self SJVideoPlayer_considerScrollView:(UIScrollView *)otherGestureRecognizer.view otherGestureRecognizer:otherGestureRecognizer];
+        }
     }
     return YES;
 }
 
-- (BOOL)SJVideoPlayer_considerScrollView:(UIScrollView *)sv {
-    if ( [sv isKindOfClass:[UICollectionView class]] ) {
-        UIView *sup = sv.superview;
-        if ( [sup isKindOfClass:[UITableViewCell class]] ) return NO;
-        // 如果是 TableView 嵌套 CollectionView, 尽量不同时识别.
-        for ( int i = 0 ; i < 4; ++ i ) {
-            sup = sup.superview;
-            if ( [sup isKindOfClass:[UITableViewCell class]] ) return NO;
+
+- (BOOL)SJVideoPlayer_considerScrollView:(UIScrollView *)subScrollView otherGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if ( 0 != subScrollView.contentOffset.x ) return NO;
+    UIView *sup = subScrollView.superview;
+    // 用于判断横向移动的方向 (向左还是向右)
+    CGPoint translate = [self.sj_pan translationInView:self.view];
+    // 尽量考虑 scrollView 嵌套在 scrollView 的情况. (只向上找了5层)
+    for ( int i = 0 ; i < 5; ++ i ) {
+        if ( [sup isKindOfClass:[UIScrollView class]] ) {
+            // 如果 scrollView 从未移动过
+            if ( 0 == subScrollView.contentOffset.x ) {
+                // 横向 向右滑的情况
+                if ( translate.x > 0 ) {
+                    // 取消 subScrollView 滑动
+                    [otherGestureRecognizer setValue:@(UIGestureRecognizerStateCancelled) forKey:@"state"];
+                    // 全屏手势 处理
+                    return YES;
+                }
+                // 横向 向左滑动的情况
+                else {
+                    // 全屏手势 不处理
+                    return NO;
+                }
+            }
+            // 如果 subScrollView 没有复位(即 contentOffset.x != 0 ), 则不触发全局手势
+            else return NO;
         }
+        sup = sup.superview;
     }
-    if ( sv.contentOffset.x == 0 ) return YES;
-    return NO;
+    // 如果不嵌套并且向左滑动
+    if ( translate.x <= 0 ) return NO;
+    return YES;
 }
 
 - (void)SJVideoPlayer_handlePanGR:(UIPanGestureRecognizer *)pan {
@@ -479,8 +511,3 @@ static __weak UIViewController *_tmpShowViewController;
 }
 
 @end
-
-
-
-
-

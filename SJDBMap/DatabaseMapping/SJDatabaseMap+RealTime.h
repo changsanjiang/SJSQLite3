@@ -28,6 +28,7 @@ extern char *_sjmystrcat(char *dst, const char *src);
 
 #pragma mark - =================================
 #pragma mark - real-time CRUD
+#pragma mark - 请在必要的情况下使用, 尽量少用
 #pragma mark - =================================
 
 #pragma mark -
@@ -67,7 +68,11 @@ extern char *_sjmystrcat(char *dst, const char *src);
 
 - (NSArray<id<SJDBMapUseProtocol>> * _Nullable)fuzzyQueryDataWithClass:(Class)cls property:(NSString *)fields part1:(NSString *)part1 part2:(NSString *)part2;
 
+- (NSArray<id<SJDBMapUseProtocol>> * _Nullable)queryDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues;
+
+- (NSArray<id<SJDBMapUseProtocol>> * _Nullable)queryDataWithClass:(Class)cls property:(NSString *)property values:(NSArray *)values;
 @end
 
 
 NS_ASSUME_NONNULL_END
+

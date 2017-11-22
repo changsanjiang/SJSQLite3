@@ -77,6 +77,7 @@
 
 
 
+#pragma mark - Border
 
 
 @interface SJSlider (BorderLine)
@@ -103,7 +104,7 @@
 
 
 
-// MARK: 缓冲
+#pragma mark - Buffer
 
 
 @interface SJSlider (SJBufferProgress)
@@ -126,6 +127,7 @@
 @end
 
 
+#pragma mark - Delegate
 
 
 @protocol SJSliderDelegate <NSObject>

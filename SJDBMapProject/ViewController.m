@@ -300,6 +300,20 @@
                         
                         [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] property:@"name" part1:@"A" part2:@"\"" completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
                             NSLog(@"%zd", data.count);
+                            
+                            
+                            [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] primaryValues:@[@(0), @(1), @(2)] completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+                                NSLog(@"%zd", data.count);
+                                [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] property:@"name" values:@[@"A'''B\"C'D\"", @"B''''B\"\"\"BBBB"] completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+                                        NSLog(@"%zd", data.count);
+                                    [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:@{@"name":@[@"A'''B\"C'D\"", @"B''''B\"\"\"BBBB"]} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+                                        NSLog(@"%zd", data.count);
+                                    }];
+                                    
+                                }];
+                                
+                            }];
+                            
                         }];
                         
                     }];

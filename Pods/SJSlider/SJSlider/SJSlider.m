@@ -133,56 +133,6 @@
 
 
 
-// MARK: SJSlider (SJBufferProgress)
-
-@implementation SJSlider (SJBufferProgress)
-
-- (BOOL)enableBufferProgress {
-    return [objc_getAssociatedObject(self, _cmd) boolValue];
-}
-
-- (void)setEnableBufferProgress:(BOOL)enableBufferProgress {
-    objc_setAssociatedObject(self, @selector(enableBufferProgress), @(enableBufferProgress), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.bufferProgressView.hidden = !enableBufferProgress;
-    });
-    
-}
-
-- (UIColor *)bufferProgressColor {
-    return objc_getAssociatedObject(self, _cmd);
-}
-
-- (void)setBufferProgressColor:(UIColor *)bufferProgressColor {
-    if ( !bufferProgressColor ) return;
-    objc_setAssociatedObject(self, @selector(bufferProgressColor), bufferProgressColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.bufferProgressView.backgroundColor = bufferProgressColor;
-    });
-    
-}
-
-- (CGFloat)bufferProgress {
-    return [objc_getAssociatedObject(self, _cmd) floatValue];
-}
-
-- (void)setBufferProgress:(CGFloat)bufferProgress {
-    if      ( bufferProgress > 1 ) bufferProgress = 1;
-    else if ( bufferProgress < 0 ) bufferProgress = 0;
-    objc_setAssociatedObject(self, @selector(bufferProgress), @(bufferProgress), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ( !self.bufferProgressView.superview ) return ;
-        [self.bufferProgressView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.offset(bufferProgress * self.containerView.csj_w);
-        }];
-    });
-    
-}
-
-@end
-
-
-
 
 @implementation SJSlider
 
@@ -406,13 +356,64 @@
     }];
 }
 
-
 @end
 
 
 
 
 
+#pragma mark - Buffer
+
+
+@implementation SJSlider (SJBufferProgress)
+
+- (BOOL)enableBufferProgress {
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+
+- (void)setEnableBufferProgress:(BOOL)enableBufferProgress {
+    objc_setAssociatedObject(self, @selector(enableBufferProgress), @(enableBufferProgress), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.bufferProgressView.hidden = !enableBufferProgress;
+    });
+    
+}
+
+- (UIColor *)bufferProgressColor {
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+- (void)setBufferProgressColor:(UIColor *)bufferProgressColor {
+    if ( !bufferProgressColor ) return;
+    objc_setAssociatedObject(self, @selector(bufferProgressColor), bufferProgressColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.bufferProgressView.backgroundColor = bufferProgressColor;
+    });
+    
+}
+
+- (CGFloat)bufferProgress {
+    return [objc_getAssociatedObject(self, _cmd) floatValue];
+}
+
+- (void)setBufferProgress:(CGFloat)bufferProgress {
+    if      ( bufferProgress > 1 ) bufferProgress = 1;
+    else if ( bufferProgress < 0 ) bufferProgress = 0;
+    objc_setAssociatedObject(self, @selector(bufferProgress), @(bufferProgress), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ( !self.bufferProgressView.superview ) return ;
+        [self.bufferProgressView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.offset(bufferProgress * self.containerView.csj_w);
+        }];
+    });
+    
+}
+
+@end
+
+
+
+#pragma mark - Border
 
 
 @implementation SJSlider (BorderLine)
@@ -451,4 +452,5 @@
 - (CGFloat)borderWidth {
     return [objc_getAssociatedObject(self, _cmd) doubleValue];
 }
+
 @end

@@ -164,8 +164,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^ __nullable)(id<SJDBMapUseProtocol> _Nullable model))block;
 
-/*!
- *  queryDict ->  key : property, value: targetValue
+/*! 
+ *  查询
+ *
+ *  dict:
+ *     @{
+ *          @"name": @"A",
+ *          @"tag": @"B"
+ *      }
+ *  or
+ *     @{
+ *          @"id" : @[@(0), @(2), @(3)],
+ *          @"name":@[@"A", @"B", @"C"]
+ *      } ==>>>> ... id in (0, 2, 3) and name in ('A', 'B', 'C')
  */
 - (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
@@ -211,8 +222,7 @@ typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
 
 /*!
  *  模糊查询
- *
- *  dict: @{@"name":@"A", @"tag":@"B"}  Key -> Property, Value -> Part
+ *  property : value
  */
 - (void)fuzzyQueryDataWithClass:(Class)cls
                       queryDict:(NSDictionary *)dict
@@ -234,7 +244,20 @@ typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
                           part1:(NSString *)part1
                           part2:(NSString *)part2
               completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+
+/*!
+ *  根据多个主键查寻
+ **/
+- (void)queryDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+/*!
+ *  根据多个值查询
+ **/
+- (void)queryDataWithClass:(Class)cls property:(NSString *)property values:(NSArray *)values completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
 @end
 
 
 NS_ASSUME_NONNULL_END
+

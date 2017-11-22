@@ -3,7 +3,7 @@ PODS:
   - SJBorderLineView (0.0.3)
   - SJPrompt (0.0.2):
     - Masonry
-  - SJSlider (0.0.9):
+  - SJSlider (1.0.0):
     - Masonry
   - SJVideoPlayer (1.0.0):
     - Masonry
@@ -72,7 +72,7 @@ PODS:
     - SJVideoPlayer/Model
     - SJVideoPlayer/Present
     - SJVideoPlayerBackGR
-  - SJVideoPlayerBackGR (1.0.5)
+  - SJVideoPlayerBackGR (1.0.7)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
@@ -85,9 +85,9 @@ SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   SJBorderLineView: 791d0ba12a8dd7be28b898e0c60b9e07b7f5c62f
   SJPrompt: eb3e7efb0cf796e114d1838695deb66f2cd18a7d
-  SJSlider: c637f70af30f0e80dea0f092307260faa35913e2
+  SJSlider: 5c186d4b5e9c4938509d2db65ed3ba400d499d31
   SJVideoPlayer: 51089d1a01dbd020d455ab752fe1f5aba2fef183
-  SJVideoPlayerBackGR: d9d1033a1f5d66df2b8daf6b179a2ffe41f9f824
+  SJVideoPlayerBackGR: d8735c3f5bdd9002f1fce4a5c9dc37c6e0536a65
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
 PODFILE CHECKSUM: 76d1dc30d98739cae64dcbfface0305ec3737ba6
