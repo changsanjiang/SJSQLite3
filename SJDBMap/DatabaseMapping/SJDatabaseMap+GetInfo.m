@@ -282,7 +282,7 @@
  */
 - (NSString *)sjGetBatchDeleteSQL:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues {
     const char *tabName = [self sjGetTabName:cls];
-    NSString *primaryFields = [self sjGetPrimaryKey:cls].ownerFields;
+    NSString *primaryFields = [self sjGetPrimaryOrAutoPrimaryFields:cls];
     NSMutableString *sql = [NSMutableString stringWithFormat:@"DELETE FROM %s WHERE %@ in (", tabName, primaryFields];
     
     [primaryValues enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

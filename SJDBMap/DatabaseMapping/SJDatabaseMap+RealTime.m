@@ -617,9 +617,9 @@
 /*!
  *  获取主键值
  */
-- (NSArray<NSNumber *> *)_sjGetPrimaryValues:(NSArray<id<SJDBMapUseProtocol>> *)models {
+- (NSArray<NSNumber *> *)_sjGetPrimaryOrAutoPrimaryValues:(NSArray<id<SJDBMapUseProtocol>> *)models {
     if ( !models.count ) return nil;
-    NSString *primaryFields = [self sjGetPrimaryKey:[self _sjTargetClass:models[0]]].ownerFields;
+    NSString *primaryFields = [self sjGetPrimaryOrAutoPrimaryFields:[(id)[models firstObject] class]];
     if ( !primaryFields ) return nil;
     NSMutableArray<NSNumber *> * primaryValuesM = [NSMutableArray new];
     [models enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -1090,7 +1090,7 @@ inline static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
 - (BOOL)deleteDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models {
     __block BOOL r = YES;
     [[self _sjPutInOrderModels:models] enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull clsName, NSArray<id<SJDBMapUseProtocol>> * _Nonnull obj, BOOL * _Nonnull stop) {
-        NSString *sql = [self sjGetBatchDeleteSQL:NSClassFromString(clsName) primaryValues:[self _sjGetPrimaryValues:obj]];
+        NSString *sql = [self sjGetBatchDeleteSQL:NSClassFromString(clsName) primaryValues:[self _sjGetPrimaryOrAutoPrimaryValues:obj]];
         [self _sjExeSQL:sql.UTF8String completeBlock:^(BOOL result) {
             if ( !result ) {
                 NSLog(@"[%@] 删除失败.", sql);
