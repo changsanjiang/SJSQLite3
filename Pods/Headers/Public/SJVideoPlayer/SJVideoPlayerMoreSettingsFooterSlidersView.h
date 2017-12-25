@@ -1,1 +1,1 @@
-../../../SJVideoPlayer/SJVideoPlayer/Control/SJVideoPlayerMoreSettingsFooterSlidersView.h
+../../../SJVideoPlayer/SJVideoPlayer/MoreSetting/MoreSetting/SJVideoPlayerMoreSettingsFooterSlidersView.h

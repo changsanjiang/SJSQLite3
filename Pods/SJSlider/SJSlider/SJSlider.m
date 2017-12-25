@@ -147,13 +147,14 @@
     self = [super initWithFrame:frame];
     if ( !self ) return nil;
     
+    [self _SJSliderObservers];
+    
     [self _SJSliderSetupUI];
     
     [self _SJSliderInitialize];
     
     [self _SJSliderPanGR];
     
-    [self _SJSliderObservers];
     
     return self;
 }
@@ -165,6 +166,28 @@
     _containerView.isRound = isRound;
 }
 
+- (void)setThumbCornerRadius:(CGFloat)thumbCornerRadius size:(CGSize)size {
+    self.thumbImageView.layer.cornerRadius = thumbCornerRadius;
+    if ( 0 != thumbCornerRadius ) {
+        self.thumbImageView.layer.masksToBounds = NO;
+        self.thumbImageView.layer.shadowColor = [UIColor colorWithWhite:0.382 alpha:0.614].CGColor;
+        self.thumbImageView.layer.shadowOpacity = 1;
+        self.thumbImageView.layer.shadowOffset = CGSizeMake(0.001, 0.2);
+        self.thumbImageView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:(CGRect){CGPointZero, size} cornerRadius:thumbCornerRadius].CGPath;
+        [self.thumbImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_offset(size);
+        }];
+    }
+    else {
+        self.thumbImageView.layer.masksToBounds = YES;
+        self.thumbImageView.layer.shadowOpacity = 0;
+        [_thumbImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_thumbImageView.superview);
+            make.centerX.equalTo(_traceImageView.mas_trailing);
+        }];
+    }
+}
+
 - (void)setTrackHeight:(CGFloat)trackHeight {
     _trackHeight = trackHeight;
     [self.containerView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -173,6 +196,7 @@
 }
 
 - (void)setValue:(CGFloat)value {
+    if ( isnan(value) ) return;
     if      ( value < self.minValue ) value = self.minValue;
     else if ( value > self.maxValue ) value = self.maxValue;
     _value = value;
@@ -305,7 +329,7 @@
 - (UIImageView *)thumbImageView {
     if ( _thumbImageView ) return _thumbImageView;
     _thumbImageView = [self imageViewWithImageStr:@""];
-    [self addSubview:self.thumbImageView];
+    [self addSubview:_thumbImageView];
     [_thumbImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_thumbImageView.superview);
         make.centerX.equalTo(_traceImageView.mas_trailing);
@@ -345,11 +369,13 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context  {
     if ( ![keyPath isEqualToString:@"value"] ) return;
     CGFloat rate = self.rate;
-    CGFloat minX = _thumbImageView.csj_w * 0.25 / self.containerView.csj_w;
-    // spacing
-    if ( 0 == minX ) {}
-    else if ( rate < minX ) rate = minX;
-    else if ( rate > (1 - minX) ) rate = 1 - minX;
+    if ( 0 != self.containerView.csj_w ) {
+        CGFloat minX = 0;
+        minX = _thumbImageView.csj_w * 0.25 / self.containerView.csj_w;
+        // spacing
+        if ( rate < minX ) rate = minX;
+        else if ( rate > (1 - minX) ) rate = 1 - minX;
+    }
     [_traceImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.leading.bottom.offset(0);
         make.width.equalTo(_traceImageView.superview).multipliedBy(rate);
@@ -397,6 +423,7 @@
 }
 
 - (void)setBufferProgress:(CGFloat)bufferProgress {
+    if ( isnan(bufferProgress) ) return;
     if      ( bufferProgress > 1 ) bufferProgress = 1;
     else if ( bufferProgress < 0 ) bufferProgress = 0;
     objc_setAssociatedObject(self, @selector(bufferProgress), @(bufferProgress), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -454,3 +481,4 @@
 }
 
 @end
+

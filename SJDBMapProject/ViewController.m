@@ -308,6 +308,12 @@
                                         NSLog(@"%zd", data.count);
                                     [[SJDatabaseMap sharedServer] queryDataWithClass:[Person class] queryDict:@{@"name":@[@"A'''B\"C'D\"", @"B''''B\"\"\"BBBB"]} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
                                         NSLog(@"%zd", data.count);
+                                        [[SJDatabaseMap sharedServer] sortQueryWithClass:[Person class] property:@"index" sortType:SJDatabaseMapSortType_Desc completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+                                            NSArray<Person *> *models = data;
+                                            [models enumerateObjectsUsingBlock:^(Person * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                                                NSLog(@"sort(desc) query result : %zd", obj.index);
+                                            }];
+                                        }];
                                     }];
                                     
                                 }];

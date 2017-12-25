@@ -259,5 +259,19 @@ typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
 @end
 
 
+typedef NS_ENUM(NSUInteger, SJDatabaseMapSortType) {
+    SJDatabaseMapSortType_Asc,  // 升序, 由小到大
+    SJDatabaseMapSortType_Desc, // 降序
+};
+
+@interface SJDatabaseMap (SortQuery)
+
+- (void)sortQueryWithClass:(Class)cls
+                  property:(NSString *)property
+                  sortType:(SJDatabaseMapSortType)sortType
+         completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+@end
+
 NS_ASSUME_NONNULL_END
 

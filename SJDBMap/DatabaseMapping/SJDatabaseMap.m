@@ -381,3 +381,18 @@ inline static NSString *_sjDatabaseDefaultFolder() {
 @end
 
 
+@implementation SJDatabaseMap (SortQuery)
+
+- (void)sortQueryWithClass:(Class)cls
+                  property:(NSString *)property
+                  sortType:(SJDatabaseMapSortType)sortType
+         completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
+    [self addOperationWithBlock:^{
+        NSArray *models = [self sortQueryWithClass:cls property:property sortType:sortType];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ( block ) block(models);
+        });
+    }];
+}
+
+@end

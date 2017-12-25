@@ -66,7 +66,7 @@
 
 - (void)setBackBlock {
     __weak typeof(self) _self = self;
-    [SJVideoPlayer sharedPlayer].clickedBackEvent = ^{
+    [SJVideoPlayer sharedPlayer].clickedBackEvent = ^(SJVideoPlayer * _Nonnull player) {
         __strong typeof(_self) self = _self;
         if ( !self ) return;
         [self.navigationController popViewControllerAnimated:YES];

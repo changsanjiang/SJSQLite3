@@ -1,1 +1,1 @@
-../../../SJVideoPlayer/SJVideoPlayer/Control/SJVideoPlayerMoreSettingsColCell.h
+../../../SJVideoPlayer/SJVideoPlayer/MoreSetting/MoreSetting/SJVideoPlayerMoreSettingsColCell.h

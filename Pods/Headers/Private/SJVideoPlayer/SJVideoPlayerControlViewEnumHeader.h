@@ -1,1 +1,1 @@
-../../../SJVideoPlayer/SJVideoPlayer/Control/SJVideoPlayerControlViewEnumHeader.h
+../../../SJVideoPlayer/SJVideoPlayer/Header/SJVideoPlayerControlViewEnumHeader.h

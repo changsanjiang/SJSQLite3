@@ -1236,6 +1236,26 @@ inline static NSMutableSet<NSString *> *_sjGetIvarNames(Class cls) {
     return [self queryDataWithClass:cls queryDict:@{property:values}];
 }
 
+- (NSArray<id<SJDBMapUseProtocol>> * _Nullable)sortQueryWithClass:(Class)cls property:(NSString *)property sortType:(SJDatabaseMapSortType)sortType {
+    if ( 0 == property.length ) return nil;
+    [self _confirmWithClass:cls];
+    const char *tabName = [self sjGetTabName:cls];
+    NSMutableString *fieldsSqlM = [NSMutableString new];
+    NSString *sort = nil;
+    switch (sortType) {
+        case SJDatabaseMapSortType_Asc: {
+            sort = @"ASC";
+        }
+            break;
+        case SJDatabaseMapSortType_Desc: {
+            sort = @"DESC";
+        }
+            break;
+    }
+    [fieldsSqlM appendFormat:@"select *from %s ORDER BY \"%@\" %@;", tabName, property, sort];
+    return [self _sjConversionMolding:cls rawStorageData:[self _sjQueryWithSQLStr:fieldsSqlM] memeryCache:[SJDBMapQueryCache new]];
+}
+
 - (void)_confirmWithClass:(Class)cls {
     NSAssert(cls, @"DatabaseMapping: 参数为空!");
     NSAssert([self sjGetPrimaryOrAutoPrimaryFields:cls], @"DatabaseMapping: [%@] 该类没有设置主键", cls);

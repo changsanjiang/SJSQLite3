@@ -71,6 +71,7 @@ extern char *_sjmystrcat(char *dst, const char *src);
 - (NSArray<id<SJDBMapUseProtocol>> * _Nullable)queryDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues;
 
 - (NSArray<id<SJDBMapUseProtocol>> * _Nullable)queryDataWithClass:(Class)cls property:(NSString *)property values:(NSArray *)values;
+- (NSArray<id<SJDBMapUseProtocol>> * _Nullable)sortQueryWithClass:(Class)cls property:(NSString *)property sortType:(SJDatabaseMapSortType)sortType;
 @end
 
 
