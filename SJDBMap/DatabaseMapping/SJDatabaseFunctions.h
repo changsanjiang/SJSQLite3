@@ -45,6 +45,7 @@ extern long long sj_value_last_id(sqlite3 *database, Class<SJDBMapUseProtocol> c
 extern bool sj_value_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<NSString *> *properties, NSArray<__kindof SJDatabaseMapTableCarrier *> * __nullable container, SJDatabaseMapCache *__nullable cache);
 extern bool sj_value_exists(sqlite3 *database, id<SJDBMapUseProtocol> model, SJDatabaseMapTableCarrier *__nullable carrier);
 extern bool sj_value_delete(sqlite3 *database, const char *table_name, const char *fields, NSArray *values);
+extern NSArray<id<SJDBMapUseProtocol>> *sj_value_query(sqlite3 *database, const char *sql, Class<SJDBMapUseProtocol> cls, NSArray<__kindof SJDatabaseMapTableCarrier *> * __nullable container, SJDatabaseMapCache *__nullable cache);
 
 #pragma mark fields
 extern char *__nullable sj_fields_sql_type(Class cls, const char *ivar); // 通过实例变量名获取数据库中对应的存储类型

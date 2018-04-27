@@ -409,7 +409,6 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
     free(sql);
     return result;
 }
-
 long long sj_value_last_id(sqlite3 *database, Class<SJDBMapUseProtocol> cls, SJDatabaseMapTableCarrier *__nullable carrier) {
     if ( !carrier ) carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:cls];
     long long last_id = -1;
@@ -428,12 +427,10 @@ long long sj_value_last_id(sqlite3 *database, Class<SJDBMapUseProtocol> cls, SJD
     last_id = [result[carrier.primaryKeyOrAutoincrementPrimaryKey] longLongValue];
     return last_id;
 }
-
 static id sj_value_filter(id value) {
     if ( ![value isKindOfClass:[NSString class]] ) return value;
     return [(NSString *)value stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
 }
-
 bool sj_value_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<NSString *> *properties, NSArray<__kindof SJDatabaseMapTableCarrier *> * __nullable container, SJDatabaseMapCache *__nullable cache) {
     if ( [cache containsObject:model] ) return true;
     if ( !cache ) cache = [SJDatabaseMapCache new];
@@ -510,7 +507,6 @@ bool sj_value_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<NS
     }
     return result;
 }
-
 extern bool sj_value_exists(sqlite3 *database, id<SJDBMapUseProtocol> model, SJDatabaseMapTableCarrier *__nullable carrier) {
     if ( !carrier ) {
         carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:[model class]];
@@ -519,7 +515,6 @@ extern bool sj_value_exists(sqlite3 *database, id<SJDBMapUseProtocol> model, SJD
     const char *sql = [NSString stringWithFormat:@"SELECT *FROM %s WHERE %@ = %@;", table_name, carrier.primaryKeyOrAutoincrementPrimaryKey, [(id)model valueForKey:carrier.primaryKeyOrAutoincrementPrimaryKey]].UTF8String;
     return sj_sql_query(database, sql, nil).count != 0;
 }
-
 extern bool sj_value_delete(sqlite3 *database, const char *table_name, const char *fields, NSArray *values) {
     NSMutableString *sql = [NSMutableString stringWithFormat:@"DELETE FROM %s WHERE %s in (", table_name, fields];
     [values enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -529,7 +524,74 @@ extern bool sj_value_delete(sqlite3 *database, const char *table_name, const cha
     [sql appendFormat:@");"];
     return sj_sql_exe(database, sql.UTF8String);
 }
-
+NSArray<id<SJDBMapUseProtocol>> *sj_value_query(sqlite3 *database, const char *sql, Class<SJDBMapUseProtocol> cls, NSArray<__kindof SJDatabaseMapTableCarrier *> * __nullable container, SJDatabaseMapCache *__nullable cache) {
+    if ( !cache ) {
+        cache = [SJDatabaseMapCache new];
+    }
+    
+    __block SJDatabaseMapTableCarrier *carrier = nil;
+    if ( !container ) {
+        carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:cls]; // 给 carrier 赋值
+        [carrier parseCorrespondingKeysAddToContainer:(NSMutableArray *)(container = [NSMutableArray array])];
+    }
+    else {
+        if ( [container isKindOfClass:[NSMutableArray class]] ) container = container.copy;
+        [container enumerateObjectsUsingBlock:^(__kindof SJDatabaseMapTableCarrier * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ( obj.cls != cls ) return;
+            carrier = obj;
+            *stop = YES;
+        }];
+    }
+    if ( !carrier ) {
+        printf("\n 警告: 载体为空! \n");
+        return false;
+    }
+    
+    sqlite3_stmt *pstmt;
+    bool result = (SQLITE_OK == sqlite3_prepare_v2(database, sql, -1, &pstmt, NULL));
+    if ( !result ) return nil;
+    
+    NSMutableArray *resultM = [NSMutableArray new];
+    while ( sqlite3_step(pstmt) == SQLITE_ROW ) {
+        id model = [(Class)cls new];
+        [resultM addObject:model];
+        int column_count = sqlite3_column_count(pstmt);
+        for ( int i = 0 ; i < column_count ; ++i ) {
+            const char *c_key = sqlite3_column_name(pstmt, i);
+            NSString *oc_key = [NSString stringWithUTF8String:c_key];
+            if ( [model respondsToSelector:NSSelectorFromString(oc_key)] ) break;
+            int type = sqlite3_column_type(pstmt, i);
+            const char *fields = sqlite3_column_name(pstmt, i);
+            switch ( type ) {
+                case SQLITE_INTEGER: {
+                    // 如果是相应键
+                    const char *_ivar = [carrier isCorrespondingKeyWithCorresponding:fields];
+                    if ( _ivar ) {
+                        
+#warning next 查询 待续
+//                        model setValue:<#(nullable id)#> forKey:[NSString ]
+                        break;
+                    }
+                    
+                    int value = sqlite3_column_int(pstmt, i);
+                    [model setValue:@(value) forKey:oc_key];
+                }
+                    break;
+                case SQLITE_TEXT: {
+                    const unsigned char *value = sqlite3_column_text(pstmt, i);
+                }
+                    break;
+                case SQLITE_FORMAT: {
+                    double value = sqlite3_column_double(pstmt, i);
+                    [model setValue:@(value) forKey:oc_key];
+                }
+                    break;
+            }
+        }
+    }
+    sqlite3_finalize(pstmt);
+    return resultM;
+}
 #pragma mark - fileds type
 static char *__nullable _sj_object_OC_type(const char *CType);
 
