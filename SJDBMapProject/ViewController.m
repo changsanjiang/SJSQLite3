@@ -52,6 +52,9 @@
 
 
 
+#import "SJDatabaseFunctions.h"
+#import "TestTest.h"
+#import "SJDatabaseMapV2.h"
 
 @interface ViewController ()
 
@@ -61,16 +64,95 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
+
+//    char *test = malloc(sizeof(char) * 100);
+//    test[0] = '\0';
+    
+    Class person = [Person class];
+    
+    NSLog(@"%d", person == [Person class]);
+    
+    Goods *g = [Goods new];
+    g.name = @"G1";
+    g.price = [[Price alloc] initWithPriceId:1 price:20];
+    
+    Goods *g2 = [Goods new];
+    g2.name = @"G2";
+    g2.price = [[Price alloc] initWithPriceId:2 price:33];
+    
+    Goods *g3 = [Goods new];
+    g3.name = @"G3";
+    g3.price = [[Price alloc] initWithPriceId:3 price:223];
+    
+    Goods *g4 = [Goods new];
+    g4.name = @"G4";
+    g4.price = [[Price alloc] initWithPriceId:4 price:3232];
+    
+    
+    NSArray<Goods *> *goods = @[g, g2, g3, g4];
+    
+    NSArray *tags = @[
+                      [PersonTag tagWithID:0 des:@"A"],
+                      [PersonTag tagWithID:1 des:@"B"],
+                      [PersonTag tagWithID:2 des:@"C"],
+                      [PersonTag tagWithID:3 des:@"'D'"],
+                      [PersonTag tagWithID:4 des:@"E"],];
+    
+    Book *aBook = [Book bookWithID:123 name:@"How Are You?"];;
+    
+    NSMutableArray <Person *> *arrM = [NSMutableArray new];
+    for ( int i = 0 ; i < 5 ; i ++ ) {
+        Person *sj = [Person new];
+        sj.personID = i;
+        sj.name = @"A'''B\"C'D\"";
+        sj.tags = tags;
+        sj.group = 100;
+        sj.index = i;
+        
+        sj.aBook = aBook;
+        sj.age = 20;
+        
+        sj.ID = 21321;
+        sj.goods = goods;
+        [arrM addObject:sj];
+        
+        sj.unique = i;
+    }
+    
+    arrM.firstObject.unique = 1;
+    
+    [[SJDatabaseMapV2 sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL result) {
+        
+    }];
+    
+//    [[SJDatabaseMapV2 sharedServer] createOrUpdateTableWithClass:[Person class] callBlock:^(BOOL result) {
+//
+//    }];
+    
+    
+    
+//    sj_table_update([SJDatabaseMapV2 sharedServer].database, carrier);
+    
+    const char *test2 = "H";
+    
+//    Protocol *pro = @protocol(SJDBMapUseProtocol);
+//    Book *dd = [Book new];
+//    NSLog(@"%d", [dd conformsToProtocol:pro]);
+//    NSLog(@"%d", [cls conformsToProtocol:pro]);
+//
+//    printf("%s - %ld\n", strcat(test, test2), strlen(test));
+    
+    
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    NSLog(@"\n%@", NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).lastObject);
     
     
 #warning - if it can't run. please perform " pod update " to update the project. The update may be a bit slow.
     
     // sample 1
-    [self insertOrUpdate];
+//    [self insertOrUpdate];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sample" style:UIBarButtonItemStyleDone target:self action:@selector(clickedItem:)];
     
@@ -136,9 +218,11 @@
     arrM.firstObject.unique = 1;
     // insert or update  sample
     [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL r) {
-        
-        // update sample
-        [self update];
+
+        [[SJDatabaseMap sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+            // update sample
+            [self update];
+        }];
         
     }];
 }
@@ -313,6 +397,7 @@
                                             [models enumerateObjectsUsingBlock:^(Person * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                                                 NSLog(@"sort(desc) query result : %zd", obj.index);
                                             }];
+                                         
                                         }];
                                     }];
                                     

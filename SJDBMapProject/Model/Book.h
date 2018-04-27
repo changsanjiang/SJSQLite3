@@ -15,5 +15,10 @@
 
 @property (nonatomic, strong) NSString *name;
 
+@property (nonatomic) BOOL like;
+
+//@property (nonatomic, strong) Book *BBBBB;
+
+
 + (instancetype)bookWithID:(NSInteger)bid name:(NSString *)name;
 @end

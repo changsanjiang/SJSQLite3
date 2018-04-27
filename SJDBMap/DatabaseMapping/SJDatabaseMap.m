@@ -86,6 +86,10 @@ inline static NSString *_sjDatabaseDefaultFolder() {
     });
 }
 
+- (void)dealloc {
+    if ( _sqDb ) sqlite3_close(_sqDb);
+}
+
 @end
 
 

@@ -1,1 +1,1 @@
-../../../SJVideoPlayer/SJVideoPlayer/Model/SJVideoPlayerMoreSettingSecondary.h
+../../../SJVideoPlayer/SJVideoPlayer/MoreSetting/SJVideoPlayerMoreSettingSecondary.h

@@ -9,6 +9,7 @@
 #import "SJLabelSlider.h"
 #import <Masonry/Masonry.h>
 
+
 @interface SJLabelSlider ()
 
 @end
@@ -29,11 +30,11 @@
     [self.rightContainerView addSubview:self.rightlabel];
     
     [_leftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(_leftLabel.superview);
+        make.center.equalTo(self->_leftLabel.superview);
     }];
     
     [_rightlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(_rightlabel.superview);
+        make.center.equalTo(self->_rightlabel.superview);
     }];
 }
 
@@ -51,11 +52,10 @@
 
 - (UILabel *)_createLabel {
     UILabel *label = [UILabel new];
-    label.adjustsFontSizeToFitWidth = YES;
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor blackColor];
     label.font = [UIFont systemFontOfSize:12];
-    label.text = @"00";
+    label.text = @"0";
     [label sizeToFit];
     return label;
 }

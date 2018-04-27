@@ -1,191 +1,176 @@
 PODS:
   - Masonry (1.1.0)
-  - SJAttributesFactory (1.1.14)
-  - SJBorderLineView (0.0.6)
-  - SJLoadingView (0.0.2)
-  - SJObserverHelper (1.0.3)
-  - SJOrentationObserver (0.0.4):
-    - SJOrentationObserver/Category (= 0.0.4)
-  - SJOrentationObserver/Category (0.0.4)
-  - SJPrompt (1.0.1):
+  - Reachability (3.2)
+  - SJAttributesFactory (2.0.3.2)
+  - SJBaseVideoPlayer (1.0.8.4):
     - Masonry
-  - SJSlider (1.0.2):
-    - Masonry
-  - SJUIFactory (0.0.8):
-    - SJAttributesFactory
-    - SJUIFactory/Category (= 0.0.8)
-  - SJUIFactory/Category (0.0.8):
-    - SJAttributesFactory
-  - SJVideoPlayer (1.3.3):
-    - Masonry
-    - SJAttributesFactory
+    - Reachability
+    - SJBaseVideoPlayer/Category (= 1.0.8.4)
+    - SJBaseVideoPlayer/Download (= 1.0.8.4)
+    - SJBaseVideoPlayer/GestureControl (= 1.0.8.4)
+    - SJBaseVideoPlayer/Header (= 1.0.8.4)
+    - SJBaseVideoPlayer/Model (= 1.0.8.4)
+    - SJBaseVideoPlayer/Present (= 1.0.8.4)
+    - SJBaseVideoPlayer/Registrar (= 1.0.8.4)
+    - SJBaseVideoPlayer/TimerControl (= 1.0.8.4)
     - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayer/Base (= 1.3.3)
-    - SJVideoPlayer/Control (= 1.3.3)
-    - SJVideoPlayer/GestureControl (= 1.3.3)
-    - SJVideoPlayer/Header (= 1.3.3)
-    - SJVideoPlayer/Model (= 1.3.3)
-    - SJVideoPlayer/MoreSetting (= 1.3.3)
-    - SJVideoPlayer/Other (= 1.3.3)
-    - SJVideoPlayer/Player (= 1.3.3)
-    - SJVideoPlayer/Present (= 1.3.3)
-    - SJVideoPlayer/Registrar (= 1.3.3)
-    - SJVideoPlayer/Resource (= 1.3.3)
-    - SJVideoPlayer/TimerControl (= 1.3.3)
-    - SJVideoPlayer/VolBrigControl (= 1.3.3)
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/Base (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayer/Header
-    - SJVideoPlayer/Model
-    - SJVideoPlayer/Resource
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/Control (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayer/Other
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/GestureControl (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/Header (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/Model (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/MoreSetting (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayer/Other
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/Other (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayer/Base
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/Player (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayer/Control
-    - SJVideoPlayer/GestureControl
-    - SJVideoPlayer/MoreSetting
-    - SJVideoPlayer/Present
-    - SJVideoPlayer/Registrar
-    - SJVideoPlayer/TimerControl
-    - SJVideoPlayer/VolBrigControl
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/Present (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayer/Other
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/Registrar (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/Resource (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/TimerControl (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayerBackGR
-  - SJVideoPlayer/VolBrigControl (1.3.3):
-    - Masonry
-    - SJAttributesFactory
-    - SJBorderLineView
-    - SJLoadingView
-    - SJOrentationObserver
-    - SJPrompt
-    - SJSlider
-    - SJUIFactory
-    - SJVideoPlayer/Other
-    - SJVideoPlayerBackGR
-  - SJVideoPlayerBackGR (1.0.17):
+    - SJFullscreenPopGesture
     - SJObserverHelper
+    - SJOrentationObserver
+    - SJPrompt
+    - SJUIFactory
+    - SJVideoPlayerAssetCarrier
+    - SJVolBrigControl
+  - SJBaseVideoPlayer/Category (1.0.8.4):
+    - Masonry
+    - Reachability
+    - SJBorderLineView
+    - SJFullscreenPopGesture
+    - SJObserverHelper
+    - SJOrentationObserver
+    - SJPrompt
+    - SJUIFactory
+    - SJVideoPlayerAssetCarrier
+    - SJVolBrigControl
+  - SJBaseVideoPlayer/Download (1.0.8.4):
+    - Masonry
+    - Reachability
+    - SJBorderLineView
+    - SJFullscreenPopGesture
+    - SJObserverHelper
+    - SJOrentationObserver
+    - SJPrompt
+    - SJUIFactory
+    - SJVideoPlayerAssetCarrier
+    - SJVolBrigControl
+  - SJBaseVideoPlayer/GestureControl (1.0.8.4):
+    - Masonry
+    - Reachability
+    - SJBorderLineView
+    - SJFullscreenPopGesture
+    - SJObserverHelper
+    - SJOrentationObserver
+    - SJPrompt
+    - SJUIFactory
+    - SJVideoPlayerAssetCarrier
+    - SJVolBrigControl
+  - SJBaseVideoPlayer/Header (1.0.8.4):
+    - Masonry
+    - Reachability
+    - SJBorderLineView
+    - SJFullscreenPopGesture
+    - SJObserverHelper
+    - SJOrentationObserver
+    - SJPrompt
+    - SJUIFactory
+    - SJVideoPlayerAssetCarrier
+    - SJVolBrigControl
+  - SJBaseVideoPlayer/Model (1.0.8.4):
+    - Masonry
+    - Reachability
+    - SJBorderLineView
+    - SJFullscreenPopGesture
+    - SJObserverHelper
+    - SJOrentationObserver
+    - SJPrompt
+    - SJUIFactory
+    - SJVideoPlayerAssetCarrier
+    - SJVolBrigControl
+  - SJBaseVideoPlayer/Present (1.0.8.4):
+    - Masonry
+    - Reachability
+    - SJBaseVideoPlayer/Header
+    - SJBorderLineView
+    - SJFullscreenPopGesture
+    - SJObserverHelper
+    - SJOrentationObserver
+    - SJPrompt
+    - SJUIFactory
+    - SJVideoPlayerAssetCarrier
+    - SJVolBrigControl
+  - SJBaseVideoPlayer/Registrar (1.0.8.4):
+    - Masonry
+    - Reachability
+    - SJBorderLineView
+    - SJFullscreenPopGesture
+    - SJObserverHelper
+    - SJOrentationObserver
+    - SJPrompt
+    - SJUIFactory
+    - SJVideoPlayerAssetCarrier
+    - SJVolBrigControl
+  - SJBaseVideoPlayer/TimerControl (1.0.8.4):
+    - Masonry
+    - Reachability
+    - SJBorderLineView
+    - SJFullscreenPopGesture
+    - SJObserverHelper
+    - SJOrentationObserver
+    - SJPrompt
+    - SJUIFactory
+    - SJVideoPlayerAssetCarrier
+    - SJVolBrigControl
+  - SJBorderLineView (0.0.6)
+  - SJFullscreenPopGesture (1.4.0.2)
+  - SJLoadingView (1.0.1)
+  - SJObserverHelper (1.0.3)
+  - SJOrentationObserver (1.0.7.2):
+    - SJOrentationObserver/Category (= 1.0.7.2)
+  - SJOrentationObserver/Category (1.0.7.2)
+  - SJPrompt (1.0.4):
+    - Masonry
+  - SJSlider (1.2.5):
+    - Masonry
+  - SJUIFactory (0.0.15):
+    - SJUIFactory/Category (= 0.0.15)
+  - SJUIFactory/Category (0.0.15)
+  - SJVideoPlayer (2.0.6.4):
+    - Masonry
+    - SJAttributesFactory
+    - SJBaseVideoPlayer
+    - SJLoadingView
+    - SJSlider
+    - SJVideoPlayer/ControlView (= 2.0.6.4)
+    - SJVideoPlayer/LightweightControlView (= 2.0.6.4)
+    - SJVideoPlayer/MoreSetting (= 2.0.6.4)
+    - SJVideoPlayer/Resource (= 2.0.6.4)
+  - SJVideoPlayer/ControlView (2.0.6.4):
+    - Masonry
+    - SJAttributesFactory
+    - SJBaseVideoPlayer
+    - SJLoadingView
+    - SJSlider
+    - SJVideoPlayer/MoreSetting
+    - SJVideoPlayer/Resource
+  - SJVideoPlayer/LightweightControlView (2.0.6.4):
+    - Masonry
+    - SJAttributesFactory
+    - SJBaseVideoPlayer
+    - SJLoadingView
+    - SJSlider
+    - SJVideoPlayer/Resource
+  - SJVideoPlayer/MoreSetting (2.0.6.4):
+    - Masonry
+    - SJAttributesFactory
+    - SJBaseVideoPlayer
+    - SJLoadingView
+    - SJSlider
+    - SJVideoPlayer/Resource
+  - SJVideoPlayer/Resource (2.0.6.4):
+    - Masonry
+    - SJAttributesFactory
+    - SJBaseVideoPlayer
+    - SJLoadingView
+    - SJSlider
+  - SJVideoPlayerAssetCarrier (1.1.4.4):
+    - SJObserverHelper
+  - SJVolBrigControl (1.0.0):
+    - Masonry
+    - SJBorderLineView
+    - SJVolBrigControl/Resource (= 1.0.0)
+  - SJVolBrigControl/Resource (1.0.0):
+    - Masonry
+    - SJBorderLineView
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
@@ -194,20 +179,43 @@ DEPENDENCIES:
   - SJVideoPlayer
   - YYKit
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Masonry
+    - Reachability
+    - SJAttributesFactory
+    - SJBaseVideoPlayer
+    - SJBorderLineView
+    - SJFullscreenPopGesture
+    - SJLoadingView
+    - SJObserverHelper
+    - SJOrentationObserver
+    - SJPrompt
+    - SJSlider
+    - SJUIFactory
+    - SJVideoPlayer
+    - SJVideoPlayerAssetCarrier
+    - SJVolBrigControl
+    - YYKit
+
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  SJAttributesFactory: 10af803585a072a7d6273b87cb12f729f15b89a6
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  SJAttributesFactory: 90847f2f6db06fa6ba8d5b7529105ba6d670af4a
+  SJBaseVideoPlayer: 6f19c80c52388d338a4a3f87228b5625f0cf08c1
   SJBorderLineView: 5878e67fb57e812a2d5d029ca666068784b5448a
-  SJLoadingView: 0c49f9db49ad8e43827cf36fa98c6c9d6ed142f8
+  SJFullscreenPopGesture: eabbbe43df7b717b43753a462c66b46942634469
+  SJLoadingView: c3ff03e4b363a5b6a3ba0634d6bb9ce2647faf07
   SJObserverHelper: b270d707cd18ab76538596aa4e98cf798c9e9868
-  SJOrentationObserver: 0ff8ffedd31e6b32fb5aca5568db38d68ebee75b
-  SJPrompt: eaecd94f2055a12d25090967dbad3f21da011626
-  SJSlider: 669eb96319014a303a77baed4cc24aa0d0113f14
-  SJUIFactory: d91d57830cfbf0b1385ad75f26d3a54147671a9f
-  SJVideoPlayer: 69e7aaa6cd86847bd5cccfaae4b29c9cf42d22c6
-  SJVideoPlayerBackGR: 565fc549e0aaa9f669f47259e56c066a66eb6247
+  SJOrentationObserver: 6bbc7cc07b443f01790fbede013d6ae6f699240a
+  SJPrompt: e3c244e225c962b0962b539208c68b0a78c94012
+  SJSlider: 6f82b519e918c4933f834a7badf1603c1b4fc224
+  SJUIFactory: 36f08c8bef27b2f6f123f7c3df1c1aeb1b750742
+  SJVideoPlayer: 5df93281b83940a106edc5278f1f8bd95afa1832
+  SJVideoPlayerAssetCarrier: 514602cfc7af814cb04c6721fb145fba837f600b
+  SJVolBrigControl: dd639d187bf139b42d795e014edf372501352ea8
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
 PODFILE CHECKSUM: 76d1dc30d98739cae64dcbfface0305ec3737ba6
 
-COCOAPODS: 1.4.0.rc.1
+COCOAPODS: 1.5.0

@@ -12,8 +12,11 @@
 @class Book;
 @class PersonTag;
 @class Goods;
+@class TestTest;
 
 @interface Person : NSObject<SJDBMapUseProtocol>
+
+@property (nonatomic, strong) Book *aBook;
 
 @property (nonatomic, assign) NSInteger personID;
 
@@ -22,8 +25,6 @@
 @property (nonatomic, strong) NSArray<PersonTag *> *tags;
 
 @property (nonatomic, strong) NSString *test;
-
-@property (nonatomic, strong) Book *aBook;
 
 @property (nonatomic, strong) NSString *teet;
 
@@ -40,5 +41,11 @@
 @property (nonatomic, assign) NSInteger ID;
 
 @property (nonatomic, assign) NSInteger unique;
+
+@property (nonatomic, strong) NSURL *tessss;
+
+@property (nonatomic, strong) NSString *teesssf;
+
+@property (nonatomic, strong) TestTest *testTest;
 
 @end

@@ -7,11 +7,8 @@
 //
 
 #import "SampleVideoPlayViewController.h"
-
 #import "SampleVideoModel.h"
-
 #import <SJVideoPlayer/SJVideoPlayer.h>
-
 #import <Masonry/Masonry.h>
 
 @interface SampleVideoPlayViewController ()

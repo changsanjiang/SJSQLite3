@@ -7,5 +7,4 @@
 //
 
 #import "SJDatabaseMap.h"
-
 #import "SJDBMapUseProtocol.h"

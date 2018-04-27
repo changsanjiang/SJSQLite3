@@ -1,0 +1,1 @@
+../../../SJVideoPlayer/SJVideoPlayer/MoreSetting/SJVideoPlayerMoreSettingsFooterView.h

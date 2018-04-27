@@ -1,1 +1,1 @@
-../../../SJVideoPlayer/SJVideoPlayer/Control/SJVideoPlayerPreviewCollectionViewCell.h
+../../../SJVideoPlayer/SJVideoPlayer/ControlView/SJVideoPlayerPreviewCollectionViewCell.h

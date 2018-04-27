@@ -68,6 +68,10 @@
 
         /*!
          *  数组中对应的模型类
+         
+         + (NSDictionary<NSString *,Class> *)arrayCorrespondingKeys {
+            return @{@"videos":[SampleVideoModel class]};
+         }
          */
         + (NSDictionary<NSString *, Class> *)arrayCorrespondingKeys;
 

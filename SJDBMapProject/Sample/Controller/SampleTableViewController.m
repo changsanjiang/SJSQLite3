@@ -7,21 +7,13 @@
 //
 
 #import "SampleTableViewController.h"
-
 #import "SampleVideoSection.h"
-
 #import "SampleUser.h"
-
 #import "SampleOrgan.h"
-
 #import "SampleVideoTag.h"
-
 #import "SampleVideoModel.h"
-
 #import "SJDatabaseMap.h"
-
 #import "SampleVideoPlayViewController.h"
-
 #import <UIViewController+SJVideoPlayerAdd.h>
 
 static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
@@ -89,7 +81,7 @@ static NSString *const SampleTableViewCellID = @"SampleTableViewCell";
     for ( int i = 0 ; i < 1000; ++i ) {
         SampleVideoSection *section = [SampleVideoSection new];
         section.sectionId = i;
-        section.sectionTitle = [NSString stringWithFormat:@"%04zd", i];
+        section.sectionTitle = [NSString stringWithFormat:@"%04d", i];
         section.videos = videosM;
         [sectionsM addObject:section];
     }

@@ -8,20 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern CGSize SJScreen_Size(void);
 extern float SJScreen_W(void);
 extern float SJScreen_H(void);
 extern float SJScreen_Min(void);
 extern float SJScreen_Max(void);
+extern BOOL SJ_is_iPhone5(void);
+extern BOOL SJ_is_iPhone6(void);
+extern BOOL SJ_is_iPhone6_P(void);
 extern BOOL SJ_is_iPhoneX(void);
 
 #pragma mark -
 
 @interface SJUIFactory : NSObject
-
-+ (UIFont *)getFontWithViewHeight:(CGFloat)height;
-
-+ (UIFont *)getBoldFontWithViewHeight:(CGFloat)height;
 
 + (void)commonShadowWithView:(UIView *)view;
 
@@ -41,6 +42,10 @@ extern BOOL SJ_is_iPhoneX(void);
 
 + (CAShapeLayer *)commonShadowShapeLayerWithSize:(CGSize)size cornerRadius:(float)radius;
 
++ (UIFont *_Nullable)getFontWithViewHeight:(CGFloat)height;
+
++ (UIFont *_Nullable)getBoldFontWithViewHeight:(CGFloat)height;
+
 @end
 
 
@@ -50,27 +55,33 @@ extern BOOL SJ_is_iPhoneX(void);
  **/
 @interface SJUIViewFactory : NSObject
 
-+ (UIView *)viewWithBackgroundColor:(UIColor *)backgroundColor;
++ (UIView *)viewWithBackgroundColor:(UIColor * __nullable )backgroundColor;
 
-+ (UIView *)viewWithBackgroundColor:(UIColor *)backgroundColor
++ (UIView *)viewWithBackgroundColor:(UIColor * __nullable )backgroundColor
                               frame:(CGRect)frame;
 
-+ (UIView *)viewWithCornerRadius:(float)cornerRadius
-                 backgroundColor:(UIColor *)backgroundColor;
++ (__kindof UIView *)viewWithSubClass:(Class)subClass
+                      backgroundColor:(UIColor * __nullable )backgroundColor;
 
 + (__kindof UIView *)viewWithSubClass:(Class)subClass
-                      backgroundColor:(UIColor *)backgroundColor;
-
-+ (__kindof UIView *)viewWithSubClass:(Class)subClass
-                      backgroundColor:(UIColor *)backgroundColor
+                      backgroundColor:(UIColor * __nullable )backgroundColor
                                 frame:(CGRect)frame;
 
-+ (UIView *)roundViewWithBackgroundColor:(UIColor *)color;
++ (UIView *)roundViewWithBackgroundColor:(UIColor * __nullable )color;
 
 + (UIView *)lineViewWithHeight:(CGFloat)height
-                     lineColor:(UIColor *)color;
+                     lineColor:(UIColor * __nullable )color;
 
 + (UIView *)shadowViewWithCornerRadius:(CGFloat)cornerRadius;
+
+@end
+
+#pragma mark -
+
+@interface SJShapeViewFactory : NSObject
+
++ (UIView *)viewWithCornerRadius:(float)cornerRadius
+                 backgroundColor:(UIColor * __nullable )backgroundColor;
 
 @end
 
@@ -93,7 +104,7 @@ extern BOOL SJ_is_iPhoneX(void);
 @interface SJUITableViewFactory : NSObject
 
 + (UITableView *)tableViewWithStyle:(UITableViewStyle)style
-                    backgroundColor:(UIColor *)backgroundColor
+                    backgroundColor:(UIColor * __nullable )backgroundColor
                      separatorStyle:(UITableViewCellSeparatorStyle)separatorStyle
        showsVerticalScrollIndicator:(BOOL)showsVerticalScrollIndicator
                            delegate:(id<UITableViewDelegate>)delegate
@@ -101,9 +112,9 @@ extern BOOL SJ_is_iPhoneX(void);
 
 
 
-+ (__kindof UITableView *)tableViewWithSubClass:(Class)subClass
++ (__kindof UITableView *_Nullable)tableViewWithSubClass:(Class)subClass
                                           style:(UITableViewStyle)style
-                                backgroundColor:(UIColor *)backgroundColor
+                                backgroundColor:(UIColor * __nullable )backgroundColor
                                  separatorStyle:(UITableViewCellSeparatorStyle)separatorStyle
                    showsVerticalScrollIndicator:(BOOL)showsVerticalScrollIndicator
                                        delegate:(id<UITableViewDelegate>)delegate
@@ -147,45 +158,47 @@ estimatedSectionFooterHeight:(CGFloat)estimatedSectionFooterHeight;
  **/
 @interface SJUILabelFactory : NSObject
 
-+ (UILabel *)labelWithFont:(UIFont *)font;
++ (UILabel *)labelWithFont:(UIFont * __nullable )font;
 
-+ (UILabel *)labelWithFont:(UIFont *)font
-                 textColor:(UIColor *)textColor;
++ (UILabel *)labelWithFont:(UIFont * __nullable )font
+                 textColor:(UIColor * __nullable )textColor;
 
-+ (UILabel *)labelWithFont:(UIFont *)font
-                 textColor:(UIColor *)textColor
++ (UILabel *)labelWithFont:(UIFont * __nullable )font
+                 textColor:(UIColor * __nullable )textColor
                  alignment:(NSTextAlignment)alignment;
 
-+ (UILabel *)labelWithText:(NSString *)text;
++ (UILabel *)labelWithText:(NSString * __nullable )text;
 
-+ (UILabel *)labelWithText:(NSString *)text
-                 textColor:(UIColor *)textColor;
++ (UILabel *)labelWithText:(NSString * __nullable )text
+                 textColor:(UIColor * __nullable )textColor;
 
-+ (UILabel *)labelWithText:(NSString *)text
-                 textColor:(UIColor *)textColor
-                      font:(UIFont *)font;
++ (UILabel *)labelWithText:(NSString * __nullable )text
+                 textColor:(UIColor * __nullable )textColor
+                      font:(UIFont * __nullable )font;
 
-+ (UILabel *)labelWithText:(NSString *)text
-                 textColor:(UIColor *)textColor
++ (UILabel *)labelWithText:(NSString * __nullable )text
+                 textColor:(UIColor * __nullable )textColor
                  alignment:(NSTextAlignment)alignment;
 
-+ (UILabel *)labelWithText:(NSString *)text
-                 textColor:(UIColor *)textColor
++ (UILabel *)labelWithText:(NSString * __nullable )text
+                 textColor:(UIColor * __nullable )textColor
                  alignment:(NSTextAlignment)alignment
-                      font:(UIFont *)font;
+                      font:(UIFont * __nullable )font;
 
 + (UILabel *)attributeLabel;
 
 + (UILabel *)labelWithAttrStr:(NSAttributedString *)attrStr;
 
 + (void)settingLabelWithLabel:(UILabel *)label
-                         text:(NSString *)text
-                    textColor:(UIColor *)textColor
+                         text:(NSString * __nullable )text
+                    textColor:(UIColor * __nullable )textColor
                     alignment:(NSTextAlignment)alignment
-                         font:(UIFont *)font
-                      attrStr:(NSAttributedString *)attrStr;
+                         font:(UIFont * __nullable )font
+                      attrStr:(NSAttributedString * __nullable )attrStr;
 
 @end
+
+
 
 
 #pragma mark -
@@ -195,133 +208,133 @@ estimatedSectionFooterHeight:(CGFloat)estimatedSectionFooterHeight;
  **/
 @interface SJUIButtonFactory : NSObject
 
-+ (UIButton *)buttonWithTarget:(id)target
-                           sel:(SEL)sel;
++ (UIButton *)buttonWithTarget:(id __nullable )target
+                           sel:(SEL __nullable )sel;
 
-+ (UIButton *)buttonWithTarget:(id)target
-                           sel:(SEL)sel
++ (UIButton *)buttonWithTarget:(id __nullable )target
+                           sel:(SEL __nullable )sel
                            tag:(NSInteger)tag;
 
-+ (UIButton *)buttonWithBackgroundColor:(UIColor *)color
-                                 target:(id)target
-                                    sel:(SEL)sel;
++ (UIButton *)buttonWithBackgroundColor:(UIColor * __nullable )color
+                                 target:(id __nullable )target
+                                    sel:(SEL __nullable )sel;
 
-+ (UIButton *)buttonWithBackgroundColor:(UIColor *)color
-                                 target:(id)target
-                                    sel:(SEL)sel
++ (UIButton *)buttonWithBackgroundColor:(UIColor * __nullable )color
+                                 target:(id __nullable )target
+                                    sel:(SEL __nullable )sel
                                     tag:(NSInteger)tag;
 
-+ (UIButton *)buttonWithImageName:(NSString *)imageName;
++ (UIButton *)buttonWithImageName:(NSString * __nullable )imageName;
 
-+ (UIButton *)buttonWithTitle:(NSString *)title
-                   titleColor:(UIColor *)titleColor;
++ (UIButton *)buttonWithTitle:(NSString * __nullable )title
+                   titleColor:(UIColor * __nullable )titleColor;
 
-+ (UIButton *)buttonWithTitle:(NSString *)title
-                   titleColor:(UIColor *)titleColor
-                         font:(UIFont *)font
-                       target:(id)target
-                          sel:(SEL)sel;
++ (UIButton *)buttonWithTitle:(NSString * __nullable )title
+                   titleColor:(UIColor * __nullable )titleColor
+                         font:(UIFont * __nullable )font
+                       target:(id __nullable )target
+                          sel:(SEL __nullable )sel;
 
-+ (UIButton *)buttonWithTitle:(NSString *)title
-                   titleColor:(UIColor *)titleColor
-                    imageName:(NSString *)imageName;
++ (UIButton *)buttonWithTitle:(NSString * __nullable )title
+                   titleColor:(UIColor * __nullable )titleColor
+                    imageName:(NSString * __nullable )imageName;
 
-+ (UIButton *)buttonWithTitle:(NSString *)title
-                   titleColor:(UIColor *)titleColor
-                         font:(UIFont *)font
-              backgroundColor:(UIColor *)backgroundColor
-                       target:(id)target
-                          sel:(SEL)sel
++ (UIButton *)buttonWithTitle:(NSString * __nullable )title
+                   titleColor:(UIColor * __nullable )titleColor
+                         font:(UIFont * __nullable )font
+              backgroundColor:(UIColor * __nullable )backgroundColor
+                       target:(id __nullable )target
+                          sel:(SEL __nullable )sel
                           tag:(NSInteger)tag;
 
-+ (UIButton *)buttonWithTitle:(NSString *)title
-                   titleColor:(UIColor *)titleColor
-              backgroundColor:(UIColor *)backgroundColor
-                    imageName:(NSString *)imageName
-                       target:(id)target
-                          sel:(SEL)sel
++ (UIButton *)buttonWithTitle:(NSString * __nullable )title
+                   titleColor:(UIColor * __nullable )titleColor
+              backgroundColor:(UIColor * __nullable )backgroundColor
+                    imageName:(NSString * __nullable )imageName
+                       target:(id __nullable )target
+                          sel:(SEL __nullable )sel
                           tag:(NSInteger)tag;
 
-+ (UIButton *)buttonWithTitle:(NSString *)title
-                   titleColor:(UIColor *)titleColor
-                         font:(UIFont *)font
-              backgroundColor:(UIColor *)backgroundColor
-                    imageName:(NSString *)imageName
-                       target:(id)target
-                          sel:(SEL)sel
++ (UIButton *)buttonWithTitle:(NSString * __nullable )title
+                   titleColor:(UIColor * __nullable )titleColor
+                         font:(UIFont * __nullable )font
+              backgroundColor:(UIColor * __nullable )backgroundColor
+                    imageName:(NSString * __nullable )imageName
+                       target:(id __nullable )target
+                          sel:(SEL __nullable )sel
                           tag:(NSInteger)tag;
 
 
-+ (void)settingButtonWithBtn:(UIButton *)btn
-                        font:(UIFont *)font
-                       title:(NSString *)title
-                  titleColor:(UIColor *)titleColor
-             attributedTitle:(NSAttributedString *)attributedTitle
-                   imageName:(NSString *)imageName
-             backgroundColor:(UIColor *)backgroundColor
-                      target:(id)target
-                         sel:(SEL)sel
++ (void)settingButtonWithBtn:(UIButton * __nullable )btn
+                        font:(UIFont * __nullable )font
+                       title:(NSString * __nullable )title
+                  titleColor:(UIColor * __nullable )titleColor
+             attributedTitle:(NSAttributedString * __nullable )attributedTitle
+                   imageName:(NSString * __nullable )imageName
+             backgroundColor:(UIColor * __nullable )backgroundColor
+                      target:(id __nullable )target
+                         sel:(SEL __nullable )sel
                          tag:(NSInteger)tag;
 
 + (UIButton *)buttonWithSubClass:(Class)subClass
-                           title:(NSString *)title
-                      titleColor:(UIColor *)titleColor
-                            font:(UIFont *)font
-                 backgroundColor:(UIColor *)backgroundColor
-                          target:(id)target
-                             sel:(SEL)sel
+                           title:(NSString * __nullable )title
+                      titleColor:(UIColor * __nullable )titleColor
+                            font:(UIFont * __nullable )font
+                 backgroundColor:(UIColor * __nullable )backgroundColor
+                          target:(id __nullable )target
+                             sel:(SEL __nullable )sel
                              tag:(NSInteger)tag;
 
 
 
-+ (UIButton *)buttonWithImageName:(NSString *)imageName
-                           target:(id)target
-                              sel:(SEL)sel
++ (UIButton *)buttonWithImageName:(NSString * __nullable )imageName
+                           target:(id __nullable )target
+                              sel:(SEL __nullable )sel
                               tag:(NSInteger)tag;
 
 
 
-+ (UIButton *)buttonWithAttributeTitle:(NSAttributedString *)attrStr
-                       backgroundColor:(UIColor *)backgroundColor
-                                target:(id)target
-                                   sel:(SEL)sel
++ (UIButton *)buttonWithAttributeTitle:(NSAttributedString * __nullable )attrStr
+                       backgroundColor:(UIColor * __nullable )backgroundColor
+                                target:(id __nullable )target
+                                   sel:(SEL __nullable )sel
                                    tag:(NSInteger)tag;
 
 
 + (UIButton *)roundButton;
 
-+ (UIButton *)roundButtonWithTitle:(NSString *)title
-                        titleColor:(UIColor *)titleColor
-                              font:(UIFont *)font
-                   backgroundColor:(UIColor *)backgroundColor
-                            target:(id)target
-                               sel:(SEL)sel
++ (UIButton *)roundButtonWithTitle:(NSString * __nullable )title
+                        titleColor:(UIColor * __nullable )titleColor
+                              font:(UIFont * __nullable )font
+                   backgroundColor:(UIColor * __nullable )backgroundColor
+                            target:(id __nullable )target
+                               sel:(SEL __nullable )sel
                                tag:(NSInteger)tag;
 
 
 
-+ (UIButton *)roundButtonWithBoldTitle:(NSString *)title
-                            titleColor:(UIColor *)titleColor
-                                  font:(UIFont *)font
-                       backgroundColor:(UIColor *)backgroundColor
-                                target:(id)target
-                                   sel:(SEL)sel
++ (UIButton *)roundButtonWithBoldTitle:(NSString * __nullable )title
+                            titleColor:(UIColor * __nullable )titleColor
+                                  font:(UIFont * __nullable )font
+                       backgroundColor:(UIColor * __nullable )backgroundColor
+                                target:(id __nullable )target
+                                   sel:(SEL __nullable )sel
                                    tag:(NSInteger)tag;
 
 
 
-+ (UIButton *)roundButtonWithImageName:(NSString *)imageName
-                                target:(id)target
-                                   sel:(SEL)sel
++ (UIButton *)roundButtonWithImageName:(NSString * __nullable )imageName
+                                target:(id __nullable )target
+                                   sel:(SEL __nullable )sel
                                    tag:(NSInteger)tag;
 
 
 
-+ (UIButton *)roundButtonWithAttributeTitle:(NSAttributedString *)attrStr
-                                       font:(UIFont *)font
-                            backgroundColor:(UIColor *)backgroundColor
-                                     target:(id)target
-                                        sel:(SEL)sel
++ (UIButton *)roundButtonWithAttributeTitle:(NSAttributedString * __nullable )attrStr
+                                       font:(UIFont * __nullable )font
+                            backgroundColor:(UIColor * __nullable )backgroundColor
+                                     target:(id __nullable )target
+                                        sel:(SEL __nullable )sel
                                         tag:(NSInteger)tag;
 
 @end
@@ -335,38 +348,38 @@ estimatedSectionFooterHeight:(CGFloat)estimatedSectionFooterHeight;
 + (UIButton *)buttonWithCornerRadius:(CGFloat)cornerRadius;
 
 + (UIButton *)buttonWithCornerRadius:(CGFloat)cornerRadius
-                     backgroundColor:(UIColor *)backgroundColor;
+                     backgroundColor:(UIColor * __nullable )backgroundColor;
 
 + (UIButton *)buttonWithCornerRadius:(CGFloat)cornerRadius
-                     backgroundColor:(UIColor *)backgroundColor
-                              target:(id)target
-                                 sel:(SEL)sel;
+                     backgroundColor:(UIColor * __nullable )backgroundColor
+                              target:(id __nullable )target
+                                 sel:(SEL __nullable )sel;
 
 + (UIButton *)buttonWithCornerRadius:(CGFloat)cornerRadius
-                     backgroundColor:(UIColor *)backgroundColor
-                              target:(id)target
-                                 sel:(SEL)sel
+                     backgroundColor:(UIColor * __nullable )backgroundColor
+                              target:(id __nullable )target
+                                 sel:(SEL __nullable )sel
                                  tag:(NSInteger)tag;
 
 + (UIButton *)buttonWithCornerRadius:(CGFloat)cornerRadius
-                               title:(NSString *)title
-                          titleColor:(UIColor *)titleColor
-                              target:(id)target
-                                 sel:(SEL)sel;
+                               title:(NSString * __nullable )title
+                          titleColor:(UIColor * __nullable )titleColor
+                              target:(id __nullable )target
+                                 sel:(SEL __nullable )sel;
 
 + (UIButton *)buttonWithCornerRadius:(CGFloat)cornerRadius
-                               title:(NSString *)title
-                          titleColor:(UIColor *)titleColor
-                                font:(UIFont *)font
-                              target:(id)target
-                                 sel:(SEL)sel;
+                               title:(NSString * __nullable )title
+                          titleColor:(UIColor * __nullable )titleColor
+                                font:(UIFont * __nullable )font
+                              target:(id __nullable )target
+                                 sel:(SEL __nullable )sel;
 
 + (UIButton *)buttonWithCornerRadius:(CGFloat)cornerRadius
-                               title:(NSString *)title
-                          titleColor:(UIColor *)titleColor
-                                font:(UIFont *)font
-                              target:(id)target
-                                 sel:(SEL)sel
+                               title:(NSString * __nullable )title
+                          titleColor:(UIColor * __nullable )titleColor
+                                font:(UIFont * __nullable )font
+                              target:(id __nullable )target
+                                 sel:(SEL __nullable )sel
                                  tag:(NSInteger)tag;
 @end
 
@@ -377,21 +390,21 @@ estimatedSectionFooterHeight:(CGFloat)estimatedSectionFooterHeight;
 /*!
  *  viewMode -> UIViewContentModeScaleAspectFit
  **/
-+ (UIImageView *)imageViewWithBackgroundColor:(UIColor *)color;
++ (UIImageView *)imageViewWithBackgroundColor:(UIColor * __nullable )color;
 
-+ (UIImageView *)imageViewWithBackgroundColor:(UIColor *)color
++ (UIImageView *)imageViewWithBackgroundColor:(UIColor * __nullable )color
                                      viewMode:(UIViewContentMode)mode;
 
 + (UIImageView *)imageViewWithViewMode:(UIViewContentMode)mode;
 
-+ (UIImageView *)imageViewWithImageName:(NSString *)imageName;
++ (UIImageView *)imageViewWithImageName:(NSString * __nullable )imageName;
 
-+ (UIImageView *)imageViewWithImageName:(NSString *)imageName
++ (UIImageView *)imageViewWithImageName:(NSString * __nullable )imageName
                                viewMode:(UIViewContentMode)mode;
 
-+ (UIImageView *)imageViewWithImageName:(NSString *)imageName
++ (UIImageView *)imageViewWithImageName:(NSString * __nullable )imageName
                                viewMode:(UIViewContentMode)mode
-                        backgroundColor:(UIColor *)color;
+                        backgroundColor:(UIColor * __nullable )color;
 
 @end
 
@@ -404,10 +417,13 @@ estimatedSectionFooterHeight:(CGFloat)estimatedSectionFooterHeight;
 + (UIImageView *)imageViewWithCornerRadius:(float)cornerRadius;
 
 + (UIImageView *)imageViewWithCornerRadius:(float)cornerRadius
-                                 imageName:(NSString *)imageName;
+                           backgroundColor:(UIColor * __nullable )backgroundColor;
 
 + (UIImageView *)imageViewWithCornerRadius:(float)cornerRadius
-                                 imageName:(NSString *)imageName
+                                 imageName:(NSString * __nullable )imageName;
+
++ (UIImageView *)imageViewWithCornerRadius:(float)cornerRadius
+                                 imageName:(NSString * __nullable )imageName
                                   viewMode:(UIViewContentMode)mode;
 
 
@@ -415,14 +431,14 @@ estimatedSectionFooterHeight:(CGFloat)estimatedSectionFooterHeight;
 
 + (UIImageView *)roundImageViewWithViewMode:(UIViewContentMode)mode;
 
-+ (UIImageView *)roundImageViewWithBackgroundColor:(UIColor *)color;
++ (UIImageView *)roundImageViewWithBackgroundColor:(UIColor * __nullable )color;
 
-+ (UIImageView *)roundImageViewWithBackgroundColor:(UIColor *)color
++ (UIImageView *)roundImageViewWithBackgroundColor:(UIColor * __nullable )color
                                           viewMode:(UIViewContentMode)mode;
 
-+ (UIImageView *)roundImageViewWithImageName:(NSString *)imageName;
++ (UIImageView *)roundImageViewWithImageName:(NSString * __nullable )imageName;
 
-+ (UIImageView *)roundImageViewWithImageName:(NSString *)imageName
++ (UIImageView *)roundImageViewWithImageName:(NSString * __nullable )imageName
                                     viewMode:(UIViewContentMode)mode;
 @end
 
@@ -433,24 +449,24 @@ estimatedSectionFooterHeight:(CGFloat)estimatedSectionFooterHeight;
 /// textColor if nil, it will be set black.
 /// backgroundColor if nil, it will be set clear.
 @interface SJUITextFieldFactory : NSObject
-+ (UITextField *)textFieldWithPlaceholder:(NSString *)placeholder
-                         placeholderColor:(UIColor *)placeholderColor
-                                     text:(NSString *)text
-                                     font:(UIFont *)font
-                                textColor:(UIColor *)textColor
++ (UITextField *)textFieldWithPlaceholder:(NSString * __nullable )placeholder
+                         placeholderColor:(UIColor * __nullable )placeholderColor
+                                     text:(NSString * __nullable )text
+                                     font:(UIFont * __nullable )font
+                                textColor:(UIColor * __nullable )textColor
                              keyboardType:(UIKeyboardType)keyboardType
                             returnKeyType:(UIReturnKeyType)returnKeyType
-                          backgroundColor:(UIColor *)backgroundColor;
+                          backgroundColor:(UIColor * __nullable )backgroundColor;
 
 
 
-+ (UITextField *)textFieldWithAttrPlaceholder:(NSAttributedString *)placeholder
-                                         text:(NSString *)text
-                                         font:(UIFont *)font
-                                    textColor:(UIColor *)textColor
++ (UITextField *)textFieldWithAttrPlaceholder:(NSAttributedString * __nullable )placeholder
+                                         text:(NSString * __nullable )text
+                                         font:(UIFont * __nullable )font
+                                    textColor:(UIColor * __nullable )textColor
                                  keyboardType:(UIKeyboardType)keyboardType
                                 returnKeyType:(UIReturnKeyType)returnKeyType
-                              backgroundColor:(UIColor *)backgroundColor;
+                              backgroundColor:(UIColor * __nullable )backgroundColor;
 
 
 
@@ -466,22 +482,47 @@ estimatedSectionFooterHeight:(CGFloat)estimatedSectionFooterHeight;
 #pragma mark -
 @interface SJUITextViewFactory : NSObject
 
-+ (UITextView *)textViewWithTextColor:(UIColor *)textColor
-                      backgroundColor:(UIColor *)backgroundColor
-                                 font:(UIFont *)font;
++ (UITextView *)textViewWithTextColor:(UIColor * __nullable )textColor
+                      backgroundColor:(UIColor * __nullable )backgroundColor
+                                 font:(UIFont * __nullable )font;
+
++ (__kindof UITextView *)textViewWithSubClass:(Class)cls
+                           textColor:(UIColor * __nullable )textColor
+                      backgroundColor:(UIColor * __nullable )backgroundColor
+                                 font:(UIFont * __nullable )font;
 
 @end
 
 
 #pragma mark -
+
 @interface SJUIImagePickerControllerFactory : NSObject
 
 + (instancetype)shared;
 
 - (void)alterPickerViewControllerWithController:(UIViewController *)controller
-                                     alertTitle:(NSString *)title
-                                            msg:(NSString *)msg
+                                     alertTitle:(NSString * __nullable )title
+                                            msg:(NSString * __nullable )msg
                                    photoLibrary:(void(^)(UIImage *selectedImage))photoLibraryBlock
                                          camera:(void(^)(UIImage *selectedImage))cameraBlock;
+
+- (void)alterPickerViewControllerWithController:(UIViewController *)controller
+                                     alertTitle:(NSString * __nullable )title
+                                            msg:(NSString * __nullable )msg
+                                        actions:(NSArray<UIAlertAction *> * __nullable )otherActions
+                                   photoLibrary:(void(^)(UIImage *selectedImage))photoLibraryBlock
+                                         camera:(void(^)(UIImage *selectedImage))cameraBlock;
+
 @end
 
+
+
+#pragma mark -
+
+@interface SJDrawUIView : UIView
+
+@property (nonatomic, copy, readwrite) void(^drawBlock)(SJDrawUIView *view);
+
+@end
+
+NS_ASSUME_NONNULL_END

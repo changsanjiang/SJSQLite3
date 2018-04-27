@@ -9,6 +9,7 @@
 #import "SJButtonSlider.h"
 #import <Masonry/Masonry.h>
 
+
 @interface SJButtonSlider ()
 @end
 
@@ -43,11 +44,11 @@
     [self.rightContainerView addSubview:self.rightBtn];
     
     [_leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(_leftBtn.superview);
+        make.center.equalTo(self->_leftBtn.superview);
     }];
     
     [_rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(_rightBtn.superview);
+        make.center.equalTo(self->_rightBtn.superview);
     }];
 }
 
@@ -65,10 +66,8 @@
 
 - (UIButton *)_createButton {
     UIButton *btn = [UIButton new];
-    [btn setTitle:@"00" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:12];
-    btn.titleLabel.adjustsFontSizeToFitWidth = YES;
     [btn sizeToFit];
     return btn;
 }

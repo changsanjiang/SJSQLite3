@@ -1,1 +1,1 @@
-../../../SJVideoPlayer/SJVideoPlayer/MoreSetting/Secondary/SJVideoPlayerMoreSettingsSecondaryHeaderView.h
+../../../SJVideoPlayer/SJVideoPlayer/MoreSetting/SJVideoPlayerMoreSettingsSecondaryHeaderView.h

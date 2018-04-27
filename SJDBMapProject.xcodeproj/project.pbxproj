@@ -19,6 +19,10 @@
 		7745B24D1EE5D3A700EC4614 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2361EE5D3A700EC4614 /* Person.m */; };
 		7745B24E1EE5D3A700EC4614 /* PersonTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745B2381EE5D3A700EC4614 /* PersonTag.m */; };
 		7745B25A1EE5D3C500EC4614 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7745B2581EE5D3BC00EC4614 /* libsqlite3.tbd */; };
+		777953B320904F9A0039E6FE /* SJDatabaseFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 777953B220904F9A0039E6FE /* SJDatabaseFunctions.m */; };
+		777953B62090556C0039E6FE /* SJDatabaseMapV2.m in Sources */ = {isa = PBXBuildFile; fileRef = 777953B52090556C0039E6FE /* SJDatabaseMapV2.m */; };
+		777953B920905C230039E6FE /* TestTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 777953B820905C230039E6FE /* TestTest.m */; };
+		777953BC209062170039E6FE /* SJDatabaseMapV2+RealTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 777953BB209062170039E6FE /* SJDatabaseMapV2+RealTime.m */; };
 		778252841F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252701F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m */; };
 		778252861F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252751F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m */; };
 		778252871F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 778252771F3D59AD006F5156 /* SJDBMapAutoincrementPrimaryKeyModel.m */; };
@@ -65,6 +69,14 @@
 		7745B2371EE5D3A700EC4614 /* PersonTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonTag.h; sourceTree = "<group>"; };
 		7745B2381EE5D3A700EC4614 /* PersonTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonTag.m; sourceTree = "<group>"; };
 		7745B2581EE5D3BC00EC4614 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		777953B120904F9A0039E6FE /* SJDatabaseFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SJDatabaseFunctions.h; sourceTree = "<group>"; };
+		777953B220904F9A0039E6FE /* SJDatabaseFunctions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SJDatabaseFunctions.m; sourceTree = "<group>"; };
+		777953B42090556C0039E6FE /* SJDatabaseMapV2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SJDatabaseMapV2.h; sourceTree = "<group>"; };
+		777953B52090556C0039E6FE /* SJDatabaseMapV2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SJDatabaseMapV2.m; sourceTree = "<group>"; };
+		777953B720905C230039E6FE /* TestTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestTest.h; sourceTree = "<group>"; };
+		777953B820905C230039E6FE /* TestTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestTest.m; sourceTree = "<group>"; };
+		777953BA209062170039E6FE /* SJDatabaseMapV2+RealTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SJDatabaseMapV2+RealTime.h"; sourceTree = "<group>"; };
+		777953BB209062170039E6FE /* SJDatabaseMapV2+RealTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SJDatabaseMapV2+RealTime.m"; sourceTree = "<group>"; };
 		7782526F1F3D59AD006F5156 /* SJDatabaseMap+GetInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SJDatabaseMap+GetInfo.h"; sourceTree = "<group>"; };
 		778252701F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SJDatabaseMap+GetInfo.m"; sourceTree = "<group>"; };
 		778252741F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJDBMapArrayCorrespondingKeysModel.h; sourceTree = "<group>"; };
@@ -182,6 +194,8 @@
 		7745B2321EE5D3A700EC4614 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				777953B720905C230039E6FE /* TestTest.h */,
+				777953B820905C230039E6FE /* TestTest.m */,
 				7745B2331EE5D3A700EC4614 /* Book.h */,
 				7745B2341EE5D3A700EC4614 /* Book.m */,
 				7745B2351EE5D3A700EC4614 /* Person.h */,
@@ -245,6 +259,12 @@
 				77DC7F521FA9EB5000170B6C /* SJDatabaseMap+RealTime.m */,
 				7782526F1F3D59AD006F5156 /* SJDatabaseMap+GetInfo.h */,
 				778252701F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m */,
+				777953B120904F9A0039E6FE /* SJDatabaseFunctions.h */,
+				777953B220904F9A0039E6FE /* SJDatabaseFunctions.m */,
+				777953B42090556C0039E6FE /* SJDatabaseMapV2.h */,
+				777953B52090556C0039E6FE /* SJDatabaseMapV2.m */,
+				777953BA209062170039E6FE /* SJDatabaseMapV2+RealTime.h */,
+				777953BB209062170039E6FE /* SJDatabaseMapV2+RealTime.m */,
 			);
 			path = DatabaseMapping;
 			sourceTree = "<group>";
@@ -326,7 +346,6 @@
 				7745B2141EE5D39B00EC4614 /* Sources */,
 				7745B2151EE5D39B00EC4614 /* Frameworks */,
 				7745B2161EE5D39B00EC4614 /* Resources */,
-				3AEC004DEE8D8245270FE20B /* [CP] Embed Pods Frameworks */,
 				F3574251A1B62D1F9219130A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -389,21 +408,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3AEC004DEE8D8245270FE20B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		8324FDE679459AB9C1C60A0F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -430,10 +434,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SJDBMapProject/Pods-SJDBMapProject-resources.sh",
 				"${PODS_ROOT}/SJVideoPlayer/SJVideoPlayer/Resource/SJVideoPlayer.bundle",
+				"${PODS_ROOT}/SJVolBrigControl/SJVolBrigControl/Resource/SJVolBrigResource.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SJVideoPlayer.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SJVolBrigResource.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -447,6 +453,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				777953B320904F9A0039E6FE /* SJDatabaseFunctions.m in Sources */,
 				7745B24C1EE5D3A700EC4614 /* Book.m in Sources */,
 				778252841F3D59AD006F5156 /* SJDatabaseMap+GetInfo.m in Sources */,
 				7745B2231EE5D39B00EC4614 /* ViewController.m in Sources */,
@@ -454,11 +461,14 @@
 				7782528B1F3D59AD006F5156 /* SJDBMapUnderstandingModel.m in Sources */,
 				778252861F3D59AD006F5156 /* SJDBMapArrayCorrespondingKeysModel.m in Sources */,
 				7795B1AB1FA45F4B008FD0DE /* NSObject+DBUG.m in Sources */,
+				777953B920905C230039E6FE /* TestTest.m in Sources */,
+				777953B62090556C0039E6FE /* SJDatabaseMapV2.m in Sources */,
 				7782528A1F3D59AD006F5156 /* SJDBMapPrimaryKeyModel.m in Sources */,
 				77BED2D41F5ED0CE0024D879 /* SampleUser.m in Sources */,
 				7745B24D1EE5D3A700EC4614 /* Person.m in Sources */,
 				7745B2201EE5D39B00EC4614 /* AppDelegate.m in Sources */,
 				7745B21D1EE5D39B00EC4614 /* main.m in Sources */,
+				777953BC209062170039E6FE /* SJDatabaseMapV2+RealTime.m in Sources */,
 				77BED2FA1F5FC7C20024D879 /* SampleVideoPlayViewController.m in Sources */,
 				77BED2C91F5EC9560024D879 /* SampleVideoModel.m in Sources */,
 				77BED2D71F5ED2C10024D879 /* SampleOrgan.m in Sources */,
@@ -613,7 +623,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.SanJiang.SJDBMapProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "69b03a16-4788-4a83-b37a-fb5f44a68a15";
+				PROVISIONING_PROFILE = "64c214b3-450d-41eb-b05e-df636dfa28c8";
 				PROVISIONING_PROFILE_SPECIFIER = SanJiangDevelopment;
 			};
 			name = Debug;

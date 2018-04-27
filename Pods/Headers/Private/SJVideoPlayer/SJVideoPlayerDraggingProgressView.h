@@ -1,1 +1,1 @@
-../../../SJVideoPlayer/SJVideoPlayer/Other/SJVideoPlayerDraggingProgressView.h
+../../../SJVideoPlayer/SJVideoPlayer/ControlView/SJVideoPlayerDraggingProgressView.h

@@ -1,1 +1,1 @@
-../../../SJVideoPlayer/SJVideoPlayer/Control/SJVideoPlayerCenterControlView.h
+../../../SJVideoPlayer/SJVideoPlayer/ControlView/SJVideoPlayerCenterControlView.h

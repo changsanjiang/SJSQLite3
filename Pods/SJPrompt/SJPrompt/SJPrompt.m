@@ -15,6 +15,7 @@
 @property (nonatomic, strong, readonly) UIView *backgroundView;
 @property (nonatomic, strong, readonly) UILabel *promptLabel;
 @property (nonatomic, strong, readonly) SJPromptConfig *config;
+@property (nonatomic, copy) void(^hiddenExeBlock)(SJPrompt *prompt);
 
 @end
 
@@ -59,21 +60,39 @@
 }
 
 - (void)showTitle:(NSString *)title duration:(NSTimeInterval)duration {
-    if ( !_presentView ) return;
-    CGFloat maxWdith = 0 != self.config.maxWidth ? self.config.maxWidth : _presentView.frame.size.width * 0.6;
-    CGSize size = [self _sizeForTitle:title constraints:CGSizeMake(maxWdith, CGFLOAT_MAX)];
-    [_promptLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_offset(size);
-    }];
-    _promptLabel.text = title;
-    [self _show];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_hidden) object:nil];
-    if ( duration == - 1 ) return;
-    [self performSelector:@selector(_hidden) withObject:nil afterDelay:duration];
+    [self showTitle:title duration:duration hiddenExeBlock:nil];
+}
+
+- (void)showTitle:(NSString *)title duration:(NSTimeInterval)duration hiddenExeBlock:(void(^)(SJPrompt *prompt))hiddenExeBlock {
+    NSMutableDictionary *attr = [NSMutableDictionary new];
+    attr[NSFontAttributeName] = self.config.font;
+    [self showAttributedString:[[NSAttributedString alloc] initWithString:title attributes:attr] duration:duration hiddenExeBlock:hiddenExeBlock];
 }
 
 - (void)hidden {
     [self _hidden];
+}
+
+- (void)showAttributedString:(NSAttributedString *)attributedString duration:(NSTimeInterval)duration {
+    [self showAttributedString:attributedString duration:duration hiddenExeBlock:nil];
+}
+
+- (void)showAttributedString:(NSAttributedString *)attributedString duration:(NSTimeInterval)duration hiddenExeBlock:(void(^__nullable)(SJPrompt *prompt))hiddenExeBlock {
+    if ( attributedString.length == 0 ) return;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self->_hiddenExeBlock = [hiddenExeBlock copy];
+        if ( !self->_presentView ) return;
+        CGFloat maxWdith = 0 != self.config.maxWidth ? self.config.maxWidth : self->_presentView.frame.size.width * 0.6;
+        CGSize size = [self _sizeWithAttrString:attributedString width:maxWdith height:CGFLOAT_MAX];
+        [self->_promptLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_offset(size);
+        }];
+        self->_promptLabel.attributedText = attributedString;
+        [self _show];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_hidden) object:nil];
+        if ( duration == - 1 ) return;
+        [self performSelector:@selector(_hidden) withObject:nil afterDelay:duration];
+    });
 }
 
 - (void)_show {
@@ -85,6 +104,8 @@
 - (void)_hidden {
     [UIView animateWithDuration:0.25 animations:^{
         self.backgroundView.alpha = 0.001;
+    } completion:^(BOOL finished) {
+        if ( self->_hiddenExeBlock ) {self->_hiddenExeBlock(self); self->_hiddenExeBlock = nil;}
     }];
 }
 
@@ -118,22 +139,11 @@
     return _config;
 }
 
-- (CGSize)_sizeForTitle:(NSString *)title constraints:(CGSize)size {
-    CGSize result;
-    if ( [title respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)] ) {
-        NSMutableDictionary *attr = [NSMutableDictionary new];
-        attr[NSFontAttributeName] = self.config.font;
-        CGRect rect = [title boundingRectWithSize:size
-                                          options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                       attributes:attr context:nil];
-        result = rect.size;
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        result = [title sizeWithFont:self.config.font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-#pragma clang diagnostic pop
-    }
-    return CGSizeMake(ceil(result.width), ceil(result.height));
+- (CGSize)_sizeWithAttrString:(NSAttributedString *)attrStr width:(double)width height:(double)height {
+    CGRect bounds = [attrStr boundingRectWithSize:CGSizeMake(width, height) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+    bounds.size.width = ceil(bounds.size.width);
+    bounds.size.height = ceil(bounds.size.height);
+    return bounds.size;
 }
 
 @end
