@@ -123,18 +123,15 @@
     arrM.firstObject.unique = 1;
     
     [[SJDatabaseMapV2 sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL result) {
-        
+        aBook.name = @"Hello World!";
+        [[SJDatabaseMapV2 sharedServer] update:aBook properties:@[@"name"] callBlock:^(BOOL result) {
+            NSLog(@"更新成功");
+        }];
     }];
-    
-//    [[SJDatabaseMapV2 sharedServer] createOrUpdateTableWithClass:[Person class] callBlock:^(BOOL result) {
-//
-//    }];
-    
-    
     
 //    sj_table_update([SJDatabaseMapV2 sharedServer].database, carrier);
     
-    const char *test2 = "H";
+//    const char *test2 = "H";
     
 //    Protocol *pro = @protocol(SJDBMapUseProtocol);
 //    Book *dd = [Book new];

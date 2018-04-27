@@ -10,12 +10,24 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @interface SJDatabaseMapV2 (RealTime)
+
+#pragma mark create
+/// 创建表(可能创建多个表)
 - (BOOL)createOrUpdateTableWithClass:(Class<SJDBMapUseProtocol>)cls;
 
+#pragma mark inser or update
+/// 批量插入或更新
 - (BOOL)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models;
-- (BOOL)update:(id<SJDBMapUseProtocol>)model property:(NSArray<NSString *> *)fields;
-- (BOOL)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> *)insertedOrUpdatedValues;
-- (BOOL)updateTheDeletedValuesInTheModel:(id<SJDBMapUseProtocol>)model;
+/// 提供需要更新的字段, 提高执行效率
+- (BOOL)update:(id<SJDBMapUseProtocol>)model properties:(NSArray<NSString *> *)properties;
+
+#pragma mark delete
+/// 根据主键删除
+- (BOOL)deleteDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues;
+/// 提供模型删除
+- (BOOL)deleteDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models;
+/// 删除表
+- (BOOL)deleteDataWithClass:(Class)cls;
 
 @end
 NS_ASSUME_NONNULL_END

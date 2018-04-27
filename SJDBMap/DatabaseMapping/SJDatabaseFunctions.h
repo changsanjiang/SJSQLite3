@@ -19,7 +19,7 @@ extern bool sj_database_close(sqlite3 **database); // 关闭数据库
 
 #pragma mark transaction
 extern void sj_transaction(sqlite3 *database, void(^sync_task)(void));
-extern void sj_transaction_begin(sqlite3 *database); // 开启事物
+extern void sj_transaction_begin(sqlite3 *database);  // 开启事物
 extern void sj_transaction_commit(sqlite3 *database); // 提交事物
 
 #pragma mark sql
@@ -34,14 +34,17 @@ extern bool sj_table_exists(sqlite3 *database, const char *table_name); // 查�
 extern NSArray<NSString *> *__nullable sj_table_fields(sqlite3 *database, const char *table_name); // 获取表的所有字段
 extern bool sj_table_checkout_field(sqlite3 *database, const char *table_name, const char *field, const char *type); // 检出一个字段
 extern bool sj_table_add_field(sqlite3 *database, const char *table_name, const char *field, const char *type); // 添加一个字段
+extern bool sj_table_delete(sqlite3 *database, const char *table_name); // 删除表 
 
 #pragma mark value
 /// 根据模型插入数据库, 自动建表
+/// 可能插入多条数据, 因为模型存在套其他模型的情况
 /// carrier 可以为空
 extern bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<__kindof SJDatabaseMapTableCarrier *> * __nullable container, SJDatabaseMapCache *__nullable cache);
 extern long long sj_value_last_id(sqlite3 *database, Class<SJDBMapUseProtocol> cls, SJDatabaseMapTableCarrier *__nullable carrier); // 查询最后一条数据的id, 如果返回-1, 表示该类没有数据, 或未创建
-extern id sj_value_filter(id value);
-
+extern bool sj_value_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<NSString *> *properties, NSArray<__kindof SJDatabaseMapTableCarrier *> * __nullable container, SJDatabaseMapCache *__nullable cache);
+extern bool sj_value_exists(sqlite3 *database, id<SJDBMapUseProtocol> model, SJDatabaseMapTableCarrier *__nullable carrier);
+extern bool sj_value_delete(sqlite3 *database, const char *table_name, const char *fields, NSArray *values);
 
 #pragma mark fields
 extern char *__nullable sj_fields_sql_type(Class cls, const char *ivar); // 通过实例变量名获取数据库中对应的存储类型
@@ -51,13 +54,13 @@ extern NSString *__nullable sj_checkoutFolder(NSString *path); // 如果返回ni
 
 #pragma mark runtime
 extern NSArray<NSString *> *sj_ivar_list(Class cls); // 获取实例变量列表
-extern Class __nullable sj_ivar_class(Class cls, const char *ivar); // 如果ivar属于一个对象类型, 则返回此类型, 否则返回 NULL
+extern Class __nullable sj_ivar_class(Class cls, const char *ivar); // 如果ivar属于一个对象类型, 则返回它的类型, 否则返回 NULL
+
 
 
 #pragma mark -
 @class SJDatabaseMapTableCorrespondingCarrier;
 @interface SJDatabaseMapTableCarrier : NSObject
-
 - (instancetype)initWithClass:(Class<SJDBMapUseProtocol>)cls;
 - (void)parseCorrespondingKeysAddToContainer:(NSMutableArray<__kindof SJDatabaseMapTableCarrier *> *)container;
 
@@ -72,7 +75,6 @@ extern Class __nullable sj_ivar_class(Class cls, const char *ivar); // 如果iva
 @property (nonatomic, strong, readonly, nullable) NSString *autoincrementPrimaryKey;
 @property (nonatomic, strong, readonly, nullable) NSArray<SJDatabaseMapTableCorrespondingCarrier *> *correspondingKeys_arr;
 @property (nonatomic, strong, readonly, nullable) NSArray<SJDatabaseMapTableCorrespondingCarrier *> *arrayCorrespondingKeys_arr;
-
 @end
 
 

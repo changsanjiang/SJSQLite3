@@ -62,30 +62,177 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^ __nullable)(BOOL result))block;
 
 /*!
- *  更新指定的属性
- *  如果数据库没有这个模型, 将不会保存
- 
- *  property:@[@"name", @"age"]
+ *  更新指定的属性字段
+ *  提供需要更新的字段, 提高执行效率
+ *
+ *  property:@[@"name", @"age"] // 需要更新的属性
  */
-- (void)update:(id<SJDBMapUseProtocol>)model property:(NSArray<NSString *> *)fields callBlock:(void (^ __nullable)(BOOL result))block;
+- (void)update:(id<SJDBMapUseProtocol>)model properties:(NSArray<NSString *> *)properties callBlock:(void (^ __nullable)(BOOL result))block;
+@end
+
+
+// MARK: Delete
+
+@interface SJDatabaseMapV2 (Delete)
+
+// MARK: ---------------------------------------------------------
+/*!
+ *  只会删除这个类(表)的数据, 相关联的类(表)的数据不会删除.
+ */
+// MARK: ---------------------------------------------------------
+
 
 /*!
- *  提供更详细的信息去更新, 这将提高更新速度
- *  如果数据库没有这个模型, 将不会保存
- *
- *  insertedOrUpdatedValues : key 更新的这个模型对应的属性. value 属性 更新/新增 的模型, 可以是数组, 也可以是单个模型
- *  更新之前, 请将模型赋值为最新状态.
- *  @{@"tags":@[newTag1, newTag2], @"age":@(newAge)}
+ *  删单条记录
+ *  cls : 对应的类
+ *  primaryValue : 主键或自增键值.
  */
-- (void)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> * __nullable)insertedOrUpdatedValues callBlock:(void (^ __nullable)(BOOL result))block;
+- (void)deleteDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue callBlock:(void(^ __nullable)(BOOL result))block;
 
 /*!
- *  此接口针对数组字段使用.
- *  如果数据库没有这个模型, 将不会保存
- *
+ *  批量删除
+ *  primaryValues -> primaryValues
  */
-- (void)updateTheDeletedValuesInTheModel:(id<SJDBMapUseProtocol>)model callBlock:(void (^)(BOOL result))block;
+- (void)deleteDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues callBlock:(void (^ __nullable)(BOOL result))block;
+
+/*!
+ *  批量删除
+ */
+- (void)deleteDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^ __nullable)(BOOL result))block;
+
+/*!
+ *  删除表
+ */
+- (void)deleteDataWithClass:(Class)cls callBlock:(void (^ __nullable)(BOOL r))block;
 
 @end
+
+
+
+// MARK: Query
+
+
+@interface SJDatabaseMapV2 (Query)
+
+/*!
+ *  查所有记录
+ *  返回和这个类有关的所有数据
+ */
+- (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+/*!
+ *  查单条记录
+ */
+- (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^ __nullable)(id<SJDBMapUseProtocol> _Nullable model))block;
+
+/*!
+ *  查询
+ *
+ *  dict:
+ *     @{
+ *          @"name": @"A",
+ *          @"tag": @"B"
+ *      }
+ *  or
+ *     @{
+ *          @"id" : @[@(0), @(2), @(3)],
+ *          @"name":@[@"A", @"B", @"C"]
+ *      } ==>>>> ... id in (0, 2, 3) and name in ('A', 'B', 'C')
+ */
+- (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+/*!
+ *  查询指定区间数据
+ */
+- (void)queryDataWithClass:(Class)cls range:(NSRange)range completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+/*!
+ *  查记录的数量
+ *
+ *  如果 property 指定为 nil, 则返回所有存储的记录数量.
+ */
+- (void)queryQuantityWithClass:(Class)cls property:(NSString * __nullable)property completeCallBlock:(void (^ __nullable)(NSInteger quantity))block;
+
+
+typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
+    /*!
+     *  匹配左右两侧
+     *  ...A...
+     */
+    SJDatabaseMapFuzzyMatchBilateral = 0,
+    /*!
+     *  匹配以什么开头
+     *  ABC.....
+     */
+    SJDatabaseMapFuzzyMatchFront,
+    /*!
+     *  匹配以什么结尾
+     *  ...DEF
+     */
+    SJDatabaseMapFuzzyMatchLater,
+};
+
+/*!
+ *  模糊查询
+ *
+ *  default SJDatabaseMapFuzzyMatchBilateral
+ *  dict: @{@"name":@"A", @"tag":@"B"}  Key -> Property, Value -> Part
+ */
+- (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+
+/*!
+ *  模糊查询
+ *  property : value
+ */
+- (void)fuzzyQueryDataWithClass:(Class)cls
+                      queryDict:(NSDictionary *)dict
+                          match:(SJDatabaseMapFuzzyMatch)match
+              completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+/*!
+ *  模糊查询
+ *
+ *  例如: 匹配以 AB 开头, 以 EF 结尾.
+ *       [DatabaseMapping fuzzyQueryDataWithClass:[Example Class]
+ *                                       property:@"name"
+ *                                          part1:@"AB"
+ *                                          part2:@"EF"
+ *                              completeCallBlock:nil]
+ */
+- (void)fuzzyQueryDataWithClass:(Class)cls
+                       property:(NSString *)fields
+                          part1:(NSString *)part1
+                          part2:(NSString *)part2
+              completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+
+/*!
+ *  根据多个主键查寻
+ **/
+- (void)queryDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+/*!
+ *  根据多个值查询
+ **/
+- (void)queryDataWithClass:(Class)cls property:(NSString *)property values:(NSArray *)values completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+@end
+
+
+typedef NS_ENUM(NSUInteger, SJDatabaseMapSortType) {
+    SJDatabaseMapSortType_Asc,  // 升序, 由小到大
+    SJDatabaseMapSortType_Desc, // 降序
+};
+
+@interface SJDatabaseMapV2 (SortQuery)
+
+- (void)sortQueryWithClass:(Class)cls
+                  property:(NSString *)property
+                  sortType:(SJDatabaseMapSortType)sortType
+         completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+@end
+
 
 NS_ASSUME_NONNULL_END

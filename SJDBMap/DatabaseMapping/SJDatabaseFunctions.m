@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 static void mark(char *sql, void(^)(void)); // ''
+static id sj_value_filter(id value);
 
 #pragma mark -
 
@@ -236,8 +237,13 @@ bool sj_table_add_field(sqlite3 *database, const char *table_name, const char *f
 #endif
     return result;
 }
+bool sj_table_delete(sqlite3 *database, const char *table_name) {
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"DROP TABLE %s;", table_name];
+    return sj_sql_exe(database, sql.UTF8String);
+}
 
 #pragma mark value
+
 bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<__kindof SJDatabaseMapTableCarrier *> * __nullable container, SJDatabaseMapCache *__nullable cache) {
     if ( !cache ) cache = [SJDatabaseMapCache new];
     if ( [cache containsObject:model] ) return true;
@@ -252,7 +258,7 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
         if ( [container isKindOfClass:[NSMutableArray class]] ) container = container.copy;
         [container enumerateObjectsUsingBlock:^(__kindof SJDatabaseMapTableCarrier * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ( obj.cls != [model class] ) return;
-            carrier = obj; // 给 carrier 赋值
+            carrier = obj;
             *stop = YES;
         }];
     }
@@ -282,11 +288,11 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
     
     NSArray<NSString *> *table_fields_list = sj_table_fields(database, table_name);
     __block BOOL _primaryKeyAdded = NO; // 主键是否已添加到 sql_values 中
-    __block const char *_ivar = nil; // corresponding 对应的 ivar
+    __block const char *_ivar = NULL; // corresponding 对应的 ivar
     
     [table_fields_list enumerateObjectsUsingBlock:^(NSString * _Nonnull field, NSUInteger idx, BOOL * _Nonnull stop) {
         id value = nil;
-        
+
         if ( (_ivar = [carrier isCorrespondingKeyWithCorresponding:field.UTF8String]) != NULL ) { // 处理 相应键
             value = [(id)model valueForKey:[NSString stringWithUTF8String:_ivar]];
             __block SJDatabaseMapTableCarrier *carrier_cor = nil;
@@ -318,11 +324,12 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
             strcat(sql_values, ",");
         }
         
-        if ( ![model respondsToSelector:NSSelectorFromString(field)] ) { return;}
+        if ( ![model respondsToSelector:NSSelectorFromString(field)] ) { return;} // 过滤无法响应的字段
         
         result = false;
         value = [(id)model valueForKey:field];
-        if ( [value isKindOfClass:[NSArray class]] ) { // 处理 数组相应键
+        // 处理 数组相应键
+        if ( [value isKindOfClass:[NSArray class]] ) {
             if ( [value count] == 0 ) return;
             Class _arr_e_cls = [[value firstObject] class];
             if ( ![_arr_e_cls conformsToProtocol:@protocol(SJDBMapUseProtocol)] ) return;
@@ -362,7 +369,7 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
             NSData *data = [NSJSONSerialization dataWithJSONObject:@{NSStringFromClass(_arr_e_cls) : corkey_primary_key_idsM} options:0 error:nil];
             mark(sql_values, ^{ strcat(sql_values, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding].UTF8String);}); // 'value'
         }
-        else if ( !_primaryKeyAdded && strcmp(field.UTF8String, carrier.primaryKeyOrAutoincrementPrimaryKey.UTF8String) == 0 ) {
+        else if ( !_primaryKeyAdded && strcmp(field.UTF8String, carrier.primaryKeyOrAutoincrementPrimaryKey.UTF8String) == 0 ) { // 处理主键
             if ( !carrier.isUsingPrimaryKey ) {
                 if ( [value integerValue] == 0 ) value = nil; // 置为nil, 使其自增
             }
@@ -422,9 +429,105 @@ long long sj_value_last_id(sqlite3 *database, Class<SJDBMapUseProtocol> cls, SJD
     return last_id;
 }
 
-extern id sj_value_filter(id value) {
+static id sj_value_filter(id value) {
     if ( ![value isKindOfClass:[NSString class]] ) return value;
     return [(NSString *)value stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+}
+
+bool sj_value_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<NSString *> *properties, NSArray<__kindof SJDatabaseMapTableCarrier *> * __nullable container, SJDatabaseMapCache *__nullable cache) {
+    if ( [cache containsObject:model] ) return true;
+    if ( !cache ) cache = [SJDatabaseMapCache new];
+    [cache addObject:model];
+    __block SJDatabaseMapTableCarrier *carrier = nil;
+    if ( !container ) {
+        carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:[model class]]; // 给 carrier 赋值
+        [carrier parseCorrespondingKeysAddToContainer:(NSMutableArray *)(container = [NSMutableArray array])];
+    }
+    else {
+        if ( [container isKindOfClass:[NSMutableArray class]] ) container = container.copy;
+        [container enumerateObjectsUsingBlock:^(__kindof SJDatabaseMapTableCarrier * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ( obj.cls != [model class] ) return;
+            carrier = obj;
+            *stop = YES;
+        }];
+    }
+    if ( !carrier ) {
+        printf("\n 警告: 载体为空! \n");
+        return false;
+    }
+    
+    if ( !sj_value_exists(database, model, carrier) ) {
+        return sj_value_insert_or_update(database, model, container, cache);
+    }
+    
+    const char *table_name = sj_table_name([model class]);
+    __block bool result = true;
+    __block bool hasCommonFields = false;
+    __block NSMutableString *_common_sql = nil; // 用于更新普通键
+    [properties enumerateObjectsUsingBlock:^(NSString * _Nonnull property, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ( ![model respondsToSelector:NSSelectorFromString(property)] ) return; // 不响应的字段无法处理
+        id value = [(id)model valueForKey:property];
+        if ( !value ) return;
+        const char *_ivar = [NSString stringWithFormat:@"_%@", property].UTF8String;
+        NSString *_tmp = nil;
+        if ( [carrier isCorrespondingKeyWithIvar:_ivar key:&_tmp] ) { // 处理相应键
+            bool r = sj_value_insert_or_update(database, value, container, cache);
+            if ( !r ) {
+                result = false;
+                *stop = YES;
+                return;
+            }
+        }
+        else if ( [carrier isArrCorrespondingKeyWithIvar:_ivar] ) { // 处理数组相应键
+            [(NSArray *)value enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                bool r = sj_value_insert_or_update(database, obj, container, cache);
+                if ( !r ) {
+                    result = false;
+                    *stop = YES;
+                    return;
+                }
+            }];
+            if ( !result ) return;
+        }
+        else { // 处理普通键
+            hasCommonFields = true;
+            if ( !_common_sql ) {
+                _common_sql = [NSMutableString new];
+                [_common_sql appendFormat:@"UPDATE %s SET ", table_name];
+            }
+            [_common_sql appendFormat:@"'%@'='%@',", property, sj_value_filter(value)];
+        }
+    }];
+    if ( !result ) return false;
+    if ( _common_sql ) {
+        [_common_sql deleteCharactersInRange:NSMakeRange(_common_sql.length - 1, 1)]; // 去除最后的逗号
+        [_common_sql appendFormat:@" WHERE %@=%@;", carrier.primaryKeyOrAutoincrementPrimaryKey, [(id)model valueForKey:carrier.primaryKeyOrAutoincrementPrimaryKey]];
+        result = sj_sql_exe(database, _common_sql.UTF8String);
+        
+#if DEBUG_CONDITION
+        printf("\n%s \n", _common_sql.UTF8String);
+#endif
+    }
+    return result;
+}
+
+extern bool sj_value_exists(sqlite3 *database, id<SJDBMapUseProtocol> model, SJDatabaseMapTableCarrier *__nullable carrier) {
+    if ( !carrier ) {
+        carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:[model class]];
+    }
+    const char *table_name = sj_table_name([model class]);
+    const char *sql = [NSString stringWithFormat:@"SELECT *FROM %s WHERE %@ = %@;", table_name, carrier.primaryKeyOrAutoincrementPrimaryKey, [(id)model valueForKey:carrier.primaryKeyOrAutoincrementPrimaryKey]].UTF8String;
+    return sj_sql_query(database, sql, nil).count != 0;
+}
+
+extern bool sj_value_delete(sqlite3 *database, const char *table_name, const char *fields, NSArray *values) {
+    NSMutableString *sql = [NSMutableString stringWithFormat:@"DELETE FROM %s WHERE %s in (", table_name, fields];
+    [values enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [sql appendFormat:@"%@,", sj_value_filter(obj)];
+    }];
+    [sql deleteCharactersInRange:NSMakeRange(sql.length - 1, 1)];
+    [sql appendFormat:@");"];
+    return sj_sql_exe(database, sql.UTF8String);
 }
 
 #pragma mark - fileds type
