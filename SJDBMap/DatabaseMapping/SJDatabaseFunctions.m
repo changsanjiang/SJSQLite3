@@ -245,14 +245,14 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
     
     __block SJDatabaseMapTableCarrier *carrier = nil;
     if ( !container ) {
-        carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:[model class]];
+        carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:[model class]]; // 给 carrier 赋值
         [carrier parseCorrespondingKeysAddToContainer:(NSMutableArray *)(container = [NSMutableArray array])];
     }
     else {
         if ( [container isKindOfClass:[NSMutableArray class]] ) container = container.copy;
         [container enumerateObjectsUsingBlock:^(__kindof SJDatabaseMapTableCarrier * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ( obj.cls != [model class] ) return;
-            carrier = obj;
+            carrier = obj; // 给 carrier 赋值
             *stop = YES;
         }];
     }
@@ -270,7 +270,7 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
         return false;
     }
     
-    bool result = false;
+    __block bool result = false;
     
     char *sql = malloc(500); sql[0] = '\0';
     strcat(sql, "INSERT OR REPLACE INTO");
@@ -286,6 +286,7 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
     
     [table_fields_list enumerateObjectsUsingBlock:^(NSString * _Nonnull field, NSUInteger idx, BOOL * _Nonnull stop) {
         id value = nil;
+        
         if ( (_ivar = [carrier isCorrespondingKeyWithCorresponding:field.UTF8String]) != NULL ) { // 处理 相应键
             value = [(id)model valueForKey:[NSString stringWithUTF8String:_ivar]];
             __block SJDatabaseMapTableCarrier *carrier_cor = nil;
@@ -296,7 +297,12 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
             }];
             if ( !carrier_cor ) return;
             
-            sj_value_insert_or_update(database, value, container, cache); // 插入或更新
+            result = sj_value_insert_or_update(database, value, container, cache); // 插入或更新
+            if ( !result ) {
+                *stop = YES;
+                return;
+            }
+            
             if ( !carrier_cor.isUsingPrimaryKey ) {
                 long long autoId = [[value valueForKey:carrier_cor.autoincrementPrimaryKey] integerValue];
                 if ( autoId == 0 ) { // 如果是自增主键, 防止重新插入, 在这里将其自增主键赋值
@@ -312,8 +318,9 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
             strcat(sql_values, ",");
         }
         
-        if ( ![model respondsToSelector:NSSelectorFromString(field)] ) return;
+        if ( ![model respondsToSelector:NSSelectorFromString(field)] ) { return;}
         
+        result = false;
         value = [(id)model valueForKey:field];
         if ( [value isKindOfClass:[NSArray class]] ) { // 处理 数组相应键
             if ( [value count] == 0 ) return;
@@ -329,7 +336,12 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
             if ( !carrier_arr ) return;
             NSMutableArray<NSNumber *> *corkey_primary_key_idsM = [NSMutableArray new]; // 数组内元素的id
             [(NSArray *)value enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                sj_value_insert_or_update(database, obj, container, cache); // 插入或更新数据库
+                result = sj_value_insert_or_update(database, obj, container, cache); // 插入或更新数据库
+                if ( !result ) {
+                    return;
+                    *stop = YES;
+                }
+                
                 if ( !carrier_arr.isUsingPrimaryKey ) {
                     long long autoId = [[obj valueForKey:carrier_arr.autoincrementPrimaryKey] integerValue];
                     if ( autoId == 0 ) { // 如果是自增主键, 防止重新插入, 在这里将其自增主键赋值
@@ -339,6 +351,11 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
                 }
                 [corkey_primary_key_idsM addObject:[obj valueForKey:carrier_arr.primaryKeyOrAutoincrementPrimaryKey]];
             }];
+            
+            if ( !result ) {
+                *stop = YES;
+                return;
+            }
             
             mark(sql, ^{ strcat(sql, field.UTF8String);}); // 'fields'
             
@@ -361,8 +378,14 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
         
         strcat(sql, ",");
         strcat(sql_values, ",");
+        result = YES;
     }];
     
+    if ( !result ) {
+        free(sql_values);
+        free(sql);
+        return false;
+    }
     
     sql[strlen(sql) - 1] = '\0';
     sql_values[strlen(sql_values) - 1] = '\0';
