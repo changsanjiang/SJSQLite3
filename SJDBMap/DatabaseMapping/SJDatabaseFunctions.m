@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 static void mark(char *sql, void(^)(void)); // ''
-static id sj_value_filter(id value);
 
 #pragma mark -
 
@@ -427,7 +426,7 @@ long long sj_value_last_id(sqlite3 *database, Class<SJDBMapUseProtocol> cls, SJD
     last_id = [result[carrier.primaryKeyOrAutoincrementPrimaryKey] longLongValue];
     return last_id;
 }
-static id sj_value_filter(id value) {
+id sj_value_filter(id value) {
     if ( ![value isKindOfClass:[NSString class]] ) return value;
     return [(NSString *)value stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
 }
@@ -465,7 +464,7 @@ bool sj_value_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<NS
         if ( ![model respondsToSelector:NSSelectorFromString(property)] ) return; // 不响应的字段无法处理
         id value = [(id)model valueForKey:property];
         if ( !value ) return;
-        char _ivar[property.length + 1]; _ivar[0] = '\0';
+        char _ivar[property.length + 2]; _ivar[0] = '\0';
         strcpy(_ivar, [NSString stringWithFormat:@"_%@", property].UTF8String);
         NSString *_tmp = nil;
         if ( [carrier isCorrespondingKeyWithIvar:_ivar key:&_tmp] ) { // 处理相应键
@@ -525,7 +524,12 @@ extern bool sj_value_delete(sqlite3 *database, const char *table_name, const cha
     [sql appendFormat:@");"];
     return sj_sql_exe(database, sql.UTF8String);
 }
-NSArray<id<SJDBMapUseProtocol>> *sj_value_query(sqlite3 *database, const char *sql, Class<SJDBMapUseProtocol> cls, NSArray<__kindof SJDatabaseMapTableCarrier *> * __nullable container, SJDatabaseMapCache *__nullable cache) {
+NSArray<id<SJDBMapUseProtocol>> *sj_value_query(sqlite3 *database, const char *sql_str, Class<SJDBMapUseProtocol> cls, NSArray<__kindof SJDatabaseMapTableCarrier *> * __nullable container, SJDatabaseMapCache *__nullable cache) {
+    if ( strlen(sql_str) == 0 ) return nil;
+    
+    char sql[strlen(sql_str) + 1];
+    strcpy(sql, sql_str);
+
     if ( !cache ) {
         cache = [SJDatabaseMapCache new];
     }

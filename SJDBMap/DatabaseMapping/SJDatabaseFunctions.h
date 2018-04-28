@@ -46,6 +46,7 @@ extern bool sj_value_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSA
 extern bool sj_value_exists(sqlite3 *database, id<SJDBMapUseProtocol> model, SJDatabaseMapTableCarrier *__nullable carrier);
 extern bool sj_value_delete(sqlite3 *database, const char *table_name, const char *fields, NSArray *values);
 extern NSArray<id<SJDBMapUseProtocol>> *sj_value_query(sqlite3 *database, const char *sql, Class<SJDBMapUseProtocol> cls, NSArray<__kindof SJDatabaseMapTableCarrier *> * __nullable container, SJDatabaseMapCache *__nullable cache);
+extern id sj_value_filter(id value);
 
 #pragma mark fields
 extern char *__nullable sj_fields_sql_type(Class cls, const char *ivar); // 通过实例变量名获取数据库中对应的存储类型
@@ -66,8 +67,8 @@ extern Class __nullable sj_ivar_class(Class cls, const char *ivar); // 如果iva
 - (void)parseCorrespondingKeysAddToContainer:(NSMutableArray<__kindof SJDatabaseMapTableCarrier *> *)container;
 
 - (NSString *)primaryKeyOrAutoincrementPrimaryKey;
-- (BOOL)isArrCorrespondingKeyWithIvar:(const char *)ivar;
-- (BOOL)isCorrespondingKeyWithIvar:(const char *)ivar key:(NSString * __autoreleasing *)key;
+- (BOOL)isArrCorrespondingKeyWithIvar:(const char *)instance_ivar;
+- (BOOL)isCorrespondingKeyWithIvar:(const char *)instance_ivar key:(NSString * __autoreleasing *)key;
 - (const char *)isCorrespondingKeyWithCorresponding:(const char *)corresponding;  // return ivar
 
 @property (nonatomic, readonly) BOOL isUsingPrimaryKey;

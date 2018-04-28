@@ -54,7 +54,6 @@
 
 #import "SJDatabaseFunctions.h"
 #import "TestTest.h"
-#import "SJDatabaseMapV2.h"
 
 @interface ViewController ()
 
@@ -73,6 +72,45 @@
     
     NSLog(@"%d", person == [Person class]);
     
+    
+//    sj_table_update([SJDatabaseMapV2 sharedServer].database, carrier);
+    
+//    const char *test2 = "H";
+    
+//    Protocol *pro = @protocol(SJDBMapUseProtocol);
+//    Book *dd = [Book new];
+//    NSLog(@"%d", [dd conformsToProtocol:pro]);
+//    NSLog(@"%d", [cls conformsToProtocol:pro]);
+//
+//    printf("%s - %ld\n", strcat(test, test2), strlen(test));
+    
+    
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    
+    
+#warning - if it can't run. please perform " pod update " to update the project. The update may be a bit slow.
+    
+    // sample 1
+    [self insertOrUpdate];
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sample" style:UIBarButtonItemStyleDone target:self action:@selector(clickedItem:)];
+    
+    // Do any additional setup after loading the view, typically from a nib.
+}
+
+// sample 2
+- (void)clickedItem:(UIBarButtonItem *)item {
+    [self.navigationController pushViewController:[NSClassFromString(@"SampleTableViewController") new] animated:YES];
+}
+
+
+
+
+
+
+- (IBAction)insertOrUpdate:(id)sender {
     Goods *g = [Goods new];
     g.name = @"G1";
     g.price = [[Price alloc] initWithPriceId:1 price:20];
@@ -105,7 +143,8 @@
     for ( int i = 0 ; i < 5 ; i ++ ) {
         Person *sj = [Person new];
         sj.personID = i;
-        sj.name = @"A'''B\"C'D\"";
+        sj.name = [NSString stringWithFormat:@"%d", i];
+        if ( i == 4 ) sj.name = [NSString stringWithFormat:@"1"];
         sj.tags = tags;
         sj.group = 100;
         sj.index = i;
@@ -122,44 +161,44 @@
     
     arrM.firstObject.unique = 1;
     
-    [[SJDatabaseMapV2 sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL result) {
-        aBook.name = @"Hello World!";
-        [[SJDatabaseMapV2 sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
-            printf("查询成功!\n");
-            NSLog(@"%@", [data firstObject]);
-        }];
+    [[SJDatabaseMap sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL result) {
+        if ( result ) {
+            NSLog(@"插入成功!");
+        }
     }];
-    
-//    sj_table_update([SJDatabaseMapV2 sharedServer].database, carrier);
-    
-//    const char *test2 = "H";
-    
-//    Protocol *pro = @protocol(SJDBMapUseProtocol);
-//    Book *dd = [Book new];
-//    NSLog(@"%d", [dd conformsToProtocol:pro]);
-//    NSLog(@"%d", [cls conformsToProtocol:pro]);
-//
-//    printf("%s - %ld\n", strcat(test, test2), strlen(test));
-    
-    
-    
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    
-    
-#warning - if it can't run. please perform " pod update " to update the project. The update may be a bit slow.
-    
-    // sample 1
-//    [self insertOrUpdate];
-
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sample" style:UIBarButtonItemStyleDone target:self action:@selector(clickedItem:)];
-    
-    // Do any additional setup after loading the view, typically from a nib.
 }
 
-// sample 2
-- (void)clickedItem:(UIBarButtonItem *)item {
-    [self.navigationController pushViewController:[NSClassFromString(@"SampleTableViewController") new] animated:YES];
+- (IBAction)query:(id)sender {
+//    [[SJDatabaseMapV2 sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+//        if ( data ) {
+//            printf("查询成功!\n");
+//            NSLog(@"%@", [data firstObject]);
+//        }
+//    }];
+    
+//    [[SJDatabaseMapV2 sharedServer] queryDataWithClass:[Person class] primaryValue:2 completeCallBlock:^(id<SJDBMapUseProtocol>  _Nullable model) {
+//        if ( model ) {
+//            NSLog(@"%@", model);
+//        }
+//    }];
+
+//    [[SJDatabaseMapV2 sharedServer] queryDataWithClass:[Person class] queryDict:@{@"personID":@[@(1)]} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+//        
+//    }];
+    
+//    [[SJDatabaseMapV2 sharedServer] queryDataWithClass:[Person class] range:NSMakeRange(0, 2) completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+//        NSLog(@"%ld", data.count);
+//    }];
+    
+//    [[SJDatabaseMapV2 sharedServer] queryQuantityWithClass:[Person class] completeCallBlock:^(NSInteger quantity) {
+//        NSLog(@"-- %ld", quantity);
+//    }];
+    
+    // fuzzy query
+//    [[SJDatabaseMapV2 sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"1"} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+//        NSLog(@"%zd", data.count);
+//    }];
+        
 }
 
 @end
@@ -253,15 +292,12 @@
         
         // mixed
         [tagsM addObject:person.tags.firstObject];
-        [[SJDatabaseMap sharedServer] update:person insertedOrUpdatedValues:@{@"tags":tagsM, @"goods":person.goods.firstObject} callBlock:^(BOOL r) {
-            NSLog(@"update end");
-            
+        
+        
+        [[SJDatabaseMap sharedServer] update:person properties:@[@"tags", @"goods", @"group", @"index", @"name"] callBlock:^(BOOL result) {
             // query sample
             [self queryWithDict:@{@"name":@"B''''B\"\"\"BBBB", @"group":@(121), @"index":@(32112)}];
-            
-            
         }];
-        
     }];
     
 }
@@ -290,8 +326,8 @@
         xiaoMing.name = @"xiaoMMM";
         
         // update
-        [[SJDatabaseMap sharedServer] update:xiaoMing property:@[@"age", @"name"] callBlock:nil];
-        
+        [[SJDatabaseMap sharedServer] update:xiaoMing properties:@[@"age", @"name"] callBlock:nil];
+
     }];
 }
 
@@ -307,10 +343,7 @@
         xiaoMing.age = 30;
         xiaoMing.name = @"xiaoMMM";
         
-        // update
-        // 这个接口主要针对数组属性. 比如说某个对象的数组实例中加入了新的元素, 用这个接口来更新数据相对快一点.
-        [[SJDatabaseMap sharedServer] update:xiaoMing insertedOrUpdatedValues:@{@"age":@(30), @"name":@"xiaoMMM"} callBlock:nil];
-        
+        [[SJDatabaseMap sharedServer] update:xiaoMing properties:@[@"age", @"name"] callBlock:nil];
     }];
 }
 
@@ -367,7 +400,7 @@
             [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"A"} completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
                 NSLog(@"%zd", data.count);
                 
-                // 匹配以 's' 开头的name.
+                // 匹配以 'B' 开头的name.
                 [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] queryDict:@{@"name":@"B"} match:SJDatabaseMapFuzzyMatchFront completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
                     NSLog(@"%zd", data.count);
                     
@@ -377,7 +410,7 @@
 //                    }];
                     
                     // 查询数量
-                    [[SJDatabaseMap sharedServer] queryQuantityWithClass:[Person class] property:nil completeCallBlock:^(NSInteger quantity) {
+                    [[SJDatabaseMap sharedServer] queryQuantityWithClass:[Person class] completeCallBlock:^(NSInteger quantity) {
                         NSLog(@"%zd", quantity);
                         
                         [[SJDatabaseMap sharedServer] fuzzyQueryDataWithClass:[Person class] property:@"name" part1:@"A" part2:@"\"" completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {

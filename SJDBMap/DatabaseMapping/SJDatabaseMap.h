@@ -1,55 +1,35 @@
 //
 //  SJDatabaseMap.h
-//  SJProject
+//  SJDBMapProject
 //
-//  Created by BlueDancer on 2017/6/3.
-//  Copyright © 2017年 SanJiang. All rights reserved.
+//  Created by BlueDancer on 2018/4/25.
+//  Copyright © 2018年 SanJiang. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import "SJDBMapUseProtocol.h"
 #import <sqlite3.h>
 
-@protocol SJDBMapUseProtocol;
-
 NS_ASSUME_NONNULL_BEGIN
-
-/**
- *  父类字段未做处理.
- */
 @interface SJDatabaseMap : NSObject
-
-@property (nonatomic, assign, readonly) sqlite3 *sqDB;
-
-/*!
- *  数据库路径
- */
-@property (nonatomic, strong, readonly) NSString   *dbPath;
-
-/*!
- *  使用此方法, 数据库将使用默认路径创建
- */
+@property (nonatomic, readonly) sqlite3 *database;
+@property (nonatomic, strong, readonly) NSString *dbPath;
 + (instancetype)sharedServer;
+- (instancetype)initWithPath:(NSString *)path NS_DESIGNATED_INITIALIZER;
 
-/*!
- *  自定义数据库路径
- */
-- (instancetype)initWithPath:(NSString *)path;
-
+- (void)performTasksWithSubThreadTask:(void (^)(SJDatabaseMap * _Nonnull mapper))subThreadTask
+                        mainTreadTask:(void (^__nullable)(SJDatabaseMap * _Nonnull mapper))mainTreadTask;
 @end
 
 
+#pragma mark - Create
 
-// MARK: Create
-
-@interface SJDatabaseMap (CreateTab)
-
+@interface SJDatabaseMap (Create)
 /*!
  *  根据类创建一个表
  */
-- (void)createTabWithClass:(Class)cls callBlock:(void(^ __nullable)(BOOL result))block;
-
+- (void)createOrUpdateTableWithClass:(Class<SJDBMapUseProtocol>)cls callBlock:(void(^ __nullable)(BOOL result))block;
 @end
-
 
 
 // MARK: InsertOrUpdate
@@ -82,32 +62,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models callBlock:(void (^ __nullable)(BOOL result))block;
 
 /*!
- *  更新指定的属性
- *  如果数据库没有这个模型, 将不会保存
- 
- *  property:@[@"name", @"age"]
- */
-- (void)update:(id<SJDBMapUseProtocol>)model property:(NSArray<NSString *> *)fields callBlock:(void (^ __nullable)(BOOL result))block;
-
-/*!
- *  提供更详细的信息去更新, 这将提高更新速度
- *  如果数据库没有这个模型, 将不会保存
+ *  更新指定的属性字段
+ *  提供需要更新的字段, 提高执行效率
  *
- *  insertedOrUpdatedValues : key 更新的这个模型对应的属性. value 属性 更新/新增 的模型, 可以是数组, 也可以是单个模型
- *  更新之前, 请将模型赋值为最新状态.
- *  @{@"tags":@[newTag1, newTag2], @"age":@(newAge)}
+ *  property:@[@"name", @"age"] // 需要更新的属性
  */
-- (void)update:(id<SJDBMapUseProtocol>)model insertedOrUpdatedValues:(NSDictionary<NSString *, id> * __nullable)insertedOrUpdatedValues callBlock:(void (^ __nullable)(BOOL result))block;
-
-/*!
- *  此接口针对数组字段使用.
- *  如果数据库没有这个模型, 将不会保存
- *
- */
-- (void)updateTheDeletedValuesInTheModel:(id<SJDBMapUseProtocol>)model callBlock:(void (^)(BOOL result))block;
-
+- (void)update:(id<SJDBMapUseProtocol>)model properties:(NSArray<NSString *> *)properties callBlock:(void (^ __nullable)(BOOL result))block;
 @end
-
 
 
 // MARK: Delete
@@ -157,14 +118,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  查所有记录
  *  返回和这个类有关的所有数据
  */
-- (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+- (void)queryAllDataWithClass:(Class<SJDBMapUseProtocol>)cls completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
 /*!
  *  查单条记录
  */
 - (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^ __nullable)(id<SJDBMapUseProtocol> _Nullable model))block;
 
-/*! 
+/*!
  *  查询
  *
  *  dict:
@@ -187,29 +148,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /*!
  *  查记录的数量
- *
- *  如果 property 指定为 nil, 则返回所有存储的记录数量.
  */
-- (void)queryQuantityWithClass:(Class)cls property:(NSString * __nullable)property completeCallBlock:(void (^ __nullable)(NSInteger quantity))block;
+- (void)queryQuantityWithClass:(Class)cls completeCallBlock:(void (^ __nullable)(NSInteger quantity))block;
 
-
-typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
-    /*!
-     *  匹配左右两侧
-     *  ...A...
-     */
-    SJDatabaseMapFuzzyMatchBilateral = 0,
-    /*!
-     *  匹配以什么开头
-     *  ABC.....
-     */
-    SJDatabaseMapFuzzyMatchFront,
-    /*!
-     *  匹配以什么结尾
-     *  ...DEF
-     */
-    SJDatabaseMapFuzzyMatchLater,
-};
 
 /*!
  *  模糊查询
@@ -218,7 +159,6 @@ typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
  *  dict: @{@"name":@"A", @"tag":@"B"}  Key -> Property, Value -> Part
  */
 - (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
-
 
 /*!
  *  模糊查询
@@ -245,7 +185,6 @@ typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
                           part2:(NSString *)part2
               completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
-
 /*!
  *  根据多个主键查寻
  **/
@@ -259,11 +198,6 @@ typedef NS_ENUM(NSUInteger, SJDatabaseMapFuzzyMatch) {
 @end
 
 
-typedef NS_ENUM(NSUInteger, SJDatabaseMapSortType) {
-    SJDatabaseMapSortType_Asc,  // 升序, 由小到大
-    SJDatabaseMapSortType_Desc, // 降序
-};
-
 @interface SJDatabaseMap (SortQuery)
 
 - (void)sortQueryWithClass:(Class)cls
@@ -271,7 +205,20 @@ typedef NS_ENUM(NSUInteger, SJDatabaseMapSortType) {
                   sortType:(SJDatabaseMapSortType)sortType
          completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
 
+- (void)sortQueryWithClass:(Class)cls
+                  property:(NSString *)property
+                  sortType:(SJDatabaseMapSortType)sortType
+                     range:(NSRange)range
+         completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
+
+- (void)sortQueryWithClass:(Class)cls
+                 queryDict:(NSDictionary *)quertyDict
+                 sortField:(NSString *)sortField
+                  sortType:(SJDatabaseMapSortType)sortType
+         completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable))block;
+
+
 @end
 
 NS_ASSUME_NONNULL_END
-
