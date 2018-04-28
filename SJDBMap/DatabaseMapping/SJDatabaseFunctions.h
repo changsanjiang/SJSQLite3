@@ -68,7 +68,7 @@ extern Class __nullable sj_ivar_class(Class cls, const char *ivar); // 如果iva
 - (NSString *)primaryKeyOrAutoincrementPrimaryKey;
 - (BOOL)isArrCorrespondingKeyWithIvar:(const char *)ivar;
 - (BOOL)isCorrespondingKeyWithIvar:(const char *)ivar key:(NSString * __autoreleasing *)key;
-- (const char *)isCorrespondingKeyWithCorresponding:(const char *)corresponding;  // 返回对应的 ivar
+- (const char *)isCorrespondingKeyWithCorresponding:(const char *)corresponding;  // return ivar
 
 @property (nonatomic, readonly) BOOL isUsingPrimaryKey;
 @property (nonatomic, readonly) Class<SJDBMapUseProtocol> cls;
@@ -80,13 +80,14 @@ extern Class __nullable sj_ivar_class(Class cls, const char *ivar); // 如果iva
 
 
 @interface SJDatabaseMapTableCorrespondingCarrier : SJDatabaseMapTableCarrier
-- (instancetype)initWithClass:(Class<SJDBMapUseProtocol>)cls fields:(NSString *)fields;
-@property (nonatomic, strong) NSString *fields;
+- (instancetype)initWithClass:(Class<SJDBMapUseProtocol>)cls property:(NSString *)property;
+@property (nonatomic, strong) NSString *property; // 上级类中的属性字段
 @end
 
 #pragma mark -
 @interface SJDatabaseMapCache : NSObject
-- (void)addObject:(id<SJDBMapUseProtocol>)object;
+- (void)addObject:(id<SJDBMapUseProtocol>)object; // 添加时,并不检测是否已包含该object
 - (BOOL)containsObject:(id<SJDBMapUseProtocol>)anObject;
+- (nullable id<SJDBMapUseProtocol>)containsObjectWithClass:(Class<SJDBMapUseProtocol>)cls primaryValue:(NSInteger)primaryValue;
 @end
 NS_ASSUME_NONNULL_END

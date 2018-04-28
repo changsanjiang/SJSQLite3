@@ -109,17 +109,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-//// MARK: Query
-//
-//
-//@interface SJDatabaseMapV2 (Query)
-//
-///*!
-// *  查所有记录
-// *  返回和这个类有关的所有数据
-// */
-//- (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
-//
+// MARK: Query
+
+
+@interface SJDatabaseMapV2 (Query)
+
+/*!
+ *  查所有记录
+ *  返回和这个类有关的所有数据
+ */
+- (void)queryAllDataWithClass:(Class<SJDBMapUseProtocol>)cls completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
+
 ///*!
 // *  查单条记录
 // */
@@ -216,10 +216,10 @@ NS_ASSUME_NONNULL_BEGIN
 // *  根据多个值查询
 // **/
 //- (void)queryDataWithClass:(Class)cls property:(NSString *)property values:(NSArray *)values completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block;
-//
-//@end
-//
-//
+
+@end
+
+
 //typedef NS_ENUM(NSUInteger, SJDatabaseMapSortType) {
 //    SJDatabaseMapSortType_Asc,  // 升序, 由小到大
 //    SJDatabaseMapSortType_Desc, // 降序

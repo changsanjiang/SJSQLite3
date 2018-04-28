@@ -25,11 +25,6 @@
              @"goods":[Goods class]};
 }
 
-+ (NSDictionary<NSString *,NSString *> *)correspondingKeys {
-    return @{@"aBook":@"bookID",
-             /*@"aGoods":@"goodsID"*/};
-}
-
 + (NSArray<NSString *> *)uniqueKeys {
     return @[@"unique"];
 }

@@ -29,5 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 删除表
 - (BOOL)deleteDataWithClass:(Class)cls;
 
+#pragma mark query
+- (nullable NSArray<id<SJDBMapUseProtocol>> *)queryAllDataWithClass:(Class<SJDBMapUseProtocol>)cls;
+
 @end
 NS_ASSUME_NONNULL_END

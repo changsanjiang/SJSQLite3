@@ -129,4 +129,11 @@
     return sj_table_delete(self.database, sj_table_name(cls));
 }
 
+#pragma mark -
+- (nullable NSArray<id<SJDBMapUseProtocol>> *)queryAllDataWithClass:(Class<SJDBMapUseProtocol>)cls {
+    if ( !cls ) return nil;
+    const char *sql = [NSString stringWithFormat:@"SELECT *FROM %s;", sj_table_name(cls)].UTF8String;
+    return sj_value_query(self.database, sql, cls, nil, nil);
+}
+
 @end

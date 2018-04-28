@@ -95,11 +95,11 @@ bool sj_table_create(sqlite3 *database, SJDatabaseMapTableCarrier * carrier) {
     NSArray<NSString *> *ivarList = sj_ivar_list(carrier.cls);
     
     __block BOOL primaryAdded = NO;
-    const char *primayKeyOrAutoKey = carrier.isUsingPrimaryKey ? carrier.primaryKey.UTF8String : carrier.autoincrementPrimaryKey.UTF8String;
+    NSString *primayKeyOrAutoKey = carrier.primaryKeyOrAutoincrementPrimaryKey;
     [ivarList enumerateObjectsUsingBlock:^(NSString * _Nonnull ivar, NSUInteger idx, BOOL * _Nonnull stop) {
         // 主键 or 自增主键
         if ( !primaryAdded ) {
-            if ( strcmp(&ivar.UTF8String[1], primayKeyOrAutoKey) == 0 ) {
+            if ( strcmp(&ivar.UTF8String[1], primayKeyOrAutoKey.UTF8String) == 0 ) {
                 if ( carrier.isUsingPrimaryKey ) {
                     mark(sql, ^{ strcat(sql, carrier.primaryKey.UTF8String);});
                     strcat(sql, "INTEGER PRIMARY KEY,");
@@ -465,7 +465,8 @@ bool sj_value_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<NS
         if ( ![model respondsToSelector:NSSelectorFromString(property)] ) return; // 不响应的字段无法处理
         id value = [(id)model valueForKey:property];
         if ( !value ) return;
-        const char *_ivar = [NSString stringWithFormat:@"_%@", property].UTF8String;
+        char _ivar[property.length + 1]; _ivar[0] = '\0';
+        strcpy(_ivar, [NSString stringWithFormat:@"_%@", property].UTF8String);
         NSString *_tmp = nil;
         if ( [carrier isCorrespondingKeyWithIvar:_ivar key:&_tmp] ) { // 处理相应键
             bool r = sj_value_insert_or_update(database, value, container, cache);
@@ -529,19 +530,20 @@ NSArray<id<SJDBMapUseProtocol>> *sj_value_query(sqlite3 *database, const char *s
         cache = [SJDatabaseMapCache new];
     }
     
-    __block SJDatabaseMapTableCarrier *carrier = nil;
+    __block SJDatabaseMapTableCarrier *carrier = nil; // 当前载体
     if ( !container ) {
-        carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:cls]; // 给 carrier 赋值
+        carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:cls];        // ...
         [carrier parseCorrespondingKeysAddToContainer:(NSMutableArray *)(container = [NSMutableArray array])];
     }
     else {
         if ( [container isKindOfClass:[NSMutableArray class]] ) container = container.copy;
         [container enumerateObjectsUsingBlock:^(__kindof SJDatabaseMapTableCarrier * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ( obj.cls != cls ) return;
-            carrier = obj;
             *stop = YES;
+            carrier = obj;                                                      // ...
         }];
     }
+    
     if ( !carrier ) {
         printf("\n 警告: 载体为空! \n");
         return false;
@@ -557,33 +559,79 @@ NSArray<id<SJDBMapUseProtocol>> *sj_value_query(sqlite3 *database, const char *s
         [resultM addObject:model];
         int column_count = sqlite3_column_count(pstmt);
         for ( int i = 0 ; i < column_count ; ++i ) {
-            const char *c_key = sqlite3_column_name(pstmt, i);
-            NSString *oc_key = [NSString stringWithUTF8String:c_key];
-            if ( [model respondsToSelector:NSSelectorFromString(oc_key)] ) break;
-            int type = sqlite3_column_type(pstmt, i);
             const char *fields = sqlite3_column_name(pstmt, i);
+            NSString *oc_property = [NSString stringWithUTF8String:fields];
+            int type = sqlite3_column_type(pstmt, i);
             switch ( type ) {
                 case SQLITE_INTEGER: {
-                    // 如果是相应键
-                    const char *_ivar = [carrier isCorrespondingKeyWithCorresponding:fields];
-                    if ( _ivar ) {
-                        
-#warning next 查询 待续
-//                        model setValue:<#(nullable id)#> forKey:[NSString ]
-                        break;
-                    }
-                    
                     int value = sqlite3_column_int(pstmt, i);
-                    [model setValue:@(value) forKey:oc_key];
+                    // 如果是相应键
+                    const char *instance_ivar = [carrier isCorrespondingKeyWithCorresponding:fields];
+                    if ( instance_ivar ) {
+                        __block SJDatabaseMapTableCorrespondingCarrier *carrier_cor = nil;
+                        for ( int i = 0 ; i < carrier.correspondingKeys_arr.count ; ++ i ) {
+                            SJDatabaseMapTableCorrespondingCarrier *obj = carrier.correspondingKeys_arr[i];
+                            if ( strcmp(obj.property.UTF8String, &instance_ivar[1]) != 0 ) continue;
+                            carrier_cor = obj;
+                            break;
+                        }
+                        if ( !carrier_cor ) break;
+                        if ( ![model respondsToSelector:NSSelectorFromString(carrier_cor.property)] ) break;
+                        
+                        id<SJDBMapUseProtocol> model_cor = [cache containsObjectWithClass:carrier_cor.cls primaryValue:value];
+                        if ( !model_cor ) {
+                            const char *table_name = sj_table_name(carrier_cor.cls);
+                            const char *sql = [NSString stringWithFormat:@"SELECT *FROM %s WHERE %@=%d;", table_name, carrier_cor.primaryKeyOrAutoincrementPrimaryKey, value].UTF8String;
+                            model_cor = sj_value_query(database, sql, carrier_cor.cls, container, cache).firstObject;
+                            [cache addObject:model_cor];
+                        }
+                        [model setValue:model_cor forKey:carrier_cor.property];
+                    }
+                    else {
+                        if ( ![model respondsToSelector:NSSelectorFromString(oc_property)] ) break;
+                        [model setValue:@(value) forKey:oc_property];
+                    }
                 }
                     break;
                 case SQLITE_TEXT: {
+                    if ( ![model respondsToSelector:NSSelectorFromString(oc_property)] ) break;
                     const unsigned char *value = sqlite3_column_text(pstmt, i);
+                    NSString *value_str = [NSString stringWithUTF8String:(const char *)value];
+                    if ( [carrier isArrCorrespondingKeyWithIvar:[NSString stringWithFormat:@"_%s", fields].UTF8String] ) {
+                        NSData *data = [value_str dataUsingEncoding:NSUTF8StringEncoding];
+                        NSDictionary<NSString *, NSArray<NSNumber *> *> *arrPrimaryValuesDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+                        // 其实这个字典就一个key
+                        [arrPrimaryValuesDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull className, NSArray<NSNumber *> * _Nonnull primaryValues, BOOL * _Nonnull stop) {
+                            Class cls = NSClassFromString(className);
+                            __block SJDatabaseMapTableCorrespondingCarrier *carrier_arr = nil;
+                            [container enumerateObjectsUsingBlock:^(__kindof SJDatabaseMapTableCarrier * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                                if ( obj.cls != cls ) return ;
+                                carrier_arr = obj;
+                            }];
+                            if ( !carrier_arr ) return ;
+                            NSMutableArray<id<SJDBMapUseProtocol>> *modelsM = [NSMutableArray new];
+                            [primaryValues enumerateObjectsUsingBlock:^(NSNumber * _Nonnull primaryValue, NSUInteger idx, BOOL * _Nonnull stop) {
+                                id<SJDBMapUseProtocol> model_arr = [cache containsObjectWithClass:cls primaryValue:[primaryValue integerValue]];
+                                if ( !model_arr ) {
+                                    const char *table_name = sj_table_name(cls);
+                                    const char *sql = [NSString stringWithFormat:@"SELECT *FROM %s WHERE %@=%ld;", table_name, carrier_arr.primaryKeyOrAutoincrementPrimaryKey, [primaryValue integerValue]].UTF8String;
+                                    model_arr = sj_value_query(database, sql, carrier_arr.cls, container, cache).firstObject;
+                                    [cache addObject:model_arr];
+                                }
+                                [modelsM addObject:model_arr];
+                            }];
+                            [model setValue:modelsM forKey:oc_property];
+                        }];
+                    }
+                    else {
+                        [model setValue:value_str forKey:oc_property];
+                    }
                 }
                     break;
                 case SQLITE_FORMAT: {
+                    if ( ![model respondsToSelector:NSSelectorFromString(oc_property)] ) break;
                     double value = sqlite3_column_double(pstmt, i);
-                    [model setValue:@(value) forKey:oc_key];
+                    [model setValue:@(value) forKey:oc_property];
                 }
                     break;
             }
@@ -740,6 +788,7 @@ static void mark(char *sql, void(^block)(void)) {
 
 @implementation SJDatabaseMapTableCarrier {
     NSMutableDictionary <NSString *, NSString *> * __nullable _correspondingKeysMapping; // `ivar` -> `corresponding`
+    char _tmpCorrsponding[100];
 }
 
 - (instancetype)initWithClass:(Class<SJDBMapUseProtocol>)cls {
@@ -770,9 +819,9 @@ static void mark(char *sql, void(^block)(void)) {
         NSDictionary<NSString *,Class<SJDBMapUseProtocol>> *arrayCorrespondingKeys = [cls arrayCorrespondingKeys];
         if ( 0 != arrayCorrespondingKeys.count ) {
             NSMutableArray<SJDatabaseMapTableCorrespondingCarrier *> *arrayCorrespondingKeys_arrM = [NSMutableArray arrayWithCapacity:arrayCorrespondingKeys.count];
-            [arrayCorrespondingKeys enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class<SJDBMapUseProtocol>  _Nonnull cls, BOOL * _Nonnull stop) {
-                NSAssert(cls != self.cls, ([NSString stringWithFormat:@"Error proprty: %@, 此property的class与主类一致, 无法继续操作", key]));
-                SJDatabaseMapTableCorrespondingCarrier *carrier = [[SJDatabaseMapTableCorrespondingCarrier alloc] initWithClass:cls fields:key];
+            [arrayCorrespondingKeys enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull property, Class<SJDBMapUseProtocol>  _Nonnull cls, BOOL * _Nonnull stop) {
+                NSAssert(cls != self.cls, ([NSString stringWithFormat:@"Error proprty: %@, 此property的class与主类一致, 无法继续操作", property]));
+                SJDatabaseMapTableCorrespondingCarrier *carrier = [[SJDatabaseMapTableCorrespondingCarrier alloc] initWithClass:cls property:property];
                 [carrier parseCorrespondingKeysAddToContainer:container];
                 [arrayCorrespondingKeys_arrM addObject:carrier];
             }];
@@ -789,8 +838,8 @@ static void mark(char *sql, void(^block)(void)) {
         if ( !ivar_cls ) return;
         NSAssert(ivar_cls != self.cls, ([NSString stringWithFormat:@"Error proprty: %@, 此property的class与主类一致, 无法继续操作", ivar]));
         if ( ![ivar_cls conformsToProtocol:@protocol(SJDBMapUseProtocol)] ) return;
-        NSString *fields = [ivar substringFromIndex:1];
-        SJDatabaseMapTableCorrespondingCarrier *carrier = [[SJDatabaseMapTableCorrespondingCarrier alloc] initWithClass:ivar_cls fields:fields];
+        NSString *property = [ivar substringFromIndex:1];
+        SJDatabaseMapTableCorrespondingCarrier *carrier = [[SJDatabaseMapTableCorrespondingCarrier alloc] initWithClass:ivar_cls property:property];
         [carrier parseCorrespondingKeysAddToContainer:container];
         [correspondingKeysM addObject:carrier];
         if ( !_correspondingKeysMapping ) _correspondingKeysMapping = [NSMutableDictionary new];
@@ -807,7 +856,7 @@ static void mark(char *sql, void(^block)(void)) {
 - (BOOL)isArrCorrespondingKeyWithIvar:(const char *)ivar {
     __block BOOL isArrCorKey = NO;
     [self.arrayCorrespondingKeys_arr enumerateObjectsUsingBlock:^(SJDatabaseMapTableCorrespondingCarrier * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ( strcmp(&ivar[1], obj.fields.UTF8String) != 0 ) return;
+        if ( strcmp(&ivar[1], obj.property.UTF8String) != 0 ) return;
         isArrCorKey = YES;
         *stop = YES;
     }];
@@ -825,21 +874,21 @@ static void mark(char *sql, void(^block)(void)) {
 }
 
 - (const char *)isCorrespondingKeyWithCorresponding:(const char *)corresponding {
-    __block const char *ivar_tmp = NULL;
+    _tmpCorrsponding[0] = '\0';
     [_correspondingKeysMapping enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull corr, BOOL * _Nonnull stop) {
         if ( strcmp(corr.UTF8String, corresponding) != 0 ) return;
-        ivar_tmp = key.UTF8String;
+        strcpy(_tmpCorrsponding, key.UTF8String);
         *stop = YES;
     }];
-    return ivar_tmp;
+    return _tmpCorrsponding[0] != '\0' ? _tmpCorrsponding : NULL;
 }
 @end
 
 @implementation SJDatabaseMapTableCorrespondingCarrier
-- (instancetype)initWithClass:(Class<SJDBMapUseProtocol>)cls fields:(nonnull NSString *)fields {
+- (instancetype)initWithClass:(Class<SJDBMapUseProtocol>)cls property:(nonnull NSString *)property {
     self = [super initWithClass:cls];
     if ( !self ) return nil;
-    _fields = fields;
+    _property = property;
     return self;
 }
 @end
@@ -867,6 +916,7 @@ static void mark(char *sql, void(^block)(void)) {
 @synthesize modelCacheM = _modelCacheM;
 
 - (void)addObject:(id<SJDBMapUseProtocol>)object {
+    if ( !object ) return;
     NSString *classeName = NSStringFromClass([object class]);
     __block BOOL added = NO;
     [self.modelCacheM enumerateObjectsUsingBlock:^(SJDatabaseMapCacheElement * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -885,6 +935,7 @@ static void mark(char *sql, void(^block)(void)) {
 }
 
 - (BOOL)containsObject:(id<SJDBMapUseProtocol>)anObject {
+    if ( !anObject ) return NO;
     __block BOOL contains = NO;
     NSString *className = NSStringFromClass([anObject class]);
     [self.modelCacheM enumerateObjectsUsingBlock:^(SJDatabaseMapCacheElement * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -893,6 +944,25 @@ static void mark(char *sql, void(^block)(void)) {
         contains = [obj.memeryM containsObject:anObject];
     }];
     return contains;
+}
+
+- (nullable id<SJDBMapUseProtocol>)containsObjectWithClass:(Class<SJDBMapUseProtocol>)cls primaryValue:(NSInteger)primaryValue {
+    if ( !cls ) return nil;
+    __block id<SJDBMapUseProtocol> model = nil;
+    NSString *className = NSStringFromClass(cls);
+    SJDatabaseMapTableCarrier *carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:cls];
+    NSString *primaryKey = carrier.primaryKeyOrAutoincrementPrimaryKey;
+    [self.modelCacheM enumerateObjectsUsingBlock:^(SJDatabaseMapCacheElement * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ( ![obj.className isEqualToString:className] ) return ;
+        *stop = YES;
+        [obj.memeryM enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSInteger value = [[(id)obj valueForKey:primaryKey] integerValue];
+            if ( value != primaryValue ) return ;
+            *stop = YES;
+            model = obj;
+        }];
+    }];
+    return model;
 }
 
 - (NSMutableArray<SJDatabaseMapCacheElement *> *)modelCacheM {

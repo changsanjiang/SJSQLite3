@@ -162,24 +162,25 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-//// MARK: Query
-//
-//
-//@implementation SJDatabaseMapV2 (Query)
-//
-///*!
-// *  查所有记录
-// *  返回和这个类有关的所有数据
-// */
-//- (void)queryAllDataWithClass:(Class)cls completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
-//    
-//}
-//
+// MARK: Query
+
+
+@implementation SJDatabaseMapV2 (Query)
+
+- (void)queryAllDataWithClass:(Class<SJDBMapUseProtocol>)cls  completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
+    __block NSArray<id<SJDBMapUseProtocol>> *models = nil;
+    [self performTasksWithSubThreadTask:^(SJDatabaseMapV2 * _Nonnull mapper) {
+        models = [mapper queryAllDataWithClass:cls];
+    } mainTreadTask:^(SJDatabaseMapV2 * _Nonnull mapper) {
+        if ( block ) block(models);
+    }];
+}
+
 ///*!
 // *  查单条记录
 // */
 //- (void)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue completeCallBlock:(void (^ __nullable)(id<SJDBMapUseProtocol> _Nullable model))block {
-//    
+//
 //}
 //
 ///*!
@@ -197,14 +198,14 @@ NS_ASSUME_NONNULL_BEGIN
 // *      } ==>>>> ... id in (0, 2, 3) and name in ('A', 'B', 'C')
 // */
 //- (void)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
-//    
+//
 //}
 //
 ///*!
 // *  查询指定区间数据
 // */
 //- (void)queryDataWithClass:(Class)cls range:(NSRange)range completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
-//    
+//
 //}
 //
 ///*!
@@ -213,7 +214,7 @@ NS_ASSUME_NONNULL_BEGIN
 // *  如果 property 指定为 nil, 则返回所有存储的记录数量.
 // */
 //- (void)queryQuantityWithClass:(Class)cls property:(NSString * __nullable)property completeCallBlock:(void (^ __nullable)(NSInteger quantity))block {
-//    
+//
 //}
 //
 //
@@ -224,7 +225,7 @@ NS_ASSUME_NONNULL_BEGIN
 // *  dict: @{@"name":@"A", @"tag":@"B"}  Key -> Property, Value -> Part
 // */
 //- (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
-//    
+//
 //}
 //
 //
@@ -236,7 +237,7 @@ NS_ASSUME_NONNULL_BEGIN
 //                      queryDict:(NSDictionary *)dict
 //                          match:(SJDatabaseMapFuzzyMatch)match
 //              completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
-//    
+//
 //}
 //
 ///*!
@@ -254,7 +255,7 @@ NS_ASSUME_NONNULL_BEGIN
 //                          part1:(NSString *)part1
 //                          part2:(NSString *)part2
 //              completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
-//    
+//
 //}
 //
 //
@@ -262,25 +263,25 @@ NS_ASSUME_NONNULL_BEGIN
 // *  根据多个主键查寻
 // **/
 //- (void)queryDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
-//    
+//
 //}
 //
 ///*!
 // *  根据多个值查询
 // **/
 //- (void)queryDataWithClass:(Class)cls property:(NSString *)property values:(NSArray *)values completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
-//    
+//
 //}
-//
-//@end
-//
+
+@end
+
 //@implementation SJDatabaseMapV2 (SortQuery)
 //
 //- (void)sortQueryWithClass:(Class)cls
 //                  property:(NSString *)property
 //                  sortType:(SJDatabaseMapSortType)sortType
 //         completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
-//    
+//
 //}
 //
 //@end

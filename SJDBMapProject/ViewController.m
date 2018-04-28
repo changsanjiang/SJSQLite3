@@ -124,8 +124,9 @@
     
     [[SJDatabaseMapV2 sharedServer] insertOrUpdateDataWithModels:arrM callBlock:^(BOOL result) {
         aBook.name = @"Hello World!";
-        [[SJDatabaseMapV2 sharedServer] update:aBook properties:@[@"name"] callBlock:^(BOOL result) {
-            NSLog(@"更新成功");
+        [[SJDatabaseMapV2 sharedServer] queryAllDataWithClass:[Person class] completeCallBlock:^(NSArray<id<SJDBMapUseProtocol>> * _Nullable data) {
+            printf("查询成功!\n");
+            NSLog(@"%@", [data firstObject]);
         }];
     }];
     
