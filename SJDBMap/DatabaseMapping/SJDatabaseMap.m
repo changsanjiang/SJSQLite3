@@ -280,7 +280,12 @@ NS_ASSUME_NONNULL_BEGIN
                   sortType:(SJDatabaseMapSortType)sortType
                      range:(NSRange)range
          completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
-    
+    __block NSArray<id<SJDBMapUseProtocol>> *models = nil;
+    [self performTasksWithSubThreadTask:^(SJDatabaseMap * _Nonnull mapper) {
+        models = [mapper sortQueryWithClass:cls property:property sortType:sortType range:range];
+    } mainTreadTask:^(SJDatabaseMap * _Nonnull mapper) {
+        if ( block ) block(models);
+    }];
 }
 
 - (void)sortQueryWithClass:(Class)cls
@@ -288,7 +293,12 @@ NS_ASSUME_NONNULL_BEGIN
                  sortField:(NSString *)sortField
                   sortType:(SJDatabaseMapSortType)sortType
          completeCallBlock:(void (^)(NSArray<id<SJDBMapUseProtocol>> * _Nullable))block {
-    
+    __block NSArray<id<SJDBMapUseProtocol>> *models = nil;
+    [self performTasksWithSubThreadTask:^(SJDatabaseMap * _Nonnull mapper) {
+        models = [mapper sortQueryWithClass:cls queryDict:quertyDict sortField:sortField sortType:sortType];
+    } mainTreadTask:^(SJDatabaseMap * _Nonnull mapper) {
+        if ( block ) block(models);
+    }];
 }
 
 @end
