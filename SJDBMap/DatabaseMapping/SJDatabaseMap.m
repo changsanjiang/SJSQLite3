@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)insertOrUpdateDataWithModel:(id<SJDBMapUseProtocol>)model callBlock:(void(^ __nullable)(BOOL result))block {
     if ( !model ) {
-        if ( block ) block(nil);
+        if ( block ) block(NO);
         return;
     }
     [self insertOrUpdateDataWithModels:@[model] callBlock:block];

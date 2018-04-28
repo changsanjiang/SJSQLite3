@@ -18,11 +18,6 @@ s.source_files  = 'SJDBMap/SJDBMap.h'
 
     s.subspec 'DatabaseMapping' do |ss|
         ss.source_files = 'SJDBMap/DatabaseMapping/*.{h,m}'
-        ss.dependency 'SJDBMap/Model'
-    end
-
-    s.subspec 'Model' do |ss|
-        ss.source_files = 'SJDBMap/Model/*.{h,m}'
         ss.dependency 'SJDBMap/Protocol'
     end
 

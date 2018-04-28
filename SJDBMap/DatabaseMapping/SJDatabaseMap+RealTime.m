@@ -142,7 +142,7 @@
     NSMutableArray<SJDatabaseMapTableCarrier *> *container = [NSMutableArray new];
     [carrier parseCorrespondingKeysAddToContainer:container];
     const char *table_name = sj_table_name(cls);
-    NSString *sql_str = [NSString stringWithFormat:@"SELECT *FROM %s WHERE %@=%ld;", table_name, carrier.primaryKeyOrAutoincrementPrimaryKey, primaryValue];
+    NSString *sql_str = [NSString stringWithFormat:@"SELECT *FROM %s WHERE %@=%ld;", table_name, carrier.primaryKeyOrAutoincrementPrimaryKey, (long)primaryValue];
     return sj_value_query(self.database, sql_str.UTF8String, cls, container, nil).firstObject;
 }
 
@@ -176,7 +176,7 @@
 - (NSArray<id<SJDBMapUseProtocol>> * __nullable)queryDataWithClass:(Class)cls range:(NSRange)range {
     const char *table_name = sj_table_name(cls);
     NSMutableString *sql_str = [NSMutableString new];
-    [sql_str appendFormat:@"SELECT * FROM %s LIMIT %zd, %zd;", table_name, range.location, range.length];
+    [sql_str appendFormat:@"SELECT * FROM %s LIMIT %ld, %ld;", table_name, (long)range.location, (long)range.length];
     return sj_value_query(self.database, sql_str.UTF8String, cls, nil, nil);
 }
 
@@ -245,7 +245,7 @@
     NSMutableString *sql_str = [NSMutableString new];
     [sql_str appendFormat:@"SELECT *FROM %s WHERE %@ IN (", table_name, carrier.primaryKeyOrAutoincrementPrimaryKey];
     [primaryValues enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [sql_str appendFormat:@"%zd,", [obj integerValue]];
+        [sql_str appendFormat:@"%ld,", (long)[obj integerValue]];
     }];
     if ( [sql_str hasSuffix:@","] ) [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 1, 1)];
     [sql_str appendFormat:@");"];
@@ -293,7 +293,7 @@
         }
             break;
     }
-    [sql_str appendFormat:@"SELECT *FROM %s ORDER BY \"%@\" %@ LIMIT %zd, %zd;", table_name, property, sort, range.location, range.length];
+    [sql_str appendFormat:@"SELECT *FROM %s ORDER BY \"%@\" %@ LIMIT %ld, %ld;", table_name, property, sort, (long)range.location, (long)range.length];
     return sj_value_query(self.database, sql_str.UTF8String, cls, nil, nil);
 }
 - (NSArray<id<SJDBMapUseProtocol>> * _Nullable)sortQueryWithClass:(Class)cls queryDict:(NSDictionary *)quertyDict sortField:(NSString *)sortField sortType:(SJDatabaseMapSortType)sortType {

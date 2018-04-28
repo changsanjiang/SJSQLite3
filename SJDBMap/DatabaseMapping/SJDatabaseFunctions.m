@@ -9,7 +9,7 @@
 #import "SJDatabaseFunctions.h"
 #import <objc/message.h>
 
-#define DEBUG_CONDITION (1)
+#define DEBUG_CONDITION (0)
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -618,7 +618,7 @@ NSArray<id<SJDBMapUseProtocol>> *sj_value_query(sqlite3 *database, const char *s
                                 id<SJDBMapUseProtocol> model_arr = [cache containsObjectWithClass:cls primaryValue:[primaryValue integerValue]];
                                 if ( !model_arr ) {
                                     const char *table_name = sj_table_name(cls);
-                                    const char *sql = [NSString stringWithFormat:@"SELECT *FROM %s WHERE %@=%ld;", table_name, carrier_arr.primaryKeyOrAutoincrementPrimaryKey, [primaryValue integerValue]].UTF8String;
+                                    const char *sql = [NSString stringWithFormat:@"SELECT *FROM %s WHERE %@=%ld;", table_name, carrier_arr.primaryKeyOrAutoincrementPrimaryKey, (long)[primaryValue integerValue]].UTF8String;
                                     model_arr = sj_value_query(database, sql, carrier_arr.cls, container, cache).firstObject;
                                     [cache addObject:model_arr];
                                 }
@@ -846,8 +846,8 @@ static void mark(char *sql, void(^block)(void)) {
         SJDatabaseMapTableCorrespondingCarrier *carrier = [[SJDatabaseMapTableCorrespondingCarrier alloc] initWithClass:ivar_cls property:property];
         [carrier parseCorrespondingKeysAddToContainer:container];
         [correspondingKeysM addObject:carrier];
-        if ( !_correspondingKeysMapping ) _correspondingKeysMapping = [NSMutableDictionary new];
-        _correspondingKeysMapping[ivar] = carrier.primaryKeyOrAutoincrementPrimaryKey;
+        if ( !self->_correspondingKeysMapping ) self->_correspondingKeysMapping = [NSMutableDictionary new];
+        self->_correspondingKeysMapping[ivar] = carrier.primaryKeyOrAutoincrementPrimaryKey;
     }];
     if ( correspondingKeysM.count != 0 ) _correspondingKeys_arr = correspondingKeysM.copy;
 }
@@ -881,7 +881,7 @@ static void mark(char *sql, void(^block)(void)) {
     _tmpCorrsponding[0] = '\0';
     [_correspondingKeysMapping enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull corr, BOOL * _Nonnull stop) {
         if ( strcmp(corr.UTF8String, corresponding) != 0 ) return;
-        strcpy(_tmpCorrsponding, key.UTF8String);
+        strcpy(self->_tmpCorrsponding, key.UTF8String);
         *stop = YES;
     }];
     return _tmpCorrsponding[0] != '\0' ? _tmpCorrsponding : NULL;
