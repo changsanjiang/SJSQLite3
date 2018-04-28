@@ -68,7 +68,6 @@ bool sj_sql_exe(sqlite3 *database, const char *sql) {
     char *error = NULL;
     bool r = (SQLITE_OK == sqlite3_exec(database, sql_str, NULL, NULL, &error));
     if ( error != NULL ) { printf("\nError ==> \n SQL  : %s\n Error: %s\n", sql_str, error); sqlite3_free(error);}
-    printf("\n:: %s\n", sql_str);
     return r;
 }
 extern NSArray<id> *__nullable sj_sql_query(sqlite3 *database, const char *sql, Class __nullable cls) {
