@@ -14,8 +14,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-static void mark(char *sql, void(^)(void)); // ''
-
 #pragma mark -
 
 #pragma mark database
@@ -65,14 +63,19 @@ void sj_transaction_commit(sqlite3 *database) {
 static NSArray <id> *__nullable static_sj_sql_data(sqlite3_stmt *stmt, Class __nullable cls);
 
 bool sj_sql_exe(sqlite3 *database, const char *sql) {
+    char sql_str[strlen(sql) + 1];
+    strcpy(sql_str, sql);
     char *error = NULL;
-    bool r = (SQLITE_OK == sqlite3_exec(database, sql, NULL, NULL, &error));
-    if ( error != NULL ) { printf("\nError ==> \n SQL  : %s\n Error: %s\n", sql, error); sqlite3_free(error);}
+    bool r = (SQLITE_OK == sqlite3_exec(database, sql_str, NULL, NULL, &error));
+    if ( error != NULL ) { printf("\nError ==> \n SQL  : %s\n Error: %s\n", sql_str, error); sqlite3_free(error);}
+    printf("\n:: %s\n", sql_str);
     return r;
 }
 extern NSArray<id> *__nullable sj_sql_query(sqlite3 *database, const char *sql, Class __nullable cls) {
-    sqlite3_stmt *pstmt;
-    bool result = (SQLITE_OK == sqlite3_prepare_v2(database, sql, -1, &pstmt, NULL));
+    char sql_str[strlen(sql) + 1];
+    strcpy(sql_str, sql);
+    sqlite3_stmt *pstmt = NULL;
+    bool result = (SQLITE_OK == sqlite3_prepare_v2(database, sql_str, -1, &pstmt, NULL));
     NSArray <NSDictionary *> *dataArr = nil;
     if (result) dataArr = static_sj_sql_data(pstmt, cls);
     sqlite3_finalize(pstmt);
@@ -84,15 +87,11 @@ const char *sj_table_name(Class cls) {
     return class_getName(cls);
 }
 bool sj_table_create(sqlite3 *database, SJDatabaseMapTableCarrier * carrier) {
-    char *sql = malloc(sizeof(char) * 1024); sql[0] = '\0';
-
     const char *table_name = sj_table_name(carrier.cls);
-    strcat(sql, "CREATE TABLE IF NOT EXISTS ");
-    strcat(sql, table_name);
-    strcat(sql, " (");
-  
-    NSArray<NSString *> *ivarList = sj_ivar_list(carrier.cls);
+    NSMutableString *sql_strM = [NSMutableString string];
+    [sql_strM appendFormat:@"CREATE TABLE IF NOT EXISTS %s (", table_name];
     
+    NSArray<NSString *> *ivarList = sj_ivar_list(carrier.cls);
     __block BOOL primaryAdded = NO;
     NSString *primayKeyOrAutoKey = carrier.primaryKeyOrAutoincrementPrimaryKey;
     [ivarList enumerateObjectsUsingBlock:^(NSString * _Nonnull ivar, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -100,12 +99,10 @@ bool sj_table_create(sqlite3 *database, SJDatabaseMapTableCarrier * carrier) {
         if ( !primaryAdded ) {
             if ( strcmp(&ivar.UTF8String[1], primayKeyOrAutoKey.UTF8String) == 0 ) {
                 if ( carrier.isUsingPrimaryKey ) {
-                    mark(sql, ^{ strcat(sql, carrier.primaryKey.UTF8String);});
-                    strcat(sql, "INTEGER PRIMARY KEY,");
+                    [sql_strM appendFormat:@"'%@' INTEGER PRIMARY KEY,", carrier.primaryKey];
                 }
                 else {
-                    mark(sql, ^{ strcat(sql, carrier.autoincrementPrimaryKey.UTF8String);});
-                    strcat(sql, "INTEGER PRIMARY KEY AUTOINCREMENT,");
+                    [sql_strM appendFormat:@"'%@' INTEGER PRIMARY KEY AUTOINCREMENT,", carrier.autoincrementPrimaryKey];
                 }
                 primaryAdded = YES;
                 return ;
@@ -118,9 +115,7 @@ bool sj_table_create(sqlite3 *database, SJDatabaseMapTableCarrier * carrier) {
             NSString *correspondingKey = nil;
             BOOL isCoorespondingKey = [carrier isCorrespondingKeyWithIvar:ivar.UTF8String key:&correspondingKey];
             if ( isCoorespondingKey ) {
-                mark(sql, ^{ strcat(sql, correspondingKey.UTF8String);});
-                strcat(sql, "INTEGER");
-                strcat(sql, ",");
+                [sql_strM appendFormat:@"'%@' INTEGER,", correspondingKey];
                 return;
             }
             printf("\nPrompt: 表: %s 字段: %s, 暂不支持存储.\n", sj_table_name(carrier.cls), ivar.UTF8String);
@@ -128,24 +123,20 @@ bool sj_table_create(sqlite3 *database, SJDatabaseMapTableCarrier * carrier) {
         }
         
         // 其他键
-        mark(sql, ^{ strcat(sql, &ivar.UTF8String[1]);});
-        strcat(sql, sql_type);
-        strcat(sql, ",");
+        [sql_strM appendFormat:@"'%s' %s,", &ivar.UTF8String[1], sql_type];
     }];
     
-    sql[strlen(sql) - 1] = '\0'; // 移除 最后一个逗号
-    strcat(sql, ");"); // 结束
+    [sql_strM deleteCharactersInRange:NSMakeRange(sql_strM.length - 1, 1)]; // 移除 最后一个逗号
+    [sql_strM appendString:@");"]; // 结束
 
-    bool result = sj_sql_exe(database, sql);
-
-    if ( sql ) free(sql);
+    bool result = sj_sql_exe(database, sql_strM.UTF8String);
     
 #if DEBUG_CONDITION
     if ( result ) {
-        printf("\n创建成功: %s \nSQL: %s\n", table_name, sql);
+        printf("\n创建成功: %s \nSQL: %s\n", table_name, sql_strM.UTF8String);
     }
     else {
-        printf("\n创建失败: %s \nSQL: %s\n", table_name, sql);
+        printf("\n创建失败: %s \nSQL: %s\n", table_name, sql_strM.UTF8String);
     }
 #endif
     
@@ -276,14 +267,12 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
     }
     
     __block bool result = false;
-    
-    char *sql = malloc(500); sql[0] = '\0';
-    strcat(sql, "INSERT OR REPLACE INTO");
-    mark(sql, ^{ strcat(sql, table_name);});
-    strcat(sql, " (");
 
-    char *sql_values = malloc(500); sql_values[0] = '\0';
-    strcat(sql_values, "VALUES(");
+    NSMutableString *sql_strM = [NSMutableString string];
+    [sql_strM appendFormat:@"INSERT OR REPLACE INTO '%s' (", table_name];
+    
+    NSMutableString *sql_valuesM = [NSMutableString string];
+    [sql_valuesM appendFormat:@"VALUES("];
     
     NSArray<NSString *> *table_fields_list = sj_table_fields(database, table_name);
     __block BOOL _primaryKeyAdded = NO; // 主键是否已添加到 sql_values 中
@@ -317,10 +306,9 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
             }
             
             long long _primarty_key_value = [[value valueForKey:field] integerValue];
-            mark(sql, ^{ strcat(sql, field.UTF8String);}); // 'fields'
-            mark(sql_values, ^{ strcat(sql_values, [NSString stringWithFormat:@"%lld", _primarty_key_value].UTF8String);}); // 'value'
-            strcat(sql, ",");
-            strcat(sql_values, ",");
+
+            [sql_strM appendFormat:@"'%@',", field];
+            [sql_valuesM appendFormat:@"'%lld',", _primarty_key_value];
         }
         
         if ( ![model respondsToSelector:NSSelectorFromString(field)] ) { return;} // 过滤无法响应的字段
@@ -363,65 +351,48 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
                 return;
             }
             
-            mark(sql, ^{ strcat(sql, field.UTF8String);}); // 'fields'
-            
             NSData *data = [NSJSONSerialization dataWithJSONObject:@{NSStringFromClass(_arr_e_cls) : corkey_primary_key_idsM} options:0 error:nil];
-            mark(sql_values, ^{ strcat(sql_values, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding].UTF8String);}); // 'value'
+            [sql_strM appendFormat:@"'%@',", field];
+            [sql_valuesM appendFormat:@"'%@',", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]; // 'value'
+
         }
         else if ( !_primaryKeyAdded && strcmp(field.UTF8String, carrier.primaryKeyOrAutoincrementPrimaryKey.UTF8String) == 0 ) { // 处理主键
             if ( !carrier.isUsingPrimaryKey ) {
                 if ( [value integerValue] == 0 ) value = nil; // 置为nil, 使其自增
             }
-            mark(sql, ^{ strcat(sql, field.UTF8String);});
-            strcat(sql_values, [NSString stringWithFormat:@"%@", value].UTF8String);
+            [sql_strM appendFormat:@"'%@',", field];
+            [sql_valuesM appendFormat:@"%@,", value]; // 'value'
             _primaryKeyAdded = YES;
         }
         else {  // 处理 普通键
             value = sj_value_filter(value); // 过滤一下
-            mark(sql, ^{ strcat(sql, field.UTF8String);});
-            mark(sql_values, ^{ strcat(sql_values, [NSString stringWithFormat:@"%@", value].UTF8String);});
+            [sql_strM appendFormat:@"'%@',", field];
+            [sql_valuesM appendFormat:@"'%@',", value]; // 'value'
         }
         
-        strcat(sql, ",");
-        strcat(sql_values, ",");
         result = YES;
     }];
     
     if ( !result ) {
-        free(sql_values);
-        free(sql);
         return false;
     }
     
-    sql[strlen(sql) - 1] = '\0';
-    sql_values[strlen(sql_values) - 1] = '\0';
+    [sql_strM deleteCharactersInRange:NSMakeRange(sql_strM.length - 1, 1)];
+    [sql_valuesM deleteCharactersInRange:NSMakeRange(sql_valuesM.length - 1, 1)];
+    [sql_strM appendFormat:@") %@);", sql_valuesM];
     
-    strcat(sql, ") ");
-    strcat(sql_values, ");");
-    strcat(sql, sql_values);
-
-    sj_sql_exe(database, sql);
+    sj_sql_exe(database, sql_strM.UTF8String);
     
-    printf("\n --- %s \n ", sql);
-    
-    free(sql_values);
-    free(sql);
+    printf("\n --- %s \n ", sql_strM.UTF8String);
     return result;
 }
 long long sj_value_last_id(sqlite3 *database, Class<SJDBMapUseProtocol> cls, SJDatabaseMapTableCarrier *__nullable carrier) {
     if ( !carrier ) carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:cls];
     long long last_id = -1;
     const char *table_name = sj_table_name(cls);
-    char *sql = malloc(100); sql[0] = '\0';
-    strcat(sql, "SELECT ");
-    strcat(sql, carrier.primaryKeyOrAutoincrementPrimaryKey.UTF8String);
-    strcat(sql, " FROM ");
-    strcat(sql, table_name);
-    strcat(sql, " ORDER BY ");
-    strcat(sql, carrier.primaryKeyOrAutoincrementPrimaryKey.UTF8String);
-    strcat(sql, " desc limit 1;");
-    NSDictionary *result = sj_sql_query(database, sql, nil).firstObject;
-    free(sql);
+    NSMutableString *sql_str = [NSMutableString string];
+    [sql_str appendFormat:@"SELECT %@ FROM %s ORDER BY %@ desc limit 1;", carrier.primaryKeyOrAutoincrementPrimaryKey, table_name, carrier.primaryKeyOrAutoincrementPrimaryKey];
+    NSDictionary *result = sj_sql_query(database, sql_str.UTF8String, nil).firstObject;
     if ( !result || 0 == result.count ) return last_id;
     last_id = [result[carrier.primaryKeyOrAutoincrementPrimaryKey] longLongValue];
     return last_id;
@@ -780,12 +751,6 @@ Class sj_ivar_class(Class cls, const char *ivar) {
     }
     cls_str[index] = '\0';
     return objc_getClass(cls_str);
-}
-
-static void mark(char *sql, void(^block)(void)) {
-    strcat(sql, " '");
-    block();
-    strcat(sql, "' ");
 }
 
 #pragma mark -
