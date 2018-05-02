@@ -59,11 +59,11 @@
     __block BOOL result = [self _autoCreateOrUpdateClassesWithModels:models];
     if ( !result ) return NO;
     
-    NSMutableDictionary<Class, NSArray<SJDatabaseMapTableCarrier *> *> *classes = nil;
+    NSMutableDictionary<NSString *, NSArray<SJDatabaseMapTableCarrier *> *> *classes = [NSMutableDictionary new];
     [models enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSArray<SJDatabaseMapTableCarrier *> *contaienr = classes[[obj class]];
+        NSArray<SJDatabaseMapTableCarrier *> *contaienr = classes[NSStringFromClass([obj class])];
         if ( !contaienr ) {
-            contaienr = [NSMutableArray array];
+            classes[NSStringFromClass([obj class])] = contaienr = [NSMutableArray array];
             [[[SJDatabaseMapTableCarrier alloc] initWithClass:[obj class]] parseCorrespondingKeysAddToContainer:(NSMutableArray *)contaienr];
         }
     }];
@@ -71,7 +71,7 @@
     sj_transaction(self.database, ^{
         SJDatabaseMapCache *cache = [SJDatabaseMapCache new];
         [models enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            result = sj_value_insert_or_update(self.database, obj, classes[[obj class]], cache);
+            result = sj_value_insert_or_update(self.database, obj, classes[NSStringFromClass([obj class])], cache);
             if ( !result ) {
                 *stop = YES;
             }

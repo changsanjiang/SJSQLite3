@@ -183,15 +183,8 @@ bool sj_table_update(sqlite3 *database, SJDatabaseMapTableCarrier * carrier) {
     return result;
 }
 bool sj_table_exists(sqlite3 *database, const char *table_name) {
-    char *prefix = "SELECT count(*) FROM sqlite_master WHERE type='table' and name=";
-    char *sql = malloc(1 + strlen(prefix) + strlen(table_name) + 3); // [1 -> \0] [3 -> NULL;]
-    if ( !sql ) return false;
-    strcat(sql, prefix);
-    strcat(sql, "'");
-    strcat(sql, table_name);
-    strcat(sql, "';");
-    bool result = [[sj_sql_query(database, sql, nil) firstObject][@"count(*)"] boolValue];
-    free(sql);
+    NSString *sql_str = [NSString stringWithFormat:@"SELECT count(*) FROM sqlite_master WHERE type='table' and name='%s';", table_name];
+    bool result = [[sj_sql_query(database, sql_str.UTF8String, nil) firstObject][@"count(*)"] boolValue];
     return result;
 }
 NSArray<NSString *> *__nullable sj_table_fields(sqlite3 *database, const char *table_name) {
@@ -264,8 +257,6 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
 #endif
         return false;
     }
-    
-    __block bool result = false;
 
     NSMutableString *sql_strM = [NSMutableString string];
     [sql_strM appendFormat:@"INSERT OR REPLACE INTO '%s' (", table_name];
@@ -277,9 +268,12 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
     __block BOOL _primaryKeyAdded = NO; // 主键是否已添加到 sql_values 中
     __block const char *_ivar = NULL; // corresponding 对应的 ivar
     
+    
+    __block bool result = true;
     [table_fields_list enumerateObjectsUsingBlock:^(NSString * _Nonnull field, NSUInteger idx, BOOL * _Nonnull stop) {
         id value = nil;
 
+        BOOL r = NO;
         if ( (_ivar = [carrier isCorrespondingKeyWithCorresponding:field.UTF8String]) != NULL ) { // 处理 相应键
             value = [(id)model valueForKey:[NSString stringWithUTF8String:_ivar]];
             __block SJDatabaseMapTableCarrier *carrier_cor = nil;
@@ -290,9 +284,10 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
             }];
             if ( !carrier_cor ) return;
             
-            result = sj_value_insert_or_update(database, value, container, cache); // 插入或更新
-            if ( !result ) {
+            r = sj_value_insert_or_update(database, value, container, cache); // 插入或更新
+            if ( !r ) {
                 *stop = YES;
+                result = r;
                 return;
             }
             
@@ -312,7 +307,6 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
         
         if ( ![model respondsToSelector:NSSelectorFromString(field)] ) { return;} // 过滤无法响应的字段
         
-        result = false;
         value = [(id)model valueForKey:field];
         // 处理 数组相应键
         if ( [value isKindOfClass:[NSArray class]] ) {
@@ -329,10 +323,12 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
             if ( !carrier_arr ) return;
             NSMutableArray<NSNumber *> *corkey_primary_key_idsM = [NSMutableArray new]; // 数组内元素的id
             [(NSArray *)value enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                result = sj_value_insert_or_update(database, obj, container, cache); // 插入或更新数据库
-                if ( !result ) {
-                    return;
+                BOOL r = NO;
+                r = sj_value_insert_or_update(database, obj, container, cache); // 插入或更新数据库
+                if ( !r ) {
                     *stop = YES;
+                    result = r;
+                    return;
                 }
                 
                 if ( !carrier_arr.isUsingPrimaryKey ) {
@@ -368,8 +364,6 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
             [sql_strM appendFormat:@"'%@',", field];
             [sql_valuesM appendFormat:@"'%@',", value]; // 'value'
         }
-        
-        result = YES;
     }];
     
     if ( !result ) {
