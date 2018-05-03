@@ -565,6 +565,7 @@ NSArray<id<SJDBMapUseProtocol>> *sj_value_query(sqlite3 *database, const char *s
                     if ( ![model respondsToSelector:NSSelectorFromString(oc_property)] ) break;
                     const unsigned char *value = sqlite3_column_text(pstmt, i);
                     NSString *value_str = [NSString stringWithUTF8String:(const char *)value];
+                    if ( value_str.length == 0 ) break;
                     if ( [carrier isArrCorrespondingKeyWithIvar:[NSString stringWithFormat:@"_%s", fields].UTF8String] ) {
                         NSData *data = [value_str dataUsingEncoding:NSUTF8StringEncoding];
                         NSDictionary<NSString *, NSArray<NSNumber *> *> *arrPrimaryValuesDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
