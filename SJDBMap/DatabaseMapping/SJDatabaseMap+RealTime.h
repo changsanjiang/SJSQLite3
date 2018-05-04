@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)insertOrUpdateDataWithModels:(NSArray<id<SJDBMapUseProtocol>> *)models;
 /// 提供需要更新的字段, 提高执行效率
 - (BOOL)update:(id<SJDBMapUseProtocol>)model properties:(NSArray<NSString *> *)properties;
+- (BOOL)updates:(NSArray<id<SJDBMapUseProtocol>> *)models properties:(NSArray<NSString *> *)properties;
 
 #pragma mark delete
 /// 根据主键删除
@@ -36,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)deleteDataWithClass:(Class)cls;
 
 #pragma mark query
+- (nullable NSArray<id<SJDBMapUseProtocol>> *)queryWithSqlStr:(NSString *)sql class:(Class<SJDBMapUseProtocol>)cls;
 - (nullable NSArray<id<SJDBMapUseProtocol>> *)queryAllDataWithClass:(Class<SJDBMapUseProtocol>)cls;
 - (nullable id<SJDBMapUseProtocol>)queryDataWithClass:(Class)cls primaryValue:(NSInteger)primaryValue;
 - (NSArray<id<SJDBMapUseProtocol>> * __nullable)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict;

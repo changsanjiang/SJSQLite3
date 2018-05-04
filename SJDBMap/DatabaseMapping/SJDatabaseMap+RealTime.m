@@ -82,16 +82,26 @@
 
 - (BOOL)update:(id<SJDBMapUseProtocol>)model properties:(NSArray<NSString *> *)properties {
     if ( !model ) return NO;
+    return [self updates:@[model] properties:properties];
+}
+
+- (BOOL)updates:(NSArray<id<SJDBMapUseProtocol>> *)models properties:(NSArray<NSString *> *)properties {
+    if ( models.count == 0 ) return NO;
+    if ( properties.count == 0 ) return NO;
     NSMutableArray<SJDatabaseMapTableCarrier *> *container = [NSMutableArray array];
-    SJDatabaseMapTableCarrier *carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:[model class]];
+    SJDatabaseMapTableCarrier *carrier = [[SJDatabaseMapTableCarrier alloc] initWithClass:[[models firstObject] class]];
     [carrier parseCorrespondingKeysAddToContainer:container];
-    __block BOOL result = NO;
+    SJDatabaseMapCache *cache = [SJDatabaseMapCache new];
+    __block BOOL result = YES;
     sj_transaction(self.database, ^{
-        result = sj_value_update(self.database, model, properties, container, [SJDatabaseMapCache new]);
+        [models enumerateObjectsUsingBlock:^(id<SJDBMapUseProtocol>  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ( sj_value_update(self.database, obj, properties, container, cache) ) return ;
+            result = NO;
+            *stop = YES;
+        }];
     });
     return result;
 }
-
 #pragma mark -
 
 - (BOOL)deleteDataWithClass:(Class)cls primaryValues:(NSArray<NSNumber *> *)primaryValues {
@@ -130,6 +140,10 @@
 }
 
 #pragma mark -
+- (nullable NSArray<id<SJDBMapUseProtocol>> *)queryWithSqlStr:(NSString *)sql class:(Class<SJDBMapUseProtocol>)cls {
+    return sj_value_query(self.database, sql.UTF8String, cls, nil, nil);
+}
+
 - (nullable NSArray<id<SJDBMapUseProtocol>> *)queryAllDataWithClass:(Class<SJDBMapUseProtocol>)cls {
     if ( !cls ) return nil;
     NSString *sql_str = [NSString stringWithFormat:@"SELECT *FROM %s;", sj_table_name(cls)];

@@ -122,6 +122,14 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+- (void)updates:(NSArray<id<SJDBMapUseProtocol>> *)models properties:(NSArray<NSString *> *)properties callBlock:(void (^ __nullable)(BOOL result))block {
+    __block BOOL result = NO;
+    [self performTasksWithSubThreadTask:^(SJDatabaseMap * _Nonnull mapper) {
+        result = [mapper updates:models properties:properties];
+    } mainTreadTask:^(SJDatabaseMap * _Nonnull mapper) {
+        if ( block ) block(result);
+    }];
+}
 @end
 
 // MARK: Delete
@@ -166,6 +174,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @implementation SJDatabaseMap (Query)
+
+- (void)queryWithSqlStr:(NSString *)sql class:(Class<SJDBMapUseProtocol>)cls completeCallBlock:(void(^)(NSArray<id<SJDBMapUseProtocol>> *__nullable data))block {
+    __block NSArray<id<SJDBMapUseProtocol>> *models = nil;
+    [self performTasksWithSubThreadTask:^(SJDatabaseMap * _Nonnull mapper) {
+        models = [mapper queryWithSqlStr:sql class:cls];
+    } mainTreadTask:^(SJDatabaseMap * _Nonnull mapper) {
+        if ( block ) block(models);
+    }];
+}
 
 - (void)queryAllDataWithClass:(Class<SJDBMapUseProtocol>)cls  completeCallBlock:(void(^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
     __block NSArray<id<SJDBMapUseProtocol>> *models = nil;

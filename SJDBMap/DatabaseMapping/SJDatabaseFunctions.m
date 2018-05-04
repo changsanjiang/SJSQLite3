@@ -9,7 +9,7 @@
 #import "SJDatabaseFunctions.h"
 #import <objc/message.h>
 
-#define DEBUG_CONDITION (0)
+#define DEBUG_CONDITION (1)
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -52,32 +52,42 @@ void sj_transaction(sqlite3 *database, void(^sync_task)(void)) {
 }
 void sj_transaction_begin(sqlite3 *database) {
     sqlite3_exec(database, "begin", 0, 0, 0);
+#if DEBUG_CONDITION
     printf("\n开启事物!\n");
+#endif
 }
 void sj_transaction_commit(sqlite3 *database) {
     sqlite3_exec(database, "commit", 0, 0, 0);
+#if DEBUG_CONDITION
     printf("\n提交事物!\n");
+#endif
 }
 
 #pragma mark sql
 static NSArray <id> *__nullable static_sj_sql_data(sqlite3_stmt *stmt, Class __nullable cls);
 
 bool sj_sql_exe(sqlite3 *database, const char *sql) {
-    char sql_str[strlen(sql) + 1];
+    char sql_str[(strlen(sql) + 1) * sizeof(char)];
     strcpy(sql_str, sql);
     char *error = NULL;
     bool r = (SQLITE_OK == sqlite3_exec(database, sql_str, NULL, NULL, &error));
     if ( error != NULL ) { printf("\nError ==> \n SQL  : %s\n Error: %s\n", sql_str, error); sqlite3_free(error);}
+#if DEBUG_CONDITION
+    printf("\n Exe: %s\n", sql_str);
+#endif
     return r;
 }
 extern NSArray<id> *__nullable sj_sql_query(sqlite3 *database, const char *sql, Class __nullable cls) {
-    char sql_str[strlen(sql) + 1];
+    char sql_str[(strlen(sql) + 1) * sizeof(char)];
     strcpy(sql_str, sql);
     sqlite3_stmt *pstmt = NULL;
     bool result = (SQLITE_OK == sqlite3_prepare_v2(database, sql_str, -1, &pstmt, NULL));
     NSArray <NSDictionary *> *dataArr = nil;
     if (result) dataArr = static_sj_sql_data(pstmt, cls);
     sqlite3_finalize(pstmt);
+#if DEBUG_CONDITION
+    printf("\n Query: %s \n", sql_str);
+#endif
     return dataArr;
 }
 
@@ -138,7 +148,6 @@ bool sj_table_create(sqlite3 *database, SJDatabaseMapTableCarrier * carrier) {
         printf("\n创建失败: %s \nSQL: %s\n", table_name, sql_strM.UTF8String);
     }
 #endif
-    
     return result;
 }
 bool sj_table_update(sqlite3 *database, SJDatabaseMapTableCarrier * carrier) {
@@ -330,14 +339,7 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
                     result = r;
                     return;
                 }
-                
-                if ( !carrier_arr.isUsingPrimaryKey ) {
-                    long long autoId = [[obj valueForKey:carrier_arr.autoincrementPrimaryKey] integerValue];
-                    if ( autoId == 0 ) { // 如果是自增主键, 防止重新插入, 在这里将其自增主键赋值
-                        autoId = sj_value_last_id(database, _arr_e_cls, carrier_arr);
-                        [obj setValue:@(autoId) forKey:carrier_arr.autoincrementPrimaryKey];
-                    }
-                }
+
                 [corkey_primary_key_idsM addObject:[obj valueForKey:carrier_arr.primaryKeyOrAutoincrementPrimaryKey]];
             }];
             
@@ -375,8 +377,15 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
     [sql_strM appendFormat:@") %@);", sql_valuesM];
     
     sj_sql_exe(database, sql_strM.UTF8String);
-    
-    printf("\n --- %s \n ", sql_strM.UTF8String);
+
+    // 如果是自增主键, 防止重新插入, 在这里将其自增主键赋值
+    if ( !carrier.isUsingPrimaryKey ) {
+        long long autoId = [[(id)model valueForKey:carrier.autoincrementPrimaryKey] integerValue];
+        if ( autoId == 0 ) {
+            autoId = sj_value_last_id(database, [model class], carrier);
+            [(id)model setValue:@(autoId) forKey:carrier.autoincrementPrimaryKey];
+        }
+    }
     return result;
 }
 long long sj_value_last_id(sqlite3 *database, Class<SJDBMapUseProtocol> cls, SJDatabaseMapTableCarrier *__nullable carrier) {

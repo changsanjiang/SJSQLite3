@@ -67,7 +67,13 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  property:@[@"name", @"age"] // 需要更新的属性
  */
-- (void)update:(id<SJDBMapUseProtocol>)model properties:(NSArray<NSString *> *)properties callBlock:(void (^ __nullable)(BOOL result))block;
+- (void)update:(id<SJDBMapUseProtocol>)model
+    properties:(NSArray<NSString *> *)properties
+     callBlock:(void (^ __nullable)(BOOL result))block;
+
+- (void)updates:(NSArray<id<SJDBMapUseProtocol>> *)models
+     properties:(NSArray<NSString *> *)properties
+      callBlock:(void (^ __nullable)(BOOL result))block;
 @end
 
 
@@ -113,6 +119,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 @interface SJDatabaseMap (Query)
+
+- (void)queryWithSqlStr:(NSString *)sql class:(Class<SJDBMapUseProtocol>)cls completeCallBlock:(void(^)(NSArray<id<SJDBMapUseProtocol>> *__nullable data))block;
 
 /*!
  *  查所有记录
