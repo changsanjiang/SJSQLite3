@@ -159,6 +159,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)queryQuantityWithClass:(Class)cls completeCallBlock:(void (^ __nullable)(NSInteger quantity))block;
 
+/*!
+ *  查记录的数量
+ *
+ *  dict:
+ *     @{
+ *          @"name": @"A",
+ *          @"tag": @"B"
+ *      }
+ *  or
+ *     @{
+ *          @"id" : @[@(0), @(2), @(3)],
+ *          @"name":@[@"A", @"B", @"C"]
+ *      } ==>>>> ... id in (0, 2, 3) and name in ('A', 'B', 'C')
+ */
+- (void)queryQuantityWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSInteger quantity))block;
 
 /*!
  *  模糊查询

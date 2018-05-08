@@ -199,6 +199,48 @@
     NSString *sql_str = [NSString stringWithFormat:@"SELECT count(*) FROM %s;", sj_table_name(cls)];
     return [sj_sql_query(self.database, sql_str.UTF8String, nil).firstObject[@"count(*)"] integerValue];
 }
+/*!
+ *  查询
+ *
+ *  dict:
+ *     @{
+ *          @"name": @"A",
+ *          @"tag": @"B"
+ *      }
+ *  or
+ *     @{
+ *          @"id" : @[@(0), @(2), @(3)],
+ *          @"name":@[@"A", @"B", @"C"]
+ *      } ==>>>> ... id in (0, 2, 3) and name in ('A', 'B', 'C')
+ */
+- (NSInteger)queryQuantityWithClass:(Class)cls quertyDict:(NSDictionary *)dict {
+    if ( dict.allKeys.count == 0 ) {
+        return [self queryQuantityWithClass:cls];
+    }
+    if ( !cls ) return 0;
+    NSMutableString *sql_str = [NSMutableString stringWithFormat:@"SELECT count(*) FROM %s WHERE ", sj_table_name(cls)];
+    if ( ![dict.allValues.firstObject isKindOfClass:[NSArray class]] ) {
+        [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            [sql_str appendFormat:@"\"%@\" = '%@' AND ", key, sj_value_filter(obj)];
+        }];
+        [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 5, 5)];
+        [sql_str appendString:@";"];
+    }
+    else {
+        [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSArray *values, BOOL * _Nonnull stop) {
+            [sql_str appendFormat:@"%@ IN (", key];
+            [values enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                obj = sj_value_filter(obj);
+                [sql_str appendFormat:@"'%@',", obj];
+            }];
+            [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 1, 1)];
+            [sql_str appendFormat:@") AND "];
+        }];
+        [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 5, 5)];
+        [sql_str appendString:@";"];
+    }
+    return [sj_sql_query(self.database, sql_str.UTF8String, nil).firstObject[@"count(*)"] integerValue];
+}
 
 - (NSArray<id<SJDBMapUseProtocol>> * _Nullable)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict match:(SJDatabaseMapFuzzyMatch)match {
     if ( !cls ) return nil;

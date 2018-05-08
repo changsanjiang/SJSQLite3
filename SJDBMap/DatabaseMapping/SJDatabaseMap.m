@@ -228,7 +228,14 @@ NS_ASSUME_NONNULL_BEGIN
         if ( block ) block(quantity);
     }];
 }
-
+- (void)queryQuantityWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSInteger quantity))block {
+    __block NSInteger quantity = 0;
+    [self performTasksWithSubThreadTask:^(SJDatabaseMap * _Nonnull mapper) {
+        quantity = [mapper queryQuantityWithClass:cls quertyDict:dict];
+    } mainTreadTask:^(SJDatabaseMap * _Nonnull mapper) {
+        if ( block ) block(quantity);
+    }];
+}
 - (void)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict completeCallBlock:(void (^ __nullable)(NSArray<id<SJDBMapUseProtocol>> * _Nullable data))block {
     [self fuzzyQueryDataWithClass:cls queryDict:dict match:SJDatabaseMapFuzzyMatchBilateral completeCallBlock:block];
 }

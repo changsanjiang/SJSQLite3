@@ -9,7 +9,7 @@
 #import "SJDatabaseFunctions.h"
 #import <objc/message.h>
 
-#define DEBUG_CONDITION (1)
+#define DEBUG_CONDITION (0)
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -362,9 +362,11 @@ bool sj_value_insert_or_update(sqlite3 *database, id<SJDBMapUseProtocol> model, 
             _primaryKeyAdded = YES;
         }
         else {  // 处理 普通键
-            value = sj_value_filter(value); // 过滤一下
-            [sql_strM appendFormat:@"'%@',", field];
-            [sql_valuesM appendFormat:@"'%@',", value]; // 'value'
+            if ( value != nil ) {
+                value = sj_value_filter(value); // 过滤一下
+                [sql_strM appendFormat:@"'%@',", field];
+                [sql_valuesM appendFormat:@"'%@',", value]; // 'value'
+            }
         }
     }];
     

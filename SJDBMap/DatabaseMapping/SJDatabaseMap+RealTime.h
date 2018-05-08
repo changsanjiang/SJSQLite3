@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<id<SJDBMapUseProtocol>> * __nullable)queryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict;
 - (NSArray<id<SJDBMapUseProtocol>> * __nullable)queryDataWithClass:(Class)cls range:(NSRange)range;
 - (NSInteger)queryQuantityWithClass:(Class)cls;
+- (NSInteger)queryQuantityWithClass:(Class)cls quertyDict:(NSDictionary *)dict;
 
 - (NSArray<id<SJDBMapUseProtocol>> * _Nullable)fuzzyQueryDataWithClass:(Class)cls queryDict:(NSDictionary *)dict match:(SJDatabaseMapFuzzyMatch)match;
 - (NSArray<id<SJDBMapUseProtocol>> * _Nullable)fuzzyQueryDataWithClass:(Class)cls property:(NSString *)fields part1:(NSString *)part1 part2:(NSString *)part2;
