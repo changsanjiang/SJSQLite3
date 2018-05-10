@@ -433,8 +433,9 @@ bool sj_value_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<NS
     
     const char *table_name = sj_table_name([model class]);
     __block bool result = true;
-    __block bool hasCommonFields = false;
-    __block NSMutableString *_common_sql = nil; // 用于更新普通键
+    __block bool needUpdate = false;
+    __block NSMutableString *_update_sql = [NSMutableString new]; // 用于更新普通键
+    [_update_sql appendFormat:@"UPDATE %s SET ", table_name];
     [properties enumerateObjectsUsingBlock:^(NSString * _Nonnull property, NSUInteger idx, BOOL * _Nonnull stop) {
         if ( ![model respondsToSelector:NSSelectorFromString(property)] ) return; // 不响应的字段无法处理
         id value = [(id)model valueForKey:property];
@@ -451,6 +452,17 @@ bool sj_value_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<NS
             }
         }
         else if ( [carrier isArrCorrespondingKeyWithIvar:_ivar] ) { // 处理数组相应键
+            Class _arr_e_cls = [[value firstObject] class];
+            if ( ![_arr_e_cls conformsToProtocol:@protocol(SJDBMapUseProtocol)] ) return;
+
+            __block SJDatabaseMapTableCarrier *carrier_arr = nil; // 查询数组内元素的载体
+            [container enumerateObjectsUsingBlock:^(__kindof SJDatabaseMapTableCarrier * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ( obj.cls != _arr_e_cls ) return ;
+                *stop = YES;
+                carrier_arr = obj;
+            }];
+            if ( !carrier_arr ) return;
+            NSMutableArray<NSNumber *> *corkey_primary_key_idsM = [NSMutableArray new]; // 数组内元素的id
             [(NSArray *)value enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 bool r = sj_value_insert_or_update(database, obj, container, cache);
                 if ( !r ) {
@@ -458,26 +470,28 @@ bool sj_value_update(sqlite3 *database, id<SJDBMapUseProtocol> model, NSArray<NS
                     *stop = YES;
                     return;
                 }
+                
+                [corkey_primary_key_idsM addObject:[obj valueForKey:carrier_arr.primaryKeyOrAutoincrementPrimaryKey]];
             }];
             if ( !result ) return;
+            
+            needUpdate = YES; // update arr
+            NSData *data = [NSJSONSerialization dataWithJSONObject:@{NSStringFromClass(_arr_e_cls) : corkey_primary_key_idsM} options:0 error:nil];
+            [_update_sql appendFormat:@"'%@'='%@',", property, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
         }
         else { // 处理普通键
-            hasCommonFields = true;
-            if ( !_common_sql ) {
-                _common_sql = [NSMutableString new];
-                [_common_sql appendFormat:@"UPDATE %s SET ", table_name];
-            }
-            [_common_sql appendFormat:@"'%@'='%@',", property, sj_value_filter(value)];
+            needUpdate = true;
+            [_update_sql appendFormat:@"'%@'='%@',", property, sj_value_filter(value)];
         }
     }];
     if ( !result ) return false;
-    if ( _common_sql ) {
-        [_common_sql deleteCharactersInRange:NSMakeRange(_common_sql.length - 1, 1)]; // 去除最后的逗号
-        [_common_sql appendFormat:@" WHERE %@=%@;", carrier.primaryKeyOrAutoincrementPrimaryKey, [(id)model valueForKey:carrier.primaryKeyOrAutoincrementPrimaryKey]];
-        result = sj_sql_exe(database, _common_sql.UTF8String);
+    if ( needUpdate ) {
+        [_update_sql deleteCharactersInRange:NSMakeRange(_update_sql.length - 1, 1)]; // 去除最后的逗号
+        [_update_sql appendFormat:@" WHERE %@=%@;", carrier.primaryKeyOrAutoincrementPrimaryKey, [(id)model valueForKey:carrier.primaryKeyOrAutoincrementPrimaryKey]];
+        result = sj_sql_exe(database, _update_sql.UTF8String);
         
 #if DEBUG_CONDITION
-        printf("\n%s \n", _common_sql.UTF8String);
+        printf("\n%s \n", _update_sql.UTF8String);
 #endif
     }
     return result;
