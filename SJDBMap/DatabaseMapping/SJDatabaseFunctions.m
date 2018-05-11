@@ -9,7 +9,7 @@
 #import "SJDatabaseFunctions.h"
 #import <objc/message.h>
 
-#define DEBUG_CONDITION (0)
+#define DEBUG_CONDITION (1)
 
 NS_ASSUME_NONNULL_BEGIN
 
