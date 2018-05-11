@@ -32,8 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPath:(NSString *)path {
     self = [super init];
     if ( !self ) return nil;
-    BOOL result = sj_checkoutFolder([path stringByDeletingLastPathComponent]) != nil;
-    NSAssert(result, @"请确认数据库路径!");
+    sj_checkoutFolder([path stringByDeletingLastPathComponent]);
     _dbPath = path;
     _operationQueue = dispatch_queue_create("com.sjdb.serialOperationQueue", DISPATCH_QUEUE_SERIAL);
     [self open];

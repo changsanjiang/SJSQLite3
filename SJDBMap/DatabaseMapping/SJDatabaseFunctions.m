@@ -696,6 +696,7 @@ static char *_sj_object_OC_type(const char *CType) {
 NSString *__nullable sj_checkoutFolder(NSString *path) {
     NSError *error = nil;
     if ( ![[NSFileManager defaultManager] fileExistsAtPath:path] ) [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error];
+    if ( error ) NSLog(@"%@", error);
     return error ? nil : path;
 }
 
