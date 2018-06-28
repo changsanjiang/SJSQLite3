@@ -614,7 +614,7 @@ NSArray<id<SJDBMapUseProtocol>> *sj_value_query(sqlite3 *database, const char *s
                                     model_arr = sj_value_query(database, sql, carrier_arr.cls, container, cache).firstObject;
                                     [cache addObject:model_arr];
                                 }
-                                [modelsM addObject:model_arr];
+                                if ( model_arr ) [modelsM addObject:model_arr];
                             }];
                             [model setValue:modelsM forKey:oc_property];
                         }];
