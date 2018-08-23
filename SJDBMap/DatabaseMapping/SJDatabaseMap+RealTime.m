@@ -164,26 +164,27 @@
     const char *table_name = sj_table_name(cls);
     NSMutableString *sql_str = [NSMutableString new];
     [sql_str appendFormat:@"SELECT *FROM %s WHERE ", table_name];
-    if ( ![dict.allValues.firstObject isKindOfClass:[NSArray class]] ) {
-        [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            [sql_str appendFormat:@"\"%@\" = '%@' AND ", key, sj_value_filter(obj)];
-        }];
-        [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 5, 5)];
-        [sql_str appendString:@";"];
-    }
-    else {
-        [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSArray *values, BOOL * _Nonnull stop) {
-            [sql_str appendFormat:@"%@ IN (", key];
-            [values enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                obj = sj_value_filter(obj);
-                [sql_str appendFormat:@"'%@',", obj];
+    [dict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        // key in (values)
+        if ( [obj isKindOfClass:[NSArray class]] ) {
+            if ( 0 == [(NSArray *)obj count] ) return ;
+            [sql_str appendFormat:@"\"%@\" IN (", key];
+            [(NSArray *)obj enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [sql_str appendFormat:@"'%@',", sj_value_filter(obj)];
             }];
             [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 1, 1)];
-            [sql_str appendFormat:@") AND "];
-        }];
-        [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 5, 5)];
-        [sql_str appendString:@";"];
-    }
+            [sql_str appendString:@") "];
+        }
+        // key = value
+        else {
+            [sql_str appendFormat:@"\"%@\" = '%@'", key, sj_value_filter(obj)];
+        }
+        [sql_str appendFormat:@" AND "];
+    }];
+    
+    [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 5, 5)];
+    [sql_str appendString:@";"];
+    
     return sj_value_query(self.database, sql_str.UTF8String, cls, nil, nil);
 }
 
@@ -219,26 +220,27 @@
     }
     if ( !cls ) return 0;
     NSMutableString *sql_str = [NSMutableString stringWithFormat:@"SELECT count(*) FROM %s WHERE ", sj_table_name(cls)];
-    if ( ![dict.allValues.firstObject isKindOfClass:[NSArray class]] ) {
-        [dict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            [sql_str appendFormat:@"\"%@\" = '%@' AND ", key, sj_value_filter(obj)];
-        }];
-        [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 5, 5)];
-        [sql_str appendString:@";"];
-    }
-    else {
-        [dict enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSArray *values, BOOL * _Nonnull stop) {
-            [sql_str appendFormat:@"%@ IN (", key];
-            [values enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                obj = sj_value_filter(obj);
-                [sql_str appendFormat:@"'%@',", obj];
+    [dict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        // key in (values)
+        if ( [obj isKindOfClass:[NSArray class]] ) {
+            if ( 0 == [(NSArray *)obj count] ) return ;
+            [sql_str appendFormat:@"\"%@\" IN (", key];
+            [(NSArray *)obj enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [sql_str appendFormat:@"'%@',", sj_value_filter(obj)];
             }];
             [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 1, 1)];
-            [sql_str appendFormat:@") AND "];
-        }];
-        [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 5, 5)];
-        [sql_str appendString:@";"];
-    }
+            [sql_str appendString:@") "];
+        }
+        // key = value
+        else {
+            [sql_str appendFormat:@"\"%@\" = '%@'", key, sj_value_filter(obj)];
+        }
+        [sql_str appendFormat:@" AND "];
+    }];
+    
+    [sql_str deleteCharactersInRange:NSMakeRange(sql_str.length - 5, 5)];
+    [sql_str appendString:@";"];
+    
     return [sj_sql_query(self.database, sql_str.UTF8String, nil).firstObject[@"count(*)"] integerValue];
 }
 
