@@ -60,4 +60,5 @@ typedef NS_ENUM(NSUInteger, SJDatabaseMapSortType) {
          */
         + (NSDictionary<NSString *, Class> *)arrayCorrespondingKeys;
 
+        + (NSArray<NSString *> *)tab_ignoredIvarList;
 @end

@@ -54,11 +54,6 @@ extern char *__nullable sj_fields_sql_type(Class cls, const char *ivar); // 通�
 #pragma mark folder or file
 extern NSString *__nullable sj_checkoutFolder(NSString *path); // 如果返回nil, 则表示检出失败, 否则返回path.
 
-#pragma mark runtime
-extern NSArray<NSString *> *sj_ivar_list(Class cls); // 获取实例变量列表
-extern Class __nullable sj_ivar_class(Class cls, const char *ivar); // 如果ivar属于一个对象类型, 则返回它的类型, 否则返回 NULL
-
-
 
 #pragma mark -
 @class SJDatabaseMapTableCorrespondingCarrier;

@@ -14,9 +14,58 @@
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
+static NSArray<NSString *> *sj_get_tab_ivar_list(Class<SJDBMapUseProtocol> cls) {
+    NSString *clsStr = NSStringFromClass(cls);
+    static NSMutableDictionary<NSString *, NSArray<NSString *> *> *data;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        data = [NSMutableDictionary new];
+    });
+    
+    if ( !data[clsStr] ) {
+        NSArray<NSString *> *ignoredIvarList = nil;
+        if ( [(Class)cls respondsToSelector:@selector(tab_ignoredIvarList)] ) {
+            ignoredIvarList = [(Class)cls tab_ignoredIvarList];
+        }
+        
+        NSMutableArray *ivarListArrM = [NSMutableArray array];
+        unsigned int outCount = 0;
+        Ivar *ivarList = class_copyIvarList(cls, &outCount);
+        if ( !ivarList ) return nil;
+        if ( 0 == outCount ) return nil;
+        for ( int i = 0 ; i < outCount ; ++i ) {
+            const char *name = ivar_getName(ivarList[i]);
+            NSString *nameStr = [NSString stringWithUTF8String:name];
+            if ( [ignoredIvarList containsObject:nameStr] )
+                continue;
+            [ivarListArrM addObject:nameStr];
+        }
+        free(ivarList);
+        data[clsStr] = ivarListArrM.copy;
+    }
+    
+    return data[clsStr];
+}
 
-
-#pragma mark -
+static Class sj_get_tab_ivar_class(Class cls, const char *ivar) {
+    Ivar iv = class_getInstanceVariable(cls, ivar);
+    const char *encoding = ivar_getTypeEncoding(iv);
+    char first = encoding[0];
+    if ( first != _C_ID ) return NULL;
+    // @"type"
+    size_t encodinglen = strlen(encoding);
+    char cls_str[encodinglen];
+    
+    int index = 0;
+    for ( int i = 0 ; i < encodinglen ; ++ i ) {
+        const char c = encoding[i];
+        if ( c != '@' && c != '"' ) {
+            cls_str[index++] = c;
+        }
+    }
+    cls_str[index] = '\0';
+    return objc_getClass(cls_str);
+}
 
 #pragma mark database
 bool sj_database_open(const char *dbPath, sqlite3 **database) {
@@ -102,7 +151,7 @@ bool sj_table_create(sqlite3 *database, SJDatabaseMapTableCarrier * carrier) {
     NSMutableString *sql_strM = [NSMutableString string];
     [sql_strM appendFormat:@"CREATE TABLE IF NOT EXISTS %s (", table_name];
     
-    NSArray<NSString *> *ivarList = sj_ivar_list(carrier.cls);
+    NSArray<NSString *> *ivarList = sj_get_tab_ivar_list(carrier.cls);
     __block BOOL primaryAdded = NO;
     NSString *primayKeyOrAutoKey = carrier.primaryKeyOrAutoincrementPrimaryKey;
     [ivarList enumerateObjectsUsingBlock:^(NSString * _Nonnull ivar, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -154,7 +203,7 @@ bool sj_table_create(sqlite3 *database, SJDatabaseMapTableCarrier * carrier) {
 }
 bool sj_table_update(sqlite3 *database, SJDatabaseMapTableCarrier * carrier) {
     const char *table_name = sj_table_name(carrier.cls);
-    NSArray<NSString *> *obj_ivar_list = sj_ivar_list(carrier.cls);
+    NSArray<NSString *> *obj_ivar_list = sj_get_tab_ivar_list(carrier.cls);
     NSArray<NSString *> *table_field_list = sj_table_fields(database, table_name);
     
     NSMutableSet<NSString *> *obj_field_set = [NSMutableSet new];
@@ -740,41 +789,6 @@ static NSArray <id> *__nullable static_sj_sql_data(sqlite3_stmt *stmt, Class __n
     return dataArrM.copy;
 }
 
-#pragma mark runtime
-NSArray<NSString *> *sj_ivar_list(Class cls) {
-    NSMutableArray *ivarListArrM = [NSMutableArray array];
-    unsigned int outCount = 0;
-    Ivar *ivarList = class_copyIvarList(cls, &outCount);
-    if ( !ivarList ) return nil;
-    if ( 0 == outCount ) return nil;
-    for ( int i = 0 ; i < outCount ; ++i ) {
-        const char *name = ivar_getName(ivarList[i]);
-        NSString *nameStr = [NSString stringWithUTF8String:name];
-        [ivarListArrM addObject:nameStr];
-    }
-    free(ivarList);
-    return ivarListArrM.copy;
-}
-Class sj_ivar_class(Class cls, const char *ivar) {
-    Ivar iv = class_getInstanceVariable(cls, ivar);
-    const char *encoding = ivar_getTypeEncoding(iv);
-    char first = encoding[0];
-    if ( first != _C_ID ) return NULL;
-// @"type"
-    size_t encodinglen = strlen(encoding);
-    char cls_str[encodinglen];
-
-    int index = 0;
-    for ( int i = 0 ; i < encodinglen ; ++ i ) {
-        const char c = encoding[i];
-        if ( c != '@' && c != '"' ) {
-            cls_str[index++] = c;
-        }
-    }
-    cls_str[index] = '\0';
-    return objc_getClass(cls_str);
-}
-
 #pragma mark -
 
 @implementation SJDatabaseMapTableCarrier {
@@ -820,12 +834,12 @@ Class sj_ivar_class(Class cls, const char *ivar) {
         }
     }
     
-    NSArray<NSString *> *ivarList = sj_ivar_list(cls);
+    NSArray<NSString *> *ivarList = sj_get_tab_ivar_list(cls);
     NSAssert(ivarList.count, @"Error class: 没有属性可以存储! 至少需要一个能够存储的属性...");
     
     NSMutableArray<SJDatabaseMapTableCorrespondingCarrier *> *correspondingKeysM = [NSMutableArray arrayWithCapacity:ivarList.count];
     [ivarList enumerateObjectsUsingBlock:^(NSString * _Nonnull ivar, NSUInteger idx, BOOL * _Nonnull stop) {
-        Class ivar_cls = sj_ivar_class(cls, ivar.UTF8String);
+        Class ivar_cls = sj_get_tab_ivar_class(cls, ivar.UTF8String);
         if ( !ivar_cls ) return;
         NSAssert(ivar_cls != self.cls, ([NSString stringWithFormat:@"Error proprty: %@, 此property的class与主类一致, 无法继续操作", ivar]));
         if ( ![ivar_cls conformsToProtocol:@protocol(SJDBMapUseProtocol)] ) return;

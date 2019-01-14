@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
 s.name         = "SJDBMap"
-s.version      = "1.2.1"
+s.version      = "1.2.2"
 s.summary      = "Automatically create tables based on the model."
 s.description  = "https://github.com/changsanjiang/SJDBMap/blob/master/README.md"
 s.homepage     = "https://github.com/changsanjiang/SJDBMap"
