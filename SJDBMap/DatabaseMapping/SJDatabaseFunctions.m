@@ -673,7 +673,7 @@ NSArray<id<SJDBMapUseProtocol>> *sj_value_query(sqlite3 *database, const char *s
                     }
                 }
                     break;
-                case SQLITE_FORMAT: {
+                case SQLITE_FLOAT: {
                     if ( ![model respondsToSelector:NSSelectorFromString(oc_property)] ) break;
                     double value = sqlite3_column_double(pstmt, i);
                     [model setValue:@(value) forKey:oc_property];
