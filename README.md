@@ -16,7 +16,6 @@ it, simply add the following line to your Podfile:
 
 ```ruby
 pod 'SJSQLite3'
-pod 'YYModel' 或者 pod 'YYKit'
 ```
 
 ## Author
