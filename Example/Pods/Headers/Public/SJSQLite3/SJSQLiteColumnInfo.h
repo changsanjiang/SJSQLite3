@@ -1,0 +1,1 @@
+../../../../../SJSQLite3/Core/SJSQLiteColumnInfo.h

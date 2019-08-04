@@ -1,0 +1,10 @@
+platform :ios, '8.0'
+
+target 'SJSQLite3_Example' do
+  pod 'SJSQLite3', :path => '../'
+  
+  pod 'YYModel'
+#  target 'SJSQLite3_Tests' do
+#    pod 'SJSQLite3', :path => '../'
+#  end
+end
