@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 ///
-/// 查询数据(返回结果已转为对应的模型)
+/// 查询数据(返回的结果已转为对应的模型)
 ///
 @interface SJSQLite3 (SJSQLite3Extended)
 
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 ///
-/// 查询数据(返回结果为字典数组, 未转换成模型)
+/// 查询数据(返回的结果为字典数组, 未转换成模型)
 ///
 @interface SJSQLite3 (SJSQLite3QueryDataExtended)
 
