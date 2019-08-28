@@ -12,6 +12,9 @@
 
 
 NS_ASSUME_NONNULL_BEGIN
+///
+/// 查询数据(返回结果已转为对应的模型)
+///
 @interface SJSQLite3 (SJSQLite3Extended)
 
 - (nullable NSArray *)objectsForClass:(Class)cls conditions:(nullable NSArray<SJSQLite3Condition *> *)conditions orderBy:(nullable NSArray<SJSQLite3ColumnOrder *> *)orders error:(NSError **)error;
@@ -19,6 +22,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSArray *)objectsForClass:(Class)cls conditions:(nullable NSArray<SJSQLite3Condition *> *)conditions orderBy:(nullable NSArray<SJSQLite3ColumnOrder *> *)orders range:(NSRange)range error:(NSError **)error;
 
 - (NSUInteger)countOfObjectsForClass:(Class)cls conditions:(nullable NSArray<SJSQLite3Condition *> *)conditions error:(NSError **)error;
+@end
+
+
+///
+/// 查询数据(返回结果为字典数组, 未转换成模型)
+///
+@interface SJSQLite3 (SJSQLite3QueryDataExtended)
+
+- (nullable NSArray<NSDictionary *> *)queryDataForClass:(Class)cls resultColumns:(nullable NSArray<NSString *> *)columns conditions:(nullable NSArray<SJSQLite3Condition *> *)conditions orderBy:(nullable NSArray<SJSQLite3ColumnOrder *> *)orders error:(NSError **)error;
+
+- (nullable NSArray<NSDictionary *> *)queryDataForClass:(Class)cls resultColumns:(nullable NSArray<NSString *> *)columns conditions:(nullable NSArray<SJSQLite3Condition *> *)conditions orderBy:(nullable NSArray<SJSQLite3ColumnOrder *> *)orders range:(NSRange)range error:(NSError **)error;
+
 @end
 
 #pragma mark -
@@ -37,6 +52,7 @@ typedef enum : NSInteger {
 ///
 @interface SJSQLite3Condition : NSObject
 + (instancetype)conditionWithColumn:(NSString *)column relatedBy:(SJSQLite3Relation)relation value:(id)value;
++ (instancetype)conditionWithColumn:(NSString *)column value:(id)value; ///< `relation == SJSQLite3RelationEqual`
 + (instancetype)conditionWithColumn:(NSString *)column in:(NSArray *)values;
 + (instancetype)conditionWithColumn:(NSString *)column between:(id)start and:(id)end;
 + (instancetype)conditionWithIsNullColumn:(NSString *)column;

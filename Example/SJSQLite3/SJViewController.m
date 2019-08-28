@@ -9,6 +9,7 @@
 #import "SJViewController.h"
 #import <SJSQLite3.h>
 #import <YYModel/YYModel.h>
+#import <SJSQLite3/SJSQLite3+SJSQLite3Extended.h>
 
 @interface TestObj : NSObject<SJSQLiteTableModelProtocol>
 @property (nonatomic) NSInteger id;
@@ -123,7 +124,6 @@
             account.black = @"black";
             account.dfds = @"123123";
             [self.sqlite3 save:account error:NULL];
-            [self.sqlite3 saveObjects:@[account] error:NULL];
         });
 
     }
@@ -143,6 +143,11 @@
     Account *account = [self.sqlite3 objectForClass:Account.class primaryKeyValue:1 error:NULL];
     account.dfds = nil;
     [self.sqlite3 update:account forKey:@"dfds" error:NULL];
+}
+
+- (IBAction)query:(id)sender {
+    NSError *error = nil;
+    NSLog(@"%@ - %@", [self.sqlite3 queryDataForClass:Account.class resultColumns:@[@"user"] conditions:@[[SJSQLite3Condition conditionWithColumn:@"user" in:@[@(64), @(2)]]] orderBy:nil error:&error], error);
 }
 
 @end

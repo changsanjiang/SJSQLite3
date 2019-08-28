@@ -785,5 +785,14 @@ static SJSQLITEColumnType const SJSQLITEColumnType_TEXT = @"TEXT";
     }
     return nil;
 }
+
+- (nullable SJSQLiteColumnInfo *)columnInfoForColumnName:(NSString *)key {
+    for ( SJSQLiteColumnInfo *column in self.columns ) {
+        if ( [column.name isEqualToString:key] ) {
+            return column;
+        }
+    }
+    return nil;
+}
 @end
 NS_ASSUME_NONNULL_END
