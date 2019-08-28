@@ -413,7 +413,7 @@ NS_ASSUME_NONNULL_BEGIN
     for ( NSString *name in tmpFieldsSet ) {
         [fields appendFormat:@"\"%@\",", name];
     }
-    [fields sj_deleteSubffix:@","];
+    [fields sjsql_deleteSubffix:@","];
     
     NSString *inssql = [NSString stringWithFormat:@"INSERT INTO '%@' (%@) SELECT %@ FROM '%@';", table.name, fields, fields, tmpname];
     sqlite3_obj_exec(self.db, inssql, &error);
@@ -493,7 +493,7 @@ NS_ASSUME_NONNULL_BEGIN
             [sql appendFormat:@"'%@' = NULL,", column.name];
         }
     }
-    [sql sj_deleteSubffix:@","];
+    [sql sjsql_deleteSubffix:@","];
     
     NSString *primaryKey = objectInfo.table.primaryKey;
     id primaryValue = [objectInfo.obj valueForKey:primaryKey];
