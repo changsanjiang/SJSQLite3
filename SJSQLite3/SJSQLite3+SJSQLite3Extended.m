@@ -139,7 +139,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @param cls              数据库表所对应的类.
 ///
-/// @param columns          返回数据(字典)的keys.
+/// @param columns          返回数据(字典)的keys. 如果为空, 将返回所有的列.
 ///
 /// @param conditions       搜索条件.
 ///
@@ -159,7 +159,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @param cls              数据库表所对应的类.
 ///
-/// @param columns          返回数据(字典)的keys.
+/// @param columns          返回数据(字典)的keys. 如果为空, 将返回所有的列.
 ///
 /// @param conditions       搜索条件.
 ///
