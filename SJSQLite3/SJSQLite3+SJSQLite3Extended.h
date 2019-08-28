@@ -28,6 +28,9 @@ typedef enum : NSInteger {
     SJSQLite3RelationEqual,
     SJSQLite3RelationGreaterThanOrEqual,
     SJSQLite3RelationUnequal,
+    
+    SJSQLite3RelationLessThan,
+    SJSQLite3RelationGreaterThan,
 } SJSQLite3Relation;
 
 /// WHERE
@@ -35,16 +38,8 @@ typedef enum : NSInteger {
 @interface SJSQLite3Condition : NSObject
 + (instancetype)conditionWithColumn:(NSString *)column relatedBy:(SJSQLite3Relation)relation value:(id)value;
 + (instancetype)conditionWithColumn:(NSString *)column in:(NSArray *)values;
-+ (instancetype)conditionWithColumn:(NSString *)column between:(id)value1 and:(id)value2;
++ (instancetype)conditionWithColumn:(NSString *)column between:(id)start and:(id)end;
 + (instancetype)conditionWithIsNullColumn:(NSString *)column;
-/// 可自定义查询条件, 例如:
-///    name LIKE '200%'     查找以 200 开头的任意值
-///    name LIKE '%200%'    查找任意位置包含 200 的任意值
-///    name LIKE '_00%'     查找第二位和第三位为 00 的任意值
-///    name LIKE '2_%_%'    查找以 2 开头，且长度至少为 3 个字符的任意值
-///    name LIKE '%2'       查找以 2 结尾的任意值
-///    name LIKE '_2%3'     查找第二位为 2，且以 3 结尾的任意值
-///    name LIKE '2___3'    查找长度为 5 位数，且以 2 开头以 3 结尾的任意值
 - (instancetype)initWithCondition:(NSString *)condition;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;

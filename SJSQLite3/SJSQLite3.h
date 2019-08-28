@@ -20,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)save:(id)object error:(NSError **)error;
 - (BOOL)saveObjects:(NSArray *)objsArray error:(NSError **)error;
 
+- (BOOL)update:(id)object forKeys:(NSArray<NSString *> *)properties error:(NSError **)error;
+- (BOOL)update:(id)object forKey:(NSString *)property error:(NSError **)error;
+
 - (nullable id)objectForClass:(Class)cls primaryKeyValue:(NSInteger)value error:(NSError **)error;
 
 - (void)removeAllObjectsForClass:(Class)cls error:(NSError **)error;

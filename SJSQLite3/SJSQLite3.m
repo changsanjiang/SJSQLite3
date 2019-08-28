@@ -128,17 +128,17 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *altsql = [NSString stringWithFormat:@"ALTER TABLE '%@' RENAME TO '%@';", table.name, tmpname];
     NSError *_Nullable error = nil;
     sqlite3_obj_exec(self.db, altsql, &error);
-    if ( error ) return error;
+    if ( error != nil ) return error;
 
     sqlite3_obj_exec(self.db, cursql, &error);
-    if ( error ) return error;
+    if ( error != nil ) return error;
 
     NSString *tmpinfosql = [NSString stringWithFormat:@"PRAGMA table_info('%@');", tmpname];
     NSString *curinfosql = [NSString stringWithFormat:@"PRAGMA table_info('%@');", table.name];
     NSArray<NSDictionary *> *tmpInfo = sqlite3_obj_exec(self.db, tmpinfosql, &error);
-    if ( error ) return error;
+    if ( error != nil ) return error;
     NSArray<NSDictionary *> *curInfo = sqlite3_obj_exec(self.db, curinfosql, &error);
-    if ( error ) return error;
+    if ( error != nil ) return error;
     
     NSMutableSet<NSString *> *tmpFieldsSet = NSMutableSet.new;
     for ( NSDictionary *column in tmpInfo ) {
@@ -160,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
     
     NSString *inssql = [NSString stringWithFormat:@"INSERT INTO '%@' (%@) SELECT %@ FROM '%@';", table.name, fields, fields, tmpname];
     sqlite3_obj_exec(self.db, inssql, &error);
-    if ( error ) return error;
+    if ( error != nil ) return error;
 
     sqlite3_obj_drop_table(self.db, tmpname, &error);
     return error;
@@ -241,32 +241,64 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 - (BOOL)saveObjects:(NSArray *)objsArray error:(NSError **)error {
     if ( objsArray.count == 0 ) {
-        if ( error ) *error = sqlite3_error_invalid_parameter();
+        if ( error != NULL ) *error = sqlite3_error_invalid_parameter();
         return NO;
     }
     
     dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER);
     sqlite3_obj_begin_transaction(self.db);
+    NSError *_Nullable inner_error = [self _insertOrUpdateObjects:objsArray];
+    if ( inner_error != nil ) {
+        if ( error != NULL ) *error = inner_error;
+        sqlite3_obj_rollback(self.db);
+        dispatch_semaphore_signal(_lock);
+        return NO;
+    }
+    sqlite3_obj_commit(self.db);
+    dispatch_semaphore_signal(_lock);
+    return YES;
+}
+
+- (BOOL)update:(id)object forKeys:(NSArray<NSString *> *)properties error:(NSError **)error {
+    if ( properties.count == 0 ) {
+        if ( error != NULL ) *error = sqlite3_error_invalid_parameter();
+        return NO;
+    }
     
+    SJSQLiteObjectInfo *_Nullable objectInfo = [SJSQLiteObjectInfo objectInfoWithObject:object];
+    if ( objectInfo == nil ) {
+        if ( error != NULL ) *error = sqlite3_error_get_table_failed([object class]);
+        return NO;
+    }
+    
+    dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER);
+    sqlite3_obj_begin_transaction(self.db);
+
     NSError *inner_error = nil;
-    for ( id obj in objsArray ) {
-        SJSQLiteObjectInfo *_Nullable objectInfo = [SJSQLiteObjectInfo objectInfoWithObject:obj];
-        if ( objectInfo == nil ) {
-            inner_error = sqlite3_error_get_table_failed([obj class]);
+    NSMutableString *sql = NSMutableString.new;
+    [sql appendFormat:@"UPDATE %@ SET ", objectInfo.table.name];
+    for ( NSString *key in properties ) {
+        SJSQLiteColumnInfo *_Nullable column = [objectInfo.table columnInfoForProperty:key];
+        if ( column == nil ) {
+            inner_error = sqlite3_error_get_column_failed([object class]);
             goto handle_error;
         }
-        
-        for ( Class cls in objectInfo.table.allClasses ) {
-            inner_error = [self _checkoutTable:cls];
-            if ( inner_error ) goto handle_error;
+
+        id _Nullable newvalue = [object valueForKey:key];
+        if ( newvalue != nil && column.associatedTableInfo != nil ) {
+            inner_error = [self _insertOrUpdateObjects:column.isArrayJSONText?newvalue:@[newvalue]];
+            if ( inner_error != nil ) goto handle_error;
         }
         
-        inner_error = [self _insertOrUpdateObject:objectInfo];
-        if ( inner_error ) goto handle_error;
+        //        UPDATE table_name
+        //        SET column1 = value1, column2 = value2...., columnN = valueN
+        //        WHERE [condition];
+        
+        [sql appendFormat:@"%@ = %@", column.name, newvalue];
     }
     
 handle_error:
-    if ( inner_error ) {
+    if ( inner_error != nil ) {
         if ( error != NULL ) *error = inner_error;
         sqlite3_obj_rollback(self.db);
         dispatch_semaphore_signal(_lock);
@@ -276,6 +308,14 @@ handle_error:
     sqlite3_obj_commit(self.db);
     dispatch_semaphore_signal(_lock);
     return YES;
+}
+
+- (BOOL)update:(id)object forKey:(NSString *)property error:(NSError **)error {
+    if ( property.length == 0 ) {
+        if ( error != nil ) *error = sqlite3_error_invalid_parameter();
+        return NO;
+    }
+    return [self update:object forKeys:@[property] error:error];
 }
 
 /// 获取指定的主键值所对应存储的对象.
@@ -291,7 +331,7 @@ handle_error:
 - (nullable id)objectForClass:(Class)cls primaryKeyValue:(NSInteger)primaryKeyValue error:(NSError **)error {
     SJSQLiteTableInfo *_Nullable table = [SJSQLite3TableInfosCache.shared getTableInfoForClass:cls];
     if ( table == nil ) {
-        if ( error ) *error = sqlite3_error_get_table_failed(cls);
+        if ( error != nil ) *error = sqlite3_error_get_table_failed(cls);
         return nil;
     }
     
@@ -301,8 +341,8 @@ handle_error:
     NSDictionary *_Nullable rowData = sqlite3_obj_get_row_data(self.db, table, primaryKeyValue, &inner_error);
     if ( inner_error == nil ) result = [self _transformRowData:rowData toObjectOfClass:cls error:&inner_error];
     
-    if ( inner_error ) {
-        if ( error ) *error = inner_error;
+    if ( inner_error != nil ) {
+        if ( error != nil ) *error = inner_error;
         dispatch_semaphore_signal(_lock);
         return nil;
     }
@@ -323,8 +363,8 @@ handle_error:
     dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER);
     NSError *inner_error = nil;
     sqlite3_obj_drop_table(self.db, table.name, &inner_error);
-    if ( inner_error ) {
-        if ( error ) *error = inner_error;
+    if ( inner_error != nil ) {
+        if ( error != nil ) *error = inner_error;
         sqlite3_obj_rollback(self.db);
         dispatch_semaphore_signal(_lock);
         return;
@@ -362,8 +402,8 @@ handle_error:
     sqlite3_obj_begin_transaction(self.db);
     NSError *inner_error = nil;
     sqlite3_obj_delete_row_datas(self.db, table, primaryKeyValues, error);
-    if ( inner_error ) {
-        if ( error ) *error = inner_error;
+    if ( inner_error != nil ) {
+        if ( error != nil ) *error = inner_error;
         sqlite3_obj_rollback(self.db);
         dispatch_semaphore_signal(_lock);
         return;
@@ -402,7 +442,7 @@ handle_error:
     id result = sqlite3_obj_exec(self.db, sql, &innser_error);
     if ( innser_error != nil ) {
         sqlite3_obj_rollback(self.db);
-        if ( error ) *error = innser_error;
+        if ( error != nil ) *error = innser_error;
         dispatch_semaphore_signal(_lock);
         return nil;
     }
@@ -426,20 +466,39 @@ handle_error:
     NSError *inner_error = nil;
     for ( SJSQLite3RowData * rowData in rowDatas ) {
         id result = [self _transformRowData:rowData toObjectOfClass:cls error:&inner_error];
-        if ( inner_error ) break;
+        if ( inner_error != nil ) break;
         [arr addObject:result];
     }
     
-    if ( inner_error ) {
-        if ( error ) *error = inner_error;
+    if ( inner_error != nil ) {
+        if ( error != nil ) *error = inner_error;
         dispatch_semaphore_signal(_lock);
         return nil;
     }
     dispatch_semaphore_signal(_lock);
     return arr;
-} 
+}
 
 #pragma mark -
+
+- (nullable NSError *)_insertOrUpdateObjects:(NSArray *)objsArray {
+    NSError *_Nullable error = nil;
+    for ( id obj in objsArray ) {
+        SJSQLiteObjectInfo *_Nullable objectInfo = [SJSQLiteObjectInfo objectInfoWithObject:obj];
+        if ( objectInfo == nil ) {
+            error = sqlite3_error_get_table_failed([obj class]);
+            return error;
+        }
+        
+        for ( Class cls in objectInfo.table.allClasses ) {
+            error = [self _checkoutTable:cls];
+            if ( error != nil ) return error;
+        }
+        
+        error = [self _insertOrUpdateObject:objectInfo];
+    }
+    return error;
+}
 
 - (nullable NSError *)_insertOrUpdateObject:(SJSQLiteObjectInfo *)objectInfo {
     NSError *error = nil;
@@ -448,7 +507,7 @@ handle_error:
         if ( column.associatedObjectInfos != nil ) {
             for ( SJSQLiteObjectInfo *info in column.associatedObjectInfos ) {
                 error = [self _insertOrUpdateObject:info];
-                if ( error ) return error;
+                if ( error != nil ) return error;
             }
         }
     }
@@ -460,7 +519,7 @@ handle_error:
     if ( error == nil && objectInfo.autoincrementColumns ) {
         NSString *sql = sqlite3_stmt_get_last_row(objectInfo);
         __auto_type _Nullable results = [sqlite3_obj_exec(self.db, sql, &error) firstObject];
-        if ( error ) return error;
+        if ( error != nil ) return error;
         id obj = objectInfo.obj;
         for ( SJSQLiteColumnInfo *column in objectInfo.autoincrementColumns ) {
             NSString *key = column.name;
@@ -525,3 +584,4 @@ handle_error:
 }
 @end
 NS_ASSUME_NONNULL_END
+

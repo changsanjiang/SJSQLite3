@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly, nullable) NSArray<SJSQLiteColumnInfo *> *columns;
 @property (nonatomic, copy, readonly, nullable) NSDictionary<SJSQLiteColumnInfo *, SJSQLiteTableInfo *> *columnAssociatedTableInfos;
 @property (nonatomic, copy, readonly) NSSet<Class> *allClasses; // 相关的所有的类
+- (nullable SJSQLiteColumnInfo *)columnInfoForProperty:(NSString *)key;
 @end
 
 @interface SJSQLiteColumnInfo (SJSQLiteTableInfoExtended)

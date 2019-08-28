@@ -644,7 +644,8 @@ static SJSQLITEColumnType const SJSQLITEColumnType_TEXT = @"TEXT";
             
             // Column
             SJSQLiteColumnInfo *columnInfo = SJSQLiteColumnInfo.alloc.init;
-            columnInfo.name = cons.sql_customKeyMapper[property.name]?:property.name;
+            columnInfo.property = property.name;
+            columnInfo.name = cons.sql_customKeyMapper[property.name] ?: property.name;
             switch ( property.type & _YYEncodingTypeMask ) {
                 case _YYEncodingTypeBool: {
                     columnInfo.type = SJSQLITEColumnType_BLOB;
@@ -774,6 +775,15 @@ static SJSQLITEColumnType const SJSQLITEColumnType_TEXT = @"TEXT";
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"SJSQLiteTable:<%p> { %@ }", self, self.columns];
+}
+
+- (nullable SJSQLiteColumnInfo *)columnInfoForProperty:(NSString *)key {
+    for ( SJSQLiteColumnInfo *column in self.columns ) {
+        if ( [column.property isEqualToString:key] ) {
+            return column;
+        }
+    }
+    return nil;
 }
 @end
 NS_ASSUME_NONNULL_END

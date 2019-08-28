@@ -87,34 +87,39 @@ sqlite3_stmt_insert_or_update(SJSQLiteObjectInfo *objInfo) {
         if ( column != last) [fields appendString:@","];
         
         // - values
-        if ( column.associatedTableInfo == nil ) {
-            [values appendFormat:@"'%@'", sqlite3_obj_filter_obj_value(value)];
-            if ( column != last) [values appendFormat:@","];
-        }
-        else {
-            SJSQLiteTableInfo *subtable = column.associatedTableInfo;
-            if ( column.isArrayJSONText ) {
-                NSMutableArray *subvalues = [NSMutableArray arrayWithCapacity:[value count]];
-                [value enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    id subvalue = [obj valueForKey:subtable.primaryKey];
-                    [subvalues addObject:subvalue];
-                }];
-                NSData *subvaluesData = [NSJSONSerialization dataWithJSONObject:subvalues options:0 error:nil];
-                NSString *subvaluesStr = [[NSString alloc] initWithData:subvaluesData encoding:NSUTF8StringEncoding];
-                [values appendFormat:@"'%@'", subvaluesStr];
-                if ( column != last) [values appendFormat:@","];
-            }
-            else {
-                id subvalue = [value valueForKey:subtable.primaryKey];
-                [values appendFormat:@"'%@'", subvalue];
-                if ( column != last) [values appendFormat:@","];
-            }
-        }
+        [values appendFormat:@"'%@'", sqlite3_stmt_get_data_value(column, value)];
+        if ( column != last) [values appendFormat:@","];
     }
     if ( [fields hasSuffix:@","] ) [fields deleteCharactersInRange:NSMakeRange(fields.length - 1, 1)];
     if ( [values hasSuffix:@","] ) [values deleteCharactersInRange:NSMakeRange(values.length - 1, 1)];
     [sql appendFormat:@"INSERT OR REPLACE INTO '%@' (%@) VALUES (%@);", objInfo.table.name, fields, values];
     return sql.copy;
+}
+
+NSString *
+sqlite3_stmt_get_data_value(SJSQLiteColumnInfo *column, id value) {
+    NSString *data = nil;
+    if ( column.associatedTableInfo == nil ) {
+        data = [NSString stringWithFormat:@"%@", sqlite3_obj_filter_obj_value(value)];
+    }
+    else {
+        SJSQLiteTableInfo *subtable = column.associatedTableInfo;
+        if ( column.isArrayJSONText ) {
+            NSMutableArray *subvalues = [NSMutableArray arrayWithCapacity:[value count]];
+            [value enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                id subvalue = [obj valueForKey:subtable.primaryKey];
+                [subvalues addObject:subvalue];
+            }];
+            NSData *subvaluesData = [NSJSONSerialization dataWithJSONObject:subvalues options:0 error:nil];
+            NSString *subvaluesStr = [[NSString alloc] initWithData:subvaluesData encoding:NSUTF8StringEncoding];
+            data = subvaluesStr;
+        }
+        else {
+            id subvalue = [value valueForKey:subtable.primaryKey];
+            data = [NSString stringWithFormat:@"%@", subvalue];
+        }
+    }
+    return data;
 }
 
 NSString *

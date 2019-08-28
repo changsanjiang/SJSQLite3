@@ -25,6 +25,11 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 @property (nonatomic, copy, nullable) NSString *constraints;
 
+///
+/// 当前列映射的属性
+///
+@property (nonatomic, copy, nullable) NSString *property;
+
 @property (nonatomic) BOOL isArrayJSONText;
 @property (nonatomic) BOOL isPrimaryKey;
 @property (nonatomic) BOOL isAutoincrement;

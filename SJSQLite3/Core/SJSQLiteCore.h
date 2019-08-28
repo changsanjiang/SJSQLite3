@@ -38,6 +38,9 @@ FOUNDATION_EXPORT NSString *
 sqlite3_stmt_insert_or_update(SJSQLiteObjectInfo *objInfo);
 
 FOUNDATION_EXPORT NSString *
+sqlite3_stmt_get_data_value(SJSQLiteColumnInfo *column, id value);
+
+FOUNDATION_EXPORT NSString *
 sqlite3_stmt_get_last_row(SJSQLiteObjectInfo *objInfo);
 
 #pragma mark -
