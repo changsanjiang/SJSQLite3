@@ -13,6 +13,15 @@
 #import "SJSQLiteObjectInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
+@implementation NSMutableString (SJSQLite3CoreExtended)
+- (void)sj_deleteSubffix:(NSString *)str {
+    if ( [self hasSuffix:str] ) {
+        [self deleteCharactersInRange:NSMakeRange(self.length - str.length, str.length)];
+    }
+}
+@end
+
+
 NSString *
 sqlite3_obj_get_default_table_name(Class cls) {
     return [NSString stringWithFormat:@"%s", object_getClassName(cls)];
@@ -90,8 +99,8 @@ sqlite3_stmt_insert_or_update(SJSQLiteObjectInfo *objInfo) {
         [values appendFormat:@"'%@'", sqlite3_stmt_get_data_value(column, value)];
         if ( column != last) [values appendFormat:@","];
     }
-    if ( [fields hasSuffix:@","] ) [fields deleteCharactersInRange:NSMakeRange(fields.length - 1, 1)];
-    if ( [values hasSuffix:@","] ) [values deleteCharactersInRange:NSMakeRange(values.length - 1, 1)];
+    [fields sj_deleteSubffix:@","];
+    [values sj_deleteSubffix:@","];
     [sql appendFormat:@"INSERT OR REPLACE INTO '%@' (%@) VALUES (%@);", objInfo.table.name, fields, values];
     return sql.copy;
 }

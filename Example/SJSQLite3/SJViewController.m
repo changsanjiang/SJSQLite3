@@ -139,4 +139,10 @@
     NSLog(@"%@ - error: %@", account, error);
 }
 
+- (IBAction)update:(id)sender {
+    Account *account = [self.sqlite3 objectForClass:Account.class primaryKeyValue:1 error:NULL];
+    account.dfds = nil;
+    [self.sqlite3 update:account forKey:@"dfds" error:NULL];
+}
+
 @end
