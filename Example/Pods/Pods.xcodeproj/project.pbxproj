@@ -12,14 +12,12 @@
 		0BAC2E666DD4B36E9560202DC2E2042E /* SJSQLiteErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B146262CB929DD041DD44BBEE41C66B /* SJSQLiteErrors.m */; };
 		0CEF630809A2818F6FFD664D5B16EAD9 /* SJSQLite3.m in Sources */ = {isa = PBXBuildFile; fileRef = 2174270A9D48D9A84CA812A27EFC0EA9 /* SJSQLite3.m */; };
 		12CE10B6AAC43575C8E73B0824C4ACA2 /* SJSQLite3TableInfosCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 215D610A80A1471B0887A3B70F7F99C0 /* SJSQLite3TableInfosCache.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		20368C2FFDA38A18835B0FD8B4078545 /* SJSQLite3+SJSQLite3CollectionExtended.h in Headers */ = {isa = PBXBuildFile; fileRef = FB6B77CC80CB8AFF488559BCB1EE4157 /* SJSQLite3+SJSQLite3CollectionExtended.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		25DD7C277F0F8D399EB701128A2B52F2 /* SJSQLiteColumnInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B4B51A6DD8C1A73BB4D667A20317F92 /* SJSQLiteColumnInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2C5DDB4C16F0A1AD10663CE8DF13C581 /* SJSQLite3TableInfosCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D68504A4D83985736549CF11649252 /* SJSQLite3TableInfosCache.m */; };
 		332F47F53E6998F86527587E29CA5D9E /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDE84BFD63B6B0C0B3FE38A7E2CB94F /* NSObject+YYModel.m */; };
 		5533B0B3502AD4265AE45D18C7E99C6A /* SJSQLiteErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CF9A6DF77895A2BCFEBF115E5EF21E1 /* SJSQLiteErrors.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		63A311D0796A4969642008EB80B13B91 /* SJSQLiteCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4493B48594613437F91E96AEDEB44E7C /* SJSQLiteCore.m */; };
 		6D49747CD12EC35101E6EA23871B0583 /* SJSQLiteColumnInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F0B934A93FDF02BA3E5FC6BDB7EF5C3 /* SJSQLiteColumnInfo.m */; };
-		79082C9DE5AB398284EBAB16BE37A8FB /* SJSQLite3+SJSQLite3CollectionExtended.m in Sources */ = {isa = PBXBuildFile; fileRef = 038369FB3A9E212396E1D54A1C58FBF0 /* SJSQLite3+SJSQLite3CollectionExtended.m */; };
 		87212CB274228626324E5023A70B52DB /* SJSQLite3+SJSQLite3Extended.h in Headers */ = {isa = PBXBuildFile; fileRef = A701DF664F5456954E05607E90F78335 /* SJSQLite3+SJSQLite3Extended.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		8B7C569B85EE973EDA137D191751840D /* SJSQLiteTableInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E5FA18F251CCD8BBEAA5CA2AF8A7086 /* SJSQLiteTableInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A0F68DE127350C79EE394F3E83E35990 /* Pods-SJSQLite3_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 021E782A38B1D62189FF7FE60AD5A9F5 /* Pods-SJSQLite3_Example-dummy.m */; };
@@ -57,7 +55,6 @@
 
 /* Begin PBXFileReference section */
 		021E782A38B1D62189FF7FE60AD5A9F5 /* Pods-SJSQLite3_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SJSQLite3_Example-dummy.m"; sourceTree = "<group>"; };
-		038369FB3A9E212396E1D54A1C58FBF0 /* SJSQLite3+SJSQLite3CollectionExtended.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SJSQLite3+SJSQLite3CollectionExtended.m"; path = "SJSQLite3/SJSQLite3+SJSQLite3CollectionExtended.m"; sourceTree = "<group>"; };
 		105EB7626C2BCDBF3165A01CBBFC14CF /* SJSQLite3+SJSQLite3Extended.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SJSQLite3+SJSQLite3Extended.m"; path = "SJSQLite3/SJSQLite3+SJSQLite3Extended.m"; sourceTree = "<group>"; };
 		168A0A3AEE4A8ADFF088E76BEF8567BE /* YYClassInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YYClassInfo.h; path = YYModel/YYClassInfo.h; sourceTree = "<group>"; };
 		1AA32EF4A55E69CFCFF712660B8A1ACF /* SJSQLite3.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SJSQLite3.xcconfig; sourceTree = "<group>"; };
@@ -99,7 +96,6 @@
 		EE2371FE1C06A67B4A0A411F1D432C4B /* libSJSQLite3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSJSQLite3.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F22F8DD5716ABBF240F3000CFAD536CC /* SJSQLiteTableModelProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteTableModelProtocol.h; path = SJSQLite3/Protocol/SJSQLiteTableModelProtocol.h; sourceTree = "<group>"; };
 		FA538FAEB3A81FDFBB4B30AA1284903C /* YYModel.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YYModel.xcconfig; sourceTree = "<group>"; };
-		FB6B77CC80CB8AFF488559BCB1EE4157 /* SJSQLite3+SJSQLite3CollectionExtended.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SJSQLite3+SJSQLite3CollectionExtended.h"; path = "SJSQLite3/SJSQLite3+SJSQLite3CollectionExtended.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,8 +175,6 @@
 			children = (
 				B2D29666C2170004645FAD261059EC95 /* SJSQLite3.h */,
 				2174270A9D48D9A84CA812A27EFC0EA9 /* SJSQLite3.m */,
-				FB6B77CC80CB8AFF488559BCB1EE4157 /* SJSQLite3+SJSQLite3CollectionExtended.h */,
-				038369FB3A9E212396E1D54A1C58FBF0 /* SJSQLite3+SJSQLite3CollectionExtended.m */,
 				A701DF664F5456954E05607E90F78335 /* SJSQLite3+SJSQLite3Extended.h */,
 				105EB7626C2BCDBF3165A01CBBFC14CF /* SJSQLite3+SJSQLite3Extended.m */,
 				9763C31B175E2710EB661369476C8A0A /* Core */,
@@ -309,7 +303,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20368C2FFDA38A18835B0FD8B4078545 /* SJSQLite3+SJSQLite3CollectionExtended.h in Headers */,
 				87212CB274228626324E5023A70B52DB /* SJSQLite3+SJSQLite3Extended.h in Headers */,
 				DD36AC5406219A7E5ACAAA763E8C6994 /* SJSQLite3.h in Headers */,
 				12CE10B6AAC43575C8E73B0824C4ACA2 /* SJSQLite3TableInfosCache.h in Headers */,
@@ -430,7 +423,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79082C9DE5AB398284EBAB16BE37A8FB /* SJSQLite3+SJSQLite3CollectionExtended.m in Sources */,
 				E0676C244375B0258E17BE33C0C1C147 /* SJSQLite3+SJSQLite3Extended.m in Sources */,
 				E8EDA6B3D20ABC9578BCBA4215608F7F /* SJSQLite3-dummy.m in Sources */,
 				0CEF630809A2818F6FFD664D5B16EAD9 /* SJSQLite3.m in Sources */,

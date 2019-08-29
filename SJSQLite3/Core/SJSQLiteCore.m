@@ -101,7 +101,7 @@ sqlite3_stmt_insert_or_update(SJSQLiteObjectInfo *objInfo) {
     }
     [fields sjsql_deleteSubffix:@","];
     [values sjsql_deleteSubffix:@","];
-    [sql appendFormat:@"INSERT OR REPLACE INTO '%@' (%@) VALUES (%@);", objInfo.table.name, fields, values];
+    [sql appendFormat:@"REPLACE INTO '%@' (%@) VALUES (%@);", objInfo.table.name, fields, values];
     return sql.copy;
 }
 
@@ -135,8 +135,8 @@ sqlite3_stmt_get_primary_values_json_string(NSArray *models, NSString *primaryKe
     return [[NSString alloc] initWithData:subvaluesData encoding:NSUTF8StringEncoding];
 }
 
-NSArray<NSNumber *> *_Nullable
-sqlite3_stmt_get_primary_values_number_array(NSString *jsonString) {
+NSArray<id> *_Nullable
+sqlite3_stmt_get_primary_values_array(NSString *jsonString) {
     NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
 }
@@ -263,12 +263,12 @@ sqlite3_obj_drop_table(sqlite3 *db, NSString *name, NSError **error) {
 /// 删除指定的行数据
 ///
 void
-sqlite3_obj_delete_row_datas(sqlite3 *db, SJSQLiteTableInfo *table, NSArray<NSNumber *> *primaryKeyValues, NSError **error) {
+sqlite3_obj_delete_row_datas(sqlite3 *db, SJSQLiteTableInfo *table, NSArray<id> *primaryKeyValues, NSError **error) {
     NSMutableString *values = NSMutableString.new;
     NSNumber *last = primaryKeyValues.lastObject;
-    for ( NSNumber *num in primaryKeyValues ) {
-        [values appendFormat:@"%@", num];
-        if ( num != last ) [values appendString:@","];
+    for ( id value in primaryKeyValues ) {
+        [values appendFormat:@"'%@'", sqlite3_obj_filter_obj_value(value)];
+        if ( value != last ) [values appendString:@","];
     }
     
     NSString *sql = [NSString stringWithFormat:@"DELETE FROM '%@' WHERE \"%@\" in (%@);", table.name, table.primaryKey, values];
@@ -278,8 +278,8 @@ sqlite3_obj_delete_row_datas(sqlite3 *db, SJSQLiteTableInfo *table, NSArray<NSNu
 /// 获取行数据
 ///
 NSDictionary *_Nullable
-sqlite3_obj_get_row_data(sqlite3 *db, SJSQLiteTableInfo *table, NSInteger primaryKeyValue, NSError **error) {
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE \"%@\"=%ld;", table.name, table.primaryKey, (long)primaryKeyValue];
+sqlite3_obj_get_row_data(sqlite3 *db, SJSQLiteTableInfo *table, id primaryKeyValue, NSError **error) {
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE \"%@\"='%@';", table.name, table.primaryKey, sqlite3_obj_filter_obj_value(primaryKeyValue)];
     return [[sqlite3_obj_exec(db, sql, error) firstObject] mutableCopy];
 }
 NS_ASSUME_NONNULL_END

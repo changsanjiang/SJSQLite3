@@ -215,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @return 返回指定的主键值所对应存储的对象. 如果不存在, 将返回nil.
 ///
-- (nullable id)objectForClass:(Class)cls primaryKeyValue:(NSInteger)primaryKeyValue error:(NSError **)error {
+- (nullable id)objectForClass:(Class)cls primaryKeyValue:(id)primaryKeyValue error:(NSError **)error {
     SJSQLiteTableInfo *_Nullable table = [SJSQLite3TableInfosCache.shared getTableInfoForClass:cls];
     if ( table == nil ) {
         if ( error != nil ) *error = sqlite3_error_get_table_failed(cls);
@@ -269,8 +269,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @param error            执行出错. 当执行发生错误时, 会暂停执行后续的sql语句, 数据库将回滚到执行之前的状态.
 ///
-- (void)removeObjectForClass:(Class)cls primaryKeyValue:(NSInteger)value error:(NSError **)error {
-    [self removeObjectsForClass:cls primaryKeyValues:@[@(value)] error:error];
+- (void)removeObjectForClass:(Class)cls primaryKeyValue:(id)value error:(NSError **)error {
+    [self removeObjectsForClass:cls primaryKeyValues:@[value] error:error];
 }
 
 /// 删除指定的主键值的数据. 操作不可逆, 请谨慎操作. 该操作将会开启一个新的事务, 当执行出错时, 数据库将回滚到执行之前的状态.
@@ -281,7 +281,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// @param error            执行出错. 当执行发生错误时, 会暂停执行后续的sql语句, 数据库将回滚到执行之前的状态.
 ///
-- (void)removeObjectsForClass:(Class)cls primaryKeyValues:(NSArray<NSNumber *> *)primaryKeyValues error:(NSError **)error {
+- (void)removeObjectsForClass:(Class)cls primaryKeyValues:(NSArray<id> *)primaryKeyValues error:(NSError **)error {
     SJSQLiteTableInfo *_Nullable table = [SJSQLite3TableInfosCache.shared getTableInfoForClass:cls];
     if ( table == nil ) return;
     
@@ -569,11 +569,11 @@ NS_ASSUME_NONNULL_BEGIN
         
         SJSQLiteTableInfo *subtable = column.associatedTableInfo;
         if ( column.isModelArray ) {
-            __auto_type primaryValues = sqlite3_stmt_get_primary_values_number_array(value);
+            __auto_type primaryValues = sqlite3_stmt_get_primary_values_array(value);
             NSMutableArray<id> *subObjArr = NSMutableArray.new;
             BOOL intact = YES;
             for ( NSNumber *num in primaryValues ) {
-                NSDictionary *subrow = sqlite3_obj_get_row_data(self.db, subtable, num.integerValue, &inner_error);
+                NSDictionary *subrow = sqlite3_obj_get_row_data(self.db, subtable, num, &inner_error);
                 if ( inner_error != nil ) goto handle_error;
                 id _Nullable subobj = [self _transformRowData:subrow toObjectOfClass:subtable.cls error:&inner_error];
                 if ( inner_error != nil ) goto handle_error;
@@ -583,7 +583,7 @@ NS_ASSUME_NONNULL_BEGIN
             result[column.name] = intact?subObjArr.copy:nil;
         }
         else {
-            NSDictionary *subrow = sqlite3_obj_get_row_data(self.db, subtable, [value integerValue], &inner_error);
+            NSDictionary *subrow = sqlite3_obj_get_row_data(self.db, subtable, value, &inner_error);
             if ( inner_error != nil ) goto handle_error;
             id _Nullable subobj = [self _transformRowData:subrow toObjectOfClass:subtable.cls error:&inner_error];
             if ( inner_error != nil ) goto handle_error;

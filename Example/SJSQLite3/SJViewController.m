@@ -124,23 +124,25 @@
             account.black = @"black";
             account.dfds = @"123123";
             [self.sqlite3 save:account error:NULL];
+            
+            NSLog(@"%ld", account.user.id);
         });
 
     }
 }
 
 - (IBAction)delete:(id)sender {
-    [self.sqlite3 removeObjectForClass:TestObj.class primaryKeyValue:1 error:NULL];
+    [self.sqlite3 removeObjectForClass:TestObj.class primaryKeyValue:@(1) error:NULL];
 }
 
 - (IBAction)get:(id)sender {
     NSError *error = nil;
-    Account *account = [self.sqlite3 objectForClass:Account.class primaryKeyValue:1 error:NULL];
+    Account *account = [self.sqlite3 objectForClass:Account.class primaryKeyValue:@(1) error:NULL];
     NSLog(@"%@ - error: %@", account, error);
 }
 
 - (IBAction)update:(id)sender {
-    Account *account = [self.sqlite3 objectForClass:Account.class primaryKeyValue:1 error:NULL];
+    Account *account = [self.sqlite3 objectForClass:Account.class primaryKeyValue:@(1) error:NULL];
     account.dfds = nil;
     [self.sqlite3 update:account forKey:@"dfds" error:NULL];
 }

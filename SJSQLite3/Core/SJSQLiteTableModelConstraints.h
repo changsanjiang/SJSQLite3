@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSArray<NSString *> *sql_autoincrementlist;
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, Class<SJSQLiteTableModelProtocol>> *sql_arrayPropertyGenericClass;
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, NSString *> *sql_customKeyMapper;
+@property (nonatomic, strong, nullable) NSArray<NSString *> *sql_uniquelist;
 @property (nonatomic, strong, nullable) NSArray<NSString *> *sql_whitelist;
 @property (nonatomic, strong, nullable) NSArray<NSString *> *sql_blacklist;
 @property (nonatomic, strong, nullable) NSArray<NSString *> *sql_notnulllist;

@@ -31,11 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)update:(id)object forKeys:(NSArray<NSString *> *)properties error:(NSError **)error;
 - (BOOL)update:(id)object forKey:(NSString *)property error:(NSError **)error;
 
-- (nullable id)objectForClass:(Class)cls primaryKeyValue:(NSInteger)value error:(NSError **)error;
+- (nullable id)objectForClass:(Class)cls primaryKeyValue:(id)value error:(NSError **)error;
 
 - (void)removeAllObjectsForClass:(Class)cls error:(NSError **)error;
-- (void)removeObjectsForClass:(Class)cls primaryKeyValues:(NSArray<NSNumber *> *)values error:(NSError **)error;
-- (void)removeObjectForClass:(Class)cls primaryKeyValue:(NSInteger)value error:(NSError **)error;
+- (void)removeObjectsForClass:(Class)cls primaryKeyValues:(NSArray<id> *)values error:(NSError **)error;
+- (void)removeObjectForClass:(Class)cls primaryKeyValue:(id)value error:(NSError **)error;
 @end
 
 

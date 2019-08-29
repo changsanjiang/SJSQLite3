@@ -37,6 +37,12 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 + (nullable NSDictionary<NSString *, NSString *> *)sql_customKeyMapper;
 
+/// 唯一键: 防止在一个特定的列存在多个具有相同值的记录
+///
+/// e.g. return @[ @"key1", @"key2" ];
+///
++ (nullable NSArray<NSString *> *)sql_uniquelist;
+
 /// 白名单
 ///
 /// e.g. return @[ @"white" ];

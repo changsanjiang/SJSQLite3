@@ -740,6 +740,13 @@ static SJSQLITEColumnType const SJSQLITEColumnType_TEXT = @"TEXT";
                 }
             }
             
+            for ( NSString *key in cons.sql_uniquelist ) {
+                if ( [columnInfo.name isEqualToString:key] ) {
+                    [constraints appendString:@" UNIQUE"];
+                    break;
+                }
+            }
+            
             if ( columnInfo.associatedTableInfo != nil && ![property.cls isSubclassOfClass:NSArray.class]) {
                 SJSQLiteTableInfo *tableInfo = columnInfo.associatedTableInfo;
                 [constraints appendFormat:@" REFERENCES '%@' ('%@')", tableInfo.name, tableInfo.primaryKey];
