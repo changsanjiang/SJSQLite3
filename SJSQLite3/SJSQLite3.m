@@ -158,7 +158,7 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-/// 更新数据(update). 该操作将会开启一个新的事务, 当执行出错时, 数据库将回滚到执行之前的状态.
+/// 更新数据(update). 请确保数据已存在. 该操作将会开启一个新的事务, 当执行出错时, 数据库将回滚到执行之前的状态.
 ///
 /// @param properties           需要更新的属性集合.
 ///
@@ -189,7 +189,7 @@ NS_ASSUME_NONNULL_BEGIN
     return YES;
 }
 
-/// 更新数据(update). 该操作将会开启一个新的事务, 当执行出错时, 数据库将回滚到执行之前的状态.
+/// 更新数据(update). 请确保数据已存在. 该操作将会开启一个新的事务, 当执行出错时, 数据库将回滚到执行之前的状态.
 ///
 /// @param property             需要更新的属性.
 ///
@@ -207,7 +207,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 获取指定的主键值所对应存储的对象.
 ///
-/// @param cls              数据库表所对应的类.
+/// @param cls              数据库表所对应的类. (该类必须实现`SJSQLiteTableModelProtocol.sql_primaryKey`)
 ///
 /// @param primaryKeyValue  需要获取的对象的主键值.
 ///
@@ -241,7 +241,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 删除某个类对应的表存储的所有数据(删除表). 操作不可逆, 请谨慎操作. 该操作将会开启一个新的事务, 当执行出错时, 数据库将回滚到执行之前的状态.
 ///
-/// @param cls              数据库表所对应的类.
+/// @param cls              数据库表所对应的类. (该类必须实现`SJSQLiteTableModelProtocol.sql_primaryKey`)
 ///
 /// @param error            执行出错. 当执行发生错误时, 会暂停执行后续的sql语句, 数据库将回滚到执行之前的状态.
 ///
@@ -263,7 +263,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 删除指定的主键值的数据. 操作不可逆, 请谨慎操作. 该操作将会开启一个新的事务, 当执行出错时, 数据库将回滚到执行之前的状态.
 ///
-/// @param cls              数据库表所对应的类.
+/// @param cls              数据库表所对应的类. (该类必须实现`SJSQLiteTableModelProtocol.sql_primaryKey`)
 ///
 /// @param value            需要删除的数据的主键值.
 ///
@@ -275,7 +275,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 删除指定的主键值的数据. 操作不可逆, 请谨慎操作. 该操作将会开启一个新的事务, 当执行出错时, 数据库将回滚到执行之前的状态.
 ///
-/// @param cls              数据库表所对应的类.
+/// @param cls              数据库表所对应的类. (该类必须实现`SJSQLiteTableModelProtocol.sql_primaryKey`)
 ///
 /// @param primaryKeyValues 需要删除的数据的主键值的集合.
 ///
@@ -296,7 +296,7 @@ NS_ASSUME_NONNULL_BEGIN
     SJSQLite3_TANSACTION_COMMIT();
 }
 
-/// 执行自定义的sql. (适合执行查询操作)
+/// 执行自定义的sql(适合执行查询操作). 返回的结果需调用`objectsForClass:rowDatas:error:`来转换为相应的模型数据.
 ///
 /// @param sql              需要执行的sql语句.
 ///
@@ -334,7 +334,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 将执行的查询结果转换为对应的类的对象.
 ///
-/// @param cls              数据库表所对应的类.
+/// @param cls              数据库表所对应的类. (该类必须实现`SJSQLiteTableModelProtocol.sql_primaryKey`)
 ///
 /// @param rowDatas         该参数为`exec:error:`执行后的返回值.
 ///
@@ -484,10 +484,10 @@ NS_ASSUME_NONNULL_BEGIN
         
         id _Nullable newvalue = [objectInfo.obj valueForKey:key];
         if ( newvalue != nil && column.associatedTableInfo != nil ) {
-            return [self _insertOrUpdateObjects:column.isArrayJSONText ? newvalue : @[newvalue]];
+            return [self _insertOrUpdateObjects:column.isModelArray ? newvalue : @[newvalue]];
         }
         if ( newvalue ) {
-            [sql appendFormat:@"'%@' = '%@',", column.name, sqlite3_stmt_get_data_value(column, newvalue)];
+            [sql appendFormat:@"'%@' = '%@',", column.name, sqlite3_stmt_get_column_value(column, newvalue)];
         }
         else {
             [sql appendFormat:@"'%@' = NULL,", column.name];
@@ -552,13 +552,13 @@ NS_ASSUME_NONNULL_BEGIN
     return error;
 }
 
-- (nullable id)_transformRowData:(NSDictionary *)rowData toObjectOfClass:(Class)cls error:(NSError **)out_error {
+- (nullable id)_transformRowData:(NSDictionary *)rowData toObjectOfClass:(Class)cls error:(NSError **)error {
     if ( rowData == nil || cls == nil ) return nil;
-    NSError *error = nil;
+    NSError *inner_error = nil;
     NSMutableDictionary *result = [rowData mutableCopy];
     SJSQLiteTableInfo *_Nullable table = [SJSQLite3TableInfosCache.shared getTableInfoForClass:cls];
     if ( table == nil ) {
-        error = sqlite3_error_get_table_failed(cls);
+        inner_error = sqlite3_error_get_table_failed(cls);
         goto handle_error;
     }
     
@@ -568,35 +568,32 @@ NS_ASSUME_NONNULL_BEGIN
         if ( value == nil ) continue;
         
         SJSQLiteTableInfo *subtable = column.associatedTableInfo;
-        if ( column.isArrayJSONText ) {
-            NSData *data = [value dataUsingEncoding:NSUTF8StringEncoding];
-            NSArray<NSNumber *> *primaryValues = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-            if ( error != nil ) goto handle_error;
-            
+        if ( column.isModelArray ) {
+            __auto_type primaryValues = sqlite3_stmt_primary_values_number_array(value);
             NSMutableArray<id> *subObjArr = NSMutableArray.new;
             BOOL intact = YES;
             for ( NSNumber *num in primaryValues ) {
-                NSDictionary *subrow = sqlite3_obj_get_row_data(self.db, subtable, num.integerValue, &error);
-                if ( error != nil ) goto handle_error;
-                id _Nullable subobj = [self _transformRowData:subrow toObjectOfClass:subtable.cls error:&error];
-                if ( error != nil ) goto handle_error;
+                NSDictionary *subrow = sqlite3_obj_get_row_data(self.db, subtable, num.integerValue, &inner_error);
+                if ( inner_error != nil ) goto handle_error;
+                id _Nullable subobj = [self _transformRowData:subrow toObjectOfClass:subtable.cls error:&inner_error];
+                if ( inner_error != nil ) goto handle_error;
                 if ( subobj == nil ) { intact = NO; break; }
                 [subObjArr addObject:subobj];
             }
             result[column.name] = intact?subObjArr.copy:nil;
         }
         else {
-            NSDictionary *subrow = sqlite3_obj_get_row_data(self.db, subtable, [value integerValue], &error);
-            if ( error != nil ) goto handle_error;
-            id _Nullable subobj = [self _transformRowData:subrow toObjectOfClass:subtable.cls error:&error];
-            if ( error != nil ) goto handle_error;
+            NSDictionary *subrow = sqlite3_obj_get_row_data(self.db, subtable, [value integerValue], &inner_error);
+            if ( inner_error != nil ) goto handle_error;
+            id _Nullable subobj = [self _transformRowData:subrow toObjectOfClass:subtable.cls error:&inner_error];
+            if ( inner_error != nil ) goto handle_error;
             result[column.name] = subobj;
         }
     }
     
 handle_error:
-    if ( error != nil ) {
-        if ( out_error ) *out_error = error;
+    if ( inner_error != nil ) {
+        if ( error ) *error = inner_error;
         return nil;
     }
     

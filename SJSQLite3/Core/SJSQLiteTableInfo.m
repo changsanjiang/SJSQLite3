@@ -670,7 +670,7 @@ static SJSQLITEColumnType const SJSQLITEColumnType_TEXT = @"TEXT";
                     break;
                 case _YYEncodingTypeObject: {
                     if      ( [property.cls isSubclassOfClass:NSArray.class] ) {
-                        [cons.sql_containerPropertyGenericClass enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class<SJSQLiteTableModelProtocol>  _Nonnull genericClass, BOOL * _Nonnull stop) {
+                        [cons.sql_arrayPropertyGenericClass enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, Class<SJSQLiteTableModelProtocol>  _Nonnull genericClass, BOOL * _Nonnull stop) {
                             if ( [key isEqualToString:property.name] ) {
                                 *stop = YES;
                                 
@@ -679,7 +679,7 @@ static SJSQLITEColumnType const SJSQLITEColumnType_TEXT = @"TEXT";
                                     [allClasses addObject:associatedTableInfo.cls];
                                     [allClasses unionSet:associatedTableInfo.allClasses];
                                     associatedTableInfos[columnInfo] = associatedTableInfo;
-                                    columnInfo.isArrayJSONText = YES;
+                                    columnInfo.isModelArray = YES;
                                     columnInfo.type = SJSQLITEColumnType_TEXT;
                                     columnInfo.associatedTableInfo = associatedTableInfo;
                                 }
@@ -687,9 +687,6 @@ static SJSQLITEColumnType const SJSQLITEColumnType_TEXT = @"TEXT";
                         }];
                     }
                     else if ( [property.cls isSubclassOfClass:NSString.class] ) {
-                        columnInfo.type = SJSQLITEColumnType_TEXT;
-                    }
-                    else if ( [property.cls isSubclassOfClass:NSURL.class] ) {
                         columnInfo.type = SJSQLITEColumnType_TEXT;
                     }
                     else {

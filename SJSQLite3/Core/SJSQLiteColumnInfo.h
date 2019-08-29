@@ -30,7 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 @property (nonatomic, copy, nullable) NSString *property;
 
-@property (nonatomic) BOOL isArrayJSONText;
+@property (nonatomic) BOOL isModelArray;
+@property (nonatomic) BOOL isJsonString;
 @property (nonatomic) BOOL isPrimaryKey;
 @property (nonatomic) BOOL isAutoincrement;
 //@property (nonatomic) BOOL notNull;

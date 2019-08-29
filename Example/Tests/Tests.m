@@ -53,7 +53,7 @@
 + (NSArray<NSString *> *)sql_autoincrementlist {
     return @[@"id"];
 }
-+ (NSDictionary<NSString *,Class<SJSQLiteTableModelProtocol>> *)sql_containerPropertyGenericClass {
++ (NSDictionary<NSString *,Class<SJSQLiteTableModelProtocol>> *)sql_arrayPropertyGenericClass {
     return @{@"arr":_TestObj.class};
 }
 @end

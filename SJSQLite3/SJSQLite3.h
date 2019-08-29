@@ -11,6 +11,14 @@
 #import <sqlite3.h>
 
 NS_ASSUME_NONNULL_BEGIN
+/// 数据库模型映射及增删改查
+///
+/// - 模型类需实现`SJSQLiteTableModelProtocol`
+///
+/// - 模型中的数据支持的类型包括: 整型, 浮点型, 布尔值, NSString, 单个模型或数组(涉及到的模型类需实现协议)
+///
+/// - 注意: 除以上类型, 未来不会扩展或支持其他的类型.
+///
 @interface SJSQLite3 : NSObject
 + (instancetype)shared;
 - (nullable instancetype)initWithDatabasePath:(NSString *)dbPath NS_DESIGNATED_INITIALIZER;

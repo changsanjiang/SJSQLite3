@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation SJSQLite3 (SJSQLite3Extended)
 /// 获取满足指定条件的数据. (返回的数据已转为相应的模型)
 ///
-/// @param cls              数据库表所对应的类.
+/// @param cls              数据库表所对应的类. (该类必须实现`SJSQLiteTableModelProtocol.sql_primaryKey`)
 ///
 /// @param conditions       搜索条件.
 ///
@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 获取满足指定条件及指定数量的数据. (如果数据量过大, 可以使用此方法进行分页获取. 返回的数据已转为相应的模型)
 ///
-/// @param cls              数据库表所对应的类.
+/// @param cls              数据库表所对应的类. (该类必须实现`SJSQLiteTableModelProtocol.sql_primaryKey`)
 ///
 /// @param conditions       搜索条件.
 ///
@@ -57,13 +57,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 查询数量
 ///
-/// @param cls              数据库表所对应的类.
+/// @param cls              数据库表所对应的类. (该类必须实现`SJSQLiteTableModelProtocol.sql_primaryKey`)
 ///
 /// @param conditions       搜索条件.
 ///
 /// @param error            执行出错. 当执行发生错误时, 会暂停执行后续的sql语句, 数据库将回滚到执行之前的状态.
 ///
 /// @return                 返回满足条件的数据的数量.
+///
 - (NSUInteger)countOfObjectsForClass:(Class)cls conditions:(nullable NSArray<SJSQLite3Condition *> *)conditions error:(NSError **)error {
     NSError *inner_error = nil;
     __auto_type results = [self _rowDataForClass:cls resultColumns:@[@"count(*)"] conditions:conditions orderBy:nil range:NSMakeRange(0, NSUIntegerMax) error:&inner_error];
@@ -137,9 +138,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 获取满足指定条件的数据. (返回的数据未做转换)
 ///
-/// @param cls              数据库表所对应的类.
+/// @param cls              数据库表所对应的类. (该类必须实现`SJSQLiteTableModelProtocol.sql_primaryKey`)
 ///
-/// @param columns          返回数据(字典)的keys. 如果为空, 将返回所有的列.
+/// @param columns          返回的结果列(字典的keys). 如果为空, 将返回所有的列.
 ///
 /// @param conditions       搜索条件.
 ///
@@ -157,9 +158,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 获取满足指定条件的数据. (返回的数据未做转换)
 ///
-/// @param cls              数据库表所对应的类.
+/// @param cls              数据库表所对应的类. (该类必须实现`SJSQLiteTableModelProtocol.sql_primaryKey`)
 ///
-/// @param columns          返回数据(字典)的keys. 如果为空, 将返回所有的列.
+/// @param columns          返回的结果列(字典的keys). 如果为空, 将返回所有的列.
 ///
 /// @param conditions       搜索条件.
 ///
@@ -209,13 +210,8 @@ NS_ASSUME_NONNULL_BEGIN
         for ( SJSQLiteColumnInfo *column in columnsOfAssociatedTables ) {
             id value = rowData[column.name];
             SJSQLite3Condition *conditon = nil;
-            if ( column.isArrayJSONText ) {
-                NSData *data = [value dataUsingEncoding:NSUTF8StringEncoding];
-                NSArray<NSNumber *> *primaryValues = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&inner_error];
-                if ( inner_error != nil ) {
-                    if ( error ) *error = inner_error;
-                    return nil;
-                }
+            if ( column.isModelArray ) {
+                __auto_type primaryValues = sqlite3_stmt_primary_values_number_array(value);
                 conditon = [SJSQLite3Condition conditionWithColumn:column.associatedTableInfo.primaryKey in:primaryValues];
             }
             else {
@@ -231,7 +227,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
         [datas addObject:m];
     }
-    return datas;
+    return datas.copy;
 }
 
 @end
@@ -367,9 +363,16 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @implementation SJSQLite3ColumnOrder
+/// 排序数据
+///
+/// @param  column          依据此列进行排序
+///
+/// @param  ascending       指定排序方向. (升序 == YES `A->Z`, 降序 == NO `Z->A`)
+///
 + (instancetype)orderWithColumn:(NSString *)column ascending:(BOOL)ascending {
     return [[self alloc] initWithColumn:column ascending:ascending];
 }
+
 - (instancetype)initWithColumn:(NSString *)column ascending:(BOOL)ascending {
     self = [super init];
     if ( !self ) return nil;

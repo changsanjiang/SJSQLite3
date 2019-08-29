@@ -96,7 +96,7 @@ sqlite3_stmt_insert_or_update(SJSQLiteObjectInfo *objInfo) {
         if ( column != last) [fields appendString:@","];
         
         // - values
-        [values appendFormat:@"'%@'", sqlite3_stmt_get_data_value(column, value)];
+        [values appendFormat:@"'%@'", sqlite3_stmt_get_column_value(column, value)];
         if ( column != last) [values appendFormat:@","];
     }
     [fields sjsql_deleteSubffix:@","];
@@ -106,22 +106,15 @@ sqlite3_stmt_insert_or_update(SJSQLiteObjectInfo *objInfo) {
 }
 
 NSString *
-sqlite3_stmt_get_data_value(SJSQLiteColumnInfo *column, id value) {
+sqlite3_stmt_get_column_value(SJSQLiteColumnInfo *column, id value) {
     NSString *data = nil;
     if ( column.associatedTableInfo == nil ) {
         data = [NSString stringWithFormat:@"%@", sqlite3_obj_filter_obj_value(value)];
     }
     else {
         SJSQLiteTableInfo *subtable = column.associatedTableInfo;
-        if ( column.isArrayJSONText ) {
-            NSMutableArray *subvalues = [NSMutableArray arrayWithCapacity:[value count]];
-            [value enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                id subvalue = [obj valueForKey:subtable.primaryKey];
-                [subvalues addObject:subvalue];
-            }];
-            NSData *subvaluesData = [NSJSONSerialization dataWithJSONObject:subvalues options:0 error:nil];
-            NSString *subvaluesStr = [[NSString alloc] initWithData:subvaluesData encoding:NSUTF8StringEncoding];
-            data = subvaluesStr;
+        if ( column.isModelArray ) {
+            data = sqlite3_stmt_primary_values_json_string(value, subtable.primaryKey);
         }
         else {
             id subvalue = [value valueForKey:subtable.primaryKey];
@@ -129,6 +122,23 @@ sqlite3_stmt_get_data_value(SJSQLiteColumnInfo *column, id value) {
         }
     }
     return data;
+}
+
+NSString *
+sqlite3_stmt_primary_values_json_string(NSArray *models, NSString *primaryKey) {
+    NSMutableArray *subvalues = [NSMutableArray arrayWithCapacity:[models count]];
+    [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        id subvalue = [obj valueForKey:primaryKey];
+        [subvalues addObject:subvalue];
+    }];
+    NSData *subvaluesData = [NSJSONSerialization dataWithJSONObject:subvalues options:0 error:nil];
+    return [[NSString alloc] initWithData:subvaluesData encoding:NSUTF8StringEncoding];
+}
+
+NSArray<NSNumber *> *_Nullable
+sqlite3_stmt_primary_values_number_array(NSString *jsonString) {
+    NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
 }
 
 NSString *

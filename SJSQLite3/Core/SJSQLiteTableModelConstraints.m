@@ -34,8 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
             _sql_customKeyMapper = [cls sql_customKeyMapper];
         }
         
-        if ( [cls respondsToSelector:@selector(sql_containerPropertyGenericClass)] ) {
-            _sql_containerPropertyGenericClass = [cls sql_containerPropertyGenericClass];
+        if ( [cls respondsToSelector:@selector(sql_arrayPropertyGenericClass)] ) {
+            _sql_arrayPropertyGenericClass = [cls sql_arrayPropertyGenericClass];
         }
         
         if ( [cls respondsToSelector:@selector(sql_autoincrementlist)] ) {

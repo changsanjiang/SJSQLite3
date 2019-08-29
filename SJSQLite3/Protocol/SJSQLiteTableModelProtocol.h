@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// e.g. return @{ @"items":Item.class };
 ///
-+ (nullable NSDictionary<NSString *, Class<SJSQLiteTableModelProtocol>> *)sql_containerPropertyGenericClass;
++ (nullable NSDictionary<NSString *, Class<SJSQLiteTableModelProtocol>> *)sql_arrayPropertyGenericClass;
 
 /// 自定义映射字段
 ///
