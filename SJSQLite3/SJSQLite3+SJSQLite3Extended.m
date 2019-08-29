@@ -211,7 +211,7 @@ NS_ASSUME_NONNULL_BEGIN
             id value = rowData[column.name];
             SJSQLite3Condition *conditon = nil;
             if ( column.isModelArray ) {
-                __auto_type primaryValues = sqlite3_stmt_primary_values_number_array(value);
+                __auto_type primaryValues = sqlite3_stmt_get_primary_values_number_array(value);
                 conditon = [SJSQLite3Condition conditionWithColumn:column.associatedTableInfo.primaryKey in:primaryValues];
             }
             else {

@@ -45,11 +45,11 @@ sqlite3_stmt_insert_or_update(SJSQLiteObjectInfo *objInfo);
 FOUNDATION_EXPORT NSString *
 sqlite3_stmt_get_column_value(SJSQLiteColumnInfo *column, id value);
 
-FOUNDATION_EXPORT NSString *
-sqlite3_stmt_primary_values_json_string(NSArray *models, NSString *primaryKey);
+FOUNDATION_EXPORT NSString *_Nullable
+sqlite3_stmt_get_primary_values_json_string(NSArray *models, NSString *primaryKey);
 
 FOUNDATION_EXPORT NSArray<NSNumber *> *_Nullable
-sqlite3_stmt_primary_values_number_array(NSString *jsonString);
+sqlite3_stmt_get_primary_values_number_array(NSString *jsonString);
 
 FOUNDATION_EXPORT NSString *
 sqlite3_stmt_get_last_row(SJSQLiteObjectInfo *objInfo);

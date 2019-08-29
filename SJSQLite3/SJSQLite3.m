@@ -569,7 +569,7 @@ NS_ASSUME_NONNULL_BEGIN
         
         SJSQLiteTableInfo *subtable = column.associatedTableInfo;
         if ( column.isModelArray ) {
-            __auto_type primaryValues = sqlite3_stmt_primary_values_number_array(value);
+            __auto_type primaryValues = sqlite3_stmt_get_primary_values_number_array(value);
             NSMutableArray<id> *subObjArr = NSMutableArray.new;
             BOOL intact = YES;
             for ( NSNumber *num in primaryValues ) {
