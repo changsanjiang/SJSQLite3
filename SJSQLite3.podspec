@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
-  s.default_subspec = 'lib/YYModel'
+  s.default_subspec = 'Core'
   s.subspec 'Protocol' do |ss|
       ss.source_files = 'SJSQLite3/Protocol/**/*.{h,m}'
   end
@@ -39,13 +39,12 @@ Pod::Spec.new do |s|
       ss.dependency 'SJSQLite3/Protocol'
   end
   
-  s.subspec 'lib' do |ss|
-      ss.dependency 'SJSQLite3/Core'
-      ss.subspec 'YYModel' do |sss|
-          sss.dependency 'YYModel'
-      end
-      ss.subspec 'YYKit' do |sss|
-          sss.dependency 'YYKit'
-      end
+  s.subspec 'lib-YYModel' do |ss|
+      ss.dependency 'YYModel'
   end
+  
+  s.subspec 'lib-YYKit' do |ss|
+      ss.dependency 'YYKit'
+  end
+  
 end

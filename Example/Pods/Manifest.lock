@@ -1,14 +1,14 @@
 PODS:
-  - SJSQLite3/Core (1.0.0):
+  - SJSQLite3 (1.0.1):
+    - SJSQLite3/Core (= 1.0.1)
+  - SJSQLite3/Core (1.0.1):
     - SJSQLite3/Protocol
-  - SJSQLite3/lib/YYModel (1.0.0):
-    - SJSQLite3/Core
-    - YYModel
-  - SJSQLite3/Protocol (1.0.0)
+  - SJSQLite3/Protocol (1.0.1)
   - YYModel (1.0.4)
 
 DEPENDENCIES:
-  - SJSQLite3/lib/YYModel (from `../`)
+  - SJSQLite3 (from `../`)
+  - YYModel
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -19,9 +19,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SJSQLite3: 9c8f29deefe296bb277c84fc121d2ce397c5c6aa
+  SJSQLite3: 1df3f209300503fd732c31196f91d4a519a52381
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: ea1ed6fe8f5b3a00fa7acaf54e013a3ea2f56256
+PODFILE CHECKSUM: bcca9cc2c40254fe5d9b865761c4d38188c65521
 
 COCOAPODS: 1.7.5
