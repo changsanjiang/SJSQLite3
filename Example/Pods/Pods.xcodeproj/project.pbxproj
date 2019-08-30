@@ -7,36 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		06EB7CC11A03D75FD2DA07D284685F73 /* YYModel-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9776240B0A34CF1E854006E57B8A7FA5 /* YYModel-dummy.m */; };
-		0B8E7DAF6EF79317C606AAF3BDF1B166 /* NSObject+YYModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 58672ED8690593B76806B6615E54B893 /* NSObject+YYModel.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		0BAC2E666DD4B36E9560202DC2E2042E /* SJSQLiteErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B146262CB929DD041DD44BBEE41C66B /* SJSQLiteErrors.m */; };
-		0CEF630809A2818F6FFD664D5B16EAD9 /* SJSQLite3.m in Sources */ = {isa = PBXBuildFile; fileRef = 2174270A9D48D9A84CA812A27EFC0EA9 /* SJSQLite3.m */; };
-		12CE10B6AAC43575C8E73B0824C4ACA2 /* SJSQLite3TableInfosCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 215D610A80A1471B0887A3B70F7F99C0 /* SJSQLite3TableInfosCache.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		25DD7C277F0F8D399EB701128A2B52F2 /* SJSQLiteColumnInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B4B51A6DD8C1A73BB4D667A20317F92 /* SJSQLiteColumnInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		2C5DDB4C16F0A1AD10663CE8DF13C581 /* SJSQLite3TableInfosCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D68504A4D83985736549CF11649252 /* SJSQLite3TableInfosCache.m */; };
-		332F47F53E6998F86527587E29CA5D9E /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDE84BFD63B6B0C0B3FE38A7E2CB94F /* NSObject+YYModel.m */; };
-		5533B0B3502AD4265AE45D18C7E99C6A /* SJSQLiteErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CF9A6DF77895A2BCFEBF115E5EF21E1 /* SJSQLiteErrors.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		63A311D0796A4969642008EB80B13B91 /* SJSQLiteCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4493B48594613437F91E96AEDEB44E7C /* SJSQLiteCore.m */; };
-		6D49747CD12EC35101E6EA23871B0583 /* SJSQLiteColumnInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F0B934A93FDF02BA3E5FC6BDB7EF5C3 /* SJSQLiteColumnInfo.m */; };
-		87212CB274228626324E5023A70B52DB /* SJSQLite3+SJSQLite3Extended.h in Headers */ = {isa = PBXBuildFile; fileRef = A701DF664F5456954E05607E90F78335 /* SJSQLite3+SJSQLite3Extended.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		8B7C569B85EE973EDA137D191751840D /* SJSQLiteTableInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E5FA18F251CCD8BBEAA5CA2AF8A7086 /* SJSQLiteTableInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		0204AC02EDC7C1DCCBE5DA76F43520FE /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDE84BFD63B6B0C0B3FE38A7E2CB94F /* NSObject+YYModel.m */; };
+		04CACEF065AA62FC40891226F096583D /* SJSQLiteColumnInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEA109861F529245E9D2C992F5085E9 /* SJSQLiteColumnInfo.m */; };
+		13FCD351DDB417F52D0424FD32B62197 /* SJSQLite3TableInfosCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EFF52121602E5CE35695234846CAC15 /* SJSQLite3TableInfosCache.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		16E00D969A68EC465D885A7D7FDEB2EC /* SJSQLiteObjectInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 60B30506C27C80FBF618ED1076848D4E /* SJSQLiteObjectInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		180AEBD2454FBCE0CBB534CD55B28787 /* SJSQLiteCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 7821345555582E6F5163A6CE77ED3418 /* SJSQLiteCore.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		1AD935B084384185AC10783C5E4644B2 /* SJSQLite3.h in Headers */ = {isa = PBXBuildFile; fileRef = 230C257ABC2DFE03A8EE3992A001AB8F /* SJSQLite3.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		1F001C9223ED90B52C36FA0C545CEE80 /* YYModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 22133D7EAB9A2AAE2BE71BE06D984B09 /* YYModel.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		27B2156C634DB3C47F7E5B3198BEA563 /* SJSQLiteTableModelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = CE66DB47E64662FEE0CA13031820444A /* SJSQLiteTableModelProtocol.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		29C451DDE996C7F49167CC4F5376421C /* YYModel-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9776240B0A34CF1E854006E57B8A7FA5 /* YYModel-dummy.m */; };
+		39AE5C76E6672CD51DBE256ACE15CC4E /* SJSQLiteTableModelConstraints.h in Headers */ = {isa = PBXBuildFile; fileRef = 0D990375A316636FA625774F1BBE4156 /* SJSQLiteTableModelConstraints.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		449DCB02E670357553B55077BA0E548B /* SJSQLiteTableModelConstraints.m in Sources */ = {isa = PBXBuildFile; fileRef = 44A0B0BB4E56048BE9AA8FF18099F244 /* SJSQLiteTableModelConstraints.m */; };
+		558BDA8011D8FA528ADCE08FF360C816 /* SJSQLite3-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3547E47C8D546525759135EA20860D14 /* SJSQLite3-dummy.m */; };
+		5C795AC16849B50B1453578DAAD0E965 /* SJSQLite3+SJSQLite3Extended.h in Headers */ = {isa = PBXBuildFile; fileRef = 225C11B8A400BF0DD6B657AB4127160E /* SJSQLite3+SJSQLite3Extended.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		6429542C9BCA9DC5DBA0467334CA72D5 /* SJSQLiteTableInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = B31BC79980C0132580BBF5C7471087AF /* SJSQLiteTableInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		6EFD325B6A4F133CFC9BE97A51BD1DA8 /* SJSQLiteObjectInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE523FF195F48CEC81143A84B07517B /* SJSQLiteObjectInfo.m */; };
+		7303C8C36A8477173786F3EC2343D386 /* SJSQLite3.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEFF20924EA8146F243AC372E4E656D /* SJSQLite3.m */; };
+		828AC2E78AD1059CE5221B5AD4D0D1A6 /* SJSQLiteErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = A8152B3DF2DB70F6B559AEC5F0885D71 /* SJSQLiteErrors.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		8A0795D88DD4558C91721B9B8F114C95 /* SJSQLite3+SJSQLite3Extended.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC51EB68BAB9E533F58BA3E9348493F /* SJSQLite3+SJSQLite3Extended.m */; };
+		8DF60B5E2D491B447DB93B5BE917A102 /* SJSQLiteErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA4A4D05545155EA87B8489CA69C797 /* SJSQLiteErrors.m */; };
+		9712BBD40429ADFC5FDA7217F10E4DA6 /* YYClassInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 168A0A3AEE4A8ADFF088E76BEF8567BE /* YYClassInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A0F68DE127350C79EE394F3E83E35990 /* Pods-SJSQLite3_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 021E782A38B1D62189FF7FE60AD5A9F5 /* Pods-SJSQLite3_Example-dummy.m */; };
-		AC6D970E57DD174E785477384A226D51 /* SJSQLiteTableModelConstraints.h in Headers */ = {isa = PBXBuildFile; fileRef = 39A94F21541D728E6867F72C2FCCE7C7 /* SJSQLiteTableModelConstraints.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		AD47192331E2D7831A93CE6D6A8DCB3D /* SJSQLiteTableInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A2D5179438C3A17729AEC01D6537BFB /* SJSQLiteTableInfo.m */; };
-		BB3CD0AB8418D1C3DDEFFCEFFFA56DE1 /* SJSQLiteTableModelConstraints.m in Sources */ = {isa = PBXBuildFile; fileRef = 644DD8E08EBDF36D9BF35E17B1271C15 /* SJSQLiteTableModelConstraints.m */; };
-		CC46255DAABC498A35F70078C1A566BD /* YYModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 22133D7EAB9A2AAE2BE71BE06D984B09 /* YYModel.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		DC7F1A0CEE98B59EF4ED24507BDC4AAD /* SJSQLiteObjectInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C73FE12D31FF2C59943AEAFDA4AEA5DE /* SJSQLiteObjectInfo.m */; };
-		DD36AC5406219A7E5ACAAA763E8C6994 /* SJSQLite3.h in Headers */ = {isa = PBXBuildFile; fileRef = B2D29666C2170004645FAD261059EC95 /* SJSQLite3.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		E0676C244375B0258E17BE33C0C1C147 /* SJSQLite3+SJSQLite3Extended.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EB7626C2BCDBF3165A01CBBFC14CF /* SJSQLite3+SJSQLite3Extended.m */; };
-		E22CD595F09236AC1D71353E4F96D25D /* SJSQLiteCore.h in Headers */ = {isa = PBXBuildFile; fileRef = BDBB2A45E65693CB1C296EDC23146993 /* SJSQLiteCore.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		E2F119888DA6312834DB6A2E84FF5906 /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F020ACA4E0EBB64A4497BCFF9B3EBC /* YYClassInfo.m */; };
-		E8EDA6B3D20ABC9578BCBA4215608F7F /* SJSQLite3-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D997200A159E30C2EC43EEB8939238F /* SJSQLite3-dummy.m */; };
-		E971FA0A55BB4B160FE89F5860684CA4 /* SJSQLiteObjectInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 94521E5ABDBE6370D81426738706EE19 /* SJSQLiteObjectInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		F654313B55A14132792476E2B2FA2AE2 /* YYClassInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 168A0A3AEE4A8ADFF088E76BEF8567BE /* YYClassInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		FB3279ADF92BCA1E0A193C92A070A9F0 /* SJSQLiteTableModelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = F22F8DD5716ABBF240F3000CFAD536CC /* SJSQLiteTableModelProtocol.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		A2F9EE1ABADAF9B6655E47FDC0D7F873 /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F020ACA4E0EBB64A4497BCFF9B3EBC /* YYClassInfo.m */; };
+		D78DE77D42FF7CAC72B01D44A727947F /* NSObject+YYModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 58672ED8690593B76806B6615E54B893 /* NSObject+YYModel.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		D8E63442AEDF67DE68EEDBBC5156924F /* SJSQLite3TableInfosCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F2A78AB02AB4B53FA05C7C4446F1D2 /* SJSQLite3TableInfosCache.m */; };
+		DD4411FEBE2343896D729B3781998F38 /* SJSQLiteColumnInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0F1D9EAF6D35509306E6AF1AB8FDFB93 /* SJSQLiteColumnInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		E693E4ADB56989206CC6D5B5941163BE /* SJSQLiteCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EF8D7E623E7D9776E7C60ADEDC252FC /* SJSQLiteCore.m */; };
+		F30C303EF411A3D48C3F45567925FACC /* SJSQLiteTableInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6340AEA21FB41E3AC7B71D04CA3CE7BE /* SJSQLiteTableInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0C7E4B54332B3502E4BC53B2FE7FDB1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84B44807A12996D487A4A591A481D6A0;
+			remoteInfo = YYModel;
+		};
 		8549AF2510A198824C4BA66F5280CB51 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -55,50 +62,57 @@
 
 /* Begin PBXFileReference section */
 		021E782A38B1D62189FF7FE60AD5A9F5 /* Pods-SJSQLite3_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SJSQLite3_Example-dummy.m"; sourceTree = "<group>"; };
-		105EB7626C2BCDBF3165A01CBBFC14CF /* SJSQLite3+SJSQLite3Extended.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SJSQLite3+SJSQLite3Extended.m"; path = "SJSQLite3/SJSQLite3+SJSQLite3Extended.m"; sourceTree = "<group>"; };
+		06E2A217C4A4F097B64053AEE38D8B60 /* SJSQLite3.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = SJSQLite3.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		0A7A3612C014F8B80B64E4E650479F40 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		0D990375A316636FA625774F1BBE4156 /* SJSQLiteTableModelConstraints.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteTableModelConstraints.h; path = SJSQLite3/Core/SJSQLiteTableModelConstraints.h; sourceTree = "<group>"; };
+		0EF8D7E623E7D9776E7C60ADEDC252FC /* SJSQLiteCore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteCore.m; path = SJSQLite3/Core/SJSQLiteCore.m; sourceTree = "<group>"; };
+		0EFF52121602E5CE35695234846CAC15 /* SJSQLite3TableInfosCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLite3TableInfosCache.h; path = SJSQLite3/Core/SJSQLite3TableInfosCache.h; sourceTree = "<group>"; };
+		0F1D9EAF6D35509306E6AF1AB8FDFB93 /* SJSQLiteColumnInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteColumnInfo.h; path = SJSQLite3/Core/SJSQLiteColumnInfo.h; sourceTree = "<group>"; };
 		168A0A3AEE4A8ADFF088E76BEF8567BE /* YYClassInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YYClassInfo.h; path = YYModel/YYClassInfo.h; sourceTree = "<group>"; };
-		1AA32EF4A55E69CFCFF712660B8A1ACF /* SJSQLite3.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SJSQLite3.xcconfig; sourceTree = "<group>"; };
-		215D610A80A1471B0887A3B70F7F99C0 /* SJSQLite3TableInfosCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLite3TableInfosCache.h; path = SJSQLite3/Core/SJSQLite3TableInfosCache.h; sourceTree = "<group>"; };
-		2174270A9D48D9A84CA812A27EFC0EA9 /* SJSQLite3.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLite3.m; path = SJSQLite3/SJSQLite3.m; sourceTree = "<group>"; };
+		20F2A78AB02AB4B53FA05C7C4446F1D2 /* SJSQLite3TableInfosCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLite3TableInfosCache.m; path = SJSQLite3/Core/SJSQLite3TableInfosCache.m; sourceTree = "<group>"; };
 		22133D7EAB9A2AAE2BE71BE06D984B09 /* YYModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YYModel.h; path = YYModel/YYModel.h; sourceTree = "<group>"; };
-		2A2D5179438C3A17729AEC01D6537BFB /* SJSQLiteTableInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteTableInfo.m; path = SJSQLite3/Core/SJSQLiteTableInfo.m; sourceTree = "<group>"; };
-		2B146262CB929DD041DD44BBEE41C66B /* SJSQLiteErrors.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteErrors.m; path = SJSQLite3/Core/SJSQLiteErrors.m; sourceTree = "<group>"; };
+		225C11B8A400BF0DD6B657AB4127160E /* SJSQLite3+SJSQLite3Extended.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SJSQLite3+SJSQLite3Extended.h"; path = "SJSQLite3/Core/SJSQLite3+SJSQLite3Extended.h"; sourceTree = "<group>"; };
+		230C257ABC2DFE03A8EE3992A001AB8F /* SJSQLite3.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLite3.h; path = SJSQLite3/Core/SJSQLite3.h; sourceTree = "<group>"; };
+		3547E47C8D546525759135EA20860D14 /* SJSQLite3-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SJSQLite3-dummy.m"; sourceTree = "<group>"; };
 		375A724E3065D746ADF5A68CEE22B53C /* Pods-SJSQLite3_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SJSQLite3_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		39A94F21541D728E6867F72C2FCCE7C7 /* SJSQLiteTableModelConstraints.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteTableModelConstraints.h; path = SJSQLite3/Core/SJSQLiteTableModelConstraints.h; sourceTree = "<group>"; };
-		4493B48594613437F91E96AEDEB44E7C /* SJSQLiteCore.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteCore.m; path = SJSQLite3/Core/SJSQLiteCore.m; sourceTree = "<group>"; };
-		4D997200A159E30C2EC43EEB8939238F /* SJSQLite3-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SJSQLite3-dummy.m"; sourceTree = "<group>"; };
+		44A0B0BB4E56048BE9AA8FF18099F244 /* SJSQLiteTableModelConstraints.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteTableModelConstraints.m; path = SJSQLite3/Core/SJSQLiteTableModelConstraints.m; sourceTree = "<group>"; };
 		58672ED8690593B76806B6615E54B893 /* NSObject+YYModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSObject+YYModel.h"; path = "YYModel/NSObject+YYModel.h"; sourceTree = "<group>"; };
-		58D68504A4D83985736549CF11649252 /* SJSQLite3TableInfosCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLite3TableInfosCache.m; path = SJSQLite3/Core/SJSQLite3TableInfosCache.m; sourceTree = "<group>"; };
-		644DD8E08EBDF36D9BF35E17B1271C15 /* SJSQLiteTableModelConstraints.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteTableModelConstraints.m; path = SJSQLite3/Core/SJSQLiteTableModelConstraints.m; sourceTree = "<group>"; };
-		6CF9A6DF77895A2BCFEBF115E5EF21E1 /* SJSQLiteErrors.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteErrors.h; path = SJSQLite3/Core/SJSQLiteErrors.h; sourceTree = "<group>"; };
-		6E074BE9FFAE44FB9C5F401929769BD2 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		6F0B934A93FDF02BA3E5FC6BDB7EF5C3 /* SJSQLiteColumnInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteColumnInfo.m; path = SJSQLite3/Core/SJSQLiteColumnInfo.m; sourceTree = "<group>"; };
-		7B4B51A6DD8C1A73BB4D667A20317F92 /* SJSQLiteColumnInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteColumnInfo.h; path = SJSQLite3/Core/SJSQLiteColumnInfo.h; sourceTree = "<group>"; };
+		60B30506C27C80FBF618ED1076848D4E /* SJSQLiteObjectInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteObjectInfo.h; path = SJSQLite3/Core/SJSQLiteObjectInfo.h; sourceTree = "<group>"; };
+		6340AEA21FB41E3AC7B71D04CA3CE7BE /* SJSQLiteTableInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteTableInfo.m; path = SJSQLite3/Core/SJSQLiteTableInfo.m; sourceTree = "<group>"; };
+		6DA4A4D05545155EA87B8489CA69C797 /* SJSQLiteErrors.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteErrors.m; path = SJSQLite3/Core/SJSQLiteErrors.m; sourceTree = "<group>"; };
+		6EEFF20924EA8146F243AC372E4E656D /* SJSQLite3.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLite3.m; path = SJSQLite3/Core/SJSQLite3.m; sourceTree = "<group>"; };
+		7821345555582E6F5163A6CE77ED3418 /* SJSQLiteCore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteCore.h; path = SJSQLite3/Core/SJSQLiteCore.h; sourceTree = "<group>"; };
 		7EDE84BFD63B6B0C0B3FE38A7E2CB94F /* NSObject+YYModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+YYModel.m"; path = "YYModel/NSObject+YYModel.m"; sourceTree = "<group>"; };
+		80D3DE48DEEFE8EB9892A0B778C8D044 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		8664791FD4426EE466BA5F841A73BEC1 /* Pods-SJSQLite3_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SJSQLite3_Example.release.xcconfig"; sourceTree = "<group>"; };
-		86F4175190078BC03230AB9F09C126F7 /* SJSQLite3-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SJSQLite3-prefix.pch"; sourceTree = "<group>"; };
-		94521E5ABDBE6370D81426738706EE19 /* SJSQLiteObjectInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteObjectInfo.h; path = SJSQLite3/Core/SJSQLiteObjectInfo.h; sourceTree = "<group>"; };
+		8BE523FF195F48CEC81143A84B07517B /* SJSQLiteObjectInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteObjectInfo.m; path = SJSQLite3/Core/SJSQLiteObjectInfo.m; sourceTree = "<group>"; };
+		8C745D07D3F02994CD1D51FAB2A7157B /* SJSQLite3.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SJSQLite3.xcconfig; sourceTree = "<group>"; };
+		8EC51EB68BAB9E533F58BA3E9348493F /* SJSQLite3+SJSQLite3Extended.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SJSQLite3+SJSQLite3Extended.m"; path = "SJSQLite3/Core/SJSQLite3+SJSQLite3Extended.m"; sourceTree = "<group>"; };
 		9776240B0A34CF1E854006E57B8A7FA5 /* YYModel-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YYModel-dummy.m"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9E5FA18F251CCD8BBEAA5CA2AF8A7086 /* SJSQLiteTableInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteTableInfo.h; path = SJSQLite3/Core/SJSQLiteTableInfo.h; sourceTree = "<group>"; };
-		A37DFAD011AB013CC5A0C1095E8D93AF /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		A701DF664F5456954E05607E90F78335 /* SJSQLite3+SJSQLite3Extended.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SJSQLite3+SJSQLite3Extended.h"; path = "SJSQLite3/SJSQLite3+SJSQLite3Extended.h"; sourceTree = "<group>"; };
-		B2D29666C2170004645FAD261059EC95 /* SJSQLite3.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLite3.h; path = SJSQLite3/SJSQLite3.h; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A8152B3DF2DB70F6B559AEC5F0885D71 /* SJSQLiteErrors.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteErrors.h; path = SJSQLite3/Core/SJSQLiteErrors.h; sourceTree = "<group>"; };
+		B31BC79980C0132580BBF5C7471087AF /* SJSQLiteTableInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteTableInfo.h; path = SJSQLite3/Core/SJSQLiteTableInfo.h; sourceTree = "<group>"; };
 		B7F020ACA4E0EBB64A4497BCFF9B3EBC /* YYClassInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YYClassInfo.m; path = YYModel/YYClassInfo.m; sourceTree = "<group>"; };
-		BDBB2A45E65693CB1C296EDC23146993 /* SJSQLiteCore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteCore.h; path = SJSQLite3/Core/SJSQLiteCore.h; sourceTree = "<group>"; };
 		C57A3592BCA04C14FF47FD5126371569 /* YYModel-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YYModel-prefix.pch"; sourceTree = "<group>"; };
-		C73FE12D31FF2C59943AEAFDA4AEA5DE /* SJSQLiteObjectInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteObjectInfo.m; path = SJSQLite3/Core/SJSQLiteObjectInfo.m; sourceTree = "<group>"; };
-		CC01FD07A5D9AE8EE0709FA407A09D3B /* SJSQLite3.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = SJSQLite3.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		CE66DB47E64662FEE0CA13031820444A /* SJSQLiteTableModelProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteTableModelProtocol.h; path = SJSQLite3/Protocol/SJSQLiteTableModelProtocol.h; sourceTree = "<group>"; };
 		D2BB80F2E02C0D7600B7CF56F04C1DCC /* Pods-SJSQLite3_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SJSQLite3_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		D3DCC0179278DEDBC000995BE73DD2B3 /* libPods-SJSQLite3_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SJSQLite3_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3DCC0179278DEDBC000995BE73DD2B3 /* libPods-SJSQLite3_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-SJSQLite3_Example.a"; path = "libPods-SJSQLite3_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D54E725C727C79DBE0BB9C62F8F07577 /* Pods-SJSQLite3_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SJSQLite3_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		E460D5B0416D36F66EE8EC89E5D2FA0A /* libYYModel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libYYModel.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		EE2371FE1C06A67B4A0A411F1D432C4B /* libSJSQLite3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSJSQLite3.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		F22F8DD5716ABBF240F3000CFAD536CC /* SJSQLiteTableModelProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SJSQLiteTableModelProtocol.h; path = SJSQLite3/Protocol/SJSQLiteTableModelProtocol.h; sourceTree = "<group>"; };
+		D5FB5154582636FA6FF6A60C63BB6F44 /* SJSQLite3-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SJSQLite3-prefix.pch"; sourceTree = "<group>"; };
+		E460D5B0416D36F66EE8EC89E5D2FA0A /* libYYModel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libYYModel.a; path = libYYModel.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE2371FE1C06A67B4A0A411F1D432C4B /* libSJSQLite3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libSJSQLite3.a; path = libSJSQLite3.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFEA109861F529245E9D2C992F5085E9 /* SJSQLiteColumnInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SJSQLiteColumnInfo.m; path = SJSQLite3/Core/SJSQLiteColumnInfo.m; sourceTree = "<group>"; };
 		FA538FAEB3A81FDFBB4B30AA1284903C /* YYModel.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YYModel.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2D868914CE1110253A3882B41B08F336 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		891D93F0EE484326A4F4EAF67D9BF4B5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -106,14 +120,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9C058CFEB46CC50AE17D1503E2EA34E9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DDDBDF03834DC8351E24149735FE440D /* Frameworks */ = {
+		8DA4ABC2AA4333F7C6ACD37DBA3192EF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -123,6 +130,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1EF2E5F0A70A33BF5FD83833B5139DA5 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8C745D07D3F02994CD1D51FAB2A7157B /* SJSQLite3.xcconfig */,
+				3547E47C8D546525759135EA20860D14 /* SJSQLite3-dummy.m */,
+				D5FB5154582636FA6FF6A60C63BB6F44 /* SJSQLite3-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/SJSQLite3";
+			sourceTree = "<group>";
+		};
 		3A0B05A2C2A3512B2EAD1981CA850945 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,12 +151,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		715F379FE37184E93F80238A5C88D829 /* Development Pods */ = {
+		591CF546D5787F581CF1694759C7E27E /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				A3E456BF1C08F0C971F720C525CDDD26 /* SJSQLite3 */,
+				CE66DB47E64662FEE0CA13031820444A /* SJSQLiteTableModelProtocol.h */,
 			);
-			name = "Development Pods";
+			name = Protocol;
 			sourceTree = "<group>";
 		};
 		81B8462200568E0F7A464C02DF5840D5 /* Targets Support Files */ = {
@@ -149,69 +167,54 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		9763C31B175E2710EB661369476C8A0A /* Core */ = {
+		A013CBA8E1065EC650585CC23D8A87B3 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				215D610A80A1471B0887A3B70F7F99C0 /* SJSQLite3TableInfosCache.h */,
-				58D68504A4D83985736549CF11649252 /* SJSQLite3TableInfosCache.m */,
-				7B4B51A6DD8C1A73BB4D667A20317F92 /* SJSQLiteColumnInfo.h */,
-				6F0B934A93FDF02BA3E5FC6BDB7EF5C3 /* SJSQLiteColumnInfo.m */,
-				BDBB2A45E65693CB1C296EDC23146993 /* SJSQLiteCore.h */,
-				4493B48594613437F91E96AEDEB44E7C /* SJSQLiteCore.m */,
-				6CF9A6DF77895A2BCFEBF115E5EF21E1 /* SJSQLiteErrors.h */,
-				2B146262CB929DD041DD44BBEE41C66B /* SJSQLiteErrors.m */,
-				94521E5ABDBE6370D81426738706EE19 /* SJSQLiteObjectInfo.h */,
-				C73FE12D31FF2C59943AEAFDA4AEA5DE /* SJSQLiteObjectInfo.m */,
-				9E5FA18F251CCD8BBEAA5CA2AF8A7086 /* SJSQLiteTableInfo.h */,
-				2A2D5179438C3A17729AEC01D6537BFB /* SJSQLiteTableInfo.m */,
-				39A94F21541D728E6867F72C2FCCE7C7 /* SJSQLiteTableModelConstraints.h */,
-				644DD8E08EBDF36D9BF35E17B1271C15 /* SJSQLiteTableModelConstraints.m */,
-			);
-			name = Core;
-			sourceTree = "<group>";
-		};
-		A3E456BF1C08F0C971F720C525CDDD26 /* SJSQLite3 */ = {
-			isa = PBXGroup;
-			children = (
-				B2D29666C2170004645FAD261059EC95 /* SJSQLite3.h */,
-				2174270A9D48D9A84CA812A27EFC0EA9 /* SJSQLite3.m */,
-				A701DF664F5456954E05607E90F78335 /* SJSQLite3+SJSQLite3Extended.h */,
-				105EB7626C2BCDBF3165A01CBBFC14CF /* SJSQLite3+SJSQLite3Extended.m */,
-				9763C31B175E2710EB661369476C8A0A /* Core */,
-				C6A2F0DE873D726996DF9E7BD46DB0F3 /* Pod */,
-				FE634BE1BD05DC5C0D2FFFFAA3ECD898 /* Protocol */,
-				C0389F4BF2BDC8AB69F23EE6AEC0B2CD /* Support Files */,
-			);
-			name = SJSQLite3;
-			path = ../..;
-			sourceTree = "<group>";
-		};
-		C0389F4BF2BDC8AB69F23EE6AEC0B2CD /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				1AA32EF4A55E69CFCFF712660B8A1ACF /* SJSQLite3.xcconfig */,
-				4D997200A159E30C2EC43EEB8939238F /* SJSQLite3-dummy.m */,
-				86F4175190078BC03230AB9F09C126F7 /* SJSQLite3-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/SJSQLite3";
-			sourceTree = "<group>";
-		};
-		C6A2F0DE873D726996DF9E7BD46DB0F3 /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				A37DFAD011AB013CC5A0C1095E8D93AF /* LICENSE */,
-				6E074BE9FFAE44FB9C5F401929769BD2 /* README.md */,
-				CC01FD07A5D9AE8EE0709FA407A09D3B /* SJSQLite3.podspec */,
+				0A7A3612C014F8B80B64E4E650479F40 /* LICENSE */,
+				80D3DE48DEEFE8EB9892A0B778C8D044 /* README.md */,
+				06E2A217C4A4F097B64053AEE38D8B60 /* SJSQLite3.podspec */,
 			);
 			name = Pod;
+			sourceTree = "<group>";
+		};
+		A2BE9BB7A8EC0719907E1DB46A7C6CEA /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E0110A3868FD12FB38A3C1085BE9CA6C /* SJSQLite3 */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		BBC08B17D3B564A9E39F5D9FE531EBB9 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				230C257ABC2DFE03A8EE3992A001AB8F /* SJSQLite3.h */,
+				6EEFF20924EA8146F243AC372E4E656D /* SJSQLite3.m */,
+				225C11B8A400BF0DD6B657AB4127160E /* SJSQLite3+SJSQLite3Extended.h */,
+				8EC51EB68BAB9E533F58BA3E9348493F /* SJSQLite3+SJSQLite3Extended.m */,
+				0EFF52121602E5CE35695234846CAC15 /* SJSQLite3TableInfosCache.h */,
+				20F2A78AB02AB4B53FA05C7C4446F1D2 /* SJSQLite3TableInfosCache.m */,
+				0F1D9EAF6D35509306E6AF1AB8FDFB93 /* SJSQLiteColumnInfo.h */,
+				EFEA109861F529245E9D2C992F5085E9 /* SJSQLiteColumnInfo.m */,
+				7821345555582E6F5163A6CE77ED3418 /* SJSQLiteCore.h */,
+				0EF8D7E623E7D9776E7C60ADEDC252FC /* SJSQLiteCore.m */,
+				A8152B3DF2DB70F6B559AEC5F0885D71 /* SJSQLiteErrors.h */,
+				6DA4A4D05545155EA87B8489CA69C797 /* SJSQLiteErrors.m */,
+				60B30506C27C80FBF618ED1076848D4E /* SJSQLiteObjectInfo.h */,
+				8BE523FF195F48CEC81143A84B07517B /* SJSQLiteObjectInfo.m */,
+				B31BC79980C0132580BBF5C7471087AF /* SJSQLiteTableInfo.h */,
+				6340AEA21FB41E3AC7B71D04CA3CE7BE /* SJSQLiteTableInfo.m */,
+				0D990375A316636FA625774F1BBE4156 /* SJSQLiteTableModelConstraints.h */,
+				44A0B0BB4E56048BE9AA8FF18099F244 /* SJSQLiteTableModelConstraints.m */,
+			);
+			name = Core;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				715F379FE37184E93F80238A5C88D829 /* Development Pods */,
+				A2BE9BB7A8EC0719907E1DB46A7C6CEA /* Development Pods */,
 				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
 				F8EF2200BE9FEC07CF94B1BF0280D61A /* Pods */,
 				3A0B05A2C2A3512B2EAD1981CA850945 /* Products */,
@@ -229,6 +232,7 @@
 				22133D7EAB9A2AAE2BE71BE06D984B09 /* YYModel.h */,
 				DF45509F7A16C14417A6C658C44BF2D1 /* Support Files */,
 			);
+			name = YYModel;
 			path = YYModel;
 			sourceTree = "<group>";
 		};
@@ -263,20 +267,24 @@
 			path = "../Target Support Files/YYModel";
 			sourceTree = "<group>";
 		};
+		E0110A3868FD12FB38A3C1085BE9CA6C /* SJSQLite3 */ = {
+			isa = PBXGroup;
+			children = (
+				BBC08B17D3B564A9E39F5D9FE531EBB9 /* Core */,
+				A013CBA8E1065EC650585CC23D8A87B3 /* Pod */,
+				591CF546D5787F581CF1694759C7E27E /* Protocol */,
+				1EF2E5F0A70A33BF5FD83833B5139DA5 /* Support Files */,
+			);
+			name = SJSQLite3;
+			path = ../..;
+			sourceTree = "<group>";
+		};
 		F8EF2200BE9FEC07CF94B1BF0280D61A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				D5A7CAC8857DD58D4778C43E5FC8621A /* YYModel */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		FE634BE1BD05DC5C0D2FFFFAA3ECD898 /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				F22F8DD5716ABBF240F3000CFAD536CC /* SJSQLiteTableModelProtocol.h */,
-			);
-			name = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,30 +297,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		768078E15AA23B4B19A2C12FF46E415D /* Headers */ = {
+		A0FD4F339760878687F803009DBF596B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B8E7DAF6EF79317C606AAF3BDF1B166 /* NSObject+YYModel.h in Headers */,
-				F654313B55A14132792476E2B2FA2AE2 /* YYClassInfo.h in Headers */,
-				CC46255DAABC498A35F70078C1A566BD /* YYModel.h in Headers */,
+				D78DE77D42FF7CAC72B01D44A727947F /* NSObject+YYModel.h in Headers */,
+				9712BBD40429ADFC5FDA7217F10E4DA6 /* YYClassInfo.h in Headers */,
+				1F001C9223ED90B52C36FA0C545CEE80 /* YYModel.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D92018E1E952B73E6F1109B037AD2CEA /* Headers */ = {
+		F3B854A372543A87E841861EB1A43E7B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87212CB274228626324E5023A70B52DB /* SJSQLite3+SJSQLite3Extended.h in Headers */,
-				DD36AC5406219A7E5ACAAA763E8C6994 /* SJSQLite3.h in Headers */,
-				12CE10B6AAC43575C8E73B0824C4ACA2 /* SJSQLite3TableInfosCache.h in Headers */,
-				25DD7C277F0F8D399EB701128A2B52F2 /* SJSQLiteColumnInfo.h in Headers */,
-				E22CD595F09236AC1D71353E4F96D25D /* SJSQLiteCore.h in Headers */,
-				5533B0B3502AD4265AE45D18C7E99C6A /* SJSQLiteErrors.h in Headers */,
-				E971FA0A55BB4B160FE89F5860684CA4 /* SJSQLiteObjectInfo.h in Headers */,
-				8B7C569B85EE973EDA137D191751840D /* SJSQLiteTableInfo.h in Headers */,
-				AC6D970E57DD174E785477384A226D51 /* SJSQLiteTableModelConstraints.h in Headers */,
-				FB3279ADF92BCA1E0A193C92A070A9F0 /* SJSQLiteTableModelProtocol.h in Headers */,
+				5C795AC16849B50B1453578DAAD0E965 /* SJSQLite3+SJSQLite3Extended.h in Headers */,
+				1AD935B084384185AC10783C5E4644B2 /* SJSQLite3.h in Headers */,
+				13FCD351DDB417F52D0424FD32B62197 /* SJSQLite3TableInfosCache.h in Headers */,
+				DD4411FEBE2343896D729B3781998F38 /* SJSQLiteColumnInfo.h in Headers */,
+				180AEBD2454FBCE0CBB534CD55B28787 /* SJSQLiteCore.h in Headers */,
+				828AC2E78AD1059CE5221B5AD4D0D1A6 /* SJSQLiteErrors.h in Headers */,
+				16E00D969A68EC465D885A7D7FDEB2EC /* SJSQLiteObjectInfo.h in Headers */,
+				6429542C9BCA9DC5DBA0467334CA72D5 /* SJSQLiteTableInfo.h in Headers */,
+				39AE5C76E6672CD51DBE256ACE15CC4E /* SJSQLiteTableModelConstraints.h in Headers */,
+				27B2156C634DB3C47F7E5B3198BEA563 /* SJSQLiteTableModelProtocol.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,15 +348,16 @@
 		};
 		6BCB0CBEB0A7C6EDBC4CD3539497DBDB /* SJSQLite3 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 080CFCF2D242D9E25F46F42B6F77E66D /* Build configuration list for PBXNativeTarget "SJSQLite3" */;
+			buildConfigurationList = A99CFDCFC6E0A66BFAF460553EC8B23B /* Build configuration list for PBXNativeTarget "SJSQLite3" */;
 			buildPhases = (
-				D92018E1E952B73E6F1109B037AD2CEA /* Headers */,
-				9EA800C5199F87015C924C7247087A12 /* Sources */,
-				DDDBDF03834DC8351E24149735FE440D /* Frameworks */,
+				F3B854A372543A87E841861EB1A43E7B /* Headers */,
+				C4A3AE5502A52EF4305C845571CF1E3D /* Sources */,
+				2D868914CE1110253A3882B41B08F336 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8848D4CD8DD5947522AB252B9FA5B151 /* PBXTargetDependency */,
 			);
 			name = SJSQLite3;
 			productName = SJSQLite3;
@@ -357,11 +366,11 @@
 		};
 		84B44807A12996D487A4A591A481D6A0 /* YYModel */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 07475BFF49F618F9523EA1A2F1925CD1 /* Build configuration list for PBXNativeTarget "YYModel" */;
+			buildConfigurationList = E84C2E1DE3B2CFE2A49C1EEB7AA73DD9 /* Build configuration list for PBXNativeTarget "YYModel" */;
 			buildPhases = (
-				768078E15AA23B4B19A2C12FF46E415D /* Headers */,
-				09320F3BD0AA7E1D3B07FE201411AC58 /* Sources */,
-				9C058CFEB46CC50AE17D1503E2EA34E9 /* Frameworks */,
+				A0FD4F339760878687F803009DBF596B /* Headers */,
+				C8BF205373B81E0E16172CBC7D58A07D /* Sources */,
+				8DA4ABC2AA4333F7C6ACD37DBA3192EF /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -401,16 +410,6 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		09320F3BD0AA7E1D3B07FE201411AC58 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				332F47F53E6998F86527587E29CA5D9E /* NSObject+YYModel.m in Sources */,
-				E2F119888DA6312834DB6A2E84FF5906 /* YYClassInfo.m in Sources */,
-				06EB7CC11A03D75FD2DA07D284685F73 /* YYModel-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		60DA207550717DD667E7F274426200AE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -419,20 +418,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9EA800C5199F87015C924C7247087A12 /* Sources */ = {
+		C4A3AE5502A52EF4305C845571CF1E3D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0676C244375B0258E17BE33C0C1C147 /* SJSQLite3+SJSQLite3Extended.m in Sources */,
-				E8EDA6B3D20ABC9578BCBA4215608F7F /* SJSQLite3-dummy.m in Sources */,
-				0CEF630809A2818F6FFD664D5B16EAD9 /* SJSQLite3.m in Sources */,
-				2C5DDB4C16F0A1AD10663CE8DF13C581 /* SJSQLite3TableInfosCache.m in Sources */,
-				6D49747CD12EC35101E6EA23871B0583 /* SJSQLiteColumnInfo.m in Sources */,
-				63A311D0796A4969642008EB80B13B91 /* SJSQLiteCore.m in Sources */,
-				0BAC2E666DD4B36E9560202DC2E2042E /* SJSQLiteErrors.m in Sources */,
-				DC7F1A0CEE98B59EF4ED24507BDC4AAD /* SJSQLiteObjectInfo.m in Sources */,
-				AD47192331E2D7831A93CE6D6A8DCB3D /* SJSQLiteTableInfo.m in Sources */,
-				BB3CD0AB8418D1C3DDEFFCEFFFA56DE1 /* SJSQLiteTableModelConstraints.m in Sources */,
+				8A0795D88DD4558C91721B9B8F114C95 /* SJSQLite3+SJSQLite3Extended.m in Sources */,
+				558BDA8011D8FA528ADCE08FF360C816 /* SJSQLite3-dummy.m in Sources */,
+				7303C8C36A8477173786F3EC2343D386 /* SJSQLite3.m in Sources */,
+				D8E63442AEDF67DE68EEDBBC5156924F /* SJSQLite3TableInfosCache.m in Sources */,
+				04CACEF065AA62FC40891226F096583D /* SJSQLiteColumnInfo.m in Sources */,
+				E693E4ADB56989206CC6D5B5941163BE /* SJSQLiteCore.m in Sources */,
+				8DF60B5E2D491B447DB93B5BE917A102 /* SJSQLiteErrors.m in Sources */,
+				6EFD325B6A4F133CFC9BE97A51BD1DA8 /* SJSQLiteObjectInfo.m in Sources */,
+				F30C303EF411A3D48C3F45567925FACC /* SJSQLiteTableInfo.m in Sources */,
+				449DCB02E670357553B55077BA0E548B /* SJSQLiteTableModelConstraints.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8BF205373B81E0E16172CBC7D58A07D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0204AC02EDC7C1DCCBE5DA76F43520FE /* NSObject+YYModel.m in Sources */,
+				A2F9EE1ABADAF9B6655E47FDC0D7F873 /* YYClassInfo.m in Sources */,
+				29C451DDE996C7F49167CC4F5376421C /* YYModel-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +454,12 @@
 			target = 6BCB0CBEB0A7C6EDBC4CD3539497DBDB /* SJSQLite3 */;
 			targetProxy = 93D89DBF4E428374E82D7C1D133FC98D /* PBXContainerItemProxy */;
 		};
+		8848D4CD8DD5947522AB252B9FA5B151 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = YYModel;
+			target = 84B44807A12996D487A4A591A481D6A0 /* YYModel */;
+			targetProxy = 0C7E4B54332B3502E4BC53B2FE7FDB1E /* PBXContainerItemProxy */;
+		};
 		DCE0F4CEFAF4DD12A9837F5E6AAD648F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = YYModel;
@@ -454,55 +469,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		087DC187BD01EB6512937854C0FFF329 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1AA32EF4A55E69CFCFF712660B8A1ACF /* SJSQLite3.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/SJSQLite3/SJSQLite3-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = SJSQLite3;
-				PRODUCT_NAME = SJSQLite3;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		2208D65297AA4BBE753759EC4B1BF0F9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FA538FAEB3A81FDFBB4B30AA1284903C /* YYModel.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/YYModel/YYModel-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = YYModel;
-				PRODUCT_NAME = YYModel;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		2845F6661816D8F4560EA34782715821 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8664791FD4426EE466BA5F841A73BEC1 /* Pods-SJSQLite3_Example.release.xcconfig */;
@@ -524,30 +490,6 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
-		};
-		2F2977F17B3D60E02881FD046E1FBB16 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FA538FAEB3A81FDFBB4B30AA1284903C /* YYModel.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/YYModel/YYModel-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = YYModel;
-				PRODUCT_NAME = YYModel;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
 		};
 		4BE66A09A74FD25164AAB3C2645B9B93 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -602,7 +544,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
@@ -693,9 +636,9 @@
 			};
 			name = Debug;
 		};
-		BA80C368C3D5BB7F4CD6A3C1DEEDED3E /* Release */ = {
+		8869CA130710FB9B37121F18725158AC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1AA32EF4A55E69CFCFF712660B8A1ACF /* SJSQLite3.xcconfig */;
+			baseConfigurationReference = 8C745D07D3F02994CD1D51FAB2A7157B /* SJSQLite3.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -718,27 +661,82 @@
 			};
 			name = Release;
 		};
+		ACA21732DBC7A19E3B92CDA09D7E901B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA538FAEB3A81FDFBB4B30AA1284903C /* YYModel.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/YYModel/YYModel-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = YYModel;
+				PRODUCT_NAME = YYModel;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D9BC413113CC8A3EFCAE164AE8659F9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA538FAEB3A81FDFBB4B30AA1284903C /* YYModel.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/YYModel/YYModel-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = YYModel;
+				PRODUCT_NAME = YYModel;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E731220ED80F73F829ACF8415F80C4C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8C745D07D3F02994CD1D51FAB2A7157B /* SJSQLite3.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/SJSQLite3/SJSQLite3-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = SJSQLite3;
+				PRODUCT_NAME = SJSQLite3;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		07475BFF49F618F9523EA1A2F1925CD1 /* Build configuration list for PBXNativeTarget "YYModel" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2F2977F17B3D60E02881FD046E1FBB16 /* Debug */,
-				2208D65297AA4BBE753759EC4B1BF0F9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		080CFCF2D242D9E25F46F42B6F77E66D /* Build configuration list for PBXNativeTarget "SJSQLite3" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				087DC187BD01EB6512937854C0FFF329 /* Debug */,
-				BA80C368C3D5BB7F4CD6A3C1DEEDED3E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -753,6 +751,24 @@
 			buildConfigurations = (
 				55B069EF1FE1BCFC409B8C7C28DB8A02 /* Debug */,
 				2845F6661816D8F4560EA34782715821 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A99CFDCFC6E0A66BFAF460553EC8B23B /* Build configuration list for PBXNativeTarget "SJSQLite3" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E731220ED80F73F829ACF8415F80C4C2 /* Debug */,
+				8869CA130710FB9B37121F18725158AC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E84C2E1DE3B2CFE2A49C1EEB7AA73DD9 /* Build configuration list for PBXNativeTarget "YYModel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D9BC413113CC8A3EFCAE164AE8659F9A /* Debug */,
+				ACA21732DBC7A19E3B92CDA09D7E901B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

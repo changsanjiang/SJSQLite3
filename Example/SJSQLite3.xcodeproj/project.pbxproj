@@ -21,6 +21,8 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
+		77E6A1D32318BDA100804F45 /* SJList.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E6A1D22318BDA100804F45 /* SJList.m */; };
+		77E6A1D62318BDA800804F45 /* SJItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E6A1D52318BDA800804F45 /* SJItem.m */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		FB7532812685ED0F24558DE0 /* libPods-SJSQLite3_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BCE33E5B88BEDF354A293E0 /* libPods-SJSQLite3_Example.a */; };
 /* End PBXBuildFile section */
@@ -60,6 +62,10 @@
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		74959BBFF47C2DD1FD40B748 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		77E6A1D12318BDA100804F45 /* SJList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SJList.h; sourceTree = "<group>"; };
+		77E6A1D22318BDA100804F45 /* SJList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SJList.m; sourceTree = "<group>"; };
+		77E6A1D42318BDA800804F45 /* SJItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SJItem.h; sourceTree = "<group>"; };
+		77E6A1D52318BDA800804F45 /* SJItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SJItem.m; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C2BAE57E6B390000EF434C42 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		C4B77E1B17C41F838D2EAE6F /* Pods-SJSQLite3_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SJSQLite3_Example.debug.xcconfig"; path = "Target Support Files/Pods-SJSQLite3_Example/Pods-SJSQLite3_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -144,6 +150,7 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* SJViewController.h */,
 				6003F5A6195388D20070C39A /* SJViewController.m */,
+				77E6A1D02318BD7500804F45 /* Table */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -190,6 +197,17 @@
 				C2BAE57E6B390000EF434C42 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		77E6A1D02318BD7500804F45 /* Table */ = {
+			isa = PBXGroup;
+			children = (
+				77E6A1D12318BDA100804F45 /* SJList.h */,
+				77E6A1D22318BDA100804F45 /* SJList.m */,
+				77E6A1D42318BDA800804F45 /* SJItem.h */,
+				77E6A1D52318BDA800804F45 /* SJItem.m */,
+			);
+			name = Table;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,9 +340,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77E6A1D32318BDA100804F45 /* SJList.m in Sources */,
 				6003F59E195388D20070C39A /* SJAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* SJViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				77E6A1D62318BDA800804F45 /* SJItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

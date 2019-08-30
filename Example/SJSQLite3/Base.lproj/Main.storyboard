@@ -21,53 +21,69 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2YV-vl-exV">
-                                <rect key="frame" x="172" y="271" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Test"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWi-Z9-iBK">
+                                <rect key="frame" x="29" y="63" width="110" height="30"/>
+                                <state key="normal" title="insert or update"/>
                                 <connections>
-                                    <action selector="test:" destination="whP-gf-Uak" eventType="touchUpInside" id="2nS-lQ-Bef"/>
+                                    <action selector="_insertOrUpdate" destination="whP-gf-Uak" eventType="touchUpInside" id="MI0-g0-zu9"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XRh-iZ-Gj2">
-                                <rect key="frame" x="47" y="156" width="45" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Delete"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i5W-We-m6P">
+                                <rect key="frame" x="29" y="116" width="48" height="30"/>
+                                <state key="normal" title="update"/>
                                 <connections>
-                                    <action selector="delete:" destination="whP-gf-Uak" eventType="touchUpInside" id="Qae-DX-hxa"/>
+                                    <action selector="_update" destination="whP-gf-Uak" eventType="touchUpInside" id="sDt-El-3of"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ljp-58-sW0">
-                                <rect key="frame" x="54" y="215" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Get"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RN1-9h-ytd">
+                                <rect key="frame" x="29" y="166" width="40" height="30"/>
+                                <state key="normal" title="query"/>
                                 <connections>
-                                    <action selector="get:" destination="whP-gf-Uak" eventType="touchUpInside" id="8pg-Gj-Aya"/>
+                                    <action selector="_query" destination="whP-gf-Uak" eventType="touchUpInside" id="RJi-WX-2rg"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fge-0P-Dw4">
-                                <rect key="frame" x="162" y="342" width="51" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Update"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lvk-Kn-UOp">
+                                <rect key="frame" x="29" y="219" width="76" height="30"/>
+                                <state key="normal" title="getObjects"/>
                                 <connections>
-                                    <action selector="update:" destination="whP-gf-Uak" eventType="touchUpInside" id="E91-xo-Kma"/>
+                                    <action selector="_getObjects" destination="whP-gf-Uak" eventType="touchUpInside" id="Tqp-xU-gpJ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kbc-F0-3dG">
-                                <rect key="frame" x="169" y="398" width="42" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Query"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="epl-q1-oWl">
+                                <rect key="frame" x="29" y="274" width="85" height="30"/>
+                                <state key="normal" title="getObjects2"/>
                                 <connections>
-                                    <action selector="query:" destination="whP-gf-Uak" eventType="touchUpInside" id="Dtg-2t-Kc4"/>
+                                    <action selector="_getObjects2" destination="whP-gf-Uak" eventType="touchUpInside" id="Ehb-0G-2jP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lfo-Kn-YuT">
+                                <rect key="frame" x="29" y="318" width="43" height="30"/>
+                                <state key="normal" title="delete"/>
+                                <connections>
+                                    <action selector="_delete" destination="whP-gf-Uak" eventType="touchUpInside" id="Xaw-Ny-uZZ"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Lfo-Kn-YuT" firstAttribute="leading" secondItem="epl-q1-oWl" secondAttribute="leading" id="5Jy-VQ-ZCf"/>
+                            <constraint firstItem="epl-q1-oWl" firstAttribute="leading" secondItem="lvk-Kn-UOp" secondAttribute="leading" id="7Zx-FD-Zmd"/>
+                            <constraint firstItem="RN1-9h-ytd" firstAttribute="leading" secondItem="i5W-We-m6P" secondAttribute="leading" id="Bbj-VW-j5p"/>
+                            <constraint firstItem="i5W-We-m6P" firstAttribute="top" secondItem="FWi-Z9-iBK" secondAttribute="bottom" constant="23" id="Loc-tH-Yom"/>
+                            <constraint firstItem="RN1-9h-ytd" firstAttribute="top" secondItem="i5W-We-m6P" secondAttribute="bottom" constant="20" id="Pin-op-WOU"/>
+                            <constraint firstItem="epl-q1-oWl" firstAttribute="top" secondItem="lvk-Kn-UOp" secondAttribute="bottom" constant="25" id="RmZ-dc-NWE"/>
+                            <constraint firstItem="FWi-Z9-iBK" firstAttribute="top" secondItem="uEw-UM-LJ8" secondAttribute="bottom" constant="43" id="j2y-eE-ccQ"/>
+                            <constraint firstItem="lvk-Kn-UOp" firstAttribute="leading" secondItem="RN1-9h-ytd" secondAttribute="leading" id="k0Y-CH-cJz"/>
+                            <constraint firstItem="FWi-Z9-iBK" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="13" id="ndt-Jk-G7n"/>
+                            <constraint firstItem="lvk-Kn-UOp" firstAttribute="top" secondItem="RN1-9h-ytd" secondAttribute="bottom" constant="23" id="nxr-8w-GvT"/>
+                            <constraint firstItem="i5W-We-m6P" firstAttribute="leading" secondItem="FWi-Z9-iBK" secondAttribute="leading" id="oF3-fP-b1a"/>
+                            <constraint firstItem="Lfo-Kn-YuT" firstAttribute="top" secondItem="epl-q1-oWl" secondAttribute="bottom" constant="14" id="va4-KI-MdF"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="305" y="433"/>
+            <point key="canvasLocation" x="233" y="531"/>
         </scene>
     </scenes>
 </document>

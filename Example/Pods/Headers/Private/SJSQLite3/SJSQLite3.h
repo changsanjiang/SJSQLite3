@@ -1,1 +1,1 @@
-../../../../../SJSQLite3/SJSQLite3.h
+../../../../../SJSQLite3/Core/SJSQLite3.h

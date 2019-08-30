@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SJSQLite3'
-  s.version          = '1.0.0'
+  s.version          = '1.0.1'
   s.summary          = '模型-表映射.'
 
 # This description is used to generate tags and improve search results.
@@ -29,15 +29,23 @@ Pod::Spec.new do |s|
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
-
-  s.source_files = 'SJSQLite3/*.{h,m}'
-
+  s.default_subspec = 'lib/YYModel'
   s.subspec 'Protocol' do |ss|
-      ss.source_files = 'SJSQLite3/Protocol/**/*'
+      ss.source_files = 'SJSQLite3/Protocol/**/*.{h,m}'
   end
   
   s.subspec 'Core' do |ss|
-    ss.source_files = 'SJSQLite3/Core/**/*'
-    ss.dependency 'SJSQLite3/Protocol'
+      ss.source_files = 'SJSQLite3/Core/**/*.{h,m}'
+      ss.dependency 'SJSQLite3/Protocol'
+  end
+  
+  s.subspec 'lib' do |ss|
+      ss.dependency 'SJSQLite3/Core'
+      ss.subspec 'YYModel' do |sss|
+          sss.dependency 'YYModel'
+      end
+      ss.subspec 'YYKit' do |sss|
+          sss.dependency 'YYKit'
+      end
   end
 end

@@ -18,20 +18,46 @@
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "SJSQLite3/*.{h,m}",
+  "default_subspecs": "lib/YYModel",
   "subspecs": [
     {
       "name": "Protocol",
-      "source_files": "SJSQLite3/Protocol/**/*"
+      "source_files": "SJSQLite3/Protocol/**/*.{h,m}"
     },
     {
       "name": "Core",
-      "source_files": "SJSQLite3/Core/**/*",
+      "source_files": "SJSQLite3/Core/**/*.{h,m}",
       "dependencies": {
         "SJSQLite3/Protocol": [
 
         ]
       }
+    },
+    {
+      "name": "lib",
+      "dependencies": {
+        "SJSQLite3/Core": [
+
+        ]
+      },
+      "subspecs": [
+        {
+          "name": "YYModel",
+          "dependencies": {
+            "YYModel": [
+
+            ]
+          }
+        },
+        {
+          "name": "YYKit",
+          "dependencies": {
+            "YYKit": [
+
+            ]
+          }
+        }
+      ]
     }
   ]
 }
