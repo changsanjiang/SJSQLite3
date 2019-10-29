@@ -19,7 +19,7 @@
  */
 NS_ASSUME_NONNULL_BEGIN
 
-#define sqlite3_obj_copy_str(_str_)     char cstr[_str_.length + 1]; strcpy(cstr, _str_.UTF8String)
+#define sqlite3_obj_copy_str(_str_)     char cstr[strlen(_str_.UTF8String) + 1]; strcpy(cstr, _str_.UTF8String)
 
 @interface NSMutableString (SJSQLite3CoreExtended)
 - (void)sjsql_deleteSubffix:(NSString *)str;

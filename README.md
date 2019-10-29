@@ -15,7 +15,7 @@ SJSQLite3 is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'SJSQLite3'
+pod 'SJUIKit/SQLite3'
 ```
 
 ## Author
